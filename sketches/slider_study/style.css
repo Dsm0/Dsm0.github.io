@@ -1,0 +1,27 @@
+body {
+  width: 100%;
+  position: absolute;
+  color: hwb(210 13% 62%);
+}
+
+#sliders {
+  display: grid;
+  width: 100%;
+  position: relative;
+}
+
+#sliders > div {
+  display: flex;
+  width: 100%;
+}
+
+.ctrl_slider {
+  position: absolute;
+  left: 0px;
+}
+
+
+
+.cool_slider {
+  z-index: -10;
+}

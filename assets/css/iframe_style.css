@@ -1,0 +1,18 @@
+* {
+    --color-1: #ffffee;
+    --color-2: black;
+    --color-3: rgba(236, 198, 48, 0.4);
+}
+
+body {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+::selection {
+    background: var(--color-3); /* WebKit/Blink Browsers */
+}
+
+::-moz-selection {
+    background: var(--color-3); /* Gecko Browsers */
+}

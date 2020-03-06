@@ -1,0 +1,250 @@
+{
+	"name": "Will Rinkoff",
+	"contact": {
+		"github": {
+			"link": "https://github.com/Dsm0/"
+		},
+		"linkedin": {
+			"link": "https://www.linkedin.com/in/will-rinkoff"
+		},
+		"email": {
+			"link": "mailto:will.rinkoff@gmail.com"
+		}
+	},
+	"resume": {
+		"skill_summary": {
+			"languages": [
+				"javascript",
+				"typescript",
+				"html",
+				"css",
+				"python",
+				"c",
+				"bash",
+				"haskell",
+				"supercollider",
+				"open_gl"
+			],
+			"frameworks": [
+				"git",
+				"axios",
+				"Vue",
+				"nuxt.js",
+				"tensorflow",
+				"keras",
+				"numpy",
+				"webgl",
+				"open_sound_control"
+			]
+		},
+		"education": {
+			"highschool": {
+				"name": "St. Paul Academy and Summit School",
+				"location": "St. Paul, MN",
+				"class": 2019,
+				"status": "graduated"
+			},
+			"university": {
+				"name": "Carnegie Mellon University",
+				"location": "Pittsburgh, PA",
+				"class": 2023,
+				"status": "enrolled",
+				"major": "Music and Technology (planning transfer to Bachlors of Computer Science and Music)",
+				"relevant_coursework": {
+					"15112": {
+						"name": "Fundimentals of Programming and Computer Science",
+						"topics": [
+							"program_design",
+							"generalized_problem_solving"
+						],
+						"languages": [
+							"python"
+						]
+					},
+					"15322": {
+						"name": "Introduction to Computer Music",
+						"topics": [
+							"signal_processing",
+							"programming"
+						],
+						"languages": [
+							"nyquist",
+							"lisp"
+						]
+					},
+					"15150": {
+						"name": "Functional Programming",
+						"topics": [
+							"functional_programming",
+							"program_design",
+							"programming"
+						],
+						"languages": [
+							"Standard ML",
+							"LaTeX"
+						]
+					},
+					"15122": {
+						"name": "Principles of Imperative Computation",
+						"topics": [
+							"imperative_programming",
+							"program_design",
+							"generalized_problem_solving",
+							"memory_management"
+						],
+						"languages": [
+							"c"
+						]
+					},
+					"15213": {
+						"name": "Introduction to Computer Systems",
+						"topics": [
+							"imperative_programming",
+							"systems_programming",
+							"memory_management",
+							"linux"
+						],
+						"languages": [
+							"c"
+						]
+					},
+					"15210": {
+						"name": "Parallel and Sequential Data Structures and Algorithms",
+						"topics": [
+							"functional_programming",
+							"systems_programming",
+							"linux"
+						],
+						"languages": [
+							"sml"
+						]
+					}
+				}
+			}
+		},
+		"work_experience": {
+			"resonant_cavity": {
+				"link": "https://resonantcavity.com/",
+				"duration": {
+					"start": "2019-05-01",
+					"end": "2019-08-15"
+				},
+				"description": [
+					"created tools for deep-learning audio analysis/synthesis inside Python",
+					"utilized Tensorflow, Keras, Numpy, and a number of Audio-Analysis libraries (particularly Madmom)",
+					"successfully researched, modeled, and implemented complex audio-analysis techniques with little prior experience (I had just graduated high school at the time)",
+					"presented progress of work to a broader team of application developers"
+				],
+				"languages": [
+					"python"
+				],
+				"frameworks": [
+					"tensorflow",
+					"keras",
+					"numpy",
+					"Madmom",
+					"git"
+				]
+			},
+			"neort": {
+				"link": "https://neort.io",
+				"duration": {
+					"start": "2020-07-01",
+					"end": "2020-08-01"
+				},
+				"description": [
+					"frontend development on the website's creation tool/editor"
+				],
+				"languages": [
+					"javascript",
+					"typescript",
+					"html",
+					"css"
+				],
+				"frameworks": [
+					"Vue",
+					"nuxt.js",
+					"axios",
+					"webgl",
+					"git"
+				]
+			},
+			"penrose": {
+				"link": "https://penrose.ink/",
+				"duration": {
+					"start": "2021-02-04"
+				},
+				"description": [
+					"bringing shapes up to svg spec, adding command line tools, misc"
+				],
+				"languages": [
+					"javascript",
+					"typescript",
+					"html"
+				],
+				"frameworks": [
+					"svg",
+					"react"
+				]
+			}
+		},
+		"relevant_hobbies": {
+			"linux": {
+				"description": [
+					"no stranger to command line tools, unearthing dependencies, troubleshooting makefiles, etc"
+				],
+				"languages": [
+					"bash",
+					"vimL"
+				]
+			}
+		},
+		"creative_work": {
+			"tidalcycles": {
+				"description": [
+					"An experimental livecoding language based in Haskell and Supercollider"
+				],
+				"languages": [
+					"haskell",
+					"supercollider"
+				],
+				"frameworks": [
+					"open_sound_control",
+					"jack"
+				],
+				"work": {
+					"toplap_new_moon": {
+						"description": "live-stream performance for livecoding organization toplap",
+						"link": "https://youtu.be/j5t7D5E4YR8",
+						"date": "2020-08-19"
+					},
+					"toplap_longest_night": {
+						"description": "live-stream performance for livecoding organization toplap",
+						"link": "https://archive.org/details/longest-night-dec-2021-2-c-robo-",
+						"date": "2021-12-23"
+					},
+					"toplap_10th_aniversary": {
+						"description": "live-stream performance for livecoding organization toplap",
+						"link": "https://archive.org/details/algorave-10--c-robo--",
+						"date": "2022-03-20"
+					},
+          "avcomp_final": {
+            "description":"audio-visual composition I made using Tidalcycles, Supercollider, and Godot",
+            "link": "https://www.youtube.com/watch?v=OHiS7uCZxZY",
+						"date": "2022-03-20"
+          },
+          "wpts_live_set":{
+            "description": "I was asked to perform live for the University of Pittsburgh's radio station",
+            "link": "https://youtu.be/aLCcTEHX0Ww",
+						"date": "2022-10-19"
+          },
+          "bandcamp": {
+            "description": "Most of the live sets I perform I only perform once, then archive on my bandcamp",
+            "link": "https://c-robo.bandcamp.com/",
+            "date": "various"
+          }
+				}
+			}
+		}
+	}
+}

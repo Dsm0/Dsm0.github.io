@@ -1,0 +1,56 @@
+.blackbar {
+  --track: black;
+  --thumb: #ffffee;
+  --thumb-hover: var(--color-3);
+
+  scrollbar-color: var(--thumb) var(--track);
+  scrollbar-width: auto;
+}
+
+.creambar {
+  --track: #ffffee;
+  --thumb: black;
+  --thumb-hover: #777777;
+
+  scrollbar-color: var(--thumb) var(--track);
+  scrollbar-width: auto;
+}
+
+pre {
+  margin: 0px;
+}
+
+body {
+  margin: 0em;
+  scrollbar-width: 15px;
+  scrollbar-color: var(--scrollbar);
+}
+
+pre {
+  margin: 0px;
+}
+
+body {
+  margin: 0em;
+}
+
+body::-webkit-scrollbar {
+  width: 15px;
+  background: var(--scrollbar);
+}
+
+/* Track */
+body::-webkit-scrollbar-track {
+  background: var(--track);
+}
+
+/* Handle */
+body::-webkit-scrollbar-thumb {
+  background: var(--thumb);
+}
+
+/* Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--thumb-hover);
+}
+
