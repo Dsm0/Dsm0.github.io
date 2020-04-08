@@ -2,6 +2,7 @@ body {
   background-color: black;
   margin-left: 0px;
   margin-top: 0px;
+  overflow: hidden;
 }
 
 h1 {

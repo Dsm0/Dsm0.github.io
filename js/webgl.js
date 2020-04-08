@@ -12,21 +12,39 @@ var initWebGl = function(){
           console.log("no gl :(");
       }
 
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = 200;
+      canvas.height = 200;
     //   gl.viewport(0,0,window.innerWidth,window.innerHeight)
 
       gl.clearColor(0.75,0.85,0.8,1.0);
     //   gl.clear(gl.COLOR_BUFFER_BUT | gl.DEPTH_BUFFER_BIT);
 
-    //   canvas.style.order = -2;
+    var reader = new FileReader();
 
+    reader.addEventListener("loadend", function(e) {
+        console.log("files loaded");
+    });
+
+    var vertText = reader.readAsText("glsl/vertexShaders/test.vert");
+    var fragText = reader.readAsText("glsl/fragShaders/test.frag");
+
+
+
+
+    var vertShader = gl.createShader(gl.VERTEX_SHADER);
+    var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+
+    gl.shaderSource(vertShader,vertText);
+    gl.shaderSource(fragShader,fragText);
+
+    gl.compileShader(vertShader);
+    gl.compileShader(fragShader);
 }
 
-function vertexShader(vertPosition,vertColor){
-    return {
-        fragColor: vertColor,
-        gl_positin: [vertPosition.x,vertPosition.y,0.0,0.0]
-    }
-}
+// function vertexShader(vertPosition,vertColor){
+//     return {
+//         fragColor: vertColor,
+//         gl_positin: [vertPosition.x,vertPosition.y,0.0,0.0]
+//     }
+// }
 

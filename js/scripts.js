@@ -20,16 +20,16 @@ function removeAllChildren(id){
 
 function moveText(e){
     var movr = document.getElementById("mover");
-    var offsetX = window.innerWidth/ + movr.width;
-    var offsetY = window.innerHeight/ + movr.height;
-    move("mover",offsetX - e.cl,e.clientY + offsetY);
+    var offsetX = window.innerWidth - movr.offsetWidth/2;
+    var offsetY = window.innerHeight - movr.offsetHeight/2;
+    move("mover",offsetX - e.clientX,offsetY - e.clientY);
 }
 
 function moveCanvas(e){
     var canv = document.getElementById("canvas");
 
-    var offsetX = window.innerWidth/2;
-    var offsetY = window.innerHeight/2;
-    move("canvas",offsetX - e.clientX ,offsetY - e.clientY );
+    var offsetX = window.innerWidth - canv.width/2;
+    var offsetY = window.innerHeight - canv.height/2;
+    move("canvas",(offsetX - e.clientX)*3 ,offsetY - e.clientY)*3;
 }
 
