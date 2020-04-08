@@ -25,20 +25,19 @@ var initWebGl = function(){
         console.log("files loaded");
     });
 
-    var vertText = reader.readAsText("glsl/vertexShaders/test.vert");
-    var fragText = reader.readAsText("glsl/fragShaders/test.frag");
+    // var vertText = document.getElementById("testVert").src;
+    // var fragText = document.getElementById("testFrag").src;
 
 
+    // var vertShader = gl.createShader(gl.VERTEX_SHADER);
+    // var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
 
+    // gl.shaderSource(vertShader,vertText);
+    // gl.shaderSource(fragShader,fragText);
 
-    var vertShader = gl.createShader(gl.VERTEX_SHADER);
-    var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+    // gl.compileShader(vertShader);
+    // gl.compileShader(fragShader);
 
-    gl.shaderSource(vertShader,vertText);
-    gl.shaderSource(fragShader,fragText);
-
-    gl.compileShader(vertShader);
-    gl.compileShader(fragShader);
 }
 
 // function vertexShader(vertPosition,vertColor){

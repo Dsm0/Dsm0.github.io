@@ -1,0 +1,24 @@
+{
+  "name": "dsm0.github.io",
+  "version": "1.0.0",
+  "description": "my personal portfolio website",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dsm0/Dsm0.github.io.git"
+  },
+  "keywords": [
+    "site",
+    "html",
+    "js"
+  ],
+  "author": "Will Rinkoff",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dsm0/Dsm0.github.io/issues"
+  },
+  "homepage": "https://github.com/Dsm0/Dsm0.github.io#readme"
+}
