@@ -44,3 +44,13 @@ iframe {
   /* min-height: 100%; */
 }
 
+#email {
+  background-color: white;
+  color: black;
+  margin-left: -(X/2)u;
+  margin-top: -(Y/2)u;
+  width: Xu;
+  height: Yu;
+  z-index: 1;
+  position: absolute;
+}

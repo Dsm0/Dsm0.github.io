@@ -1,6 +1,6 @@
 var initWebGl = function(){
       console.log("initalizing webgl");
-      var canvas = document.getElementById("canvas");
+      var canvas = document.getElementById("canvas1");
       var gl = canvas.getContext("webgl");
 
       if(!gl){
