@@ -10,11 +10,21 @@ function move(moveme, x_pos, y_pos) {
 
 }
 
-function moveElemBy(e,id,xoffset=0, yoffset=0, xfactor=1,yfactor=1){
+function moveElemBy(id,xoffset=0, yoffset=0, xfactor=1,yfactor=1){
   var movee = document.getElementById(id);
   var woffsetX = window.innerWidth - movee.offsetWidth/2;
   var woffsetY = window.innerHeight - movee.offsetHeight/2;
-  move(movee,(woffsetX - e.clientX + xoffset)*xfactor,(woffsetY - e.clientY + yoffset)*yfactor);
+  move(movee,(woffsetX + xoffset)*xfactor,(woffsetY  + yoffset)*yfactor);
+}
+
+function moveElemByMouse(e,id,xoffset=0, yoffset=0, xfactor=1,yfactor=1){
+  moveElemBy(id, (xoffset - e.clientX)*xfactor,(yoffset - e.clientY)*yfactor);
+}
+
+function checkerBoard(id,boardWidth,boardHeight,width=200,height=200){
+  var c = document.getElementById(id);
+  var cln = c.cloneNode(true);
+  document.getElementById(id).appendChild(cln);
 }
 
 // function moveText(e){

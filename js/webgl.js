@@ -16,7 +16,8 @@ var initWebGl = function(){
       canvas.height = 200;
     //   gl.viewport(0,0,window.innerWidth,window.innerHeight)
 
-      gl.clearColor(0.75,0.85,0.8,1.0);
+    //   gl.clearColor(0.75,0.85,0.8,1.0);
+    //   gl.clearColor(1,1,1,1.0);
     //   gl.clear(gl.COLOR_BUFFER_BUT | gl.DEPTH_BUFFER_BIT);
 
     var reader = new FileReader();

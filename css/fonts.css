@@ -24,8 +24,8 @@ h1 {
   left: 50%;
 }
 
-#canvas {
-  background-color: blueviolet;
+#canvas1 {
+  background-color: white;
   z-index: 0;
   width: Xu;
   height: Yu;
