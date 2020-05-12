@@ -2,6 +2,7 @@ var centerX = window.innerWidth/2;
 var centerY = window.innerHeight/2;
 
 window.onload = function(e){
+
    moveElemByMouse(e,"mover",xfactor=1.3);
    moveElemByMouse(e,"canvas1",xoffset=1000,yoffset=0,xfactor=4,yfactor=1);
    moveElemByMouse(e,"email",yoffset=100,xoffset=100,yfactor=1.25);

@@ -21,7 +21,6 @@
   precision mediump float;
 
   attribute vec2 a_position;
-  <!-- uniform float u_top; -->
 
   void main() {
     gl_Position = vec4(a_position, 0, 1);
@@ -34,7 +33,9 @@
   uniform float u_top;
 
   void main() {
-      gl_FragColor = vec4(gl_FragCoord.x / 320.0, gl_FragCoord.y / 240.0, cos(gl_FragCoord.x/80.), 1);
+      <!-- gl_FragColor = vec4(u_top / 320.0, gl_FragCoord.y / 240.0, cos(gl_FragCoord.x/80.), 1.0); -->
+      gl_FragColor = vec4(1. - u_top/1000.,1. - u_top/1000.,1. - u_top/1000.,1.);
+      <!-- gl_FragColor = vec4(1. - u_top/700.,1. - u_top/700.,1. - u_top/700.,1.); -->
     }
 </div>
 

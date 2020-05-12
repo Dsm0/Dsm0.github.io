@@ -3,17 +3,15 @@ var startTime = startDate.getTime();
 
 // THIS FUNCTION CALCULATES THE SECONDS ELAPSED SINCE THE PAGE WAS LOADED
 // https://www.webdeveloper.com/d/3153-how-much-time-has-elapsed-since-loading-this-web-page 
+
 function seconds_elapsed ()
 {
   var date_now = new Date ();
   var time_now = date_now.getTime ();
   var time_diff = time_now - startTime;
   var seconds_elapsed = Math.floor ( time_diff / 1000 );
-
   return ( seconds_elapsed ); 
 }
-
-
 
 function move(moveme, x_pos, y_pos) {
     moveme.style.left = x_pos+'px';
