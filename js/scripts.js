@@ -1,64 +1,34 @@
-var mainText = document.getElementById("mover");
+var startDate = new Date();
+var startTime = startDate.getTime();
+
+// THIS FUNCTION CALCULATES THE SECONDS ELAPSED SINCE THE PAGE WAS LOADED
+// https://www.webdeveloper.com/d/3153-how-much-time-has-elapsed-since-loading-this-web-page 
+function seconds_elapsed ()
+{
+  var date_now = new Date ();
+  var time_now = date_now.getTime ();
+  var time_diff = time_now - startTime;
+  var seconds_elapsed = Math.floor ( time_diff / 1000 );
+
+  return ( seconds_elapsed ); 
+}
+
+
 
 function move(moveme, x_pos, y_pos) {
-    // var d = document.getElementById(moveme);
-    var newPosX = x_pos;
-    var newPosY = y_pos;
-    moveme.style.position = "absolute";
-    moveme.style.left = newPosX+'px';
-    moveme.style.top = newPosY+'px';
-
+    moveme.style.left = x_pos+'px';
+    moveme.style.top = y_pos+'px';
 }
 
-function moveElemBy(id,xoffset=0, yoffset=0, xfactor=1,yfactor=1){
+function moveElemBy(id,xoffset, yoffset){
   var movee = document.getElementById(id);
-  var woffsetX = window.innerWidth - movee.offsetWidth/2;
-  var woffsetY = window.innerHeight - movee.offsetHeight/2;
-  move(movee,(woffsetX + xoffset)*xfactor,(woffsetY  + yoffset)*yfactor);
+  var x0 = parseInt(movee.style.left);
+  var y0 = parseInt(movee.style.top);
+  console.log(x0,y0);
+  move(movee,Math.abs(x0 - xoffset),Math.abs(y0 - yoffset));
 }
 
-function moveElemByMouse(e,id,xoffset=0, yoffset=0, xfactor=1,yfactor=1){
-  moveElemBy(id, (xoffset - e.clientX)*xfactor,(yoffset - e.clientY)*yfactor);
+function moveElemByMouse(e,id, pivotX, pivotY, xfactor=1,yfactor=1){
+  var elem = document.getElementById(id);
+  move(elem, pivotX + (pivotX - e.clientX)*xfactor,pivotY + (pivotY - e.clientY)*yfactor);
 }
-
-function checkerBoard(id,boardWidth,boardHeight,width=200,height=200){
-  var c = document.getElementById(id);
-  var cln = c.cloneNode(true);
-  document.getElementById(id).appendChild(cln);
-}
-
-// function moveText(e){
-//   moveElemBy(e,"mover",1,1);
-// }
-
-// function moveEmail(e){
-//   moveElemBy(e,"email",1,1);
-// }
-
-// function moveCanvas(e){
-//   moveElemBy(e,"canvas",2,1);
-// }
-
-
-
-// function removeAllChildren(id){
-//     var elem = document.getElementById(id);
-//     while (elem.firstChild != null) {
-//       elem.removeChild(elem.lastChild);
-//     }
-//   }
-
-// function moveText(e){
-//     var movr = document.getElementById("mover");
-//     var offsetX = window.innerWidth - movr.offsetWidth/2;
-//     var offsetY = window.innerHeight - movr.offsetHeight/2;
-//     move("mover",offsetX - e.clientX,offsetY - e.clientY);
-// }
-
-// function moveCanvas(e){
-//     var canv = document.getElementById("canvas");
-//     var offsetX = window.innerWidth - canv.width/2;
-//     var offsetY = window.innerHeight - canv.height/2;
-//     move(canv,(offsetX - e.clientX)*3 ,(offsetY - e.clientY)*3;
-// }
-

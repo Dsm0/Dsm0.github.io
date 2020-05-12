@@ -17,6 +17,76 @@
  <h1> My name is Will Rinkoff<br>
  I'm studying Music and Technology at Carnegie Mellon <br>
 </br></br></h1>
+<div id="vert1" class="glsl" type="x-shader/x-vertex">
+  precision mediump float;
+
+  attribute vec2 a_position;
+  <!-- uniform float u_top; -->
+
+  void main() {
+    gl_Position = vec4(a_position, 0, 1);
+  }
+</div>
+
+
+<div id="testFrag" class="glsl" type="x-shader/x-fragment">
+  precision mediump float;
+  uniform float u_top;
+
+  void main() {
+      gl_FragColor = vec4(gl_FragCoord.x / 320.0, gl_FragCoord.y / 240.0, cos(gl_FragCoord.x/80.), 1);
+    }
+</div>
+
+
+<div id="frag1" class="glsl" type="x-shader/x-fragment">
+  #ifdef GL_ES
+  precision mediump float;
+  #endif
+  
+  uniform vec2    u_resolution;
+  uniform float   u_time;
+  
+  float sdCircle( vec2 p, float r )
+  {
+    return length(p) - r;
+  }
+  
+  float mCircle(vec2 p){
+      float func = pow(p.x,2.) + pow(p.y,2.);
+      return smoothstep(1.0-0.05,1.0+0.05,func);
+  }
+  
+  float plot(vec2 st, float pct){
+    return  smoothstep( pct-0.02, pct, st.y) -
+            smoothstep( pct, pct+0.02, st.y);
+  }
+  
+  void pR(inout vec2 p, float a) {
+      p = cos(a)*p + sin(a)*vec2(p.y, -p.x);
+  }
+  
+  
+  void main(void) {
+  
+      vec2 st = gl_FragCoord.xy/u_resolution.xy;
+      st.x *= gl_FragCoord.x/u_resolution.x;
+      st = (2.*st - 1.)/1.;
+      st.x += 0.2;
+  
+      float circ = sdCircle(st,pow(0.8,st.x));
+      float circ2 = mCircle(st*2.);
+      circ = mix(circ,plot(st,circ2),abs(tan(mix(2.,8.2,mod(u_time,5.))*2.)));
+      pR(st,u_time); 
+      circ = plot(st,circ2);
+  
+  
+      vec3 color = vec3(circ);
+      
+      gl_FragColor = vec4(color,1.0);
+  }
+
+</div>
 
 
   <div id="mover" width=100 height=100>
@@ -43,10 +113,6 @@
   <canvas id="canvas1" width="100" height="100" onload="initWebGl()">
     canvas would be here
   </canvas>
-
-  <!-- <iframe class="emb" src="glsl/fragShaders/test.frag" id="testFrag"> </iframe>
-  <iframe class="emb" src="glsl/vertexShaders/test.vert" id="testVert" > </iframe> -->
-  <!-- <embed src="glsl/fragShaders/test.frag" id="testFrag"> -->
 
   <script src="js/scripts.js"></script>
   <script src="js/lib/loadGlsl.js"></script>

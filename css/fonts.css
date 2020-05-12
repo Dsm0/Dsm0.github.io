@@ -13,9 +13,9 @@ h1 {
 
 #mover {
   background-color: white;
-  color: black;
-  margin-left: -(X/2)u;
-  margin-top: -(Y/2)u;
+  color: white;
+  /* margin-left: -(X/2)u;
+  margin-top: -(Y/2)u; */
   width: Xu;
   height: Yu;
   z-index: 1;
@@ -29,20 +29,9 @@ h1 {
   z-index: 0;
   width: Xu;
   height: Yu;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  /* transition: top 0.1s;
-  transition: left 0.1s; */
+  position: absolute; top: 50%; left: 50%;
 }
 
-iframe {
-  display: block;
-  border-width: 0;
-  overflow: hidden;
-  /* height: auto; */
-  /* min-height: 100%; */
-}
 
 #email {
   background-color: white;
@@ -53,4 +42,8 @@ iframe {
   height: Yu;
   z-index: 1;
   position: absolute;
+}
+
+.glsl {
+  display: none;
 }
