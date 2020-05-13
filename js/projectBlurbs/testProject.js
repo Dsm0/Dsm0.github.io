@@ -1,4 +1,5 @@
 const shaderObjs = [{
+    "canvasId": "canvas1",
     "title": "THIS IS THE TITLE",
     "blurb": "this is where the blurb would be",
     "uniformList": ["u_top"],

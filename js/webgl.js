@@ -12,9 +12,9 @@ function gengl(canvas){
   return gl;
 }
 
-function genShaderObjFromId(id,shaderObj){
+function genShaderObjFromId(shaderObj){
 
-  var canvas = document.getElementById(id);
+  var canvas = document.getElementById(shaderObj.canvasId);
   var gl = gengl(canvas);
   var program = gl.createProgram();
 
@@ -35,11 +35,12 @@ function genShaderObjFromId(id,shaderObj){
 
 function initWebGl(){
   
-  // console.log(shaderObjs);
-
-  var loadedShaderObjs = [genShaderObjFromId("canvas1",shaderObjs[0])];
+  var loadedShaderObjs = [genShaderObjFromId(shaderObjs[0])];
+  //in the future, this will be 
 
   initShaders(loadedShaderObjs);
+
+  // console.log(loadedShaderObjs);
 
   function renderList() {
       loadedShaderObjs.forEach(function (shaderObj, index) {
@@ -76,7 +77,7 @@ function render(shaderObj) {
 
 function initShader(shaderObj){
 
-    console.log("initalizing webgl1");
+    console.log("initalizing shader ",shaderObj.title);
 
     const gl = shaderObj.gl;
     const canvas = shaderObj.canvas;
