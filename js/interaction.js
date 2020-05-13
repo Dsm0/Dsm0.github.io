@@ -20,10 +20,10 @@ window.onload = function(e){
 
 
 var onmousemove = function(e){
-   // console.log(e.clientX - centerX,e.clientY - centerY)
-
    moveElemByMouse(e,"info",centerX,centerY,xfactor=0.3);
+   //I could make all of these functions use the project-object, but for now, I'll just do it by hand
    moveElemByMouse(e,"canvas1",centerX+300,centerY,xfactor=4,yfactor=1);
+   moveElemByMouse(e,"canvas2",centerX+300,centerY,xfactor=4,yfactor=1);
    moveElemByMouse(e,"email",pivotX=centerX+100,pivotY=centerY+100,yfactor=0.7);
 
   }
