@@ -24,13 +24,21 @@ h1 {
   left: 50%;
 }
 
-#canvas1 {
+.glCanvas {
   background-color: white;
   z-index: 0;
   width: Xu;
   height: Yu;
   position: absolute; top: 50%; left: 50%;
 }
+
+/* .canvas2 {
+  background-color: white;
+  z-index: 0;
+  width: Xu;
+  height: Yu;
+  position: absolute; top: 50%; left: 50%;
+} */
 
 
 #email {
@@ -42,8 +50,4 @@ h1 {
   height: Yu;
   z-index: 1;
   position: absolute;
-}
-
-.glsl {
-  display: none;
 }
