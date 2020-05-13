@@ -1,3 +1,5 @@
+// const shaderObjTest = 
+
 function gengl(canvas){
   gl = canvas.getContext("webgl");
   if(!gl){
@@ -10,44 +12,37 @@ function gengl(canvas){
   return gl;
 }
 
-function genShaderObjFromId(id){
+function genShaderObjFromId(id,shaderObj){
 
   var canvas = document.getElementById(id);
   var gl = gengl(canvas);
   var program = gl.createProgram();
 
-  var uniforms = [
-      {
-        name: "u_top",
-        description: "position of canvas relative to top of screen",
-        getLocation: function(){return gl.getUniformLocation(program, "u_top")},
-        getValue: function(){return parseFloat(canvas.style.top)},
-        type: "1f"
-      }
-  ]
+  const fragSource = shaderObj.fragSource;
+  const vertSource = shaderObj.vertSource;
 
-  const shaderObjTest = {
-    canvas: canvas,
-    gl: gl,
-    initalized: false,
-    uniforms: uniforms,
-    fragSource: document.getElementById("testFrag").innerText,
-    vertSource: document.getElementById("vert1").innerText,
-    program: program
-    };
-  return shaderObjTest;
+  shaderObj.canvas = canvas;
+  shaderObj.gl = gl;
+  shaderObj.fragSource = fragSource;
+  shaderObj.vertSource = vertSource;
+  shaderObj.program = program;
+  shaderObj.uniforms = [];
+
+  genUniforms(shaderObj);
+
+  return shaderObj;
 }
 
-
-
 function initWebGl(){
+  
+  // console.log(shaderObjs);
 
-  shaderObjs = [genShaderObjFromId("canvas1")];
+  var loadedShaderObjs = [genShaderObjFromId("canvas1",shaderObjs[0])];
 
-  initShaders(shaderObjs);
+  initShaders(loadedShaderObjs);
 
   function renderList() {
-      shaderObjs.forEach(function (shaderObj, index) {
+      loadedShaderObjs.forEach(function (shaderObj, index) {
         render(shaderObj)
       });
       requestAnimationFrame(renderList);
@@ -60,7 +55,7 @@ function initShaders(shaderObjs){
 
   shaderObjs.forEach(function (shaderObj, index) {
     initShader(shaderObj);
-    console.log("loading shader numba: ", index);
+    // console.log("loading shader numba: ", index);
   });
 
 }
@@ -72,9 +67,7 @@ function render(shaderObj) {
   const program = shaderObj.program;
 
   shaderObj.uniforms.forEach(function (uniform, index) {
-    if(uniform.type == "1f"){ /////probably not the best way to update different types of uniforms, but it'll do for now
-      gl.uniform1f(uniform.getLocation(),uniform.getValue());
-    }
+    uniform.genValue();
   });
 
   gl.drawArrays(shaderObj.gl.TRIANGLES, 0, 6);
@@ -106,9 +99,8 @@ function initShader(shaderObj){
       gl.STATIC_DRAW
     );
 
-
-      canvas.width = 200;
-    canvas.height = 200;
+    canvas.width = shaderObj.width;
+    canvas.height = shaderObj.height;
 
     gl.viewport(0,0,window.innerWidth,window.innerHeight)
 
