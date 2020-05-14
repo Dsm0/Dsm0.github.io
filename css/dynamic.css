@@ -1,5 +1,6 @@
 body {
   background-color: black;
+  z-index: -1;
   margin-left: 0px;
   margin-top: 0px;
   overflow: hidden;
@@ -7,12 +8,14 @@ body {
 
 h1 {
   color: white;
+  z-index: -1;
   margin-left: 40px;
-  font-size: 40;
+  font-size: 40px;
 }
 
 #navigation{
   background-color: black;
+  z-index: -1;
   font-size:30px;
   color: white;
   width: Xu;
@@ -36,11 +39,43 @@ h1 {
 
 .glCanvas {
   background-color: white;
-  z-index: 0;
+  z-index: -2;
   width: Xu;
   height: Yu;
-  position: absolute; top: 50%; left: 50%;
+  transform: scale(1);
+  transition: transform 0.2s;
+  position: absolute; 
 }
+
+
+.glCanvas:hover {
+  background-color: white;
+  z-index: 0;
+  transform: scale(3);
+  transition: transform 0.2s;
+}
+
+/* todo: when you hover over a canvas, the description flies in from the left */
+/* and nestles itself against the canvas */
+/* make sure that when you mouse over the textbox, the canvas doesn't go away */
+/* will likely need some js, can't fanagle it with css sadly */
+
+/* .canvasCaption {
+  display: none;
+  left: -2000px;
+  top: -100px;
+  transition: top 0.2s, left 0.2s;
+}
+.canvasCaption:hover {
+  background-color: white;
+  display: inline-block;
+  z-index: 1;
+  font-size:30px;
+  width: 150%;
+  transition: top 0.2s, left 0.2s;
+  left: 50%;
+} */
+
 
 #email {
   background-color: white;
@@ -51,4 +86,16 @@ h1 {
   height: Yu;
   z-index: 1;
   position: absolute;
+}
+
+/* courtesy of */
+/*https://stackoverflow.com/a/12065925  */
+/* I'll find a way to use this somehow */
+span.stretch {
+  display:inline-block;
+  -webkit-transform:scale(2,1); /* Safari and Chrome */
+  -moz-transform:scale(2,1); /* Firefox */
+  -ms-transform:scale(2,1); /* IE 9 */
+  -o-transform:scale(2,1); /* Opera */
+  transform:scale(2,1); /* W3C */
 }

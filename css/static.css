@@ -8,47 +8,37 @@ body {
 h1 {
   color: white;
   margin-left: 40px;
-  font-size: 40;
+  font-size: 40px;
 }
 
 #navigation{
   background-color: black;
   font-size:30px;
   color: white;
-  width: Xu;
-  height: Yu;
   position: absolute;
-  top: 30%;
-  left: 50%;
+  top: 200px;
+  left: 200px;
 }
 
 #contact{
   background-color: white;
   font-size:20px;
   color: white;
-  width: Xu;
-  height: Yu;
   z-index: 1;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 200px;
+  left: 200px;
 }
 
 .glCanvas {
   background-color: white;
   z-index: 0;
-  width: Xu;
-  height: Yu;
   position: absolute; top: 50%; left: 50%;
 }
 
 #email {
   background-color: white;
   color: black;
-  margin-left: -(X/2)u;
-  margin-top: -(Y/2)u;
-  width: Xu;
-  height: Yu;
   z-index: 1;
   position: absolute;
 }
