@@ -13,6 +13,12 @@ function seconds_elapsed ()
   return ( seconds_elapsed ); 
 }
 
+// courtesy of
+// https://stackoverflow.com/a/9976309 
+function resizeIframe(obj) {
+  obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+}
+
 function move(moveme, x_pos, y_pos) {
     moveme.style.left = x_pos+'px';
     moveme.style.top = y_pos+'px';

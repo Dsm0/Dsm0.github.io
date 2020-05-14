@@ -2,6 +2,12 @@
 
 <html lang="en">
 <head>
+  <script src="js/scripts.js"></script>
+  <script src="js/projectBlurbs/testProject.js"></script>
+  <script src="js/uniforms.js"></script>
+  <script src="js/webgl.js"></script>
+  <script src="js/interaction.js"></script>
+
   <meta charset="utf-8">
 
   <title>Will Rinkoff's barebones io site</title>
@@ -17,9 +23,10 @@
  I study Music and Technology at Carnegie Mellon University <br>
 </br></h1>
 
-<!-- <h2>
-  press s to toggle page movement
-</h2> -->
+<iframe src="pages/Resume.html" allowTransparency="true" title="resume" id="resume" frameborder="0" scrolling="no" onload="resizeIframe(this)">
+  resume goes here
+</iframe>
+
 
 <div id="contact" class="infoBlock" >
   past livecoding performances: 
@@ -53,11 +60,7 @@
 
 
   <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->
-  <script src="js/projectBlurbs/testProject.js"></script>
-  <script src="js/scripts.js"></script>
-  <script src="js/uniforms.js"></script>
-  <script src="js/webgl.js"></script>
-  <script src="js/interaction.js"></script>
+
   <script>initWebGl()</script>
 
 </body>
