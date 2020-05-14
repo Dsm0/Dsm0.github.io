@@ -35,12 +35,10 @@ function genShaderObjFromId(shaderObj){
 
 function initWebGl(){
   
-  var loadedShaderObjs = [genShaderObjFromId(shaderObjs[0])];
-  //in the future, this will be 
+  var loadedShaderObjs = shaderObjs.map(genShaderObjFromId)
+  
 
   initShaders(loadedShaderObjs);
-
-  // console.log(loadedShaderObjs);
 
   function renderList() {
       loadedShaderObjs.forEach(function (shaderObj, index) {
