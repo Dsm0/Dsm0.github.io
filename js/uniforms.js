@@ -1,6 +1,8 @@
 const uniformDict = {
     "u_top": u_topGet,
-    "u_left": u_leftGet
+    "u_left": u_leftGet,
+    "u_window_resolution":u_window_resolutionGet,
+    "u_canvas_resolution":u_canvas_resolutionGet
 }
 
 function genUniforms(shaderObj){
@@ -38,5 +40,35 @@ function u_leftGet(shaderObj){
       type: "1f"
     }
     uniform.genValue = function(){shaderObj.gl.uniform1f(uniform.getLocation(),uniform.getValue())};
+    shaderObj.uniforms.push(uniform);
+}
+
+
+function u_window_resolutionGet(shaderObj){
+    const uniform = {
+      name: "u_window_resolution",
+      description: "width and height of the window resolution",
+      getLocation: function(){return shaderObj.gl.getUniformLocation(shaderObj.program, "u_window_resolution")},
+      getValue: function(){return (parseFloat(window.innerWidth),parseFloat(window.innerHeight))}, //these two functions are for debugging puroses more than anything
+      type: "1f"
+    }
+    uniform.genValue = function(){
+        var values = uniform.getValue();
+        shaderObj.gl.uniform2f(uniform.getLocation(), values[0],values[1])};
+    shaderObj.uniforms.push(uniform);
+}
+
+
+function u_canvas_resolutionGet(shaderObj){
+    const uniform = {
+      name: "u_canvas_resolution",
+      description: "width and height of the canvas being rendered",
+      getLocation: function(){return shaderObj.gl.getUniformLocation(shaderObj.program, "u_canvas_resolution")},
+      getValue: function(){return (shaderObj.width,shaderObj.height)}, //these two functions are for debugging puroses more than anything
+      type: "1f"
+    }
+    uniform.genValue = function(){
+        var values = uniform.getValue();
+        shaderObj.gl.uniform2f(uniform.getLocation(), values[0],values[1])};
     shaderObj.uniforms.push(uniform);
 }
