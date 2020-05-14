@@ -1,0 +1,67 @@
+div {
+  line-height: 15px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  line-height: 15px;
+}
+
+#row {
+  display: table-row;
+  width: 90%;
+}
+
+.title {
+  background: inherit;
+  color: inherit;
+}
+
+.meat {
+  display: table-cell;
+  background: black;
+  color: white;
+  padding-left: 1.5%;
+  position: relative;
+  width: 70%;
+  z-axis: 0;
+}
+
+
+/*todo: make the box-shadows more attractive*/
+.meat > div {
+  /*box-shadow: orange 1em 1em, orange 1em -1em;*/
+}
+
+.sidebar {
+  background: white;
+  color: black;
+  display: table-cell;
+  padding-left: 3%;
+  padding-right: 3%;
+  z-axis: 2;
+}
+
+.sidebar > div {
+  /*box-shadow: orange -1em 1em;*/
+  /*box-shadow: orange -1em 1em, orange -1em -1em;*/
+}
+
+#languages {
+  margin-bottom: 22.5%;
+}
+
+li {
+  position: relative;
+  left: -3%;
+  line-height: 15px;
+}
+
+
