@@ -1,0 +1,54 @@
+body {
+  background-color: black;
+  margin-left: 0px;
+  margin-top: 0px;
+  overflow: hidden;
+}
+
+h1 {
+  color: white;
+  margin-left: 40px;
+  font-size: 40;
+}
+
+#navigation{
+  background-color: black;
+  font-size:30px;
+  color: white;
+  width: Xu;
+  height: Yu;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+}
+
+#contact{
+  background-color: white;
+  font-size:20px;
+  color: white;
+  width: Xu;
+  height: Yu;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.glCanvas {
+  background-color: white;
+  z-index: 0;
+  width: Xu;
+  height: Yu;
+  position: absolute; top: 50%; left: 50%;
+}
+
+#email {
+  background-color: white;
+  color: black;
+  margin-left: -(X/2)u;
+  margin-top: -(Y/2)u;
+  width: Xu;
+  height: Yu;
+  z-index: 1;
+  position: absolute;
+}
