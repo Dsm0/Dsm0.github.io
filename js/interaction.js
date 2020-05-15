@@ -15,6 +15,8 @@ var initScripts = function(e){
    move(canvas1,centerX + window.innerWidth,centerY);
    move(canvas2,centerX + window.innerWidth,centerY+100);
    move(email,centerX + 100,centerY + 100);
+   move(resume,centerX*(-1.4),centerY*0.3);
+
 
    // moveElemByMouse(e,"resume",centerX*1.2,centerY+800);
 
@@ -40,15 +42,18 @@ var onmousemove = function(e){
       moveElemByMouse(e,"canvas1",centerX*1.4,centerY,xfactor=2,yfactor=1);
       moveElemByMouse(e,"canvas2",centerX*1.4,centerY+100,xfactor=2,yfactor=2);
       moveElemByMouse(e,"email",pivotX=centerX+70,pivotY=centerY+70,yfactor=0.7);
-
-      // moveElemByMouse(e,"resume",centerX*1.2,centerY+800);
-
+      moveElemByMouseMax(e,"resume",centerX*0.3,centerY*0.3,xfactor=4,yfactor=0,maxX=centerX*0.1);
   }
+  console.log(document.getElementById("resume").style.top);
 }
 
 function changeCSS(cssFile) {
    var cssLoader = document.getElementById("cssLoader");
    cssLoader.href = cssFile;
+}
+
+function debug(){
+   console.log("over");
 }
 
 // ^^^^^^^^^^^^^

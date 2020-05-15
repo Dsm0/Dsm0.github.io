@@ -13,12 +13,6 @@ function seconds_elapsed ()
   return ( seconds_elapsed ); 
 }
 
-// courtesy of
-// https://stackoverflow.com/a/9976309 
-//function resizeIframe(obj) {
-//  obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
-//}
-
 function move(moveme, x_pos, y_pos) {
     moveme.style.left = x_pos+'px';
     moveme.style.top = y_pos+'px';
@@ -35,4 +29,12 @@ function moveElemBy(id,xoffset, yoffset){
 function moveElemByMouse(e,id, pivotX, pivotY, xfactor=1,yfactor=1){
   var elem = document.getElementById(id);
   move(elem, pivotX + (pivotX - e.clientX)*xfactor,pivotY + (pivotY - e.clientY)*yfactor);
+}
+
+
+function moveElemByMouseMax(e,id, pivotX, pivotY, xfactor=1,yfactor=1,maxX=centerX,maxY=centerY){
+  var elem = document.getElementById(id);
+  var newX = pivotX + (pivotX - e.clientX)*xfactor; 
+  var newY = pivotY + (pivotY - e.clientY)*yfactor;
+  move(elem, Math.min(newX,maxX),Math.min(newY,maxY));
 }

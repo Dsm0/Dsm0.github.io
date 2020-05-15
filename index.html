@@ -2,19 +2,9 @@
 
 <html lang="en">
 <head>
-  <script src="js/scripts.js"></script>
-  <script src="js/projectBlurbs/testProject.js"></script>
-  <script src="js/uniforms.js"></script>
-  <script src="js/webgl.js"></script>
-  <script src="js/interaction.js"></script>
-
-  <meta charset="utf-8">
-
-  <title>Will Rinkoff's barebones io site</title>
-  <meta name="description" content="portfolio site">
-  <meta name="Will" content="SitePoint">
 
   <link id="cssLoader" rel="stylesheet" type="text/css" href="css/dynamic.css?v={forcereload}">
+
 
 </head>
 
@@ -25,8 +15,8 @@
 
 <!--  because you can't move divs inside -->
 
-<div title="resume" id="resume" frameborder="0" scrolling="no" >
- <div id="row">
+<div id="resume" frameborder="0" scroll="no" >
+ <div id="row" scroll="no" >
       <div class="resume meat">
         <div id="work" class="resume title">
           <h2>Work Experience</h2>
@@ -160,15 +150,30 @@
     canvas1 would be here
   </canvas>
 
-  <canvas id="canvas2" width="100px" height="100px" class="glCanvas">
+  <canvas id="canvas2" width="100px" height="100px" class="glCanvas" onmouseover="debug()" >
     canvas2 would be here
   </canvas>
 
 
   <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->
 
+  <script src="js/scripts.js"></script>
+  <script src="js/projectBlurbs/testProject.js"></script>
+  <script src="js/uniforms.js"></script>
+  <script src="js/webgl.js"></script>
+  <script src="js/interaction.js"></script>
+
+  <meta charset="utf-8">
+
+  <title>Will Rinkoff's barebones io site</title>
+  <meta name="description" content="portfolio site">
+  <meta name="Will" content="SitePoint">
+
   <script>initScripts()</script>
   <script>initWebGl()</script>
+
+
+
 
 </body>
 </html>
