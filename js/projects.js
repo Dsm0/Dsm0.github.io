@@ -1,6 +1,7 @@
 const shaderObjs= [{
+
     "canvasId": "canvas1",
-    "title": "THIS IS THE TITLE",
+    "title": "P5hs",
     "blurb": "this is where the blurb would be",
     "uniformList": ["u_top"],
     "fragSource": "precision mediump float;\n  uniform float u_top;\n  void main() {\n      gl_FragColor = vec4(1. - u_top/1000.,1. - u_top/1000.,1. - u_top/1000.,1.);\n    }",
@@ -18,7 +19,7 @@ const shaderObjs= [{
 },
 {
     "canvasId": "canvas2",
-    "title": "THIS IS THE Other test",
+    "title": "Eulerroom Equinox",
     "blurb": "this is where the blurb would be",
     "uniformList": ["u_left"],
     "vertSource": "precision mediump float;\nattribute vec2 a_position;\nvoid main(){\ngl_Position = vec4(a_position, 0, 1);\n  }",
@@ -36,7 +37,7 @@ const shaderObjs= [{
 },
 {
     "canvasId": "canvas3",
-    "title": "third",
+    "title": "Toplap15 stream",
     "blurb": "blurb3",
     "uniformList": [],
     "vertSource": "precision mediump float;\nattribute vec2 a_position;\nvoid main(){\ngl_Position = vec4(a_position, 0, 1);\n  }",
@@ -51,6 +52,5 @@ const shaderObjs= [{
         "data-staticX":"75%",
         "data-staticY":"75%"
     }
-
 }
 ]
