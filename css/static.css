@@ -26,8 +26,9 @@ h1 {
   color: white;
   z-index: 1;
   position: absolute;
-  top: 200px;
-  left: 200px;
+  top: 90%;
+  /* bottom: 10%; */
+  /* left: 35%; */
 }
 
 .glCanvas {
@@ -48,7 +49,10 @@ h1 {
   overflow: auto;
   width: 40%;
 
-  padding-top: 7%;
+  top: 30%;
+  left: 30%;
+
+  transition: 0.4s;
 
   transform: scale(1.25);
   -moz-transform: scale(1.25);
@@ -62,5 +66,78 @@ h1 {
   -webkit-transform-origin: 0 0;
 
   pointer-events: none ;
+}
+
+
+/*Resume properties, had to tack them on to this file*/
+
+div.resume {
+  line-height: 15px;
+}
+
+h1.resume,
+h2.resume,
+h3.resume,
+h4.resume,
+h5.resume,
+h6.resume,
+ul.resume {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  line-height: 15px;
+}
+
+.resume{
+  position: relative;
+}
+
+#row.resume {
+  display: table-row;
+  width: 90%;
+}
+
+.title.resume {
+  background: inherit;
+  color: inherit;
+}
+
+.meat.resume {
+  display: table-cell;
+  background: black;
+  color: white;
+  padding-left: 1.5%;
+  position: relative;
+  width: 70%;
+  z-index: 0;
+}
+
+/*todo: make the box-shadows more attractive*/
+/* .meat > div { */
+/*box-shadow: orange 1em 1em, orange 1em -1em;*/
+/* } */
+
+.sidebar.resume {
+  background: white;
+  color: black;
+  display: table-cell;
+  padding-left: 3%;
+  padding-right: 3%;
+  z-index: 2;
+}
+
+.sidebar > div {
+box-shadow: orange -1em 1em;
+box-shadow: orange -1em 1em;
+}
+
+#languages.resume {
+  margin-bottom: 22.5%;
+}
+
+li.resume {
+  position: relative;
+  left: -3%;
+  line-height: 15px;
+  font-size: 20;
 }
 

@@ -25,14 +25,16 @@ var initScripts = function(e){
 
 var onkeypress = function(e){
    console.log(e);
-   if(e.key == "s"){
-      static = !static;
-      if(static){
-         changeCSS("css/static.css");
-      } else {
-         changeCSS("css/dynamic.css");
-      }
-   }
+
+   // if(e.key == "s"){
+   //    static = !static;
+   //    if(static){
+   //       changeCSS("css/static.css");
+   //    } else {
+   //       changeCSS("css/dynamic.css");
+   //    }
+   // }
+
 }
 
 
@@ -43,8 +45,9 @@ var onmousemove = function(e){
       moveElemByMouse(e,"canvas2",centerX*1.4,centerY+100,xfactor=2,yfactor=2);
       moveElemByMouse(e,"email",pivotX=centerX+70,pivotY=centerY+70,yfactor=0.7);
       moveElemByMouseMax(e,"resume",centerX*0.3,centerY*0.3,xfactor=4,yfactor=0,maxX=centerX*0.1);
+  } else {
+      changeCSS("css/static.css");
   }
-  console.log(document.getElementById("resume").style.top);
 }
 
 function changeCSS(cssFile) {

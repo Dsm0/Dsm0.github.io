@@ -126,5 +126,3 @@ function initShader(shaderObj){
 
     shaderObj.initalized = true;
 }
-
-
