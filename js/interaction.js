@@ -12,26 +12,19 @@ var static = false;
 // window.onload = function(e)
 var initScripts = function(e){
 
-   var info = document.getElementById("contact");
+   // var info = document.getElementById("contact");
    var canvas1 = document.getElementById("canvas1");
    var canvas2 = document.getElementById("canvas2");
-   var email = document.getElementById("email");
+   var canvas3 = document.getElementById("canvas3");
+   // var email = document.getElementById("email");
    var resume = document.getElementById("resume");
 
    // move(info,centerX,centerY);
-   // move(canvas1,centerX + window.innerWidth,centerY);
-   // move(canvas2,centerX + window.innerWidth,centerY+100);
-   // move(email,centerX + 100,centerY + 100);
-   // move(resume,centerX*(-1.4),centerY*0.3);
+   move(resume,-1*window.innerWidth,centerY+innerHeight);
+   move(canvas1,centerX + window.innerWidth,centerY+innerHeight);
+   move(canvas2,centerX + window.innerWidth,centerY+innerHeight);
+   move(canvas3,centerX + window.innerWidth,centerY+innerHeight);
 
-   // movetoStatic(info);
-   // movetoStatic(canvas1);
-   // movetoStatic(canvas2);
-   // movetoStatic(emai);
-   // movetoStatic(resume);
-   // // moveElemByMouse(e,"resume",centerX*1.2,centerY+800);
-
-   //resizeIframe(resume);
 }
 
 function transitionStatic(elem){
@@ -43,11 +36,10 @@ function transitionDynamic(elem){
 }
 
 function movetoStatic(elem){
-   var newWidth = window.innerWidth  * (parseFloat(elem.getAttribute("data-staticX"))/100);
-   var newHeight = window.innerHeight * (parseFloat(elem.getAttribute("data-staticY"))/100);
+   var newWidth = xpercentToFloat(elem.getAttribute("data-staticX"));
+   var newHeight = ypercentToFloat(elem.getAttribute("data-staticY"));
    move(elem,newWidth,newHeight);
 }
-
 
 // It won't scale, but it's good for now...
 function staticify(){
@@ -55,18 +47,21 @@ function staticify(){
    var info = document.getElementById("contact");
    var canvas1 = document.getElementById("canvas1");
    var canvas2 = document.getElementById("canvas2");
+   var canvas3 = document.getElementById("canvas3");
    var email = document.getElementById("email");
    var resume = document.getElementById("resume");
 
 
    transitionStatic(canvas1);
    transitionStatic(canvas2);
+   transitionStatic(canvas3);
    transitionStatic(info);
    transitionStatic(email);
    transitionStatic(resume);
 
    movetoStatic(canvas1);
    movetoStatic(canvas2);
+   movetoStatic(canvas3);
    movetoStatic(resume);
    movetoStatic(info);
    movetoStatic(email);
@@ -81,12 +76,14 @@ function dynamify(){
    var info = document.getElementById("contact");
    var canvas1 = document.getElementById("canvas1");
    var canvas2 = document.getElementById("canvas2");
+   var canvas3 = document.getElementById("canvas3");
    var email = document.getElementById("email");
    var resume = document.getElementById("resume");
 
    transitionDynamic(info);
    transitionDynamic(canvas1);
    transitionDynamic(canvas2);
+   transitionDynamic(canvas3);
    transitionDynamic(email);
    transitionDynamic(resume);
 
@@ -107,24 +104,18 @@ var onkeypress = function(e){
 var onmousemove = function(e){
    if(!static){
       moveElemByMouse(e,"contact",centerX,centerY,xfactor=0.5,yfactor=0.5);
-      moveElemByMouse(e,"canvas1",centerX*1.4,centerY,xfactor=2,yfactor=1);
-      moveElemByMouse(e,"canvas2",centerX*1.4,centerY+100,xfactor=2,yfactor=2);
+
+      moveCanvi(e);
+
       moveElemByMouse(e,"email",pivotX=centerX+70,pivotY=centerY+70,yfactor=0.7);
       moveElemByMouseMax(e,"resume",centerX*0.3,centerY*0.3,xfactor=4,yfactor=0,maxX=centerX*0.1);
       }
 }
 
-function changeCSS(cssFile) {
-   var cssLoader = document.getElementById("cssLoader");
-   cssLoader.href = cssFile;
-}
-
-// ^^^^^^^^^^^^^
-// todo!!!! 
-// integraate the static.css sheet with the getStypeSheetPropertyValue function
-// to switch between static and dynamic layouts
-//\/\/\/\/\/\/\/
-
+// function changeCSS(cssFile) {
+//    var cssLoader = document.getElementById("cssLoader");
+//    cssLoader.href = cssFile;
+// }
 
 // courtesy of
 // https://stackoverflow.com/a/16779702 

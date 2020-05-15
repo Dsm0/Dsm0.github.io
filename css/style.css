@@ -20,7 +20,7 @@ h1 {
 
 #resume{
   /* display: block; */
-  overflow: auto;
+  overflow: hidden;
   width: 40%;
 
   transform: scale(1.25);
@@ -34,7 +34,8 @@ h1 {
   -webkit-transform: scale(1.25);
   -webkit-transform-origin: 0 0;
   position: absolute;
-
+  left: -150%; /*when the page loads, resume starts offscrean*/
+  top: 13.5%;
 }
 
 #navigation{
@@ -61,10 +62,10 @@ h1 {
 }
 
 
-#canvas1{
+/* #canvas1{
   left: 51.48%;
   top: 45.18%;
-}
+} */
 
 
 .glCanvas{
@@ -76,7 +77,7 @@ h1 {
   transition: transform 0.2s;
   -moz-transform: scale(1);
   -webkit-transform: scale(1);
-  position: absolute; 
+  position: fixed; 
   transform: translate(-50%,-50%); 
 }
 
@@ -123,10 +124,10 @@ h1 {
 #email {
   background-color: white;
   color: black;
-  margin-left: -(X/2)u;
+  /* margin-left: -(X/2)u;
   margin-top: -(Y/2)u;
   width: Xu;
-  height: Yu;
+  height: Yu; */
   z-index: 3;
   position: absolute;
 }
@@ -142,8 +143,6 @@ span.stretch {
   -o-transform:scale(2,1); /* Opera */
   transform:scale(2,1); /* W3C */
 }
-
-
 
 
 

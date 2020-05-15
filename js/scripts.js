@@ -22,7 +22,7 @@ function moveElemBy(id,xoffset, yoffset){
   var movee = document.getElementById(id);
   var x0 = parseInt(movee.style.left);
   var y0 = parseInt(movee.style.top);
-  console.log(x0,y0);
+  // console.log(x0,y0);
   move(movee,Math.abs(x0 - xoffset),Math.abs(y0 - yoffset));
 }
 
@@ -31,10 +31,42 @@ function moveElemByMouse(e,id, pivotX, pivotY, xfactor=1,yfactor=1){
   move(elem, pivotX + (pivotX - e.clientX)*xfactor,pivotY + (pivotY - e.clientY)*yfactor);
 }
 
-
 function moveElemByMouseMax(e,id, pivotX, pivotY, xfactor=1,yfactor=1,maxX=centerX,maxY=centerY){
   var elem = document.getElementById(id);
   var newX = pivotX + (pivotX - e.clientX)*xfactor; 
   var newY = pivotY + (pivotY - e.clientY)*yfactor;
   move(elem, Math.min(newX,maxX),Math.min(newY,maxY));
+}
+
+function moveCanvi(e,id, pivotX, pivotY, xfactor=1,yfactor=1){
+  var canvi = document.getElementsByClassName("glCanvas");
+  for (var i = 0; i < canvi.length; i++) {
+    moveCanvas(e,canvi[i]);
+  }
+}
+
+function moveCanvas(e,canv){
+  var pivotX = xpercentToFloat(canv.getAttribute("data-pivotX"));
+  var pivotY = ypercentToFloat(canv.getAttribute("data-pivotY"));
+
+  var xfactor = canv.getAttribute("data-xfactor");
+  var yfactor = canv.getAttribute("data-yfactor");
+
+  var newX = pivotX + (pivotX - e.clientX)*xfactor;
+  var newY = pivotY + (pivotY - e.clientY)*yfactor;
+
+  move(canv, newX,newY);
+}
+
+
+function xpercentToFloat(attr){
+  newX = window.innerWidth * (parseFloat(attr)/100);
+  // console.log(attr,newX);
+  return newX;
+}
+
+function ypercentToFloat(attr){
+  newY = window.innerHeight * (parseFloat(attr)/100);
+  // console.log(attr,newY);
+  return newY;
 }
