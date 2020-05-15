@@ -130,6 +130,9 @@ h1 {
   height: Yu; */
   z-index: 3;
   position: absolute;
+
+  top: 64.14%;
+  left: 56.45%;
 }
 
 /* courtesy of */
