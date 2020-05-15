@@ -1,3 +1,10 @@
+//  DISCLAIMER
+//  
+//  This website isn't completely spaghetti, but the html attribute management is, 
+//    as of late, very unintuitive. The site is more of a rapid-prototype of an idea 
+//    I had for a more interactive portfolio. I vow to clean this up and make it easier to scale
+
+
 var centerX = window.innerWidth/2;
 var centerY = window.innerHeight/2;
 var static = false;
@@ -11,23 +18,33 @@ var initScripts = function(e){
    var email = document.getElementById("email");
    var resume = document.getElementById("resume");
 
-   move(info,centerX,centerY);
-   move(canvas1,centerX + window.innerWidth,centerY);
-   move(canvas2,centerX + window.innerWidth,centerY+100);
-   move(email,centerX + 100,centerY + 100);
-   move(resume,centerX*(-1.4),centerY*0.3);
+   // move(info,centerX,centerY);
+   // move(canvas1,centerX + window.innerWidth,centerY);
+   // move(canvas2,centerX + window.innerWidth,centerY+100);
+   // move(email,centerX + 100,centerY + 100);
+   // move(resume,centerX*(-1.4),centerY*0.3);
 
-
-   // moveElemByMouse(e,"resume",centerX*1.2,centerY+800);
+   // movetoStatic(info);
+   // movetoStatic(canvas1);
+   // movetoStatic(canvas2);
+   // movetoStatic(emai);
+   // movetoStatic(resume);
+   // // moveElemByMouse(e,"resume",centerX*1.2,centerY+800);
 
    //resizeIframe(resume);
 }
 
-function makeStatic(elem){
+function transitionStatic(elem){
+   elem.style.transition = elem.getAttribute("data-transitionStatic");
+}
+
+function transitionDynamic(elem){
+   elem.style.transition = elem.getAttribute("data-transitionDynamic");
+}
+
+function movetoStatic(elem){
    var newWidth = window.innerWidth  * (parseFloat(elem.getAttribute("data-staticX"))/100);
    var newHeight = window.innerHeight * (parseFloat(elem.getAttribute("data-staticY"))/100);
-   // "data-staticX" and "data-staticY" are stored as percent values
-   // but I convert them to pixels so that the uniforms passed to shaders don't become 0-100
    move(elem,newWidth,newHeight);
 }
 
@@ -41,24 +58,20 @@ function staticify(){
    var email = document.getElementById("email");
    var resume = document.getElementById("resume");
 
-   info.style.transition = "0.2s";
-   canvas1.style.transition = "0.2s";
-   canvas2.style.transition = "0.2s";
-   email.style.transition = "0.2s";
-   resume.style.transition = "0.2s";
+
+   transitionStatic(canvas1);
+   transitionStatic(canvas2);
+   transitionStatic(info);
+   transitionStatic(email);
+   transitionStatic(resume);
+
+   movetoStatic(canvas1);
+   movetoStatic(canvas2);
+   movetoStatic(resume);
+   movetoStatic(info);
+   movetoStatic(email);
 
 
-   // move(canvas1,canvas1.data-staticX,canvas1.data-staticY);
-   makeStatic(canvas1);
-   makeStatic(canvas2);
-
-   // canvas2.style.left = canvas1.getAttribute("data-staticX")
-   // canvas2.style.top= canvas1.getAttribute("data-staticY")
-   // move(canvas2,centerX*1.3,centerY*1.5);
-
-   move(info,centerX*0.85,centerY*1.6);
-   move(email,centerX*0.87,centerY*1.8);
-   move(resume,centerX*0.03,centerY*0.3);
 }
 
 
@@ -71,15 +84,13 @@ function dynamify(){
    var email = document.getElementById("email");
    var resume = document.getElementById("resume");
 
-   info.style.transition = "0s";
-   canvas1.style.transition = "0s";
-   canvas2.style.transition = "0s";
-   email.style.transition = "0s";
-   resume.style.transition = "0s";
+   transitionDynamic(info);
+   transitionDynamic(canvas1);
+   transitionDynamic(canvas2);
+   transitionDynamic(email);
+   transitionDynamic(resume);
 
 }
-
-
 
 var onkeypress = function(e){
    console.log(e);
