@@ -1,30 +1,30 @@
-div {
+div.resume {
   line-height: 15px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-ul {
+h1.resume,
+h2.resume,
+h3.resume,
+h4.resume,
+h5.resume,
+h6.resume,
+ul.resume {
   margin-top: 2%;
   margin-bottom: 2%;
   line-height: 15px;
 }
 
-#row {
+#row.resume {
   display: table-row;
   width: 90%;
 }
 
-.title {
+.title.resume {
   background: inherit;
   color: inherit;
 }
 
-.meat {
+.meat.resume {
   display: table-cell;
   background: black;
   color: white;
@@ -34,13 +34,12 @@ ul {
   z-index: 0;
 }
 
-
 /*todo: make the box-shadows more attractive*/
 /* .meat > div { */
-  /*box-shadow: orange 1em 1em, orange 1em -1em;*/
+/*box-shadow: orange 1em 1em, orange 1em -1em;*/
 /* } */
 
-.sidebar {
+.sidebar.resume {
   background: white;
   color: black;
   display: table-cell;
@@ -50,19 +49,17 @@ ul {
 }
 
 /* .sidebar > div { */
-  /*box-shadow: orange -1em 1em;*/
-  /*box-shadow: orange -1em 1em, orange -1em -1em;*/
+/*box-shadow: orange -1em 1em;*/
+/*box-shadow: orange -1em 1em, orange -1em -1em;*/
 /* } */
 
-#languages {
+#languages.resume {
   margin-bottom: 22.5%;
 }
 
-li {
+li.resume {
   position: relative;
   left: -3%;
   line-height: 15px;
   font-size: 20;
 }
-
-

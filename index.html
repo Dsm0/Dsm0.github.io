@@ -25,10 +25,116 @@
 
 <!--  because you can't move divs inside -->
 
-<iframe src="pages/Resume.html" title="resume" id="resume" frameborder="0" scrolling="no" onload="resizeIframe(this)">
-  resume goes here
-</iframe>
+<div title="resume" id="resume" frameborder="0" scrolling="no" >
+ <div id="row">
+      <div class="resume meat">
+        <div id="work" class="resume title">
+          <h2>Work Experience</h2>
+          <h4>Resonant Cavity - Deep Learning (Summer 2019)</h4>
+          <ul>
+            <li>
+              created tools for deep-learning audio analysis/synthesis inside
+              <strong>Python</strong>
+            </li>
+            <li>
+              utilized <strong>Tensorflow</strong>, <strong>Keras</strong>,
+              <strong>Numpy</strong>, and a number of
+              <strong>Audio-Analysis libraries</strong>
+              (particularly <strong>Madmom</strong>)
+            </li> 
+            <li>
+              successfully researched, modeled, and implemented complex <br>
+              audio-analysis techniques with little prior experience <br>
+              &nbsp (I had just graduated high school at the time)
+            </li>
+            <li>
+              presented progress of work to a broader team of application developers
+            </li>
+          </ul>
+        </div>
 
+        <div id="education" class="resume title">
+          <h2>Education</h2>
+          <h4>
+            St. Paul Academy and Summit School - St. Paul, MN (Class of 2019)
+          </h4>
+          <h4>
+            Carnegie Mellon University - Pittsburgh, PA (Class of 2023,
+            currently enrolled)
+          </h4>
+          <ul>
+            <li>
+              studying Music and Technology, planning a transfer to Bachelors of
+              Computer Science and Music
+            </li>
+          </ul>
+        </div>
+
+        <div id="coursework" class="resume title">
+          <h2>Relevant Coursework</h2>
+          <ul>
+            <li>Computer Music with <strong>Nyquist</strong> (15-322)</li>
+            <li>
+              Fundamentals of Programming with <strong>Python</strong> (15-112)
+            </li>
+            <li>Imperative Programming with <strong>C</strong> (15-122)</li>
+          </ul>
+        </div>
+
+        <div id="hobbies" class="resume title">
+          <h2>Relevant Hobbies</h2>
+          <ul>
+            <li>
+              Linux
+              <ul>
+                <li>
+                  no stranger to command line tools, unearthing dependencies,
+                  etc.
+                </li>
+              </ul>
+            </li>
+            <li>
+              Tidalcycles
+              <ul>
+                <li>
+                  An experimental livecoding language based in
+                  <strong>Haskell</strong> and <strong>Supercollider</strong>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="summary" class="resume sidebar">
+        <div id="languages" class="resume title">
+          <h2>Skill Summary</h2>
+          <h4>Languages</h4>
+          <ul>
+            <li><strong>Python</strong></li>
+            <li><strong>C</strong></li>
+            <li><strong>JavaScript</strong></li>
+            <li><strong>HTML</strong></li>
+            <li><strong>Haskell</strong></li>
+            <li><strong>SuperCollider</strong></li>
+            <li><strong>C#</strong></li>
+            <li><strong>OpenGl</strong></li>
+          </ul>
+        </div>
+        <div id="tools" class="resume title">
+          <h4>Tools/Libraries</h4>
+          <ul>
+            <li><strong>Tensorflow </strong> + <strong>Keras</strong></li>
+            <li><strong>Numpy</strong></li>
+            <li><strong>Madmom Audio</strong></li>
+            <li><strong>WebGl</strong></li>
+            <li><strong>p5.js</strong></li>
+            <li><strong>Unity</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>
 
 
 <div id="contact" class="infoBlock" >
@@ -49,13 +155,10 @@
   <div id="email">
     <a href="mailto:willrinkoff@gmail.com">email me: willrinkoff@gmail.com</a>
   </div>
-
-<div class="canvasCaption" width="200px" height="200px">
+  
   <canvas id="canvas1" width="100" height="100" class="glCanvas">
     canvas1 would be here
   </canvas>
-                          textTextText
-</div>
 
   <canvas id="canvas2" width="100px" height="100px" class="glCanvas">
     canvas2 would be here

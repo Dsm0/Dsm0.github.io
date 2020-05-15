@@ -18,7 +18,7 @@ var initScripts = function(e){
 
    // moveElemByMouse(e,"resume",centerX*1.2,centerY+800);
 
-   resizeIframe(resume);
+   //resizeIframe(resume);
 }
 
 var onkeypress = function(e){
