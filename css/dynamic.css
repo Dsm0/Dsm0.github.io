@@ -48,8 +48,6 @@ h1 {
   background-color: white;
   font-size:20px;
   color: white;
-  width: Xu;
-  height: Yu;
   z-index: 1;
   position: absolute;
   top: 50%;
@@ -57,13 +55,19 @@ h1 {
   transform: translate(-50%,-50%); 
 }
 
+
+#canvas1{
+  left: 51.48%;
+  top: 45.18%;
+}
+
+
 .glCanvas{
   background-color: white;
   z-index: 0;
   width: Xu;
   height: Yu;
   transform: scale(1);
-
   transition: transform 0.2s;
   -moz-transform: scale(1);
   -webkit-transform: scale(1);
@@ -76,9 +80,15 @@ h1 {
   background-color: white;
   z-index: 1;
   position: absolute;
-  transform: translate(-150%,-150%), scale(3);
-  -moz-transform: scale(3);
-  -webkit-transform: scale(3);
+  /* transform: translate(-150%,-150%), scale(3); */
+
+  /* transform-origin: 50%,50% ;
+  -moz-transform-origin: 50%,50% ;
+  -webkit-transform-origin: 50%,50% ; */
+
+  transform: translate(-50%,-50%)  scale(3);
+  -moz-transform: translate(-50%,-50%)  scale(3);
+  -webkit-transform: translate(-50%,-50%) scale(3);
   transition: transform 0.2s;
 }
 

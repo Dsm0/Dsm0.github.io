@@ -1,3 +1,7 @@
+html {
+  transition: 0.2s;
+}
+
 body {
   background-color: black;
   margin-left: 0px;
