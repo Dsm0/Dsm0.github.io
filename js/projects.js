@@ -12,6 +12,7 @@ const frag1 = `
 
                 uniform vec2 u_canvas_resolution;
                 uniform float u_time;
+                //uniform vec2 u_pos; 
 
                 void main(){
 
@@ -24,15 +25,16 @@ const frag1 = `
                   vec2 pos = vec2(0.5)-st;
                   st = st*2. - 1.;
 
-                  float spd = 4.;
+                  float spd = 2. + max(.2,fract(u_time));
                   float iterations = 1.;
-                  int N = int(mod((4.*spd)*u_time,4.*spd));
+                  int N = int(mod((4.*spd)*u_time,4.*spd))*1;
 
                   float a = atan(st.x,st.y)+PI;
                   float r = TWO_PI/float(N);
 
                   d = cos(floor(0.95+a/r)*r-a)*length(st);
                   float shape = smoothstep(.4,.405,d);
+
                   float alternater = step(iterations,mod(u_time,2.*iterations));
 
                   color = vec3(mix(shape,1.-shape,alternater));
