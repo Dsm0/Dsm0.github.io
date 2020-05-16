@@ -1,9 +1,13 @@
+const d = new Date();
+const initalTime = d.getTime()/1000; 
+
 const uniformDict = {
     //"u_top": u_topGet,
     //"u_left": u_leftGet,
     "u_pos": u_pagePositionGet,
     "u_window_resolution":u_window_resolutionGet,
-    "u_canvas_resolution":u_canvas_resolutionGet
+    "u_canvas_resolution":u_canvas_resolutionGet,
+    "u_time":u_timeGet
 }
 
 function genUniforms(shaderObj){
@@ -78,7 +82,7 @@ function u_canvas_resolutionGet(shaderObj){
       name: "u_canvas_resolution",
       description: "width and height of the canvas being rendered",
       getLocation: function(){return shaderObj.gl.getUniformLocation(shaderObj.program, "u_canvas_resolution")},
-      getValue: function(){return (shaderObj.width,shaderObj.height)}, //these two functions are for debugging puroses more than anything
+      getValue: function(){return [shaderObj.width,shaderObj.height]}, //these two functions are for debugging puroses more than anything
       type: "1f"
     }
     uniform.genValue = function(){
@@ -88,3 +92,14 @@ function u_canvas_resolutionGet(shaderObj){
 }
 
 
+function u_timeGet(shaderObj){
+    const uniform = {
+      name: "u_time",
+      description: "changes with time",
+      getLocation: function(){return shaderObj.gl.getUniformLocation(shaderObj.program, "u_time")},
+      getValue: function(){var curTime = Date.now()/1000 - initalTime; console.log(curTime) ; return curTime;}, 
+      type: "1f"
+    }
+    uniform.genValue = function(){return shaderObj.gl.uniform1f(uniform.getLocation(), uniform.getValue())};
+    shaderObj.uniforms.push(uniform);
+}

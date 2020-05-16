@@ -9,8 +9,8 @@ var centerX = window.innerWidth/2;
 var centerY = window.innerHeight/2;
 var static = false;
 
-// window.onload = function(e)
 var initScripts = function(e){
+
 
    // var info = document.getElementById("contact");
    var canvas1 = document.getElementById("canvas1");
