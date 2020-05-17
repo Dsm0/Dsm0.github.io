@@ -90,7 +90,7 @@ function dynamify(){
 }
 
 var onkeypress = function(e){
-   console.log(e);
+   //console.log(e);
    if(e.key == "s"){
       static = !static;
       if(static){

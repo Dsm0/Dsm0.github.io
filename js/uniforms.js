@@ -97,7 +97,7 @@ function u_timeGet(shaderObj){
       name: "u_time",
       description: "changes with time",
       getLocation: function(){return shaderObj.gl.getUniformLocation(shaderObj.program, "u_time")},
-      getValue: function(){var curTime = Date.now()/1000 - initalTime; console.log(curTime) ; return curTime;}, 
+      getValue: function(){var curTime = Date.now()/1000 - initalTime ; return curTime;}, 
       type: "1f"
     }
     uniform.genValue = function(){return shaderObj.gl.uniform1f(uniform.getLocation(), uniform.getValue())};

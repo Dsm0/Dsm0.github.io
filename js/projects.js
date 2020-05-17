@@ -54,6 +54,60 @@ const frag2 = `
                  gl_FragColor = vec4(u_pos.x/1920.,u_pos.x/1920.,u_pos.x/1920.,1.);
                }`;
 
+const frag3 = `
+//modified version of shader from chapter 9 of thebookofshaders
+#ifdef GL_ES
+precision mediump float;
+#endif
+uniform vec2 u_canvas_resolution;
+uniform float u_time;
+#define PI 3.14159265358979323846
+
+vec2 rotate2D(vec2 _st, float _angle){
+    _st -= 0.5;
+    _st =  mat2(cos(_angle),-sin(_angle),
+                sin(_angle),cos(_angle)) * _st;
+    // _st += fract(u_time)*2. - .5;
+    _st += 0.5;
+    return _st;
+}
+
+vec2 tile(vec2 _st, float _zoom){
+    _st *= _zoom;
+    return fract(_st);
+}
+
+float box(vec2 _st, vec2 _size, float _smoothEdges){
+    _size = vec2(0.5)-_size*0.5;
+    vec2 aa = vec2(_smoothEdges*0.5);
+    vec2 uv = smoothstep(_size,_size+aa,_st);
+    uv *= smoothstep(_size,_size+aa,vec2(1.0)-_st);
+    return uv.x*uv.y;
+}
+float rand(float n){return fract(sin(n) * 43758.5453123);}
+
+float noise(float p){
+	float fl = floor(p);
+  	float fc = fract(p);
+	return mix(rand(fl), rand(fl + 1.0), fc);
+}
+
+void main(void){
+    vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;
+    vec3 color = vec3(0.0);
+    
+    st = rotate2D(st,PI*.25/2.) + u_time/9.;
+
+    st = tile(st,3.);
+    st = rotate2D(st,PI*.25);
+    
+    color = vec3(box(st,vec2(0.7 + 0.01*noise(u_time))+noise(gl_FragCoord.x*20./gl_FragCoord.y + u_time*20.)/20.,0.01));
+
+    gl_FragColor = vec4(color,1.0);
+}
+
+`
+
 
 const shaderObjs= [{
     "canvasId": "canvas1",
@@ -79,7 +133,7 @@ const shaderObjs= [{
     "blurb": "this is where the blurb would be",
     "uniformList": ["u_pos"],
     "vertSource": standardVert,
-    //"fragSource": frag2;
+    "fragSource": frag2,
     "fragSource": blankFrag,
     "width" : 200,
     "height" : 200,
@@ -96,9 +150,9 @@ const shaderObjs= [{
     "canvasId": "canvas3",
     "title": "Toplap15 stream",
     "blurb": "blurb3",
-    "uniformList": ["u_pos"],
+    "uniformList": ["u_time","u_canvas_resolution"],
     "vertSource": standardVert,
-    "fragSource": frag2,
+    "fragSource": frag3,
     "width" : 200,
     "height" : 200,
     "positionData":{
