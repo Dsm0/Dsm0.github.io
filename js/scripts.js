@@ -18,6 +18,12 @@ function move(moveme, x_pos, y_pos) {
     moveme.style.top = y_pos+'px';
 }
 
+function scalePage(scalX,scalY){
+  var html = document.getElementsByTagName("html")[0];
+  html.style.setProperty("--page-scaleX",scalX);
+  html.style.setProperty("--page-scaleY",scalY);
+}
+
 function moveElemBy(id,xoffset, yoffset){
   var movee = document.getElementById(id);
   var x0 = parseInt(movee.style.left);

@@ -5,25 +5,39 @@
 //    I had for a more interactive portfolio. I vow to clean this up and make it easier to scale
 
 
-var centerX = window.innerWidth/2;
-var centerY = window.innerHeight/2;
+// const centerX = window.innerWidth/2;
+// const centerY = window.innerHeight/2;
 var static = false;
+
+
+var scaleX = window.innerWidth/1920;
+var scaleY = window.innerHeight/956;
+
+// var unitX = window.innerWidth/(2*scaleX);
+// var unitY = window.innerHeight/scaleY);
+
+const centerX = window.innerWidth/2;
+const centerY = window.innerHeight/2;
 
 var initScripts = function(e){
 
+   
+   scalePage(scaleX,scaleY);
 
-   // var info = document.getElementById("contact");
+   var info = document.getElementById("contact");
    var canvas1 = document.getElementById("canvas1");
    var canvas2 = document.getElementById("canvas2");
    var canvas3 = document.getElementById("canvas3");
-   // var email = document.getElementById("email");
    var resume = document.getElementById("resume");
 
-   // move(info,centerX,centerY);
-   move(resume,-1*window.innerWidth,centerY+innerHeight);
+
+   move(info,centerX,centerY);
+   move(email,centerX+(centerX/20),centerY+(centerY/20));
+   move(contact,-1*window.innerWidth,centerY+innerHeight);
    move(canvas1,centerX + window.innerWidth,centerY+innerHeight);
    move(canvas2,centerX + window.innerWidth,centerY+innerHeight);
    move(canvas3,centerX + window.innerWidth,centerY+innerHeight);
+
 
 }
 
@@ -36,8 +50,8 @@ function transitionDynamic(elem){
 }
 
 function movetoStatic(elem){
-   var newWidth = xpercentToFloat(elem.getAttribute("data-staticX"));
-   var newHeight = ypercentToFloat(elem.getAttribute("data-staticY"));
+   var newWidth = (1/scaleX)*xpercentToFloat(elem.getAttribute("data-staticX"));
+   var newHeight = (1/scaleY)*ypercentToFloat(elem.getAttribute("data-staticY"));
    move(elem,newWidth,newHeight);
 }
 
@@ -65,7 +79,6 @@ function staticify(){
    movetoStatic(resume);
    movetoStatic(info);
    movetoStatic(email);
-
 
 }
 
@@ -107,8 +120,8 @@ var onmousemove = function(e){
 
       moveCanvi(e);
 
-      moveElemByMouse(e,"email",pivotX=centerX+70,pivotY=centerY+70,yfactor=0.7);
-      moveElemByMouseMax(e,"resume",centerX*0.3,centerY*0.3,xfactor=4,yfactor=0,maxX=centerX*0.1);
+      moveElemByMouse(e,"email",pivotX=centerX+(centerX/20),pivotY=centerY+ (centerY/20),yfactor=0.7);
+      moveElemByMouseMax(e,"resume",centerX*0.3,centerY*0.3,xfactor=4,yfactor=0,maxX=centerX*0.08);
       }
 }
 
