@@ -100,6 +100,8 @@ function initShader(shaderObj){
 
     const vertSource = shaderObj.vertSource;
     const fragSource = shaderObj.fragSource
+  
+    console.log(fragSource);
 
     buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
