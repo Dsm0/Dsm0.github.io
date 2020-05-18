@@ -14,6 +14,15 @@ const frag1 = `
                 uniform float u_time;
                 //uniform vec2 u_pos; 
 
+                
+                vec2 rotate2D(vec2 _st, float _angle){
+                    _st -= 0.5;
+                    _st =  mat2(cos(_angle),-sin(_angle),
+                                sin(_angle),cos(_angle)) * _st;
+                    _st += 0.5;
+                    return _st;
+                }
+
                 void main(){
 
                   vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;
@@ -25,9 +34,9 @@ const frag1 = `
                   vec2 pos = vec2(0.5)-st;
                   st = st*2. - 1.;
 
-                  float spd = 2. + max(.2,fract(u_time));
+                  float spd = 0.5 + fract(u_time/2.);
                   float iterations = 1.;
-                  int N = int(mod((4.*spd)*u_time,4.*spd))*1;
+                  int N = int(mod((4.*spd)*u_time,8.*spd));
 
                   float a = atan(st.x,st.y)+PI;
                   float r = TWO_PI/float(N);
@@ -35,7 +44,7 @@ const frag1 = `
                   d = cos(floor(0.95+a/r)*r-a)*length(st);
                   float shape = smoothstep(.4,.405,d);
 
-                  float alternater = step(iterations,mod(u_time,2.*iterations));
+                  float alternater = step(iterations,mod(u_time/2.,2.*iterations));
 
                   color = vec3(mix(shape,1.-shape,alternater));
 
