@@ -32,9 +32,9 @@ body {
   overflow: auto;
 }
 
-#mainText : hover{
+/* #mainText : hover{
   z-index: 2;
-}
+} */
 
 #resume{
   /* display: block; */

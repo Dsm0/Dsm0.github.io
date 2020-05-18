@@ -55,11 +55,14 @@ function moveCanvas(e,canv){
   var pivotX = xpercentToFloat(canv.getAttribute("data-pivotX"));
   var pivotY = ypercentToFloat(canv.getAttribute("data-pivotY"));
 
-  var xfactor = canv.getAttribute("data-xfactor");
-  var yfactor = canv.getAttribute("data-yfactor");
+  var xfactor = canv.getAttribute("data-xfactor")*scaleX;
+  var yfactor = canv.getAttribute("data-yfactor")*scaleY;
 
   var newX = pivotX + (pivotX - e.clientX)*xfactor;
   var newY = pivotY + (pivotY - e.clientY)*yfactor;
+
+  newX *= recipX;
+  newY *= recipY;
 
   move(canv, newX,newY);
 }

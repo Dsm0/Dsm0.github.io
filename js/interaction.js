@@ -13,6 +13,9 @@ var static = false;
 var scaleX = window.innerWidth/1920;
 var scaleY = window.innerHeight/956;
 
+var recipX = 1/scaleX;
+var recipY = 1/scaleY;
+
 // var unitX = window.innerWidth/(2*scaleX);
 // var unitY = window.innerHeight/scaleY);
 
@@ -37,6 +40,8 @@ var initScripts = function(e){
    move(canvas1,centerX + window.innerWidth,centerY+innerHeight);
    move(canvas2,centerX + window.innerWidth,centerY+innerHeight);
    move(canvas3,centerX + window.innerWidth,centerY+innerHeight);
+
+
 
 
 }
@@ -116,12 +121,12 @@ var onkeypress = function(e){
 
 var onmousemove = function(e){
    if(!static){
-      moveElemByMouse(e,"contact",centerX,centerY,xfactor=0.5,yfactor=0.5);
+      moveElemByMouse(e,"contact",centerX*recipX,centerY*recipY,xfactor=0.5,yfactor=0.5);
 
       moveCanvi(e);
 
-      moveElemByMouse(e,"email",pivotX=centerX+(centerX/20),pivotY=centerY+ (centerY/20),yfactor=0.7);
-      moveElemByMouseMax(e,"resume",centerX*0.3,centerY*0.3,xfactor=4,yfactor=0,maxX=centerX*0.08);
+      moveElemByMouse(e,"email",pivotX=recipX*(centerX+(centerX/20)),pivotY=recipY*(centerY+ (centerY/20)),xfactor = 1,yfactor=0.7);
+      moveElemByMouseMax(e,"resume",pivotX=scaleX*centerX*0.35,pivotY=recipY*centerY*0.35,xfactor=3,yfactor=0,maxX=centerX*0.05);
       }
 }
 
