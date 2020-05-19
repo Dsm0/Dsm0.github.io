@@ -2,7 +2,7 @@ const standardVert = "precision mediump float;\n attribute vec2 a_position;\nvoi
 
 const blankFrag = "precision mediump float;\nvoid main(){gl_FragColor = vec4(1.0);\n }";
 
-const frag1 = ` 
+const oldfrag1 = ` 
                 #ifdef GL_ES
                 precision mediump float;
                 #endif
@@ -49,7 +49,40 @@ const frag1 = `
                   color = vec3(mix(shape,1.-shape,alternater));
 
                   gl_FragColor = vec4(color,1.0);
-                }`;
+                }`
+                ;
+
+const frag1 = `
+
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_canvas_resolution;
+uniform float   u_time;
+
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.02, pct, st.y) -
+          smoothstep( pct, pct+0.02, st.y);
+}
+
+float rand(float x){
+	return fract(sin(x)*999999.0);
+}
+
+void main(void) {
+    vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;
+    float y = 0.0;
+    float i = floor(st.x);
+    float f = fract(st.x);
+    float alternator = sin(u_time*2. + (st.x-0.5)*(20.));
+    y = mix(rand(i), rand(i + f), smoothstep(0.,1.,f + alternator));
+    vec3 color = vec3(y);
+    float pct = plot(st,y);
+    color = (1.0-pct)*color+pct*vec3(rand(st.x),rand(st.y),rand(rand(st.x)));
+    gl_FragColor = vec4(color,1.0);
+}
+`
 
 
 const frag2 = `
