@@ -79,7 +79,7 @@ void main(void) {
     y = mix(rand(i), rand(i + f), smoothstep(0.,1.,f + alternator));
     vec3 color = vec3(y);
     float pct = plot(st,y);
-    color = (1.0-pct)*color+pct*vec3(rand(st.x),rand(st.y),rand(rand(st.x)));
+    color = (1.0-pct)*color+pct*vec3(rand(st.x),rand(st.x)/1.5,0.0);
     gl_FragColor = vec4(color,1.0);
 }
 `
