@@ -117,6 +117,9 @@ function initShader(shaderObj){
       gl.STATIC_DRAW
     );
 
+    canvas.name = shaderObj.title;
+    canvas.innerHTML = shaderObj.blurb;
+
     canvas.width = shaderObj.width;
     canvas.height = shaderObj.height;
 
