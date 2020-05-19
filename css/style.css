@@ -72,7 +72,7 @@ body {
   background-color: white;
   font-size:20px;
   color: white;
-  z-index: 3;
+  z-index: 1;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -88,7 +88,7 @@ body {
 
 .glCanvas{
   background-color: white;
-  z-index: 0;
+  z-index: 2;
   width: Xu;
   height: Yu;
   transform: scale(1);
@@ -102,7 +102,7 @@ body {
 
 .glCanvas:hover{
   background-color: white;
-  z-index: 2;
+  z-index: 3;
   position: absolute;
 
   /* transform-origin: 50%,50% ;
@@ -146,7 +146,7 @@ body {
   margin-top: -(Y/2)u;
   width: Xu;
   height: Yu; */
-  z-index: 3;
+  z-index: 1;
   position: absolute;
 
   top: 64.14%;
