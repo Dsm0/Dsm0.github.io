@@ -150,7 +150,6 @@ void main(void){
 
 `
 
-
 const shaderObjs= [{
     "canvasId": "canvas1",
     "title": "misc1",
@@ -159,15 +158,7 @@ const shaderObjs= [{
     "fragSource": frag1,
     "vertSource": standardVert,
     "width" : 200,
-    "height" : 200,
-    "positionData":{
-        "data-pivotX" :"75%",
-        "data-pivotY" :"35%",
-        "data-xfactor":2.5,
-        "data-yfactor":1,
-        "data-staticX":"75%",
-        "data-staticY":"25%"
-    }
+    "height" : 200
 },
 {
     "canvasId": "canvas2",
@@ -178,15 +169,7 @@ const shaderObjs= [{
     "fragSource": frag2,
     "fragSource": blankFrag,
     "width" : 200,
-    "height" : 200,
-    "positionData":{
-        "data-pivotX" :"75%",
-        "data-pivotY" :"50%",
-        "data-xfactor":2.5,
-        "data-yfactor":1,
-        "data-staticX":"75%",
-        "data-staticY":"50%"
-    }
+    "height" : 200
 },
 {
     "canvasId": "canvas3",
@@ -196,15 +179,7 @@ const shaderObjs= [{
     "vertSource": standardVert,
     "fragSource": frag3,
     "width" : 200,
-    "height" : 200,
-    "positionData":{
-        "data-pivotX" :"75%",
-        "data-pivotY" :"65%",
-        "data-xfactor":2.5,
-        "data-yfactor":1,
-        "data-staticX":"75%",
-        "data-staticY":"75%"
-    }
+    "height" : 200
 }
 ]
 

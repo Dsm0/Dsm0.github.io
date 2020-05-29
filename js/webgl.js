@@ -12,19 +12,6 @@ function gengl(canvas){
   return gl;
 }
 
-function setCanvasProperties(shaderObj,canv){
-  var attrs = shaderObj.positionData;
-  // console.log(attrs);
-  if(attrs  === undefined){
-    console.log("error: position data for canvas", canv.id, "undefined ");
-  } else {
-    for (var attrName in attrs) {
-      canv.setAttribute(attrName,attrs[attrName]);
-      // console.log(attrName + " : " + attrs[attrName]);
-    }
-  }
-}
-
 function genShaderObjFromId(shaderObj){
 
   var canvas = document.getElementById(shaderObj.canvasId);
@@ -33,9 +20,6 @@ function genShaderObjFromId(shaderObj){
 
   const fragSource = shaderObj.fragSource;
   const vertSource = shaderObj.vertSource;
-
-  setCanvasProperties(shaderObj,canvas);
-
 
   shaderObj.canvas = canvas;
   shaderObj.gl = gl;
@@ -72,7 +56,6 @@ function initShaders(shaderObjs){
 
   shaderObjs.forEach(function (shaderObj, index) {
     initShader(shaderObj);
-    // console.log("loading shader numba: ", index);
   });
 
 }
