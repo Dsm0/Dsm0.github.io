@@ -25,7 +25,6 @@ function setCanvasProperties(shaderObj,canv){
   }
 }
 
-
 function genShaderObjFromId(shaderObj){
 
   var canvas = document.getElementById(shaderObj.canvasId);
@@ -46,6 +45,8 @@ function genShaderObjFromId(shaderObj){
   shaderObj.uniforms = [];
 
   genUniforms(shaderObj);
+
+
 
   return shaderObj;
 }

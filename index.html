@@ -168,6 +168,31 @@
     canvas3 would be here
   </canvas>
 
+  <div id="p51" class="p5Canvas"   
+        data-transitionDynamic="transform 0.2s" 
+        data-transitionStatic="0.2s"  
+        data-pivotX="75%"
+        data-pivotY="65%"
+        data-xfactor=2.5
+        data-yfactor=1
+        data-staticX="75%"
+        data-staticY="75%"
+        >
+      </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
+  <script>
+    function setup(){
+      var canvas = createCanvas(200, 200);
+      canvas.parent('p51');
+      background(32);
+    }
+    
+    function draw(){
+      fill(255);
+      ellipse(mouseX, mouseY, 25, 25);
+    }
+  </script>
 
   <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->
 

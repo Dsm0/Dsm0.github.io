@@ -31,11 +31,15 @@ var initScripts = function(e){
    var canvas1 = document.getElementById("canvas1");
    var canvas2 = document.getElementById("canvas2");
    var canvas3 = document.getElementById("canvas3");
+   var p51 = document.getElementById("p51");
    var resume = document.getElementById("resume");
 
 
    move(info,centerX,centerY);
+
    move(email,centerX+(centerX/20),centerY+(centerY/20));
+   move(p51,centerX+(centerX/20),centerY+(centerY/20));
+
    move(contact,-1*window.innerWidth,centerY+innerHeight);
    move(canvas1,centerX + window.innerWidth,centerY+innerHeight);
    move(canvas2,centerX + window.innerWidth,centerY+innerHeight);
@@ -122,8 +126,11 @@ var onkeypress = function(e){
 var onmousemove = function(e){
    if(!static){
       moveElemByMouse(e,"contact",centerX*recipX,centerY*recipY,xfactor=0.5,yfactor=0.5);
+      moveElemByMouse(e,"p51",centerX*recipX,centerY*recipY,xfactor=0.5,yfactor=0.5);
 
       moveCanvi(e);
+
+      // moveElemByMouse(e,"p51",pivotX=recipX*(centerX+(centerX/20)),pivotY=recipY*(centerY+ (centerY/20)),xfactor = 1,yfactor=0.7);
 
       moveElemByMouse(e,"email",pivotX=recipX*(centerX+(centerX/20)),pivotY=recipY*(centerY+ (centerY/20)),xfactor = 1,yfactor=0.7);
       moveElemByMouseMax(e,"resume",pivotX=scaleX*centerX*0.35,pivotY=recipY*centerY*0.35,xfactor=3,yfactor=0,maxX=centerX*0.05);

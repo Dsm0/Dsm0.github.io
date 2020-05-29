@@ -49,9 +49,17 @@ function moveCanvi(e,id, pivotX, pivotY, xfactor=1,yfactor=1){
   for (var i = 0; i < canvi.length; i++) {
     moveCanvas(e,canvi[i]);
   }
+
+  var p5Canvi = document.getElementsByClassName("p5Canvas");
+  for (var i = 0; i < canvi.length; i++) {
+    moveCanvas(e,p5Canvi[i]);
+    console.log(p5Canvi[i]);
+  }
+
 }
 
 function moveCanvas(e,canv){
+
   var pivotX = xpercentToFloat(canv.getAttribute("data-pivotX"));
   var pivotY = ypercentToFloat(canv.getAttribute("data-pivotY"));
 

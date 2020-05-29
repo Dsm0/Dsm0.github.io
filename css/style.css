@@ -99,7 +99,6 @@ body {
   transform: translate(-50%,-50%); 
 }
 
-
 .glCanvas:hover{
   background-color: white;
   z-index: 3;
@@ -114,6 +113,34 @@ body {
   -webkit-transform: translate(-50%,-50%) scale(3);
   transition: transform 0.2s;
 }
+
+.p5Canvas{
+  background-color: white;
+  z-index: 2;
+  width: Xu;
+  height: Yu;
+  transform: scale(1);
+  transition: transform 0.2s;
+  -moz-transform: scale(1);
+  -webkit-transform: scale(1);
+  position: fixed; 
+  transform: translate(-50%,-50%); 
+}
+
+.p5Canvas:hover{
+  background-color: white;
+  z-index: 3;
+  position: absolute;
+  /* transform-origin: 50%,50% ;
+  -moz-transform-origin: 50%,50% ;
+  -webkit-transform-origin: 50%,50% ; */
+  transform: translate(-50%,-50%)  scale(3);
+  -moz-transform: translate(-50%,-50%)  scale(3);
+  -webkit-transform: translate(-50%,-50%) scale(3);
+  transition: transform 0.2s;
+}
+
+
 
 
 
@@ -158,11 +185,12 @@ body {
 /* I'll find a way to use this somehow */
 span.stretch {
   display:inline-block;
-  -webkit-transform:scale(2,1); /* Safari and Chrome */
-  -moz-transform:scale(2,1); /* Firefox */
-  -ms-transform:scale(2,1); /* IE 9 */
-  -o-transform:scale(2,1); /* Opera */
-  transform:scale(2,1); /* W3C */
+  margin-left: 40%;
+  -webkit-transform:scale(4,1); /* Safari and Chrome */
+  -moz-transform:scale(4,1); /* Firefox */
+  -ms-transform:scale(4,1); /* IE 9 */
+  -o-transform:scale(4,1); /* Opera */
+  transform: matrix(2, -0.6, 0, 2, 0, 0);
 }
 
 
@@ -229,7 +257,15 @@ box-shadow: orange -1em 1em;
 }
 
 #languages.resume {
-  margin-bottom: 22.5%;
+  margin-bottom: auto;
+}
+
+#resumeContact{
+  margin-bottom: auto;
+}
+
+#resumeEmail{
+  margin-bottom: auto;
 }
 
 li.resume {
