@@ -184,7 +184,7 @@ const shaderObjs= [{
 ]
 
 
-var circlesTest = function(p){
+var circlesTest1 = function(p){
     p.setup = function(){
         p.canvas = p.createCanvas(200,200);
         p.canvas.parent("p51");
@@ -196,7 +196,33 @@ var circlesTest = function(p){
     }
 }
 
-var p51 = circlesTest;
+var circlesTest2 = function(p){
+    p.setup = function(){
+        p.canvas = p.createCanvas(200,200);
+        p.canvas.parent("p52");
+        p.background('black');
+    }
+    p.draw = function(){
+        p.fill(255);
+        p.ellipse(p.mouseX, p.mouseY, 25, 25);
+    }
+}
+
+var circlesTest3 = function(p){
+    p.setup = function(){
+        p.canvas = p.createCanvas(200,200);
+        p.canvas.parent("p53");
+        p.background('black');
+    }
+    p.draw = function(){
+        p.fill(255);
+        p.ellipse(p.mouseX, p.mouseY, 25, 25);
+    }
+}
+
+var p51 = circlesTest1;
+var p52 = circlesTest2;
+var p53 = circlesTest3;
 
 const p5Objs = [
     {
@@ -204,5 +230,17 @@ const p5Objs = [
         "blurb":`a port of the creative-coding library p5.js 
                    from javascript to haskell`,
         "sketch": p51
+    },
+    {
+        "title":"P5hs",
+        "blurb":`a port of the creative-coding library p5.js 
+                   from javascript to haskell`,
+        "sketch": p52
+    },
+    {
+        "title":"P5hs",
+        "blurb":`a port of the creative-coding library p5.js 
+                   from javascript to haskell`,
+        "sketch": p53
     }
 ]

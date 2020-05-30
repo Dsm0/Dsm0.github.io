@@ -67,14 +67,14 @@ function moveByPivot(e,canv){
   var newX = pivotX + (pivotX - e.clientX)*xfactor;
   var newY = pivotY + (pivotY - e.clientY)*yfactor;
 
-  // var maxX = xpercentToFloat(canv.getAttribute("data-maxX")) ? canv.getAttribute("data-maxX") != null : 0;
-  // var maxY = ypercentToFloat(canv.getAttribute("data-maxY")) ? canv.getAttribute("data-maxY") != null : 0;
+  var maxX = xpercentToFloat(canv.getAttribute("data-maxX")) ? canv.getAttribute("data-maxX") != null : 0;
+  var maxY = ypercentToFloat(canv.getAttribute("data-maxY")) ? canv.getAttribute("data-maxY") != null : 0;
 
   newX *= recipX;
   newY *= recipY;
 
-  // if(maxX){newX = Math.min(newX,maxX)};
-  // if(maxY){newY = Math.min(newY,maxY)};
+  if(maxX){newX = Math.min(newX,maxX)};
+  if(maxY){newY = Math.min(newY,maxY)};
 
   move(canv,newX,newY);
 }
