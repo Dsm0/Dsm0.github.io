@@ -14,7 +14,11 @@
 </h1>
 
 <div id="resume" frameborder="0" scroll="no" 
-       data-staticX="0.75%" data-staticY=13.5% data-transitionDynamic="0s" data-transitionStatic="0.2s">
+       data-staticX="0.75%" data-staticY=13.5% 
+       data-transitionDynamic="0s" data-transitionStatic="0.2s"
+       data-xfactor=3 data-yfactor=0
+       data-pivotX ="17.5%" data-pivotY ="17.5%"
+       data-maxX = "2.5%" >
  <div id="row" scroll="no" >
       <div class="resume meat">
         <div id="work" class="resume title">
@@ -126,8 +130,14 @@
 </div>
 
 
-<div id="contact" class="infoBlock" data-staticX="52%" data-staticY=77%
-        data-transitionDynamic="0s" data-transitionStatic="0.2s" >
+<div id="contact" class="infoBlock" 
+        data-staticX="52%" data-staticY=77%
+        data-transitionDynamic="0s" data-transitionStatic="0.2s" 
+        data-pivotX="50%"
+        data-pivotY="50%"
+        data-xfactor=0.5
+        data-yfactor=0.5
+        >
   <!-- past livecoding performances: 
   </br>
   <a href="https://youtu.be/xVw6KUzsauM?t=3083">EulerRoom Equinox</a>
@@ -145,99 +155,66 @@
 </div>
 
 
-  <div id="email" test="tst" data-staticX="52%" data-staticY=83%
-          data-transitionDynamic="0s" data-transitionStatic="0.2s" >
+  <div id="email" test="tst"
+        data-pivotX="52.5%" data-pivotY="52.5%"
+        data-xfactor=1 data-yfactor=0.7
+        data-staticX="52.5%" data-staticY="82.5%"
+        data-transitionDynamic="0s" data-transitionStatic="0.2s" 
+        >
     <a href="mailto:wrinkoff@andrew.cmu.edu">email me: wrinkoff@andrew.cmu.edu</a>
   </div>
   
-    <canvas id="canvas1" width="100" height="100" class="glCanvas" 
-
-        data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s"
+    <canvas id="canvas1" class="glCanvas" 
         data-pivotX ="75%" data-pivotY ="35%"
         data-staticX="75%" data-staticY="25%"
         data-xfactor=2.5 data-yfactor=1
+        data-transitionDynamic="0s" data-transitionStatic="0.2s" 
              >
       canvas1 would be here
     </canvas>
 
-  <canvas id="canvas2" 
-        width="100px" height="100px" class="glCanvas" 
-        data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s"
-        data-pivotX ="80%" data-pivotY ="50%"
+  <canvas id="canvas2"  class="glCanvas" 
+        data-pivotX ="75%" data-pivotY ="50%"
         data-staticX="75%" data-staticY="50%"
         data-xfactor=2.5 data-yfactor=1
+        data-transitionDynamic="0s" data-transitionStatic="0.2s" 
         >
-    <!-- canvas2 would be here -->
   </canvas>
-<!-- 
-  <div      id="canvas2" 
-            width="100px" height="100px" class="glCanvas" data-staticX="65%" data-staticY=25%
-            data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-  </div> -->
 
-  <canvas id="canvas3" width="100px" height="100px" class="glCanvas" 
-        data-pivotX  = "75%"  data-pivotY  = "65%"
-        data-staticX = "75%"  data-staticY = "75%"
-        data-xfactor = 2.5    data-yfactor = 1
-    }
-  
-  
-  
-  data-staticX="65%" data-staticY=75%
-            data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+  <canvas id="canvas3" class="glCanvas" 
+          data-pivotX  = "75%"  data-pivotY  = "65%"
+          data-staticX = "75%"  data-staticY = "75%"
+          data-xfactor = 2.5    data-yfactor = 1
+          data-transitionDynamic="0s" data-transitionStatic="0.2s"
+          >
     canvas3 would be here
   </canvas>
 
-  <div id="p51" class="p5Canvas"   
-        data-transitionDynamic="transform 0.2s" 
-        data-transitionStatic="0.2s"  
-        data-pivotX="80%"
-        data-pivotY="35%"
-        data-xfactor=2.5
-        data-yfactor=1
-        data-staticX="90%"
-        data-staticY="25%"
+  <div  id="p51" class="p5Canvas"   
+        data-pivotX="80%" data-pivotY="35%"
+        data-xfactor=2.5 data-yfactor=1
+        data-staticX="90%" data-staticY="25%"
+        data-transitionDynamic="0s" data-transitionStatic="0.2s"
         >
       </div>
 
-  <div id="p52" class="p5Canvas"   
-        data-transitionDynamic="transform 0.2s" 
-        data-transitionStatic="0.2s"  
-        data-pivotX="80%"
-        data-pivotY="50%"
-        data-xfactor=2.5
-        data-yfactor=1
-        data-staticX="90%"
-        data-staticY="25%">
+  <div  id="p52" class="p5Canvas"   
+        data-pivotX="80%" data-pivotY="50%"
+        data-xfactor=2.5 data-yfactor=1
+        data-staticX="90%" data-staticY="50%"
+        data-transitionDynamic="0s" data-transitionStatic="0.2s"
+        >
   </div>
 
-  <div id="p53" class="p5Canvas"   
-        data-transitionDynamic="transform 0.2s" 
-        data-transitionStatic="0.2s"  
-        data-pivotX="80%"
-        data-pivotY="75%"
-        data-xfactor=2.5
-        data-yfactor=1
-        data-staticX="90%"
-        data-staticY="25%"
+  <div  id="p53" class="p5Canvas"   
+        data-pivotX="80%" data-pivotY="75%"
+        data-xfactor=2.5 data-yfactor=1
+        data-staticX="90%" data-staticY="75%"
+        data-transitionDynamic="0s" data-transitionStatic="0.2s"
         >
       </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
-  <script>
-    function setup(){
-      var canvas = createCanvas(200,200);
-      canvas.parent('p52');
-      background('black');
-    }
-    
-    function draw(){
-      fill(255);
-      ellipse(mouseX, mouseY, 25, 25);
-    }
-  </script>
-
-  <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->
 
   <script src="js/scripts.js"></script>
   <script src="js/projects.js"></script>

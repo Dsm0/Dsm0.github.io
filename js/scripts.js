@@ -4,6 +4,12 @@ var startTime = startDate.getTime();
 // THIS FUNCTION CALCULATES THE SECONDS ELAPSED SINCE THE PAGE WAS LOADED
 // https://www.webdeveloper.com/d/3153-how-much-time-has-elapsed-since-loading-this-web-page 
 
+var scaleX = window.innerWidth/1920;
+var scaleY = window.innerHeight/956;
+
+var recipX = 1/scaleX;
+var recipY = 1/scaleY;
+
 function seconds_elapsed ()
 {
   var date_now = new Date ();
@@ -44,21 +50,13 @@ function moveElemByMouseMax(e,id, pivotX, pivotY, xfactor=1,yfactor=1,maxX=cente
   move(elem, Math.min(newX,maxX),Math.min(newY,maxY));
 }
 
-function moveCanvi(e,id, pivotX, pivotY, xfactor=1,yfactor=1){
-  var canvi = document.getElementsByClassName("glCanvas");
+function moveCanvi(e,canvi,id, pivotX, pivotY, xfactor=1,yfactor=1){
   for (var i = 0; i < canvi.length; i++) {
-    moveCanvas(e,canvi[i]);
+    moveByPivot(e,canvi[i]);
   }
-
-  var p5Canvi = document.getElementsByClassName("p5Canvas");
-  for (var i = 0; i < canvi.length; i++) {
-    moveCanvas(e,p5Canvi[i]);
-    console.log(p5Canvi[i]);
-  }
-
 }
 
-function moveCanvas(e,canv){
+function moveByPivot(e,canv){
 
   var pivotX = xpercentToFloat(canv.getAttribute("data-pivotX"));
   var pivotY = ypercentToFloat(canv.getAttribute("data-pivotY"));
@@ -69,12 +67,17 @@ function moveCanvas(e,canv){
   var newX = pivotX + (pivotX - e.clientX)*xfactor;
   var newY = pivotY + (pivotY - e.clientY)*yfactor;
 
+  // var maxX = xpercentToFloat(canv.getAttribute("data-maxX")) ? canv.getAttribute("data-maxX") != null : 0;
+  // var maxY = ypercentToFloat(canv.getAttribute("data-maxY")) ? canv.getAttribute("data-maxY") != null : 0;
+
   newX *= recipX;
   newY *= recipY;
 
-  move(canv, newX,newY);
-}
+  // if(maxX){newX = Math.min(newX,maxX)};
+  // if(maxY){newY = Math.min(newY,maxY)};
 
+  move(canv,newX,newY);
+}
 
 function xpercentToFloat(attr){
   newX = window.innerWidth * (parseFloat(attr)/100);

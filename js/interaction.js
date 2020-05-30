@@ -9,22 +9,17 @@
 // const centerY = window.innerHeight/2;
 var static = false;
 
-
-var scaleX = window.innerWidth/1920;
-var scaleY = window.innerHeight/956;
-
-var recipX = 1/scaleX;
-var recipY = 1/scaleY;
-
 // var unitX = window.innerWidth/(2*scaleX);
 // var unitY = window.innerHeight/scaleY);
 
 const centerX = window.innerWidth/2;
 const centerY = window.innerHeight/2;
 
+const canvi = document.getElementsByClassName("glCanvas");
+const p5Canvi = document.getElementsByClassName("p5Canvas");
+
 var initScripts = function(e){
 
-   
    scalePage(scaleX,scaleY);
 
    var info = document.getElementById("contact");
@@ -32,21 +27,24 @@ var initScripts = function(e){
    var canvas2 = document.getElementById("canvas2");
    var canvas3 = document.getElementById("canvas3");
    var p51 = document.getElementById("p51");
+   var p52 = document.getElementById("p52");
+   var p53 = document.getElementById("p53");
    var resume = document.getElementById("resume");
-
 
    move(info,centerX,centerY);
 
    move(email,centerX+(centerX/20),centerY+(centerY/20));
    move(p51,centerX+(centerX/20),centerY+(centerY/20));
+   move(p52,centerX+(centerX/20),centerY+(centerY/20));
+   move(p53,centerX+(centerX/20),centerY+(centerY/20));
 
-   move(contact,-1*window.innerWidth,centerY+innerHeight);
-   move(canvas1,centerX + window.innerWidth,centerY+innerHeight);
-   move(canvas2,centerX + window.innerWidth,centerY+innerHeight);
-   move(canvas3,centerX + window.innerWidth,centerY+innerHeight);
+   for(var i = 0; i < canvi.length;i++){
+      move(canvi[i],centerX + window.innerWidth,centerY+innerHeight)
+   }
 
-
-
+   // p5Canvi.forEach( function(canv) {
+   //    move(canv,centerX + window.innerWidth,centerY+innerHeight);
+   // }
 
 }
 
@@ -68,23 +66,30 @@ function movetoStatic(elem){
 function staticify(){
 
    var info = document.getElementById("contact");
+
    var canvas1 = document.getElementById("canvas1");
    var canvas2 = document.getElementById("canvas2");
    var canvas3 = document.getElementById("canvas3");
-   var email = document.getElementById("email");
-   var resume = document.getElementById("resume");
+
+   var email   = document.getElementById("email");
+   var resume  = document.getElementById("resume");
+   var p51     = document.getElementById("p51");
+
+   for(var i = 0; i < canvi.length;i++){
+      transitionStatic(canvi[i]);
+      movetoStatic(canvi[i]);
+   }
+
+   for(var i = 0; i < p5Canvi.length;i++){
+      transitionStatic(p5Canvi[i]);
+      movetoStatic(p5Canvi[i]);
+   }
 
 
-   transitionStatic(canvas1);
-   transitionStatic(canvas2);
-   transitionStatic(canvas3);
    transitionStatic(info);
    transitionStatic(email);
    transitionStatic(resume);
 
-   movetoStatic(canvas1);
-   movetoStatic(canvas2);
-   movetoStatic(canvas3);
    movetoStatic(resume);
    movetoStatic(info);
    movetoStatic(email);
@@ -96,18 +101,20 @@ function staticify(){
 function dynamify(){
 
    var info = document.getElementById("contact");
-   var canvas1 = document.getElementById("canvas1");
-   var canvas2 = document.getElementById("canvas2");
-   var canvas3 = document.getElementById("canvas3");
    var email = document.getElementById("email");
    var resume = document.getElementById("resume");
 
    transitionDynamic(info);
-   transitionDynamic(canvas1);
-   transitionDynamic(canvas2);
-   transitionDynamic(canvas3);
    transitionDynamic(email);
    transitionDynamic(resume);
+
+   for(var i = 0; i < canvi.length;i++){
+      transitionDynamic(canvi[i]);
+   }
+
+   for(var i = 0; i < p5Canvi.length;i++){
+      transitionDynamic(p5Canvi[i]);
+   }
 
 }
 
@@ -124,23 +131,25 @@ var onkeypress = function(e){
 }
 
 var onmousemove = function(e){
+
+
    if(!static){
-      moveElemByMouse(e,"contact",centerX*recipX,centerY*recipY,xfactor=0.5,yfactor=0.5);
-      moveElemByMouse(e,"p51",centerX*recipX,centerY*recipY,xfactor=0.5,yfactor=0.5);
 
-      moveCanvi(e);
+      var contact = document.getElementById("contact");
+      var email = document.getElementById("email");
+      var resume = document.getElementById("resume");
 
-      // moveElemByMouse(e,"p51",pivotX=recipX*(centerX+(centerX/20)),pivotY=recipY*(centerY+ (centerY/20)),xfactor = 1,yfactor=0.7);
+      moveByPivot(e,contact);
 
-      moveElemByMouse(e,"email",pivotX=recipX*(centerX+(centerX/20)),pivotY=recipY*(centerY+ (centerY/20)),xfactor = 1,yfactor=0.7);
-      moveElemByMouseMax(e,"resume",pivotX=scaleX*centerX*0.35,pivotY=recipY*centerY*0.35,xfactor=3,yfactor=0,maxX=centerX*0.05);
+      moveCanvi(e,canvi);
+      moveCanvi(e,p5Canvi);
+
+      moveByPivot(e,contact);
+      moveByPivot(e,email);
+      moveByPivot(e,resume);
+
       }
 }
-
-// function changeCSS(cssFile) {
-//    var cssLoader = document.getElementById("cssLoader");
-//    cssLoader.href = cssFile;
-// }
 
 // courtesy of
 // https://stackoverflow.com/a/16779702 

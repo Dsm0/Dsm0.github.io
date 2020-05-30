@@ -131,9 +131,7 @@ body {
   background-color: white;
   z-index: 3;
   position: absolute;
-  /* transform-origin: 50%,50% ;
-  -moz-transform-origin: 50%,50% ;
-  -webkit-transform-origin: 50%,50% ; */
+  transition: transform 0.2s;
   transform: translate(-50%,-50%)  scale(3);
   -moz-transform: translate(-50%,-50%)  scale(3);
   -webkit-transform: translate(-50%,-50%) scale(3);

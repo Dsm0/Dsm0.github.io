@@ -183,3 +183,26 @@ const shaderObjs= [{
 }
 ]
 
+
+var circlesTest = function(p){
+    p.setup = function(){
+        p.canvas = p.createCanvas(200,200);
+        p.canvas.parent("p51");
+        p.background('black');
+    }
+    p.draw = function(){
+        p.fill(255);
+        p.ellipse(p.mouseX, p.mouseY, 25, 25);
+    }
+}
+
+var p51 = circlesTest;
+
+const p5Objs = [
+    {
+        "title":"P5hs",
+        "blurb":`a port of the creative-coding library p5.js 
+                   from javascript to haskell`,
+        "sketch": p51
+    }
+]

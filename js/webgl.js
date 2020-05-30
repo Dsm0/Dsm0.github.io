@@ -30,15 +30,18 @@ function genShaderObjFromId(shaderObj){
 
   genUniforms(shaderObj);
 
-
-
   return shaderObj;
+}
+
+function initP5(p5Obj){
+  return new p5(p5Obj.sketch);        
 }
 
 function initWebGl(){
   
-  var loadedShaderObjs = shaderObjs.map(genShaderObjFromId)
-  
+  var loadedShaderObjs = shaderObjs.map(genShaderObjFromId);
+
+  var loadedP5s = p5Objs.map(initP5);
 
   initShaders(loadedShaderObjs);
 
@@ -75,8 +78,6 @@ function render(shaderObj) {
 }
 
 function initShader(shaderObj){
-
-    // console.log("initalizing shader ",shaderObj.title);
 
     const gl = shaderObj.gl;
     const canvas = shaderObj.canvas;
