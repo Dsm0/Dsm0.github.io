@@ -139,6 +139,16 @@ body {
 }
 
 
+#blurb{
+  background-color: black;
+  color: white;
+  position: fixed;
+  /* height: 10%;
+  width: 30%; */
+  z-index: 5;
+}
+
+
 
 
 

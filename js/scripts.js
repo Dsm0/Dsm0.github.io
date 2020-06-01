@@ -24,6 +24,11 @@ function move(moveme, x_pos, y_pos) {
     moveme.style.top = y_pos+'px';
 }
 
+function move(moveme, x_pos, y_pos) {
+    moveme.style.left = parseFloat(x_pos)+'px';
+    moveme.style.top = parseFloat(y_pos)+'px';
+}
+
 function scalePage(scalX,scalY){
   var html = document.getElementsByTagName("html")[0];
   html.style.setProperty("--page-scaleX",scalX);
@@ -43,7 +48,7 @@ function moveElemByMouse(e,id, pivotX, pivotY, xfactor=1,yfactor=1){
   move(elem, pivotX + (pivotX - e.clientX)*xfactor,pivotY + (pivotY - e.clientY)*yfactor);
 }
 
-function moveElemByMouseMax(e,id, pivotX, pivotY, xfactor=1,yfactor=1,maxX=centerX,maxY=centerY){
+function moveElemByMouseMax(e,id, pivotX, pivotY, xfactor=1,yfactor=1,maxX=centerX*recipX,maxY=centerY*recipY){
   var elem = document.getElementById(id);
   var newX = pivotX + (pivotX - e.clientX)*xfactor; 
   var newY = pivotY + (pivotY - e.clientY)*yfactor;
@@ -61,8 +66,8 @@ function moveByPivot(e,canv){
   var pivotX = xpercentToFloat(canv.getAttribute("data-pivotX"));
   var pivotY = ypercentToFloat(canv.getAttribute("data-pivotY"));
 
-  var xfactor = canv.getAttribute("data-xfactor")*scaleX;
-  var yfactor = canv.getAttribute("data-yfactor")*scaleY;
+  var xfactor = canv.getAttribute("data-xfactor");
+  var yfactor = canv.getAttribute("data-yfactor");
 
   var newX = pivotX + (pivotX - e.clientX)*xfactor;
   var newY = pivotY + (pivotY - e.clientY)*yfactor;
@@ -72,6 +77,9 @@ function moveByPivot(e,canv){
 
   newX *= recipX;
   newY *= recipY;
+
+  maxX *= recipX;
+  maxY *= recipY;
 
   if(maxX){newX = Math.min(newX,maxX)};
   if(maxY){newY = Math.min(newY,maxY)};

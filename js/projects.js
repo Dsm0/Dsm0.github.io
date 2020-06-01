@@ -227,18 +227,21 @@ var p53 = circlesTest3;
 const p5Objs = [
     {
         "title":"P5hs",
+        "divId": "p51",
         "blurb":`a port of the creative-coding library p5.js 
                    from javascript to haskell`,
         "sketch": p51
     },
     {
         "title":"P5hs",
+        "divId": "p52",
         "blurb":`a port of the creative-coding library p5.js 
                    from javascript to haskell`,
         "sketch": p52
     },
     {
         "title":"P5hs",
+        "divId": "p53",
         "blurb":`a port of the creative-coding library p5.js 
                    from javascript to haskell`,
         "sketch": p53

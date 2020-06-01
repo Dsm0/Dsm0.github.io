@@ -12,15 +12,17 @@ var static = false;
 // var unitX = window.innerWidth/(2*scaleX);
 // var unitY = window.innerHeight/scaleY);
 
-const centerX = window.innerWidth/2;
-const centerY = window.innerHeight/2;
+const centerX = recipX * window.innerWidth/2;
+const centerY = recipY * window.innerHeight/2;
 
 const canvi = document.getElementsByClassName("glCanvas");
 const p5Canvi = document.getElementsByClassName("p5Canvas");
 
+const blurbDiv = document.getElementById("blurb");
+
 var initScripts = function(e){
 
-   scalePage(scaleX,scaleY);
+   move(blurbDiv,window.innerWidth*recipX*0.05,window.outerHeight*recipY*0.85);
 
    var info = document.getElementById("contact");
    var canvas1 = document.getElementById("canvas1");
@@ -29,22 +31,43 @@ var initScripts = function(e){
    var p51 = document.getElementById("p51");
    var p52 = document.getElementById("p52");
    var p53 = document.getElementById("p53");
+
    var resume = document.getElementById("resume");
 
    move(info,centerX,centerY);
 
    move(email,centerX+(centerX/20),centerY+(centerY/20));
+
    move(p51,centerX+(centerX/20),centerY+(centerY/20));
    move(p52,centerX+(centerX/20),centerY+(centerY/20));
    move(p53,centerX+(centerX/20),centerY+(centerY/20));
 
+
+
    for(var i = 0; i < canvi.length;i++){
       move(canvi[i],centerX + window.innerWidth,centerY+innerHeight)
+      canvi[i].onmouseover = function() {   
+         // move(blurbDiv,parseFloat(this.style.left) - 500,parseFloat(this.style.top));
+         blurbDiv.innerHTML = this.innerHTML;
+         // reset the color after a short delay
+      };
+      canvi[i].onmouseleave = function() {
+         blurbDiv.innerHTML = "";
+      }
    }
 
-   // p5Canvi.forEach( function(canv) {
-   //    move(canv,centerX + window.innerWidth,centerY+innerHeight);
-   // }
+   for(var i = 0; i < p5Canvi.length;i++){
+      move(p5Canvi[i],centerX + window.innerWidth,centerY+innerHeight)
+      p5Canvi[i].onmouseover = function() {   
+         // move(blurbDiv,parseFloat(this.style.left) - 500,parseFloat(this.style.top));
+         blurbDiv.innerHTML = this.getAttribute("data-blurb");
+      };
+      p5Canvi[i].onmouseleave = function() {
+         blurbDiv.innerHTML = "";
+      }
+   }
+
+   scalePage(scaleX,scaleY);
 
 }
 
@@ -130,6 +153,8 @@ var onkeypress = function(e){
    }  
 }
 
+var onho
+
 var onmousemove = function(e){
 
 
@@ -165,3 +190,5 @@ function getStyleSheetPropertyValue(selectorText, propertyName) {
    }
    return null;
 }
+
+
