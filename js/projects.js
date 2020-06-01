@@ -153,7 +153,7 @@ void main(void){
 const shaderObjs= [{
     "canvasId": "canvas1",
     "title": "misc1",
-    "blurb": "this is where the blurb would be",
+    "blurb": "made in glsl",
     "uniformList": ["u_canvas_resolution","u_time"],
     "fragSource": frag1,
     "vertSource": standardVert,
@@ -163,7 +163,7 @@ const shaderObjs= [{
 {
     "canvasId": "canvas2",
     "title": "Eulerroom Equinox",
-    "blurb": "this is where the blurb would be",
+    "blurb": "made in glsl",
     "uniformList": ["u_pos"],
     "vertSource": standardVert,
     "fragSource": frag2,
@@ -173,8 +173,8 @@ const shaderObjs= [{
 },
 {
     "canvasId": "canvas3",
-    "title": "Toplap15 stream",
-    "blurb": "blurb3",
+    "title": "Toplap 15",
+    "blurb": "made in glsl",
     "uniformList": ["u_time","u_canvas_resolution"],
     "vertSource": standardVert,
     "fragSource": frag3,
