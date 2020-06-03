@@ -201,6 +201,7 @@ var boxes2 = function(p){
         p.canvas = p.createCanvas(200,200,p.WEBGL);
         p.canvas.parent("p52");
         p.canvas.background('black');
+        p.frameRate(48);
     }
     p.draw = function(){
         p.push();
@@ -214,13 +215,31 @@ var boxes2 = function(p){
     }
 }
 
+var triangles2 = function(p){
+    p.setup = function(){
+        p.canvas = p.createCanvas(200,200,p.WEBGL);
+        p.canvas.parent("p53");
+        p.canvas.background('black');
+        p.frameRate(12);
+    }
 
+    p.draw = function(){
+        for(var i = 0;(i < ((Math.floor(Math.min(p.frameCount,20))))) ; i = i + 1){
+            p.rotateY((p.frameCount* 1 / (5 + i)));
+            p.rotateX((p.frameCount* 1 / (5 + i)));
+            p.triangle((20 + (2 * i)),20,20+i,(40 + i),40,(40 + (3 * i)));
+            p.rotateX((i * 20));
+            p.translate(0,(i * 2) + i,0);
+            p.translate(0,(-1 * (2 * i)),0);
+        }
+    }
+}
 
 
 var circlesTest2 = function(p){
     p.setup = function(){
         p.canvas = p.createCanvas(200,200);
-        p.canvas.parent("p52");
+        p.canvas.parent("p53");
         p.background('black');
     }
     p.draw = function(){
@@ -242,8 +261,8 @@ var circlesTest3 = function(p){
 }
 
 var p51 = circlesTest1;
-var p52 = circlesTest2;
-var p53 = circlesTest3;
+var p52 = boxes2;
+var p53 = triangles2;
 
 const p5Objs = [
     {
@@ -257,13 +276,13 @@ const p5Objs = [
         "title":"P5hs",
         "divId": "p52",
         "blurb":`made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
-        "sketch": boxes2
+        "sketch": p52 
     },
     {
         "title":"P5hs",
         "divId": "p53",
         "blurb":`a port of the creative-coding library p5.js 
                    from javascript to haskell`,
-        "sketch": p53
+        "sketch": p53 
     }
 ]
