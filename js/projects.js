@@ -196,6 +196,27 @@ var circlesTest1 = function(p){
     }
 }
 
+var boxes2 = function(p){
+    p.setup = function(){
+        p.canvas = p.createCanvas(200,200,p.WEBGL);
+        p.canvas.parent("p52");
+        p.canvas.background('black');
+    }
+    p.draw = function(){
+        p.push();
+        for( var i = 0;(i < 10) ; i = i + 1)
+            { p.push();
+              p.rotateX(((20 + i) + (Math.floor((p.frameCount / 8))))); 
+              p.color(255,255,255);
+              p.box((20 * i),2,90 + i,2,3); p.pop()};
+        p.pop();
+        // was cross-compiled so looks like shit 
+    }
+}
+
+
+
+
 var circlesTest2 = function(p){
     p.setup = function(){
         p.canvas = p.createCanvas(200,200);
@@ -235,9 +256,8 @@ const p5Objs = [
     {
         "title":"P5hs",
         "divId": "p52",
-        "blurb":`a port of the creative-coding library p5.js 
-                   from javascript to haskell`,
-        "sketch": p52
+        "blurb":`made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
+        "sketch": boxes2
     },
     {
         "title":"P5hs",
