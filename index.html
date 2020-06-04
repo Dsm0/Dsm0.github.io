@@ -146,6 +146,7 @@
   <a href="https://www.youtube.com/watch?v=WlfvsaTCCzQ">Toplap 15</a>
   </br>
   </br> -->
+
   <a href="https://github.com/Dsm0">github</a>
   </br>
   <a href="https://soundcloud.com/custom-rob0">soundcloud</a>
@@ -165,31 +166,29 @@
     <a href="mailto:wrinkoff@andrew.cmu.edu">email me: wrinkoff@andrew.cmu.edu</a>
   </div>
   
-    <canvas id="canvas1" class="glCanvas" 
-        data-pivotX ="75%" data-pivotY ="35%"
-        data-staticX="75%" data-staticY="25%"
-        data-xfactor=2.5 data-yfactor=1
-        data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s" 
-             >
-      canvas1 would be here
-    </canvas>
+   <div   id="p5Shader1" class="p5Canvas" 
+          data-pivotX ="75%" data-pivotY ="35%"
+          data-staticX="75%" data-staticY="25%"
+          data-xfactor=2.5 data-yfactor=1
+          data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s" 
+          >
+  </div>
 
-  <canvas id="canvas2"  class="glCanvas" 
+  <div  id="p5Shader2"  class="p5Canvas" 
         data-pivotX ="75%" data-pivotY ="50%"
         data-staticX="75%" data-staticY="50%"
         data-xfactor=2.5 data-yfactor=1
         data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s" 
         >
-  </canvas>
+  </div>
 
-  <canvas id="canvas3" class="glCanvas" 
+  <div id="p5Shader3" class="p5Canvas" 
           data-pivotX  = "75%"  data-pivotY  = "65%"
           data-staticX = "75%"  data-staticY = "75%"
           data-xfactor = 2.5    data-yfactor = 1
           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s" 
           >
-    canvas3 would be here
-  </canvas>
+  </div>
 
   <div  id="p51" class="p5Canvas"   
         data-pivotX="79.5%" data-pivotY="35%"
@@ -215,15 +214,13 @@
         >
   </div>
 
-
   <div id="blurb"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
+  
 
   <script src="js/scripts.js"></script>
   <script src="js/projects.js"></script>
-  <script src="js/uniforms.js"></script>
-  <script src="js/webgl.js"></script>
   <script src="js/interaction.js"></script>
 
   <meta charset="utf-8">
@@ -233,7 +230,6 @@
   <meta name="Will" content="SitePoint">
 
   <script>initScripts()</script>
-  <script>initWebGl()</script>
 
 
 </body>

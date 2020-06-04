@@ -20,7 +20,15 @@ const p5Canvi = document.getElementsByClassName("p5Canvas");
 
 const blurbDiv = document.getElementById("blurb");
 
+function initP5(p5Obj){
+  var div = document.getElementById(p5Obj.divId);
+  div.setAttribute("data-blurb",p5Obj.blurb);
+  return new p5(p5Obj.sketch);        
+}
+
 var initScripts = function(e){
+
+   var loadedP5s = p5Objs.map(initP5);
 
    move(blurbDiv,window.innerWidth*recipX*0.05,window.outerHeight*recipY*0.85);
 

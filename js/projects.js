@@ -1,6 +1,23 @@
 const standardVert = "precision mediump float;\n attribute vec2 a_position;\nvoid main(){\ngl_Position = vec4(a_position, 0, 1);\n  }";
+const p5Vert = `precision mediump float;\nattribute vec3 aPosition;\nvoid main(){vec4 positionVec4 = vec4(aPosition,1.0); gl_Position = positionVec4;}`
+
+const texturedVert = `
+attribute vec4 aVertexPosition;
+attribute vec2 aTextureCoord;
+
+uniform mat4 uModelViewMatrix;
+uniform mat4 uProjectionMatrix;
+
+varying highp vec2 vTextureCoord;
+
+void main(void) {
+  gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+  vTextureCoord = aTextureCoord;
+}
+`;
 
 const blankFrag = "precision mediump float;\nvoid main(){gl_FragColor = vec4(1.0);\n }";
+const greyFrag = "precision mediump float;\nvoid main(){gl_FragColor = vec4(.25);\n }";
 
 const oldfrag1 = ` 
                 #ifdef GL_ES
@@ -52,7 +69,40 @@ const oldfrag1 = `
                 }`
                 ;
 
-const frag1 = `
+
+const texFrag = `
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_canvas_resolution;
+uniform float u_time;
+
+uniform sampler2D u_tex0;
+uniform vec2 u_tex0Resolution;
+
+varying highp vec2 vTextureCoord;
+uniform sampler2D uSampler;
+
+void main (void) {
+    vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;
+    float aspect = u_canvas_resolution.x/u_canvas_resolution.y;
+    st.x *= aspect;
+
+    vec3 color = vec3(0.0);
+    color = vec3(st.x, st.y, (1.0+sin(u_time))*0.5);
+
+    if ( u_tex0Resolution != vec2(0.0) ){
+        float imgAspect = u_tex0Resolution.x/u_tex0Resolution.y;
+        vec4 img = texture2D(uSampler,st*vec2(1.,imgAspect));
+        color = mix(color,img.rgb,img.a);
+    }
+
+    gl_FragColor = vec4(color,1.0);
+}
+`
+
+const vertLinesFrag = `
 
 #ifdef GL_ES
 precision mediump float;
@@ -96,8 +146,7 @@ const frag2 = `
                  gl_FragColor = vec4(u_pos.x/1920.,u_pos.x/1920.,u_pos.x/1920.,1.);
                }`;
 
-const frag3 = `
-//modified version of shader from chapter 9 of thebookofshaders
+const boxWiggleFrag = `
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -150,60 +199,88 @@ void main(void){
 
 `
 
-const shaderObjs= [{
-    "canvasId": "canvas1",
-    "title": "misc1",
-    "blurb": "made in glsl",
-    "uniformList": ["u_canvas_resolution","u_time"],
-    "fragSource": frag1,
-    "vertSource": standardVert,
-    "width" : 200,
-    "height" : 200
-},
-{
-    "canvasId": "canvas2",
-    "title": "Eulerroom Equinox",
-    "blurb": "made in glsl",
-    "uniformList": ["u_pos"],
-    "vertSource": standardVert,
-    "fragSource": frag2,
-    "fragSource": blankFrag,
-    "width" : 200,
-    "height" : 200
-},
-{
-    "canvasId": "canvas3",
-    "title": "Toplap 15",
-    "blurb": "made in glsl",
-    "uniformList": ["u_time","u_canvas_resolution"],
-    "vertSource": standardVert,
-    "fragSource": frag3,
-    "width" : 200,
-    "height" : 200
-}
-]
+// const shaderObjs= [{
+//     "canvasId": "canvas1",
+//     "title": "misc1",
+//     "blurb": "made in glsl",
+//     "uniformList": ["u_canvas_resolution","u_time"],
+//     "fragSource": frag1,
+//     "vertSource": standardVert,
+//     // "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fih0.redbubble.net%2Fimage.539992994.4999%2Fflat%2C800x800%2C075%2Cf.u2.jpg&f=1&nofb=1",
+//     "width" : 200,
+//     "height" : 200
+// }
+// ,{
+//     "canvasId": "canvas2",
+//     "title": "Toplap 15",
+//     "blurb": "made in glsl",
+//     "uniformList": ["u_time","u_canvas_resolution"],
+//     "vertSource": standardVert,
+//     "fragSource": frag3,
+//     "width" : 200,
+//     "height" : 200
+// }
+// ]
+
+const shaderObjs = [];
 
 
-var circlesTest1 = function(p){
+// var testShader = function(p){
+//     p.setup = function(){
+//         p.canvas = p.createCanvas(200,200,p.WEBGL);
+//         p.canvas.parent("p5Shader1");
+//         grey = p.createShader(p5Vert,greyFrag);
+//         p.shader(grey);
+//         p.noStroke();
+//     }
+//     p.draw = function(){
+//         // grey.setUniform("u_time",p.time());
+//         p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
+//     }
+// }
+
+
+var boxWiggle = function(p){
     p.setup = function(){
-        p.canvas = p.createCanvas(200,200);
-        p.canvas.parent("p51");
-        p.background('black');
+        p.canvas = p.createCanvas(200,200,p.WEBGL);
+        p.canvas.parent("p5Shader2");
+        boxWiggle = p.createShader(p5Vert,boxWiggleFrag);
+        p.shader(boxWiggle);
+        boxWiggle.setUniform("u_canvas_resolution",[200,200]);
+        p.noStroke();
     }
     p.draw = function(){
-        p.fill(255);
-        p.ellipse(p.mouseX, p.mouseY, 25, 25);
+        boxWiggle.setUniform("u_time",p.millis()/800);
+        p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
     }
 }
+
+
+var vertLines = function(p){
+    p.setup = function(){
+        p.canvas = p.createCanvas(200,200,p.WEBGL);
+        p.canvas.parent("p5Shader3");
+        vertLines = p.createShader(p5Vert,vertLinesFrag);
+        p.shader(vertLines);
+        vertLines.setUniform("u_canvas_resolution",[200,200]);
+        p.noStroke();
+    }
+    p.draw = function(){
+        vertLines.setUniform("u_time",p.millis()/800);
+        p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
+    }
+}
+
 
 var boxes2 = function(p){
     p.setup = function(){
         p.canvas = p.createCanvas(200,200,p.WEBGL);
         p.canvas.parent("p52");
-        p.canvas.background('black');
         p.frameRate(48);
+        p.canvas.background('black');
     }
     p.draw = function(){
+        p.background("black");
         p.push();
         for( var i = 0;(i < 10) ; i = i + 1)
             { p.push();
@@ -221,9 +298,12 @@ var triangles2 = function(p){
         p.canvas.parent("p53");
         p.canvas.background('black');
         p.frameRate(12);
+        p.noStroke()
     }
 
     p.draw = function(){
+        // p.setBa();
+        p.background("black");
         for(var i = 0;(i < ((Math.floor(Math.min(p.frameCount,20))))) ; i = i + 1){
             p.rotateY((p.frameCount* 1 / (5 + i)));
             p.rotateX((p.frameCount* 1 / (5 + i)));
@@ -235,42 +315,26 @@ var triangles2 = function(p){
     }
 }
 
+// var p5Shader1 = testShader;
+var p5Shader2 = boxWiggle;
+var p5Shader3 = vertLines;
 
-var circlesTest2 = function(p){
-    p.setup = function(){
-        p.canvas = p.createCanvas(200,200);
-        p.canvas.parent("p53");
-        p.background('black');
-    }
-    p.draw = function(){
-        p.fill(255);
-        p.ellipse(p.mouseX, p.mouseY, 25, 25);
-    }
-}
-
-var circlesTest3 = function(p){
-    p.setup = function(){
-        p.canvas = p.createCanvas(200,200);
-        p.canvas.parent("p53");
-        p.background('black');
-    }
-    p.draw = function(){
-        p.fill(255);
-        p.ellipse(p.mouseX, p.mouseY, 25, 25);
-    }
-}
-
-var p51 = circlesTest1;
+// var p51 = circlesTest1;
 var p52 = boxes2;
 var p53 = triangles2;
 
 const p5Objs = [
     {
-        "title":"P5hs",
-        "divId": "p51",
-        "blurb":`a port of the creative-coding library p5.js 
-                   from javascript to haskell`,
-        "sketch": p51
+        "title":"boxWiggle",
+        "divId": "p5Shader2",
+        "blurb":`made with glsl`,
+        "sketch": p5Shader2
+    },
+    {
+        "title":"glslTest",
+        "divId": "p5Shader3",
+        "blurb":`made with glsl`,
+        "sketch": p5Shader3
     },
     {
         "title":"P5hs",
@@ -284,5 +348,6 @@ const p5Objs = [
         "blurb":`a port of the creative-coding library p5.js 
                    from javascript to haskell`,
         "sketch": p53 
-    }
+    },
+
 ]

@@ -22,7 +22,6 @@ function genUniforms(shaderObj){
   });
 }
 
-
 //function u_topGet(shaderObj){
     //const uniform = {
       //name: "u_top",
@@ -34,7 +33,6 @@ function genUniforms(shaderObj){
     //uniform.genValue = function(){shaderObj.gl.uniform1f(uniform.getLocation(),uniform.getValue())};
     //shaderObj.uniforms.push(uniform);
 //}
-
 
 //function u_leftGet(shaderObj){
     //const uniform = {
