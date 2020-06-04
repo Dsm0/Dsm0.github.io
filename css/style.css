@@ -85,7 +85,7 @@ body {
   top: 45.18%;
 } */
 
-
+/* 
 .glCanvas{
   background-color: white;
   z-index: 2;
@@ -104,15 +104,17 @@ body {
   z-index: 3;
   position: absolute;
 
-  /* transform-origin: 50%,50% ;
+  transform-origin: 50%,50% ;
   -moz-transform-origin: 50%,50% ;
-  -webkit-transform-origin: 50%,50% ; */
+  -webkit-transform-origin: 50%,50% ;
 
   transform: translate(-50%,-50%)  scale(3);
   -moz-transform: translate(-50%,-50%)  scale(3);
   -webkit-transform: translate(-50%,-50%) scale(3);
   transition: transform 0.2s;
 }
+
+ */
 
 .p5Canvas{
   background-color: white;
@@ -123,18 +125,20 @@ body {
   transition: transform 0.2s;
   -moz-transform: scale(1);
   -webkit-transform: scale(1);
-  position: fixed; 
+  position: absolute; 
   transform: translate(-50%,-50%); 
 }
 
-.p5Canvas:hover{
+div.p5Canvas:hover{
+  /* only scale the div because the div will automatically scale 
+  the canvas inside */
   background-color: white;
   z-index: 3;
   position: absolute;
   transition: transform 0.2s;
   transform: translate(-50%,-50%)  scale(3);
   -moz-transform: translate(-50%,-50%)  scale(3);
-  -webkit-transform: translate(-50%,-50%) scale(3);
+  -webkit-transform: translate(-50%,-50%) scale(3); 
   transition: transform 0.2s;
 }
 
@@ -148,8 +152,9 @@ body {
   z-index: 5;
 }
 
+canvas{
 
-
+}
 
 
 /* todo: when you hover over a canvas, the description flies in from the left */
