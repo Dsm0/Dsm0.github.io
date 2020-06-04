@@ -152,11 +152,6 @@ div.p5Canvas:hover{
   z-index: 5;
 }
 
-canvas{
-
-}
-
-
 /* todo: when you hover over a canvas, the description flies in from the left */
 /* and nestles itself against the canvas */
 /* make sure that when you mouse over the textbox, the canvas doesn't go away */
