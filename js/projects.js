@@ -345,8 +345,7 @@ const p5Objs = [
     {
         "title":"P5hs",
         "divId": "p53",
-        "blurb":`a port of the creative-coding library p5.js 
-                   from javascript to haskell`,
+        "blurb":`made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
         "sketch": p53 
     },
 
