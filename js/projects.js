@@ -199,47 +199,6 @@ void main(void){
 
 `
 
-// const shaderObjs= [{
-//     "canvasId": "canvas1",
-//     "title": "misc1",
-//     "blurb": "made in glsl",
-//     "uniformList": ["u_canvas_resolution","u_time"],
-//     "fragSource": frag1,
-//     "vertSource": standardVert,
-//     // "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fih0.redbubble.net%2Fimage.539992994.4999%2Fflat%2C800x800%2C075%2Cf.u2.jpg&f=1&nofb=1",
-//     "width" : 200,
-//     "height" : 200
-// }
-// ,{
-//     "canvasId": "canvas2",
-//     "title": "Toplap 15",
-//     "blurb": "made in glsl",
-//     "uniformList": ["u_time","u_canvas_resolution"],
-//     "vertSource": standardVert,
-//     "fragSource": frag3,
-//     "width" : 200,
-//     "height" : 200
-// }
-// ]
-
-const shaderObjs = [];
-
-
-// var testShader = function(p){
-//     p.setup = function(){
-//         p.canvas = p.createCanvas(200,200,p.WEBGL);
-//         p.canvas.parent("p5Shader1");
-//         grey = p.createShader(p5Vert,greyFrag);
-//         p.shader(grey);
-//         p.noStroke();
-//     }
-//     p.draw = function(){
-//         // grey.setUniform("u_time",p.time());
-//         p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
-//     }
-// }
-
-
 var boxWiggle = function(p){
     p.setup = function(){
         p.canvas = p.createCanvas(200,200,p.WEBGL);
