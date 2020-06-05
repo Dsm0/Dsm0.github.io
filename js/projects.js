@@ -234,14 +234,27 @@ precision mediump float;
 uniform sampler2D tex1;
 uniform vec2 u_texResolution;
 uniform vec2 u_canvas_resolution;
+uniform float u_time;
 
 void main() {
 
-  vec2 uv = gl_FragCoord.xy/u_canvas_resolution.xy;
-  uv = 1.0 - uv;
+  vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;
+  st = 1.0 - st;
 
   float imgAspect = u_texResolution.x/u_texResolution.y;
-  vec4 img = texture2D(tex1,uv*vec2(1.,imgAspect));
+
+  float pixValue = 32.;
+//   float pixValue = floor(u_time/80. + st.x*64.);
+
+  st = floor(st*pixValue)/pixValue;
+
+//   if(floor(st.x*64.) < floor(mod(u_time/80.,64.))){
+//       float c = st.y + fract(u_time);
+//       st.y = st.x;
+//       st.x = c;
+//   }
+
+  vec4 img = texture2D(tex1,st*vec2(1.,imgAspect));
 
   gl_FragColor = img;
 }
@@ -263,6 +276,7 @@ var texturePix = function(p){
         p.noStroke();
     }
     p.draw = function(){
+        texShader.setUniform("u_time",p.millis());
         p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
     }
 }
