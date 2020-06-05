@@ -1,23 +1,31 @@
 const standardVert = "precision mediump float;\n attribute vec2 a_position;\nvoid main(){\ngl_Position = vec4(a_position, 0, 1);\n  }";
-const p5Vert = `precision mediump float;\nattribute vec3 aPosition;\nvoid main(){vec4 positionVec4 = vec4(aPosition,1.0); gl_Position = positionVec4;}`
+// const p5Vert = `precision mediump float;\nattribute vec3 aPosition;\nvoid main(){vec4 positionVec4 = vec4(aPosition,1.0); gl_Position = positionVec4;}`
 
-const texturedVert = `
-attribute vec4 aVertexPosition;
-attribute vec2 aTextureCoord;
+const p5Vert = `
+// our vertex data
+attribute vec3 aPosition;
+attribute vec2 aTexCoord;
 
-uniform mat4 uModelViewMatrix;
-uniform mat4 uProjectionMatrix;
+// lets get texcoords just for fun! 
+varying vec2 vTexCoord;
 
-varying highp vec2 vTextureCoord;
+void main() {
+  // copy the texcoords
+  vTexCoord = aTexCoord;
 
-void main(void) {
-  gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-  vTextureCoord = aTextureCoord;
+  // copy the position data into a vec4, using 1.0 as the w component
+  vec4 positionVec4 = vec4(aPosition, 1.0);
+  positionVec4.xy = positionVec4.xy * 2.0 - 1.0;
+
+  // send the vertex information on to the fragment shader
+  gl_Position = positionVec4;
 }
-`;
+`
+
 
 const blankFrag = "precision mediump float;\nvoid main(){gl_FragColor = vec4(1.0);\n }";
 const greyFrag = "precision mediump float;\nvoid main(){gl_FragColor = vec4(.25);\n }";
+const testFrag = "precision mediump float;\nuniform vec2 u_canvas_resolution;\nvoid main(){vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;gl_FragColor = vec4(st.x,st.y,0.,1.);\n }";
 
 const oldfrag1 = ` 
                 #ifdef GL_ES
@@ -199,6 +207,66 @@ void main(void){
 
 `
 
+
+// with help from  
+// https://github.com/aferriss/p5jsShaderExamples/blob/gh-pages/4_image-effects/4-7_displacement-map/effect.frag 
+var testTextureFrag = `
+precision mediump float;
+
+uniform sampler2D tex1;
+uniform vec2 u_texResolution;
+uniform vec2 u_canvas_resolution;
+
+void main() {
+
+  vec2 uv = gl_FragCoord.xy/u_canvas_resolution.xy;
+  uv = 1.0 - uv;
+
+  float imgAspect = u_texResolution.x/u_texResolution.y;
+  vec4 img = texture2D(tex1,uv*vec2(1.,imgAspect));
+
+  gl_FragColor = img;
+}
+`
+var kirb1Frag = `
+precision mediump float;
+
+uniform sampler2D tex1;
+uniform vec2 u_texResolution;
+uniform vec2 u_canvas_resolution;
+
+void main() {
+
+  vec2 uv = gl_FragCoord.xy/u_canvas_resolution.xy;
+  uv = 1.0 - uv;
+
+  float imgAspect = u_texResolution.x/u_texResolution.y;
+  vec4 img = texture2D(tex1,uv*vec2(1.,imgAspect));
+
+  gl_FragColor = img;
+}
+`
+
+var texturePix = function(p){
+    p.preload = function(){
+        img = p.loadImage("http://r74n.com/stickers/images/kirb.png");
+    }
+
+    p.setup = function(){
+        p.canvas = p.createCanvas(200,200,p.WEBGL);
+        p.canvas.parent("p5Shader1");
+        texShader = p.createShader(p5Vert,kirb1Frag);
+        p.shader(texShader);
+        texShader.setUniform("u_texResolution",[img.width,img.height]);
+        texShader.setUniform("u_canvas_resolution",[200,200]);
+        texShader.setUniform("tex1",img);
+        p.noStroke();
+    }
+    p.draw = function(){
+        p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
+    }
+}
+
 var boxWiggle = function(p){
     p.setup = function(){
         p.canvas = p.createCanvas(200,200,p.WEBGL);
@@ -274,7 +342,7 @@ var triangles2 = function(p){
     }
 }
 
-// var p5Shader1 = testShader;
+var p5Shader1 = texturePix;
 var p5Shader2 = boxWiggle;
 var p5Shader3 = vertLines;
 
@@ -283,6 +351,12 @@ var p52 = boxes2;
 var p53 = triangles2;
 
 const p5Objs = [
+    {
+        "title":"textureTest",
+        "divId": "p5Shader1",
+        "blurb":`made with glsl`,
+        "sketch": p5Shader1
+    },
     {
         "title":"boxWiggle",
         "divId": "p5Shader2",
