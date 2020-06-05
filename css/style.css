@@ -27,6 +27,7 @@ body {
   color: white;
   z-index: 0;
   margin-left: 40px;
+  width: 100%;
   bottom: 40px;
   font-size: 40px;
   overflow: auto;
