@@ -120,26 +120,59 @@ uniform vec2 u_canvas_resolution;
 uniform float   u_time;
 
 float plot(vec2 st, float pct){
-  return  smoothstep( pct-0.02, pct, st.y) -
-          smoothstep( pct, pct+0.02, st.y);
+  return  smoothstep( pct-0.5, pct, st.y) -
+          smoothstep( pct, pct+0.5, st.y);
 }
 
 float rand(float x){
 	return fract(sin(x)*999999.0);
 }
 
+float square(vec2 st, float size){
+
+    vec2 bl = step(vec2(size),st);
+    float pct = bl.x * bl.y;
+    vec2 tr = step(vec2(size),1.0-st);
+    pct *= tr.x * tr.y;
+
+    return pct;
+}
+
+void pR(inout vec2 p, float a) {
+    p -= vec2(0.5);
+    p = cos(radians(a))*p + sin(radians(a))*vec2(p.y, -p.x);
+    p += vec2(0.5);
+}
+
+float star(vec2 st_, vec2 sizes){
+    vec2 st = st_;
+
+    float s1 = square(st,sizes.x);
+    pR(st,45.);
+    float s2 = square(st,sizes.y);
+
+    return s1 + s2;
+}
+
+
 void main(void) {
     vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;
     float y = 0.0;
 
-    float i = floor(mix(st.y,st.x,fract(u_time)));
-    float f = fract(mix(st.x,st.y,fract(u_time/20.)));
-    float alternator = sin(u_time*2. + (st.x-0.5)*(20.));
+    float speed = u_time*0.25;
+
+    float i = fract(mix(st.x,st.y,distance(st,vec2(0.0,0.))));
+    float f = fract(mix(st.x,st.y,distance(st,vec2(0.5,0.5))));
+    float alternator = tan(speed*2. + ( square(st,(mod(speed/4.,1.)) )  -0.5)*(20.));
 
     y = mix(rand(i), rand(i + f), smoothstep(0.,1.,f + alternator));
+    y += cos(alternator)/2.;
     vec3 color = vec3(y);
     float pct = plot(st,y);
+
     color = (1.0-pct)*color+pct*vec3(rand(st.x),rand(st.x)/1.5,0.0);
+    color *= 1. - step(star(st,vec2(0.3,alternator/2.)),0.5);
+
     gl_FragColor = vec4(color,1.0);
 }
 `
@@ -263,15 +296,15 @@ void main() {
 
   float pixValue = 32.;
 
-  if(mod(abs(dist - radius),.25) > 0.2){
-      pixValue = 80. + 40.*fract(radius);
+  if(mod(abs(dist - radius),.25) > 0.15){
+      pixValue = 120. + 40.*fract(radius);
   }
 
   st = floor(st*pixValue)/pixValue;
 
   vec4 img = texture2D(tex1,st*vec2(1.,imgAspect));
 
-  if(img.a < 0.9){
+  if(img.a != 1.0){
       img = vec4(0.,0.,0.,1.);
   }
 
