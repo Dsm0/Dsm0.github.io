@@ -1,10 +1,3 @@
-//  DISCLAIMER
-//  
-//  This website isn't completely spaghetti, but the html attribute management is, 
-//    as of late, very unintuitive. The site is more of a rapid-prototype of an idea 
-//    I had for a more interactive portfolio. I vow to clean this up and make it easier to scale
-
-
 // const centerX = window.innerWidth/2;
 // const centerY = window.innerHeight/2;
 var static = false;

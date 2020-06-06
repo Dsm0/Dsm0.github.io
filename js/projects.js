@@ -243,16 +243,16 @@ void main() {
 
   float imgAspect = u_texResolution.x/u_texResolution.y;
 
+  float radius = 0.001 + u_time/3200.;
+  float dist = distance(vec2(0.91,0.08),st);
+
   float pixValue = 32.;
-//   float pixValue = floor(u_time/80. + st.x*64.);
+
+  if(mod(abs(dist - radius),.25) > 0.2){
+      pixValue = 80. + 40.*fract(radius);
+  }
 
   st = floor(st*pixValue)/pixValue;
-
-//   if(floor(st.x*64.) < floor(mod(u_time/80.,64.))){
-//       float c = st.y + fract(u_time);
-//       st.y = st.x;
-//       st.x = c;
-//   }
 
   vec4 img = texture2D(tex1,st*vec2(1.,imgAspect));
 
