@@ -131,9 +131,11 @@ float rand(float x){
 void main(void) {
     vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;
     float y = 0.0;
-    float i = floor(st.x);
-    float f = fract(st.x);
+
+    float i = floor(mix(st.y,st.x,fract(u_time)));
+    float f = fract(mix(st.x,st.y,fract(u_time/20.)));
     float alternator = sin(u_time*2. + (st.x-0.5)*(20.));
+
     y = mix(rand(i), rand(i + f), smoothstep(0.,1.,f + alternator));
     vec3 color = vec3(y);
     float pct = plot(st,y);
@@ -236,6 +238,19 @@ uniform vec2 u_texResolution;
 uniform vec2 u_canvas_resolution;
 uniform float u_time;
 
+vec3 rgb2hsv(vec3 c)
+{
+    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
+    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+
+
 void main() {
 
   vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;
@@ -256,11 +271,15 @@ void main() {
 
   vec4 img = texture2D(tex1,st*vec2(1.,imgAspect));
 
+  if(img.a < 0.9){
+      img = vec4(0.,0.,0.,1.);
+  }
+
   gl_FragColor = img;
 }
 `
 
-var texturePix = function(p){
+var kirb1 = function(p){
     p.preload = function(){
         img = p.loadImage("http://r74n.com/stickers/images/kirb.png");
     }
@@ -276,6 +295,7 @@ var texturePix = function(p){
         p.noStroke();
     }
     p.draw = function(){
+        p.background("black");
         texShader.setUniform("u_time",p.millis());
         p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
     }
@@ -356,7 +376,7 @@ var triangles2 = function(p){
     }
 }
 
-var p5Shader1 = texturePix;
+var p5Shader1 = kirb1;
 var p5Shader2 = boxWiggle;
 var p5Shader3 = vertLines;
 
