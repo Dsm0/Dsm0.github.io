@@ -19,10 +19,10 @@ function seconds_elapsed ()
   return ( seconds_elapsed ); 
 }
 
-function move(moveme, x_pos, y_pos) {
-    moveme.style.left = x_pos+'px';
-    moveme.style.top = y_pos+'px';
-}
+// function move(moveme, x_pos, y_pos) {
+//     moveme.style.left = x_pos+'px';
+//     moveme.style.top = y_pos+'px';
+// }
 
 function move(moveme, x_pos, y_pos) {
     moveme.style.left = parseFloat(x_pos)+'px';

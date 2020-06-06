@@ -33,9 +33,13 @@ var initScripts = function(e){
    var p52 = document.getElementById("p52");
    var p53 = document.getElementById("p53");
 
+
+   var dynamicSwitch = document.getElementById("dynamicSwitch");
+
    var resume = document.getElementById("resume");
 
    move(info,centerX,centerY);
+   // move(dynamicSwitch,centerX*1.2,centerY*1.4);
 
    move(email,centerX+(centerX/20),centerY+(centerY/20));
 
@@ -43,7 +47,16 @@ var initScripts = function(e){
    move(p52,centerX+(centerX/20),centerY+(centerY/20));
    move(p53,centerX+(centerX/20),centerY+(centerY/20));
 
-
+   dynamicSwitch.onmouseover = function() {   
+      console.log("ah")
+      static = !static;
+      if(static){
+         staticify();
+      } else {
+         this.innerHTML = "mouseover for static";
+         dynamify();
+      }
+   };
 
    for(var i = 0; i < canvi.length;i++){
       move(canvi[i],centerX + window.innerWidth,centerY+innerHeight)
@@ -90,6 +103,10 @@ function movetoStatic(elem){
 function staticify(){
 
    var info = document.getElementById("contact");
+   var dynamicSwitch= document.getElementById("dynamicSwitch");
+
+
+   dynamicSwitch.innerHTML = "mouseover for dynamic";
 
    var canvas1 = document.getElementById("canvas1");
    var canvas2 = document.getElementById("canvas2");
@@ -127,6 +144,9 @@ function dynamify(){
    var info = document.getElementById("contact");
    var email = document.getElementById("email");
    var resume = document.getElementById("resume");
+
+   var dynamicSwitch= document.getElementById("dynamicSwitch");
+   dynamicSwitch.innerHTML = "mouseover for static";
 
    transitionDynamic(info);
    transitionDynamic(email);
@@ -175,6 +195,7 @@ var onmousemove = function(e){
       moveByPivot(e,resume);
 
       }
+
 }
 
 // courtesy of

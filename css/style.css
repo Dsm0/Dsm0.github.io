@@ -80,6 +80,14 @@ body {
   transform: translate(-50%,-50%); 
 }
 
+#dynamicSwitch{
+  position: absolute;
+  background-color: white;
+  z-index: 10;
+  left: 200%;
+  top: -70%;
+  color: black;
+}
 
 /* #canvas1{
   left: 51.48%;
