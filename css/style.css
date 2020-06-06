@@ -21,6 +21,7 @@ body {
   margin-left: 0px;
   margin-top: 0px;
   overflow: hidden;
+  /* font-family: monospace; */
 }
 
 #mainText {
@@ -153,11 +154,26 @@ div.p5Canvas:hover{
 
 
 #blurb{
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
   position: fixed;
-  /* height: 10%;
-  width: 30%; */
+  font-weight: bold;
+  font-size: 20px;
+  font-feature-settings: "vrt2";
+  font-family: monospace;
+  /* text-shadow: 
+  -14px 14px 2px black,
+  -16px 16px 1px black,
+  -18px 18px 1px black,
+  -20px 20px 1px black,
+  -22px 22px 1px black;
+  box-shadow: 
+  -14px 14px 1px white,
+  -16px 16px 1px white,
+  -18px 18px 1px white,
+  -20px 20px 1px white,
+  -22px 22px 1px white; */
+  /* height: 40px,400px; */
   z-index: 5;
 }
 
