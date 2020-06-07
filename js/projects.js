@@ -218,6 +218,7 @@ float box(vec2 _st, vec2 _size, float _smoothEdges){
     uv *= smoothstep(_size,_size+aa,vec2(1.0)-_st);
     return uv.x*uv.y;
 }
+
 float rand(float n){return fract(sin(n) * 43758.5453123);}
 
 float noise(float p){
@@ -226,16 +227,34 @@ float noise(float p){
 	return mix(rand(fl), rand(fl + 1.0), fc);
 }
 
+float doubleCircleSigmoid (float x, float a){
+    float min_param_a = 0.0;
+    float max_param_a = 1.0;
+    a = max(min_param_a, min(max_param_a, a)); 
+  
+    float y = 0.;
+    if (x <= a){
+      y = a - sqrt(a*a - x*x);
+    } else {
+      y = a + sqrt(sqrt(1.-a) - sqrt(x-1.));
+    }
+    return y;
+  }
+
 void main(void){
     vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;
     vec3 color = vec3(0.0);
     
-    st = rotate2D(st,PI*.25/2.) + u_time/9.;
+    st = rotate2D(st,PI*.25/2.);
 
-    st = tile(st,3.);
+    st.y +=  ((u_time/9.));
+    st = tile(st,1.5);
+    st = mix(tan(st),atan(st),pow(st.y,2.));
     st = rotate2D(st,PI*.25);
     
-    color = vec3(box(st,vec2(0.7 + 0.01*noise(u_time))+noise(gl_FragCoord.x*20./gl_FragCoord.y + u_time*20.)/20.,0.01));
+    color = vec3(box(st,vec2(0.7 + 0.01*noise(u_time))+noise(gl_FragCoord.x*20./gl_FragCoord.y + u_time*10.)/20.,0.01));
+    st.y *= 0.5;
+    color -= vec3(box(st,vec2(0.5 + 0.1*noise(u_time))+noise(gl_FragCoord.y*20./gl_FragCoord.x + u_time*10.)/20.,0.01));
 
     gl_FragColor = vec4(color,1.0);
 }
