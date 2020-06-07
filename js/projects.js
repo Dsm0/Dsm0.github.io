@@ -409,11 +409,38 @@ var triangles2 = function(p){
     }
 }
 
+
+var boxstar = function(p){
+
+    p.setup = function(){
+        p.canvas = p.createCanvas(200,200,p.WEBGL);
+        p.canvas.parent("p51");
+        p.canvas.background('black');
+        p.frameRate(36);
+        p.stroke(255,255,255);
+        p.blendMode(p.SCREEN);
+    }
+
+    p.draw = function(){
+        p.background("black");
+        for(var i = 1;(i < ((Math.floor((p.frameCount / 5))) % 8)) ; i = i + 1){
+            p.fill(255 - i*10,165 - i*5,0);
+            p.rotateX(i * (Math.sign((p.frameCount / 5) % 16  - 8)));
+            p.rotateY(i * (Math.sign((p.frameCount / 5) % 16 - 8)));
+            p.rotateZ(i * (Math.sign((p.frameCount / 5) % 16 - 8)));
+            p.box((30 + (i * 2)),(((Math.floor((p.frameCount / 100))) % 30) * (i + (-1 * 1))),(30 * i),i,undefined);
+            p.box((((Math.floor((p.frameCount / 50))) % 30) * (i + (-1 * 1))),(30 * i),30,i,undefined);
+            p.box((30 * i),20,20,i,undefined);
+            p.box(30,30,(((Math.floor((p.frameCount / 100))) % 30) * (i + (-1 * 1))),i,undefined);
+        }
+    }
+}
+
 var p5Shader1 = kirb1;
 var p5Shader2 = boxWiggle;
 var p5Shader3 = vertLines;
 
-// var p51 = circlesTest1;
+var p51 = boxstar;
 var p52 = boxes2;
 var p53 = triangles2;
 
@@ -435,6 +462,12 @@ const p5Objs = [
         "divId": "p5Shader3",
         "blurb":`made with glsl`,
         "sketch": p5Shader3
+    },
+    {
+        "title":"P5hs",
+        "divId": "p51",
+        "blurb":`made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
+        "sketch": p51 
     },
     {
         "title":"P5hs",
