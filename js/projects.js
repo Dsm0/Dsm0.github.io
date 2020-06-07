@@ -333,7 +333,7 @@ void main() {
 
 var kirb1 = function(p){
     p.preload = function(){
-        img = p.loadImage("http://r74n.com/stickers/images/kirb.png");
+        img = p.loadImage("images/kirb.jpeg");
     }
 
     p.setup = function(){
