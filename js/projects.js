@@ -321,6 +321,7 @@ void main() {
 
   st = floor(st*pixValue)/pixValue;
 
+  st.x = 1.0 - st.x;
   vec4 img = texture2D(tex1,st*vec2(1.,imgAspect));
 
   if(img.a != 1.0){
