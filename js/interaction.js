@@ -13,6 +13,9 @@ const p5Canvi = document.getElementsByClassName("p5Canvas");
 
 const blurbDiv = document.getElementById("blurb");
 
+const body = document.getElementById("body");
+const html = document.getElementById("html");
+
 function initP5(p5Obj){
   var div = document.getElementById(p5Obj.divId);
   div.setAttribute("data-blurb",p5Obj.blurb);
@@ -106,6 +109,9 @@ function staticify(){
    var dynamicSwitch= document.getElementById("dynamicSwitch");
 
 
+   body.style.setProperty("--overflow-mode","auto");
+
+
    dynamicSwitch.innerHTML = "mouseover for dynamic";
 
    var canvas1 = document.getElementById("canvas1");
@@ -145,6 +151,8 @@ function dynamify(){
    var email = document.getElementById("email");
    var resume = document.getElementById("resume");
 
+
+
    var dynamicSwitch= document.getElementById("dynamicSwitch");
    dynamicSwitch.innerHTML = "mouseover for static";
 
@@ -159,6 +167,10 @@ function dynamify(){
    for(var i = 0; i < p5Canvi.length;i++){
       transitionDynamic(p5Canvi[i]);
    }
+
+   body.style.setProperty("--overflow-mode","hidden");
+
+   window.scrollTo(0,0);
 
 }
 
