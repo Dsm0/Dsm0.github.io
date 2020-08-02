@@ -23,7 +23,9 @@ function initP5(p5Obj) {
 }
 var initScripts = function (e) {
     var loadedP5s = p5Objs.map(initP5);
+    // document.body.scrollTop = document.documentElement.scrollTop = 0;
     move(blurbDiv, window.innerWidth * recipX * 0.05, window.outerHeight * recipY * 0.85);
+    // move(blurbDiv,parseFloat(this.style.left) - 500,parseFloat(this.style.top));
     move(contact, centerX, centerY);
     move(email, centerX + centerX / 20, centerY + centerY / 20);
     move(p51, centerX + centerX / 20, centerY + centerY / 20);
@@ -75,6 +77,7 @@ var initScripts = function (e) {
         _loop_2();
     }
     scalePage(scaleX, scaleY);
+    window.scrollTo(0, 0);
 };
 onmousemove = function (event) {
     if (!static) {
@@ -100,16 +103,18 @@ function movetoStatic(elem) {
     var newHeight = (1 / scaleY) * ypercentToFloat(elem.getAttribute("data-staticY"));
     move(elem, newWidth, newHeight);
 }
+// window.addEventListener("scroll", function (event) {
+//   var scroll = this.scrollX;
+//   console.log(scroll);
+// });
+onscroll = function (event) {
+    move(blurbDiv, window.innerWidth * recipX * 0.05 + this.scrollX, window.outerHeight * recipY * 0.85);
+};
 // It won't scale, but it's good for now...
 function staticify() {
-    body.style.setProperty("--overflow-mode", "auto");
+    // window.scrollTo(0, 0);
+    body.style.setProperty("--overflow-mode", "scroll");
     dynamicSwitch.innerHTML = "mouseover for dynamic";
-    var canvas1 = document.getElementById("canvas1");
-    var canvas2 = document.getElementById("canvas2");
-    var canvas3 = document.getElementById("canvas3");
-    var email = document.getElementById("email");
-    var resume = document.getElementById("resume");
-    var p51 = document.getElementById("p51");
     for (var i = 0; i < canvi.length; i++) {
         transitionStatic(canvi[i]);
         movetoStatic(canvi[i]);
@@ -127,7 +132,6 @@ function staticify() {
 }
 // It won't scale, but it's good for now...
 function dynamify() {
-    var dynamicSwitch = document.getElementById("dynamicSwitch");
     dynamicSwitch.innerHTML = "mouseover for static";
     transitionDynamic(contact);
     transitionDynamic(email);

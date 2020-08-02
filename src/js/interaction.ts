@@ -37,7 +37,7 @@ function initP5(p5Obj) {
 }
 
 var initScripts = function (e) {
-  var loadedP5s = p5Objs.map(initP5);
+  let loadedP5s = p5Objs.map(initP5);
 
   move(
     blurbDiv,
@@ -85,7 +85,6 @@ var initScripts = function (e) {
     const p5Canv = <HTMLCanvasElement>p5Canvi[i];
     move(p5Canvi[i], centerX + window.innerWidth, centerY + innerHeight);
     p5Canv.onmouseover = (_) => {
-      // move(blurbDiv,parseFloat(this.style.left) - 500,parseFloat(this.style.top));
       blurbDiv.innerHTML = p5Canv.getAttribute("data-blurb");
     };
     p5Canv.onmouseleave = (_) => {
@@ -93,6 +92,7 @@ var initScripts = function (e) {
     };
   }
   scalePage(scaleX, scaleY);
+  window.scrollTo(0, 0);
 };
 
 onmousemove = function (event: MouseEvent) {
@@ -127,19 +127,19 @@ function movetoStatic(elem) {
   move(elem, newWidth, newHeight);
 }
 
+onscroll = function (event) {
+  move(
+    blurbDiv,
+    window.innerWidth * recipX * 0.05 + this.scrollX,
+    window.outerHeight * recipY * 0.85
+  );
+};
+
 // It won't scale, but it's good for now...
 function staticify() {
-  body.style.setProperty("--overflow-mode", "auto");
+  body.style.setProperty("--overflow-mode", "scroll");
 
   dynamicSwitch.innerHTML = "mouseover for dynamic";
-
-  var canvas1 = document.getElementById("canvas1");
-  var canvas2 = document.getElementById("canvas2");
-  var canvas3 = document.getElementById("canvas3");
-
-  var email = document.getElementById("email");
-  var resume = document.getElementById("resume");
-  var p51 = document.getElementById("p51");
 
   for (var i = 0; i < canvi.length; i++) {
     transitionStatic(canvi[i]);
@@ -162,7 +162,6 @@ function staticify() {
 
 // It won't scale, but it's good for now...
 function dynamify() {
-  var dynamicSwitch = document.getElementById("dynamicSwitch");
   dynamicSwitch.innerHTML = "mouseover for static";
 
   transitionDynamic(contact);

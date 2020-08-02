@@ -1,6 +1,5 @@
 const standardVert =
   "precision mediump float;\n attribute vec2 a_position;\nvoid main(){\ngl_Position = vec4(a_position, 0, 1);\n  }";
-// const p5Vert = `precision mediump float;\nattribute vec3 aPosition;\nvoid main(){vec4 positionVec4 = vec4(aPosition,1.0); gl_Position = positionVec4;}`
 
 const p5Vert = `
 // our vertex data

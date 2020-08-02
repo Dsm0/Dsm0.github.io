@@ -11,16 +11,12 @@ html {
   z-index: -5;
 }
 
-/* *:hover{
-  z-index: 2;
-} */
-
 body {
   background-color: black;
-  /* z-index: -1; */
   margin-left: 0px;
   margin-top: 0px;
-  overflow: var(--overflow-mode, hidden);
+  overflow-x: var(--overflow-mode, hidden);
+  overflow-y: hidden;
   /* font-family: monospace; */
 }
 
@@ -39,9 +35,8 @@ body {
 } */
 
 #resume {
-  /* display: block; */
   overflow: hidden;
-  width: 30wv;
+  width: 30;
 
   transform: scale(1.25);
   -moz-transform: scale(1.25);
@@ -90,42 +85,6 @@ body {
   color: black;
 }
 
-/* #canvas1{
-  left: 51.48%;
-  top: 45.18%;
-} */
-
-/* 
-.glCanvas{
-  background-color: white;
-  z-index: 2;
-  width: Xu;
-  height: Yu;
-  transform: scale(1);
-  transition: transform 0.2s;
-  -moz-transform: scale(1);
-  -webkit-transform: scale(1);
-  position: fixed; 
-  transform: translate(-50%,-50%); 
-}
-
-.glCanvas:hover{
-  background-color: white;
-  z-index: 3;
-  position: absolute;
-
-  transform-origin: 50%,50% ;
-  -moz-transform-origin: 50%,50% ;
-  -webkit-transform-origin: 50%,50% ;
-
-  transform: translate(-50%,-50%)  scale(3);
-  -moz-transform: translate(-50%,-50%)  scale(3);
-  -webkit-transform: translate(-50%,-50%) scale(3);
-  transition: transform 0.2s;
-}
-
- */
-
 .p5Canvas {
   background-color: white;
   z-index: 2;
@@ -146,56 +105,25 @@ div.p5Canvas:hover {
   z-index: 3;
   position: absolute;
   transition: transform 0.2s;
-  transform: translate(-50%, -50%) scale(3);
-  -moz-transform: translate(-50%, -50%) scale(3);
-  -webkit-transform: translate(-50%, -50%) scale(3);
+  transform: translate(-50%, -50%) scale(2);
+  -moz-transform: translate(-50%, -50%) scale(2);
+  -webkit-transform: translate(-50%, -50%) scale(2);
   transition: transform 0.2s;
 }
 
 #blurb {
   background-color: white;
   color: black;
-  position: fixed;
   font-weight: bold;
   font-size: 20px;
   font-feature-settings: "vrt2";
   font-family: monospace;
-  /* text-shadow: 
-  -14px 14px 2px black,
-  -16px 16px 1px black,
-  -18px 18px 1px black,
-  -20px 20px 1px black,
-  -22px 22px 1px black;
-  box-shadow: 
-  -14px 14px 1px white,
-  -16px 16px 1px white,
-  -18px 18px 1px white,
-  -20px 20px 1px white,
-  -22px 22px 1px white; */
-  /* height: 40px,400px; */
+  overflow-y: hidden;
+  position: fixed;
+  box-shadow: -4px 4px 1px white, -8px 8px 1px white, -12px 12px 1px white,
+    -16px 16px 1px white, -20px 20px 1px white;
   z-index: 5;
 }
-
-/* todo: when you hover over a canvas, the description flies in from the left */
-/* and nestles itself against the canvas */
-/* make sure that when you mouse over the textbox, the canvas doesn't go away */
-/* will likely need some js, can't fanagle it with css sadly */
-
-/* .canvasCaption {
-  display: none;
-  left: -2000px;
-  top: -100px;
-  transition: top 0.2s, left 0.2s;
-}
-.canvasCaption:hover {
-  background-color: white;
-  display: inline-block;
-  z-index: 1;
-  font-size:30px;
-  width: 150%;
-  transition: top 0.2s, left 0.2s;
-  left: 50%;
-} */
 
 #email {
   background-color: white;
@@ -267,9 +195,6 @@ ul.resume {
 }
 
 /*todo: make the box-shadows more attractive*/
-/* .meat > div { */
-/*box-shadow: orange 1em 1em, orange 1em -1em;*/
-/* } */
 
 .sidebar.resume {
   background: white;
