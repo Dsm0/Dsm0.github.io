@@ -1,14 +1,14 @@
 html {
-  transform: scaleX(var(--page-scaleX,1)) scaleY(var(--page-scaleY,1));
-  -webkit-transform: scaleX(var(--page-scaleX,1)) scaleY(var(--page-scaleY,1));
-  -moz-transform:  scaleX(var(--page-scaleX,1)) scaleY(var(--page-scaleY,1));
-  -o-transform:  scaleX(var(--page-scaleX,1)) scaleY(var(--page-scaleY,1));
+  transform: scaleX(var(--page-scaleX, 1)) scaleY(var(--page-scaleY, 1));
+  -webkit-transform: scaleX(var(--page-scaleX, 1)) scaleY(var(--page-scaleY, 1));
+  -moz-transform: scaleX(var(--page-scaleX, 1)) scaleY(var(--page-scaleY, 1));
+  -o-transform: scaleX(var(--page-scaleX, 1)) scaleY(var(--page-scaleY, 1));
 
   transform-origin: 0 0;
   -webkit-transform-origin: 0 0;
   -moz-transform-origin: 0 0;
   -o-transform-origin: 0 0;
-  z-index:-5;
+  z-index: -5;
 }
 
 /* *:hover{
@@ -20,7 +20,7 @@ body {
   /* z-index: -1; */
   margin-left: 0px;
   margin-top: 0px;
-  overflow: var(--overflow-mode,hidden);
+  overflow: var(--overflow-mode, hidden);
   /* font-family: monospace; */
 }
 
@@ -38,7 +38,7 @@ body {
   z-index: 2;
 } */
 
-#resume{
+#resume {
   /* display: block; */
   overflow: hidden;
   width: 30wv;
@@ -58,10 +58,10 @@ body {
   top: 13.5%;
 }
 
-#navigation{
+#navigation {
   background-color: black;
   z-index: 0;
-  font-size:30px;
+  font-size: 30px;
   color: white;
   width: Xu;
   height: Yu;
@@ -70,18 +70,18 @@ body {
   left: 50%;
 }
 
-#contact{
+#contact {
   background-color: white;
-  font-size:20px;
+  font-size: 20px;
   color: white;
   z-index: 1;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%); 
+  transform: translate(-50%, -50%);
 }
 
-#dynamicSwitch{
+#dynamicSwitch {
   position: absolute;
   background-color: white;
   z-index: 10;
@@ -126,7 +126,7 @@ body {
 
  */
 
-.p5Canvas{
+.p5Canvas {
   background-color: white;
   z-index: 2;
   width: Xu;
@@ -135,25 +135,24 @@ body {
   transition: transform 0.2s;
   -moz-transform: scale(1);
   -webkit-transform: scale(1);
-  position: absolute; 
-  transform: translate(-50%,-50%); 
+  position: absolute;
+  transform: translate(-50%, -50%);
 }
 
-div.p5Canvas:hover{
+div.p5Canvas:hover {
   /* only scale the div because the div will automatically scale 
   the canvas inside */
   background-color: white;
   z-index: 3;
   position: absolute;
   transition: transform 0.2s;
-  transform: translate(-50%,-50%)  scale(3);
-  -moz-transform: translate(-50%,-50%)  scale(3);
-  -webkit-transform: translate(-50%,-50%) scale(3); 
+  transform: translate(-50%, -50%) scale(3);
+  -moz-transform: translate(-50%, -50%) scale(3);
+  -webkit-transform: translate(-50%, -50%) scale(3);
   transition: transform 0.2s;
 }
 
-
-#blurb{
+#blurb {
   background-color: white;
   color: black;
   position: fixed;
@@ -198,7 +197,6 @@ div.p5Canvas:hover{
   left: 50%;
 } */
 
-
 #email {
   background-color: white;
   color: black;
@@ -217,16 +215,14 @@ div.p5Canvas:hover{
 /*https://stackoverflow.com/a/12065925  */
 /* I'll find a way to use this somehow */
 span.stretch {
-  display:inline-block;
+  display: inline-block;
   margin-left: 40%;
-  -webkit-transform:scale(4,1); /* Safari and Chrome */
-  -moz-transform:scale(4,1); /* Firefox */
-  -ms-transform:scale(4,1); /* IE 9 */
-  -o-transform:scale(4,1); /* Opera */
+  -webkit-transform: scale(4, 1); /* Safari and Chrome */
+  -moz-transform: scale(4, 1); /* Firefox */
+  -ms-transform: scale(4, 1); /* IE 9 */
+  -o-transform: scale(4, 1); /* Opera */
   transform: matrix(2, -0.6, 0, 2, 0, 0);
 }
-
-
 
 /*Resume properties, had to tack them on to this file*/
 
@@ -246,7 +242,7 @@ ul.resume {
   line-height: 15px;
 }
 
-.resume{
+.resume {
   position: relative;
 }
 
@@ -285,19 +281,19 @@ ul.resume {
 }
 
 .sidebar > div {
-box-shadow: orange -1em 1em;
-box-shadow: orange -1em 1em;
+  box-shadow: orange -1em 1em;
+  box-shadow: orange -1em 1em;
 }
 
 #languages.resume {
   margin-bottom: auto;
 }
 
-#resumeContact{
+#resumeContact {
   margin-bottom: auto;
 }
 
-#resumeEmail{
+#resumeEmail {
   margin-bottom: auto;
 }
 

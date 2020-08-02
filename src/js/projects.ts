@@ -1,4 +1,5 @@
-const standardVert = "precision mediump float;\n attribute vec2 a_position;\nvoid main(){\ngl_Position = vec4(a_position, 0, 1);\n  }";
+const standardVert =
+  "precision mediump float;\n attribute vec2 a_position;\nvoid main(){\ngl_Position = vec4(a_position, 0, 1);\n  }";
 // const p5Vert = `precision mediump float;\nattribute vec3 aPosition;\nvoid main(){vec4 positionVec4 = vec4(aPosition,1.0); gl_Position = positionVec4;}`
 
 const p5Vert = `
@@ -20,12 +21,14 @@ void main() {
   // send the vertex information on to the fragment shader
   gl_Position = positionVec4;
 }
-`
+`;
 
-
-const blankFrag = "precision mediump float;\nvoid main(){gl_FragColor = vec4(1.0);\n }";
-const greyFrag = "precision mediump float;\nvoid main(){gl_FragColor = vec4(.25);\n }";
-const testFrag = "precision mediump float;\nuniform vec2 u_canvas_resolution;\nvoid main(){vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;gl_FragColor = vec4(st.x,st.y,0.,1.);\n }";
+const blankFrag =
+  "precision mediump float;\nvoid main(){gl_FragColor = vec4(1.0);\n }";
+const greyFrag =
+  "precision mediump float;\nvoid main(){gl_FragColor = vec4(.25);\n }";
+const testFrag =
+  "precision mediump float;\nuniform vec2 u_canvas_resolution;\nvoid main(){vec2 st = gl_FragCoord.xy/u_canvas_resolution.xy;gl_FragColor = vec4(st.x,st.y,0.,1.);\n }";
 
 const oldfrag1 = ` 
                 #ifdef GL_ES
@@ -74,10 +77,7 @@ const oldfrag1 = `
                   color = vec3(mix(shape,1.-shape,alternater));
 
                   gl_FragColor = vec4(color,1.0);
-                }`
-                ;
-
-
+                }`;
 const texFrag = `
 #ifdef GL_ES
 precision mediump float;
@@ -108,7 +108,7 @@ void main (void) {
 
     gl_FragColor = vec4(color,1.0);
 }
-`
+`;
 
 const vertLinesFrag = `
 
@@ -175,8 +175,7 @@ void main(void) {
 
     gl_FragColor = vec4(color,1.0);
 }
-`
-
+`;
 
 const frag2 = `
                #ifdef GL_ES
@@ -259,12 +258,11 @@ void main(void){
     gl_FragColor = vec4(color,1.0);
 }
 
-`
+`;
 
-
-// with help from  
-// https://github.com/aferriss/p5jsShaderExamples/blob/gh-pages/4_image-effects/4-7_displacement-map/effect.frag 
-var testTextureFrag = `
+// with help from
+// https://github.com/aferriss/p5jsShaderExamples/blob/gh-pages/4_image-effects/4-7_displacement-map/effect.frag
+const testTextureFrag = `
 precision mediump float;
 
 uniform sampler2D tex1;
@@ -281,8 +279,8 @@ void main() {
 
   gl_FragColor = img;
 }
-`
-var kirb1Frag = `
+`;
+let kirb1Frag = `
 precision mediump float;
 
 uniform sampler2D tex1;
@@ -330,176 +328,197 @@ void main() {
 
   gl_FragColor = img;
 }
-`
+`;
 
-var kirb1 = function(p){
-    p.preload = function(){
-        img = p.loadImage("images/kirb.jpeg");
+let kirb1 = function (p) {
+  let img, texShader;
+  p.preload = function () {
+    img = p.loadImage("assets/kirb.jpeg");
+  };
+
+  p.setup = function () {
+    p.canvas = p.createCanvas(200, 200, p.WEBGL);
+    p.canvas.parent("p5Shader1");
+    texShader = p.createShader(p5Vert, kirb1Frag);
+    p.shader(texShader);
+    texShader.setUniform("u_texResolution", [img.width, img.height]);
+    texShader.setUniform("u_canvas_resolution", [200, 200]);
+    texShader.setUniform("tex1", img);
+    p.noStroke();
+  };
+  p.draw = function () {
+    p.background("black");
+    texShader.setUniform("u_time", p.millis());
+    p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
+  };
+};
+
+let boxWiggle = function (p) {
+  let boxWiggle;
+  p.setup = function () {
+    p.canvas = p.createCanvas(200, 200, p.WEBGL);
+    p.canvas.parent("p5Shader2");
+    boxWiggle = p.createShader(p5Vert, boxWiggleFrag);
+    p.shader(boxWiggle);
+    boxWiggle.setUniform("u_canvas_resolution", [200, 200]);
+    p.noStroke();
+  };
+  p.draw = function () {
+    boxWiggle.setUniform("u_time", p.millis() / 800);
+    p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
+  };
+};
+
+let vertLines = function (p) {
+  let vertLines;
+  p.setup = function () {
+    p.canvas = p.createCanvas(200, 200, p.WEBGL);
+    p.canvas.parent("p5Shader3");
+    vertLines = p.createShader(p5Vert, vertLinesFrag);
+    p.shader(vertLines);
+    vertLines.setUniform("u_canvas_resolution", [200, 200]);
+    p.noStroke();
+  };
+  p.draw = function () {
+    vertLines.setUniform("u_time", p.millis() / 800);
+    p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
+  };
+};
+
+let boxes2 = function (p) {
+  p.setup = function () {
+    p.canvas = p.createCanvas(200, 200, p.WEBGL);
+    p.canvas.parent("p52");
+    p.frameRate(48);
+    p.canvas.background("black");
+  };
+  p.draw = function () {
+    p.background("black");
+    p.push();
+    for (let i = 0; i < 10; i = i + 1) {
+      p.push();
+      p.rotateX(20 + i + Math.floor(p.frameCount / 8));
+      p.color(255, 255, 255);
+      p.box(20 * i, 2, 90 + i, 2, 3);
+      p.pop();
     }
+    p.pop();
+    // was cross-compiled so looks like shit
+  };
+};
 
-    p.setup = function(){
-        p.canvas = p.createCanvas(200,200,p.WEBGL);
-        p.canvas.parent("p5Shader1");
-        texShader = p.createShader(p5Vert,kirb1Frag);
-        p.shader(texShader);
-        texShader.setUniform("u_texResolution",[img.width,img.height]);
-        texShader.setUniform("u_canvas_resolution",[200,200]);
-        texShader.setUniform("tex1",img);
-        p.noStroke();
+let triangles2 = function (p) {
+  p.setup = function () {
+    p.canvas = p.createCanvas(200, 200, p.WEBGL);
+    p.canvas.parent("p53");
+    p.canvas.background("black");
+    p.frameRate(12);
+    p.noStroke();
+  };
+
+  p.draw = function () {
+    // p.setBa();
+    p.background("black");
+    for (let i = 0; i < Math.floor(Math.min(p.frameCount, 20)); i = i + 1) {
+      p.rotateY((p.frameCount * 1) / (5 + i));
+      p.rotateX((p.frameCount * 1) / (5 + i));
+      p.triangle(20 + 2 * i, 20, 20 + i, 40 + i, 40, 40 + 3 * i);
+      p.rotateX(i * 20);
+      p.translate(0, i * 2 + i, 0);
+      p.translate(0, -1 * (2 * i), 0);
     }
-    p.draw = function(){
-        p.background("black");
-        texShader.setUniform("u_time",p.millis());
-        p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
+  };
+};
+
+let boxstar = function (p) {
+  p.setup = function () {
+    p.canvas = p.createCanvas(200, 200, p.WEBGL);
+    p.canvas.parent("p51");
+    p.canvas.background("black");
+    p.frameRate(36);
+    p.stroke(255, 255, 255);
+    p.blendMode(p.SCREEN);
+  };
+
+  p.draw = function () {
+    p.background("black");
+    function sign(x) {
+      return x > 0 ? 1 : x < 0 ? -1 : 0;
     }
-}
-
-var boxWiggle = function(p){
-    p.setup = function(){
-        p.canvas = p.createCanvas(200,200,p.WEBGL);
-        p.canvas.parent("p5Shader2");
-        boxWiggle = p.createShader(p5Vert,boxWiggleFrag);
-        p.shader(boxWiggle);
-        boxWiggle.setUniform("u_canvas_resolution",[200,200]);
-        p.noStroke();
+    for (let i = 1; i < Math.floor(p.frameCount / 5) % 8; i = i + 1) {
+      p.fill(255 - i * 10, 165 - i * 5, 0);
+      p.rotateX(i * sign(((p.frameCount / 5) % 16) - 8));
+      p.rotateY(i * sign(((p.frameCount / 5) % 16) - 8));
+      p.rotateZ(i * sign(((p.frameCount / 5) % 16) - 8));
+      p.box(
+        30 + i * 2,
+        (Math.floor(p.frameCount / 100) % 30) * (i + -1 * 1),
+        30 * i,
+        i,
+        undefined
+      );
+      p.box(
+        (Math.floor(p.frameCount / 50) % 30) * (i + -1 * 1),
+        30 * i,
+        30,
+        i,
+        undefined
+      );
+      p.box(30 * i, 20, 20, i, undefined);
+      p.box(
+        30,
+        30,
+        (Math.floor(p.frameCount / 100) % 30) * (i + -1 * 1),
+        i,
+        undefined
+      );
     }
-    p.draw = function(){
-        boxWiggle.setUniform("u_time",p.millis()/800);
-        p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
-    }
-}
+  };
+};
 
+let p5Shader1 = kirb1;
+let p5Shader2 = boxWiggle;
+let p5Shader3 = vertLines;
 
-var vertLines = function(p){
-    p.setup = function(){
-        p.canvas = p.createCanvas(200,200,p.WEBGL);
-        p.canvas.parent("p5Shader3");
-        vertLines = p.createShader(p5Vert,vertLinesFrag);
-        p.shader(vertLines);
-        vertLines.setUniform("u_canvas_resolution",[200,200]);
-        p.noStroke();
-    }
-    p.draw = function(){
-        vertLines.setUniform("u_time",p.millis()/800);
-        p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
-    }
-}
-
-
-var boxes2 = function(p){
-    p.setup = function(){
-        p.canvas = p.createCanvas(200,200,p.WEBGL);
-        p.canvas.parent("p52");
-        p.frameRate(48);
-        p.canvas.background('black');
-    }
-    p.draw = function(){
-        p.background("black");
-        p.push();
-        for( var i = 0;(i < 10) ; i = i + 1)
-            { p.push();
-              p.rotateX(((20 + i) + (Math.floor((p.frameCount / 8))))); 
-              p.color(255,255,255);
-              p.box((20 * i),2,90 + i,2,3); p.pop()};
-        p.pop();
-        // was cross-compiled so looks like shit 
-    }
-}
-
-var triangles2 = function(p){
-    p.setup = function(){
-        p.canvas = p.createCanvas(200,200,p.WEBGL);
-        p.canvas.parent("p53");
-        p.canvas.background('black');
-        p.frameRate(12);
-        p.noStroke()
-    }
-
-    p.draw = function(){
-        // p.setBa();
-        p.background("black");
-        for(var i = 0;(i < ((Math.floor(Math.min(p.frameCount,20))))) ; i = i + 1){
-            p.rotateY((p.frameCount* 1 / (5 + i)));
-            p.rotateX((p.frameCount* 1 / (5 + i)));
-            p.triangle((20 + (2 * i)),20,20+i,(40 + i),40,(40 + (3 * i)));
-            p.rotateX((i * 20));
-            p.translate(0,(i * 2) + i,0);
-            p.translate(0,(-1 * (2 * i)),0);
-        }
-    }
-}
-
-
-var boxstar = function(p){
-
-    p.setup = function(){
-        p.canvas = p.createCanvas(200,200,p.WEBGL);
-        p.canvas.parent("p51");
-        p.canvas.background('black');
-        p.frameRate(36);
-        p.stroke(255,255,255);
-        p.blendMode(p.SCREEN);
-    }
-
-    p.draw = function(){
-        p.background("black");
-        for(var i = 1;(i < ((Math.floor((p.frameCount / 5))) % 8)) ; i = i + 1){
-            p.fill(255 - i*10,165 - i*5,0);
-            p.rotateX(i * (Math.sign((p.frameCount / 5) % 16  - 8)));
-            p.rotateY(i * (Math.sign((p.frameCount / 5) % 16 - 8)));
-            p.rotateZ(i * (Math.sign((p.frameCount / 5) % 16 - 8)));
-            p.box((30 + (i * 2)),(((Math.floor((p.frameCount / 100))) % 30) * (i + (-1 * 1))),(30 * i),i,undefined);
-            p.box((((Math.floor((p.frameCount / 50))) % 30) * (i + (-1 * 1))),(30 * i),30,i,undefined);
-            p.box((30 * i),20,20,i,undefined);
-            p.box(30,30,(((Math.floor((p.frameCount / 100))) % 30) * (i + (-1 * 1))),i,undefined);
-        }
-    }
-}
-
-var p5Shader1 = kirb1;
-var p5Shader2 = boxWiggle;
-var p5Shader3 = vertLines;
-
-var p51 = boxstar;
-var p52 = boxes2;
-var p53 = triangles2;
+let p51sketch = boxstar;
+let p52sketch = boxes2;
+let p53sketch = triangles2;
 
 const p5Objs = [
-    {
-        "title":"textureTest",
-        "divId": "p5Shader1",
-        "blurb":`made with glsl`,
-        "sketch": p5Shader1
-    },
-    {
-        "title":"boxWiggle",
-        "divId": "p5Shader2",
-        "blurb":`made with glsl`,
-        "sketch": p5Shader2
-    },
-    {
-        "title":"glslTest",
-        "divId": "p5Shader3",
-        "blurb":`made with glsl`,
-        "sketch": p5Shader3
-    },
-    {
-        "title":"P5hs",
-        "divId": "p51",
-        "blurb":`made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
-        "sketch": p51 
-    },
-    {
-        "title":"P5hs",
-        "divId": "p52",
-        "blurb":`made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
-        "sketch": p52 
-    },
-    {
-        "title":"P5hs",
-        "divId": "p53",
-        "blurb":`made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
-        "sketch": p53 
-    },
-
-]
+  {
+    title: "textureTest",
+    divId: "p5Shader1",
+    blurb: `made with glsl`,
+    sketch: p5Shader1,
+  },
+  {
+    title: "boxWiggle",
+    divId: "p5Shader2",
+    blurb: `made with glsl`,
+    sketch: p5Shader2,
+  },
+  {
+    title: "glslTest",
+    divId: "p5Shader3",
+    blurb: `made with glsl`,
+    sketch: p5Shader3,
+  },
+  {
+    title: "P5hs",
+    divId: "p51",
+    blurb: `made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
+    sketch: p51sketch,
+  },
+  {
+    title: "P5hs",
+    divId: "p52",
+    blurb: `made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
+    sketch: p52sketch,
+  },
+  {
+    title: "P5hs",
+    divId: "p53",
+    blurb: `made in P5hs: my port of the creative-coding library p5.js to haskell (compiled to javascript)`,
+    sketch: p53sketch,
+  },
+];
