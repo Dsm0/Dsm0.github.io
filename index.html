@@ -1,29 +1,89 @@
 <!DOCTYPE html>
 
 <html>
+  <head>
+    <script>
+      const site = (file) => {
+        document.getElementById("site_container").src = file;
+      };
+    </script>
 
-<head>
-  <script>
-    function pure_json_site() {
-      document.getElementById("site_container").src =
-        "/src/pure_json/index.html";
-    }
-    function og_site() {
-      document.getElementById("site_container").src =
-        "/src/og_site/index.html";
-    }
-  </script>
+    <style>
+      * {
+        --color-1: #ffffee;
+        --color-2: black;
+        --color-3: black;
+      }
 
-  <link rel="stylesheet" type="text/css" href="/index.css">
-</head>
+      html {
+        padding: 0px;
+        margin: 0px;
+        border-width: 0px;
+      }
 
-<body>
-  <ul class="box-item">
-    <li onclick="pure_json_site()">pure_json</li>
-    <li onclick="og_site()">og_site</li>
-  </ul>
-  <iframe id="site_container" src="/src/pure_json/index.html" class="box-item" frameborder="0"></iframe>
-</body>
+      body {
+        flex-flow: column;
+        flex-direction: row;
+        margin: 0px;
+        padding: 0px;
+        background-color: var(--color-1);
+      }
 
+      .box-item {
+        display: block;
+      }
 
+      ul {
+        width: 10%;
+        height: auto;
+        position: fixed;
+        border-right: var(--color-2);
+        border-right-width: 20px;
+      }
+
+      ul li {
+        cursor: pointer;
+        text-align: left;
+        padding: 0;
+        text-align-last: left;
+        width: fit-content;
+        list-style: "- ";
+      }
+
+      ul li:hover {
+        background-color: var(--color-2);
+        color: var(--color-1);
+      }
+
+      iframe {
+        display: flexbox;
+        margin-top: 0%;
+        margin-bottom: 0%;
+        position: absolute;
+        height: 100%;
+        margin-left: 10%;
+        width: 90%;
+        padding-right: 0%;
+        padding-top: 0%;
+        padding-bottom: 0%;
+        border: none;
+      }
+    </style>
+
+    <!-- <link rel="stylesheet" type="text/css" href="/index.css" /> -->
+  </head>
+
+  <body>
+    <ul class="box-item">
+      <li onclick="site('/src/pure_json/index.html')">pure_json</li>
+      <li onclick="site('/src/pure_html/index.html')">pure_html</li>
+      <li onclick="site('/src/og_site/index.html')">og_site</li>
+    </ul>
+    <iframe
+      id="site_container"
+      src="/src/pure_json/index.html"
+      class="box-item"
+      frameborder="0"
+    ></iframe>
+  </body>
 </html>

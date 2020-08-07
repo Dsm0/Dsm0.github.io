@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css" />
+  </head>
 
-<head>
-  <link rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css">
-</head>
+  <body class="creambar">
+    <pre
+      id="json_container"
+      style="word-wrap: break-word; white-space: pre-wrap;"
+    ></pre>
+  </body>
 
-<body class="creambar">
-  <pre id="json_container" style="word-wrap: break-word; white-space: pre-wrap;">
-</pre>
-</body>
-
-<script>
-  fetch("/info.json")
-    .then(response => response.text())
-    .then(info => {
-      document.getElementById('json_container').innerHTML = info;
-    });
-</script>
-
+  <script>
+    fetch("/info.json")
+      .then((response) => response.text())
+      .then((info) => {
+        document.getElementById("json_container").innerHTML = info;
+      });
+  </script>
 </html>
