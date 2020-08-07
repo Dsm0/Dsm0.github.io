@@ -5,7 +5,8 @@
 <head>
   <script>
     function pure_json_site() {
-      document.getElementById("site_container").src = "/info.json";
+      document.getElementById("site_container").src =
+        "/src/pure_json/index.html";
     }
     function og_site() {
       document.getElementById("site_container").src =
@@ -21,7 +22,7 @@
     <li onclick="pure_json_site()">pure_json</li>
     <li onclick="og_site()">og_site</li>
   </ul>
-  <iframe id="site_container" src="/info.json" class="box-item" frameborder="0"></iframe>
+  <iframe id="site_container" src="/src/pure_json/index.html" class="box-item" frameborder="0"></iframe>
 </body>
 
 

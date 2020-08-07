@@ -58,13 +58,13 @@ iframe {
   border: none;
 }
 
-iframe::-webkit-scrollbar {
+::-webkit-scrollbar {
   height: 12px;
   width: 12px;
   background: #000;
 }
 
-iframe::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background: #393812;
   -webkit-border-radius: 1ex;
   border-radius: 1ex;
@@ -72,6 +72,6 @@ iframe::-webkit-scrollbar-thumb {
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
 }
 
-iframe::-webkit-scrollbar-corner {
+::-webkit-scrollbar-corner {
   background: #000;
 }

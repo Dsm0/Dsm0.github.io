@@ -1,0 +1,31 @@
+.blackbar {
+  --track: black;
+  --thumb: #ffffee;
+  --thumb-hover: orange;
+}
+
+.creambar {
+  --track: #ffffee;
+  --thumb: black;
+  --thumb-hover: purple;
+}
+
+body::-webkit-scrollbar {
+  width: 15px;
+  background: var(--scrollbar);
+}
+
+/* Track */
+body::-webkit-scrollbar-track {
+  background: var(--track);
+}
+
+/* Handle */
+body::-webkit-scrollbar-thumb {
+  background: var(--thumb);
+}
+
+/* Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--thumb-hover);
+}
