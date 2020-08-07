@@ -1,13 +1,13 @@
 .blackbar {
   --track: black;
   --thumb: #ffffee;
-  --thumb-hover: orange;
+  --thumb-hover: #ffffee;
 }
 
 .creambar {
   --track: #ffffee;
   --thumb: black;
-  --thumb-hover: purple;
+  --thumb-hover: #777777;
 }
 
 body::-webkit-scrollbar {

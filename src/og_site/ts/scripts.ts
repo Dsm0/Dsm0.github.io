@@ -23,12 +23,6 @@ function move(moveme, x_pos, y_pos) {
   moveme.style.top = parseFloat(y_pos) + "px";
 }
 
-function scalePage(scalX, scalY) {
-  let html = document.getElementsByTagName("html")[0];
-  html.style.setProperty("--page-scaleX", scalX);
-  html.style.setProperty("--page-scaleY", scalY);
-}
-
 function moveElemBy(id, xoffset, yoffset) {
   let movee = document.getElementById(id);
   let x0 = parseInt(movee.style.left);

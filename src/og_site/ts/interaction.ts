@@ -91,7 +91,6 @@ var initScripts = function (e) {
       blurbDiv.innerHTML = "";
     };
   }
-  scalePage(scaleX, scaleY);
   window.scrollTo(0, 0);
 };
 
@@ -104,12 +103,6 @@ onmousemove = function (event: MouseEvent) {
 onkeypress = function (event: KeyboardEvent) {
   staticDynamic(event);
 };
-
-// onresize = function () {
-//   scaleX = window.innerWidth / 1920;
-//   scaleY = window.innerHeight / 956;
-//   scalePage(scaleX, scaleY);
-// };
 
 function transitionStatic(elem) {
   elem.style.transition = elem.getAttribute("data-transitionStatic");

@@ -73,7 +73,6 @@ var initScripts = function (e) {
     for (var i = 0; i < p5Canvi.length; i++) {
         _loop_2();
     }
-    scalePage(scaleX, scaleY);
     window.scrollTo(0, 0);
 };
 onmousemove = function (event) {
@@ -84,11 +83,6 @@ onmousemove = function (event) {
 onkeypress = function (event) {
     staticDynamic(event);
 };
-// onresize = function () {
-//   scaleX = window.innerWidth / 1920;
-//   scaleY = window.innerHeight / 956;
-//   scalePage(scaleX, scaleY);
-// };
 function transitionStatic(elem) {
     elem.style.transition = elem.getAttribute("data-transitionStatic");
 }
