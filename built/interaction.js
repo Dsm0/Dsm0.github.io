@@ -23,9 +23,7 @@ function initP5(p5Obj) {
 }
 var initScripts = function (e) {
     var loadedP5s = p5Objs.map(initP5);
-    // document.body.scrollTop = document.documentElement.scrollTop = 0;
     move(blurbDiv, window.innerWidth * recipX * 0.05, window.outerHeight * recipY * 0.85);
-    // move(blurbDiv,parseFloat(this.style.left) - 500,parseFloat(this.style.top));
     move(contact, centerX, centerY);
     move(email, centerX + centerX / 20, centerY + centerY / 20);
     move(p51, centerX + centerX / 20, centerY + centerY / 20);
@@ -66,7 +64,6 @@ var initScripts = function (e) {
         var p5Canv = p5Canvi[i];
         move(p5Canvi[i], centerX + window.innerWidth, centerY + innerHeight);
         p5Canv.onmouseover = function (_) {
-            // move(blurbDiv,parseFloat(this.style.left) - 500,parseFloat(this.style.top));
             blurbDiv.innerHTML = p5Canv.getAttribute("data-blurb");
         };
         p5Canv.onmouseleave = function (_) {
@@ -87,11 +84,11 @@ onmousemove = function (event) {
 onkeypress = function (event) {
     staticDynamic(event);
 };
-onresize = function () {
-    scaleX = window.innerWidth / 1920;
-    scaleY = window.innerHeight / 956;
-    scalePage(scaleX, scaleY);
-};
+// onresize = function () {
+//   scaleX = window.innerWidth / 1920;
+//   scaleY = window.innerHeight / 956;
+//   scalePage(scaleX, scaleY);
+// };
 function transitionStatic(elem) {
     elem.style.transition = elem.getAttribute("data-transitionStatic");
 }
@@ -103,16 +100,11 @@ function movetoStatic(elem) {
     var newHeight = (1 / scaleY) * ypercentToFloat(elem.getAttribute("data-staticY"));
     move(elem, newWidth, newHeight);
 }
-// window.addEventListener("scroll", function (event) {
-//   var scroll = this.scrollX;
-//   console.log(scroll);
-// });
 onscroll = function (event) {
     move(blurbDiv, window.innerWidth * recipX * 0.05 + this.scrollX, window.outerHeight * recipY * 0.85);
 };
 // It won't scale, but it's good for now...
 function staticify() {
-    // window.scrollTo(0, 0);
     body.style.setProperty("--overflow-mode", "scroll");
     dynamicSwitch.innerHTML = "mouseover for dynamic";
     for (var i = 0; i < canvi.length; i++) {
@@ -164,16 +156,17 @@ var moveElements = function (e) {
     moveByPivot(e, email);
     moveByPivot(e, resume);
 };
-// courtesy of
-// https://stackoverflow.com/a/16779702
-function getStyleSheetPropertyValue(selectorText, propertyName) {
-    // search backwards because the last match is more likely the right one
-    for (var s = document.styleSheets.length - 1; s >= 0; s--) {
-        var cssRules = document.styleSheets[s].cssRules || document.styleSheets[s].rules || []; // IE support
-        for (var c = 0; c < cssRules.length; c++) {
-            if (cssRules[c].selectorText === selectorText)
-                return cssRules[c].style[propertyName];
-        }
-    }
-    return null;
-}
+// // courtesy of
+// // https://stackoverflow.com/a/16779702
+// function getStyleSheetPropertyValue(selectorText, propertyName) {
+//   // search backwards because the last match is more likely the right one
+//   for (var s = document.styleSheets.length - 1; s >= 0; s--) {
+//     var cssRules =
+//       document.styleSheets[s].cssRules || document.styleSheets[s].rules || []; // IE support
+//     for (var c = 0; c < cssRules.length; c++) {
+//       if (cssRules[c].selectorText === selectorText)
+//         return cssRules[c].style[propertyName];
+//     }
+//   }
+//   return null;
+// }

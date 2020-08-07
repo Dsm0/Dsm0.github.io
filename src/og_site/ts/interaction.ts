@@ -105,11 +105,11 @@ onkeypress = function (event: KeyboardEvent) {
   staticDynamic(event);
 };
 
-onresize = function () {
-  scaleX = window.innerWidth / 1920;
-  scaleY = window.innerHeight / 956;
-  scalePage(scaleX, scaleY);
-};
+// onresize = function () {
+//   scaleX = window.innerWidth / 1920;
+//   scaleY = window.innerHeight / 956;
+//   scalePage(scaleX, scaleY);
+// };
 
 function transitionStatic(elem) {
   elem.style.transition = elem.getAttribute("data-transitionStatic");
@@ -203,17 +203,17 @@ const moveElements = function (e) {
   moveByPivot(e, resume);
 };
 
-// courtesy of
-// https://stackoverflow.com/a/16779702
-function getStyleSheetPropertyValue(selectorText, propertyName) {
-  // search backwards because the last match is more likely the right one
-  for (var s = document.styleSheets.length - 1; s >= 0; s--) {
-    var cssRules =
-      document.styleSheets[s].cssRules || document.styleSheets[s].rules || []; // IE support
-    for (var c = 0; c < cssRules.length; c++) {
-      if (cssRules[c].selectorText === selectorText)
-        return cssRules[c].style[propertyName];
-    }
-  }
-  return null;
-}
+// // courtesy of
+// // https://stackoverflow.com/a/16779702
+// function getStyleSheetPropertyValue(selectorText, propertyName) {
+//   // search backwards because the last match is more likely the right one
+//   for (var s = document.styleSheets.length - 1; s >= 0; s--) {
+//     var cssRules =
+//       document.styleSheets[s].cssRules || document.styleSheets[s].rules || []; // IE support
+//     for (var c = 0; c < cssRules.length; c++) {
+//       if (cssRules[c].selectorText === selectorText)
+//         return cssRules[c].style[propertyName];
+//     }
+//   }
+//   return null;
+// }

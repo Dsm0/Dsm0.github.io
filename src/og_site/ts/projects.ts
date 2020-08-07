@@ -332,7 +332,7 @@ void main() {
 let kirb1 = function (p) {
   let img, texShader;
   p.preload = function () {
-    img = p.loadImage("assets/kirb.jpeg");
+    img = p.loadImage("/assets/kirb.jpeg");
   };
 
   p.setup = function () {

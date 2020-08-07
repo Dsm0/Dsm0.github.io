@@ -1,5 +1,4 @@
 var standardVert = "precision mediump float;\n attribute vec2 a_position;\nvoid main(){\ngl_Position = vec4(a_position, 0, 1);\n  }";
-// const p5Vert = `precision mediump float;\nattribute vec3 aPosition;\nvoid main(){vec4 positionVec4 = vec4(aPosition,1.0); gl_Position = positionVec4;}`
 var p5Vert = "\n// our vertex data\nattribute vec3 aPosition;\nattribute vec2 aTexCoord;\n\n// lets get texcoords just for fun! \nvarying vec2 vTexCoord;\n\nvoid main() {\n  // copy the texcoords\n  vTexCoord = aTexCoord;\n\n  // copy the position data into a vec4, using 1.0 as the w component\n  vec4 positionVec4 = vec4(aPosition, 1.0);\n  positionVec4.xy = positionVec4.xy * 2.0 - 1.0;\n\n  // send the vertex information on to the fragment shader\n  gl_Position = positionVec4;\n}\n";
 var blankFrag = "precision mediump float;\nvoid main(){gl_FragColor = vec4(1.0);\n }";
 var greyFrag = "precision mediump float;\nvoid main(){gl_FragColor = vec4(.25);\n }";
@@ -16,7 +15,7 @@ var kirb1Frag = "\nprecision mediump float;\n\nuniform sampler2D tex1;\nuniform 
 var kirb1 = function (p) {
     var img, texShader;
     p.preload = function () {
-        img = p.loadImage("assets/kirb.jpeg");
+        img = p.loadImage("/assets/kirb.jpeg");
     };
     p.setup = function () {
         p.canvas = p.createCanvas(200, 200, p.WEBGL);
