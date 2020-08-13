@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css" />
+    <style>
+      * {
+        --color-1: #ffffee;
+        --color-2: black;
+        --color-3: rgba(236, 198, 48, 0.4);
+        --color-4: rgba(48, 236, 226, 0.26);
+        --color-5: rgba(78, 202, 196, 0.568);
+      }
+
+      html {
+        background-color: var(--color-1);
+        font-family: monospace;
+        font-size: 1.3rem;
+      }
+
+      #top:first-child > a {
+        background-color: var(--color-3);
+      }
+
+      p {
+        display: flex;
+        width: fit-content;
+        height: 100%;
+        color: var(--color-1);
+        background-color: var(--color-2);
+        border: 2px dashed var(--color-4);
+        padding: 0 0 0 20px;
+        margin: 0 5px 0 5px;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        width: fit-content;
+        padding: 5px 0 5px 0;
+      }
+
+      div.container {
+        flex-direction: row;
+        text-align: center;
+      }
+
+      a {
+        flex-direction: row;
+        border-radius: 4px;
+        width: fit-content;
+        height: fit-content;
+        border: 0px;
+        text-align: left;
+        padding-left: 5px;
+      }
+
+      a:link,
+      a:visited {
+        border-radius: 20px;
+      }
+
+      a:link {
+        border-color: #0000ee;
+      }
+      a:visited {
+        border-color: #551a8b;
+      }
+    </style>
+    <script
+      src="/built/pure_html/ts/gen_pure_html.js"
+      onload="build()"
+    ></script>
+  </head>
+
+  <body id="body" class="creambar"></body>
+</html>

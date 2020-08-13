@@ -1,16 +1,16 @@
-var startDate = new Date();
-var startTime = startDate.getTime();
+let startDate = new Date();
+let startTime = startDate.getTime();
 // THIS FUNCTION CALCULATES THE SECONDS ELAPSED SINCE THE PAGE WAS LOADED
 // https://www.webdeveloper.com/d/3153-how-much-time-has-elapsed-since-loading-this-web-page
-var scaleX = window.innerWidth / 1920;
-var scaleY = window.innerHeight / 956;
-var recipX = 1 / scaleX;
-var recipY = 1 / scaleY;
+let scaleX = window.innerWidth / 1920;
+let scaleY = window.innerHeight / 956;
+let recipX = 1 / scaleX;
+let recipY = 1 / scaleY;
 function seconds_elapsed() {
-    var date_now = new Date();
-    var time_now = date_now.getTime();
-    var time_diff = time_now - startTime;
-    var seconds_elapsed = Math.floor(time_diff / 1000);
+    let date_now = new Date();
+    let time_now = date_now.getTime();
+    let time_diff = time_now - startTime;
+    let seconds_elapsed = Math.floor(time_diff / 1000);
     return seconds_elapsed;
 }
 function move(moveme, x_pos, y_pos) {
@@ -18,25 +18,19 @@ function move(moveme, x_pos, y_pos) {
     moveme.style.top = parseFloat(y_pos) + "px";
 }
 function moveElemBy(id, xoffset, yoffset) {
-    var movee = document.getElementById(id);
-    var x0 = parseInt(movee.style.left);
-    var y0 = parseInt(movee.style.top);
+    let movee = document.getElementById(id);
+    let x0 = parseInt(movee.style.left);
+    let y0 = parseInt(movee.style.top);
     move(movee, Math.abs(x0 - xoffset), Math.abs(y0 - yoffset));
 }
-function moveElemByMouse(e, id, pivotX, pivotY, xfactor, yfactor) {
-    if (xfactor === void 0) { xfactor = 1; }
-    if (yfactor === void 0) { yfactor = 1; }
-    var elem = document.getElementById(id);
+function moveElemByMouse(e, id, pivotX, pivotY, xfactor = 1, yfactor = 1) {
+    let elem = document.getElementById(id);
     move(elem, pivotX + (pivotX - e.clientX) * xfactor, pivotY + (pivotY - e.clientY) * yfactor);
 }
-function moveElemByMouseMax(e, id, pivotX, pivotY, xfactor, yfactor, maxX, maxY) {
-    if (xfactor === void 0) { xfactor = 1; }
-    if (yfactor === void 0) { yfactor = 1; }
-    if (maxX === void 0) { maxX = centerX * recipX; }
-    if (maxY === void 0) { maxY = centerY * recipY; }
-    var elem = document.getElementById(id);
-    var newX = pivotX + (pivotX - e.clientX) * xfactor;
-    var newY = pivotY + (pivotY - e.clientY) * yfactor;
+function moveElemByMouseMax(e, id, pivotX, pivotY, xfactor = 1, yfactor = 1, maxX = centerX * recipX, maxY = centerY * recipY) {
+    let elem = document.getElementById(id);
+    let newX = pivotX + (pivotX - e.clientX) * xfactor;
+    let newY = pivotY + (pivotY - e.clientY) * yfactor;
     move(elem, Math.min(newX, maxX), Math.min(newY, maxY));
 }
 function moveCanvi(e, canvi) {
@@ -45,16 +39,16 @@ function moveCanvi(e, canvi) {
     }
 }
 function moveByPivot(e, canv) {
-    var pivotX = xpercentToFloat(canv.getAttribute("data-pivotX"));
-    var pivotY = ypercentToFloat(canv.getAttribute("data-pivotY"));
-    var xfactor = canv.getAttribute("data-xfactor");
-    var yfactor = canv.getAttribute("data-yfactor");
-    var newX = pivotX + (pivotX - e.clientX) * xfactor;
-    var newY = pivotY + (pivotY - e.clientY) * yfactor;
-    var maxX = canv.getAttribute("data-maxX") != null
+    let pivotX = xpercentToFloat(canv.getAttribute("data-pivotX"));
+    let pivotY = ypercentToFloat(canv.getAttribute("data-pivotY"));
+    let xfactor = canv.getAttribute("data-xfactor");
+    let yfactor = canv.getAttribute("data-yfactor");
+    let newX = pivotX + (pivotX - e.clientX) * xfactor;
+    let newY = pivotY + (pivotY - e.clientY) * yfactor;
+    let maxX = canv.getAttribute("data-maxX") != null
         ? xpercentToFloat(canv.getAttribute("data-maxX"))
         : 0;
-    var maxY = canv.getAttribute("data-maxY") != null
+    let maxY = canv.getAttribute("data-maxY") != null
         ? ypercentToFloat(canv.getAttribute("data-maxY"))
         : 0;
     newX *= recipX;

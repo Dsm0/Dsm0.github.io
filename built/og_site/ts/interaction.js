@@ -1,28 +1,28 @@
 var static = false;
-var canvas1 = document.getElementById("canvas1");
-var canvas2 = document.getElementById("canvas2");
-var canvas3 = document.getElementById("canvas3");
-var p51 = document.getElementById("p51");
-var p52 = document.getElementById("p52");
-var p53 = document.getElementById("p53");
-var contact = document.getElementById("contact");
-var email = document.getElementById("email");
-var resume = document.getElementById("resume");
-var blurbDiv = document.getElementById("blurb");
-var body = document.getElementById("body");
-var html = document.getElementById("html");
-var dynamicSwitch = document.getElementById("dynamicSwitch");
-var centerX = (recipX * window.innerWidth) / 2;
-var centerY = (recipY * window.innerHeight) / 2;
-var canvi = document.getElementsByClassName("glCanvas");
-var p5Canvi = document.getElementsByClassName("p5Canvas");
+const canvas1 = document.getElementById("canvas1");
+const canvas2 = document.getElementById("canvas2");
+const canvas3 = document.getElementById("canvas3");
+const p51 = document.getElementById("p51");
+const p52 = document.getElementById("p52");
+const p53 = document.getElementById("p53");
+const contact = document.getElementById("contact");
+const email = document.getElementById("email");
+const resume = document.getElementById("resume");
+const blurbDiv = document.getElementById("blurb");
+const body = document.getElementById("body");
+const html = document.getElementById("html");
+const dynamicSwitch = document.getElementById("dynamicSwitch");
+const centerX = (recipX * window.innerWidth) / 2;
+const centerY = (recipY * window.innerHeight) / 2;
+const canvi = document.getElementsByClassName("glCanvas");
+const p5Canvi = document.getElementsByClassName("p5Canvas");
 function initP5(p5Obj) {
     var div = document.getElementById(p5Obj.divId);
     div.setAttribute("data-blurb", p5Obj.blurb);
     return new p5(p5Obj.sketch);
 }
 var initScripts = function (e) {
-    var loadedP5s = p5Objs.map(initP5);
+    let loadedP5s = p5Objs.map(initP5);
     move(blurbDiv, window.innerWidth * recipX * 0.05, window.outerHeight * recipY * 0.85);
     move(contact, centerX, centerY);
     move(email, centerX + centerX / 20, centerY + centerY / 20);
@@ -30,7 +30,7 @@ var initScripts = function (e) {
     move(p52, centerX + centerX / 20, centerY + centerY / 20);
     move(p53, centerX + centerX / 20, centerY + centerY / 20);
     if (!static) {
-        var fakeEvent = {
+        const fakeEvent = {
             clientX: centerX,
             clientY: centerY,
         };
@@ -46,8 +46,8 @@ var initScripts = function (e) {
             dynamify();
         }
     };
-    var _loop_1 = function () {
-        var canv = canvi[i];
+    for (var i = 0; i < canvi.length; i++) {
+        const canv = canvi[i];
         move(canv, centerX + window.innerWidth, centerY + innerHeight);
         canv.onmouseover = function () {
             blurbDiv.innerHTML = canv.innerHTML;
@@ -56,22 +56,16 @@ var initScripts = function (e) {
         canv.onmouseleave = function () {
             blurbDiv.innerHTML = "";
         };
-    };
-    for (var i = 0; i < canvi.length; i++) {
-        _loop_1();
     }
-    var _loop_2 = function () {
-        var p5Canv = p5Canvi[i];
+    for (var i = 0; i < p5Canvi.length; i++) {
+        const p5Canv = p5Canvi[i];
         move(p5Canvi[i], centerX + window.innerWidth, centerY + innerHeight);
-        p5Canv.onmouseover = function (_) {
+        p5Canv.onmouseover = (_) => {
             blurbDiv.innerHTML = p5Canv.getAttribute("data-blurb");
         };
-        p5Canv.onmouseleave = function (_) {
+        p5Canv.onmouseleave = (_) => {
             blurbDiv.innerHTML = "";
         };
-    };
-    for (var i = 0; i < p5Canvi.length; i++) {
-        _loop_2();
     }
     window.scrollTo(0, 0);
 };
@@ -131,7 +125,7 @@ function dynamify() {
     body.style.setProperty("--overflow-mode", "hidden");
     window.scrollTo(0, 0);
 }
-var staticDynamic = function (e) {
+const staticDynamic = function (e) {
     if (e.key == "s") {
         static = !static;
         if (static) {
@@ -142,7 +136,7 @@ var staticDynamic = function (e) {
         }
     }
 };
-var moveElements = function (e) {
+const moveElements = function (e) {
     moveByPivot(e, contact);
     moveCanvi(e, canvi);
     moveCanvi(e, p5Canvi);

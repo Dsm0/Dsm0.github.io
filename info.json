@@ -1,8 +1,8 @@
 {
   "name": "Will Rinkoff",
   "contact": {
-    "email": "will.rinkoff@gmail.com",
-    "github": "https://github.com/Dsm0/"
+    "email": { "link": "mailto:will.rinkoff@gmail.com" },
+    "github": { "link": "https://github.com/Dsm0/" }
   },
   "resume": {
     "skill_summary": {
@@ -69,10 +69,10 @@
     },
     "work_experience": {
       "resonant_cavity": {
-        "website": "https://resonantcavity.com/",
+        "link": "https://resonantcavity.com/",
         "duration": {
-          "start": "2019-05-01T13:00:00.000Z",
-          "end": "2019-08-15T23:00:00.000Z"
+          "start": "2019-05-01",
+          "end": "2019-08-15"
         },
         "description": [
           "created tools for deep-learning audio analysis/synthesis inside Python",
@@ -84,10 +84,10 @@
         "frameworks": ["tensorflow", "keras", "numpy", "Madmom", "git"]
       },
       "neort": {
-        "website": "https://neort.io",
+        "link": "https://neort.io",
         "duration": {
-          "start": "2020-07-01T14:00:00.000Z",
-          "end": "2020-08-01T05:00:00.000Z"
+          "start": "2020-07-01",
+          "end": "2020-08-01"
         },
         "description": [
           "frontend development on the website's creation tool/editor"

@@ -7,7 +7,7 @@
 .creambar {
   --track: #ffffee;
   --thumb: black;
-  --thumb-hover: var(--color-3);
+  --thumb-hover: #777777;
 }
 
 body::-webkit-scrollbar {
