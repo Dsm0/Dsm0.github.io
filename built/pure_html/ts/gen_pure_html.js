@@ -25,7 +25,7 @@ function gen_html(html, obj) {
         switch (typeof val) {
             case "string":
                 _html += `<a class="item ${disp_key}" 
-                     ${disp_key === "link" ? `href=${val}` : ""}">
+                     ${disp_key === "link" ? `target="_blank" rel="noopener noreferrer" href=${val}` : ""}>
                     ${disp_key} - ${val}
                   </a>`;
                 break;
