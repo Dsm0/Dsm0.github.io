@@ -10,6 +10,14 @@
   --thumb-hover: #777777;
 }
 
+pre {
+  margin: 0px;
+}
+
+body {
+  margin: 0em;
+}
+
 body::-webkit-scrollbar {
   width: 15px;
   background: var(--scrollbar);
