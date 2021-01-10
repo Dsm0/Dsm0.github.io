@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+
+<html>
+    <style>
+     pre, input {
+         white-space: pre-wrap;       /* Since CSS 2.1 */
+         white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+         white-space: -pre-wrap;      /* Opera 4-6 */
+         white-space: -o-pre-wrap;    /* Opera 7 */
+         word-wrap: break-word;       /* Internet Explorer 5.5+ */
+     }
+
+     #render {
+         white-space: pre;
+         overflow-wrap:break-word;
+         font-size: 20px;
+         background-color: black;
+         color: white;
+         overflow-wrap:break-word;
+         font-family:monospace;
+         text-align: center;
+     }
+     #ascii {
+         width: 90%;
+     }
+     #toggle{
+         width: 10%;
+     }
+
+     form {
+         display: flex;
+     }
+
+    </style>
+    <head>
+    </head>
+    <body>
+        <form>
+            <textarea type="text" id="ascii" name="ascii"></textarea>
+            <input type="checkbox" id="toggle" label='No' placeholder="">
+        </form>
+
+    </body>
+
+    <pre id="render"></pre>
+
+    <script src="ascii_toy.js"></script>
+
+
+</html>
