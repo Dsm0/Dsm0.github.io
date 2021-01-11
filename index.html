@@ -36,6 +36,12 @@
     .box-item {
       display: block;
     }
+   .divider{
+       margin-bottom: 5px;
+       border-bottom: 5px;
+       border-width: 2px;
+       border-color: var(--color-2);
+   }
 
     div {
       margin-inline-start: 0px;
@@ -99,7 +105,7 @@
 
     .contacts {
       bottom: 0px;
-      list-style: none;
+        list-style: none;
       padding: 0px;
     }
 
@@ -120,8 +126,8 @@
       <li onclick="site('/src/pure_json/index.html')">pure_json</li>
       <li onclick="site('/src/pure_html/index.html')">pure_html</li>
       <li onclick="site('/src/og_site/index.html')">og_site</li>
-      <li> -------- </li>
-      <li> sketches </li>
+      ---
+      <div class="divider"> sketches </div>
       <li onclick="site('/projects/ascii_toy/ascii_toy.html')">ascii_toy</li>
     </ul>
 

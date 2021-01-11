@@ -12,8 +12,6 @@ const height = 20
 
 let line_length = 0
 
-let p = ("*".repeat(width-1) + "\n").repeat(height)
-
 Array.prototype.replaceAt = function(index, replacement) {
     replacement ||= "";
     return this.subarray(0, index) + replacement + this.subarray(index + replacement.length);
@@ -24,24 +22,51 @@ String.prototype.replaceAt = function(index, replacement) {
     return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 }
 
+render.innerHTML = [...Array(width*height).keys()].map(i =>{return "<span id='span"+i+"'></span>"}).join("")
 
-since_start = () => {
-    return date.getMilliseconds() - start;
+spans = document.getElementsByTagName("span")
+
+
+function parse_char(ah){
+    switch(ah){
+    case "b":
+        return "bold";
+    case "i":
+        return "italic";
+    case "v":
+        return "invert";
+    case "c":
+        return "cream";
+    default:
+        return "";
+    }
 }
 
+
 let index = 0
+let char_index = 0
 let text = ascii_input.value;
 let ah = ""
-
+let classes = new Set();
+let newline = false
 
 update_render = () => {
     text = ascii_input.value;
-    if(toggle.checked){
+    text_len = text.length;
+    if(text){
         if((index % width) == width-1 && index>0){
-            render.innerText = render.innerText.replaceAt(index,"\n")
+            spans[index].innerText = "\n"
         } else {
-            let ah = text[index % ascii_input.value.length];
-            render.innerText = render.innerText.replaceAt(index,ah)
+            let ah = text[char_index%text_len];
+            if(c = parse_char(ah)) {
+                classes.add(c);
+            }
+            spans[index].className = Array.from(classes).join(' ');
+            ah ||= " ";
+            spans[index].innerText = ah;
+            if(!c)
+                classes.clear();
+            char_index = (char_index+1) % text_len;
         }
         index = (index+1) % (width*height);
     }
