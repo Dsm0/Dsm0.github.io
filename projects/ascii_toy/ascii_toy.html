@@ -2,8 +2,13 @@
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
 
+
 <html>
     <style>
+
+     @font-face { font-family: 'Fedora_Symbols';
+         src: url("/assets/fonts/SFFedoraSymbols.ttf") format('woff2'); }
+
      * {
          --color-1: #ffffee;
          --color-2: black;
@@ -18,23 +23,32 @@
          word-wrap: break-word;       /* Internet Explorer 5.5+ */
      }
 
+
      #render {
          white-space: pre;
          overflow-wrap:break-word;
-         font-size: 20px;
+         font-size: 50px;
          overflow-wrap:break-word;
-         font-family:monospace;
-         text-align: center;
+         font-family:'Fedora_Symbols';
+         letter-spacing: 0.1ch;
+         line-height: 1.25ch;
      }
+
      textarea {
          background-color: var(--color-1);
          border-width: 3px;
          border-color: var(--color-2);
-         border-style:dotted;
+         border-style:inset;
+         font-family:monospace;
+         font-size: 15px;
+         height: auto;
+         vertical-align:text-top;
      }
 
      span{
          background-color: var(--color-2);
+         background-size:auto;
+         background-origin:border-box;
          color: var(--color-1);
      }
      .italic {
@@ -63,6 +77,13 @@
          display: flex;
      }
 
+     .render_container {
+         height: 100%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+     }
+
     </style>
     <head>
     </head>
@@ -71,9 +92,11 @@
             <textarea type="text" id="ascii" name="ascii"></textarea>
         </form>
 
+        <div class="render_container">
+            <pre id="render"></pre>
+        </div>
     </body>
 
-    <pre id="render"></pre>
 
     <script src="ascii_toy.js"></script>
 

@@ -2,12 +2,18 @@
   --track: black;
   --thumb: #ffffee;
   --thumb-hover: var(--color-3);
+
+  scrollbar-color: var(--thumb) var(--track);
+  scrollbar-width: auto;
 }
 
 .creambar {
   --track: #ffffee;
   --thumb: black;
   --thumb-hover: #777777;
+
+  scrollbar-color: var(--thumb) var(--track);
+  scrollbar-width: auto;
 }
 
 pre {
@@ -16,6 +22,8 @@ pre {
 
 body {
   margin: 0em;
+  scrollbar-width: 15px;
+  scrollbar-color: var(--scrollbar);
 }
 
 body::-webkit-scrollbar {
