@@ -37,6 +37,10 @@ function parse_char(ah){
         return "invert";
     case "c":
         return "cream";
+    case "s":
+        return "shadow";
+    case "2":
+        return "size2";
     default:
         return "";
     }
