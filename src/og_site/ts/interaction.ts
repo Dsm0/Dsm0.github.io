@@ -1,6 +1,6 @@
 declare var p5: any; // stupid fix for "Cannot find name 'p5'"
 
-var static = false;
+var static = true;
 
 const canvas1 = document.getElementById("canvas1");
 const canvas2 = document.getElementById("canvas2");
@@ -100,6 +100,10 @@ var initScripts = function (e) {
         clientX: centerX,
         clientY: centerY,
     }
+    
+
+
+
   )
 
 };
@@ -140,7 +144,7 @@ onscroll = function (event) {
 
 // It won't scale, but it's good for now...
 function staticify() {
-  body.style.setProperty("--overflow-mode", "scroll");
+  // body.style.setProperty("--overflow-mode", "scroll");
 
   dynamicSwitch.innerHTML = "mouseover for dynamic";
 
@@ -154,6 +158,7 @@ function staticify() {
     movetoStatic(p5Canvi[i]);
   }
 
+    staticify();
 }
 
 // It won't scale, but it's good for now...

@@ -1,4 +1,4 @@
-var static = false;
+var static = true;
 const canvas1 = document.getElementById("canvas1");
 const canvas2 = document.getElementById("canvas2");
 const canvas3 = document.getElementById("canvas3");
@@ -98,7 +98,7 @@ onscroll = function (event) {
 };
 // It won't scale, but it's good for now...
 function staticify() {
-    body.style.setProperty("--overflow-mode", "scroll");
+    // body.style.setProperty("--overflow-mode", "scroll");
     dynamicSwitch.innerHTML = "mouseover for dynamic";
     for (var i = 0; i < canvi.length; i++) {
         transitionStatic(canvi[i]);
@@ -108,12 +108,7 @@ function staticify() {
         transitionStatic(p5Canvi[i]);
         movetoStatic(p5Canvi[i]);
     }
-    // transitionStatic(contact);
-    // transitionStatic(email);
-    // transitionStatic(resume);
-    // movetoStatic(resume);
-    // movetoStatic(contact);
-    // movetoStatic(email);
+    staticify();
 }
 // It won't scale, but it's good for now...
 function dynamify() {
