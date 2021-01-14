@@ -310,8 +310,12 @@ void main() {
   st.x = 1.0 - st.x;
   vec4 img = texture2D(tex1,st*vec2(1.,imgAspect));
 
-  if(img.a != 1.0){
-      img = vec4(0.,0.,0.,1.);
+  if(img.g + img.b >= 1.4 && img.r > 0.92){
+     img = vec4(0.,0.,0.,1.);
+  }
+
+  if(st.y > 0.9 && img.g + img.b >= 1.1){
+     img = vec4(0.,0.,0.,1.);
   }
 
   gl_FragColor = img;
@@ -330,10 +334,10 @@ let kirb1 = function (p) {
         texShader.setUniform("u_texResolution", [img.width, img.height]);
         texShader.setUniform("u_canvas_resolution", [200, 200]);
         texShader.setUniform("tex1", img);
+        p.background("black");
         p.noStroke();
     };
     p.draw = function () {
-        p.background("black");
         texShader.setUniform("u_time", p.millis());
         p.quad(-1, -1, 1, -1, 1, 1, -1, 1);
     };

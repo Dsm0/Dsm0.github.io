@@ -1,0 +1,64 @@
+/* @import "/assets/css/fonts.css"; */
+
+/* @font-face { font-family: 'Fedora_Symbols'; */
+/*              src: url("/assets/fonts/SFFedoraSymbols.ttf") format('woff2'); } */
+
+* {
+    --color-1: #ffffee;
+    --color-2: black;
+    --color-3: rgba(236, 198, 48, 0.4);
+}
+
+pre, input {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+#render {
+    white-space: pre;
+    overflow-wrap:break-word;
+    font-size: 20px;
+    overflow-wrap:break-word;
+    font-family:Fedora_Symbols;
+    text-align: center;
+}
+textarea {
+    background-color: var(--color-1);
+    border-width: 3px;
+    border-color: var(--color-2);
+    border-style:dotted;
+    font-family:'Fedora_Symbols';
+}
+
+span{
+    background-color: var(--color-2);
+    color: var(--color-1);
+}
+.italic {
+    font-style:italic;
+}
+.bold{
+    font-weight:900;
+}
+.cream{
+    background-color: var(--color-3);
+    color: var(--color-2);
+}
+.invert{
+    background-color: var(--color-1);
+    color: var(--color-2);
+}
+.size2{
+    font-size: 20px;
+}
+
+#ascii {
+    width: 90%;
+}
+
+form {
+    display: flex;
+}

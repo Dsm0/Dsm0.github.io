@@ -8,7 +8,11 @@
 * {
   --color-1: black;
   --color-2: #ffffee;
-  --color-3: orange;
+  --color-3: rgba(236, 198, 48, 0.4);
+
+  --track:  #ffffee;
+  --thumb:black;
+  scrollbar-color: var(--thumb) var(--track);
 }
 
 html {
@@ -33,23 +37,23 @@ body {
   /* font-family: monospace; */
 }
 
-#mainText {
-  color: var(--color-2);
-  z-index: 0;
-  margin-left: 40px;
-  width: 100%;
-  bottom: 40px;
-  font-size: 40px;
-  overflow: auto;
-}
-
+   /* #mainText {
+      color: var(--color-2);
+      z-index: 0;
+      margin-left: 35px;
+      width: 100%;
+      bottom: 35px;
+      font-size: 35px;
+      overflow: auto;
+      }
+    */
 /* #mainText : hover{
   z-index: 2;
 } */
 
 #resume {
   overflow: hidden;
-  width: 30;
+  width: 35;
 
   transform: scale(1.25);
   -moz-transform: scale(1.25);
@@ -69,12 +73,12 @@ body {
 #navigation {
   background-color: var(--color-1);
   z-index: 0;
-  font-size: 30px;
+  font-size: 35px;
   color: var(--color-2);
   width: Xu;
   height: Yu;
   position: absolute;
-  top: 30%;
+  top: 35%;
   left: 50%;
 }
 
@@ -158,7 +162,7 @@ div.p5Canvas:hover {
 /* I'll find a way to use this somehow */
 span.stretch {
   display: inline-block;
-  margin-left: 40%;
+  margin-left: 35%;
   -webkit-transform: scale(4, 1); /* Safari and Chrome */
   -moz-transform: scale(4, 1); /* Firefox */
   -ms-transform: scale(4, 1); /* IE 9 */
@@ -249,169 +253,56 @@ li.resume {
 </head>
 
 <body id="body" class="blackbar">
-  <h1 id="mainText">
-    My name is Will Rinkoff <br>
-    I study Music and Technology at Carnegie Mellon University
-  </h1>
-
-  <div id="resume" frameborder="0" scroll="no" data-staticX="1%" data-staticY=13.5% data-transitionDynamic="0s"
-    data-transitionStatic="0.2s" data-xfactor=3 data-yfactor=0 data-pivotX="17.5%" data-pivotY="17.5%" data-maxX="1%">
-
-    <div id="row" scroll="no">
-      <div class="resume meat">
-        <div id="work" class="resume title">
-          <h2>Work Experience</h2>
-          <h4>Resonant Cavity - Deep Learning (Summer 2019)</h4>
-          <ul>
-            <li>
-              created tools for deep-learning audio analysis/synthesis inside
-              <strong>Python</strong>
-            </li>
-            <li>
-              utilized <strong>Tensorflow</strong>, <strong>Keras</strong>,
-              <strong>Numpy</strong>, and a number of
-              <strong>Audio-Analysis libraries</strong>
-              (particularly <strong>Madmom</strong>)
-            </li>
-            <li>
-              successfully researched, modeled, and implemented complex <br>
-              audio-analysis techniques with little prior experience <br>
-              &nbsp (I had just graduated high school at the time)
-            </li>
-            <li>
-              presented progress of work to a broader team of application developers
-            </li>
-          </ul>
-        </div>
-
-        <div id="education" class="resume title">
-          <h2>Education</h2>
-          <h4>
-            St. Paul Academy and Summit School - St. Paul, MN (Class of 2019)
-          </h4>
-          <h4>
-            Carnegie Mellon University - Pittsburgh, PA (Class of 2023,
-            currently enrolled)
-          </h4>
-          <ul>
-            <li>
-              studying Music and Technology, planning a transfer to Bachelors of
-              Computer Science and Music
-            </li>
-          </ul>
-        </div>
-
-        <div id="coursework" class="resume title">
-          <h2>Relevant Coursework</h2>
-          <ul>
-            <li>Computer Music with <strong>Nyquist</strong> (15-322)</li>
-            <li>
-              Fundamentals of Programming with <strong>Python</strong> (15-112)
-            </li>
-            <li>Imperative Programming with <strong>C</strong> (15-122)</li>
-          </ul>
-        </div>
-
-        <div id="hobbies" class="resume title">
-          <h2>Relevant Hobbies</h2>
-          <ul>
-            <li>
-              Linux
-              <ul>
-                <li>
-                  no stranger to command line tools, unearthing dependencies,
-                  etc.
-                </li>
-              </ul>
-            </li>
-            <li>
-              Tidalcycles
-              <ul>
-                <li>
-                  An experimental livecoding language based in
-                  <strong>Haskell</strong> and <strong>Supercollider</strong>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div id="summary" class="resume sidebar">
-        <div id="languages" class="resume title">
-          <h2>Skill Summary</h2>
-          <h4>Languages</h4>
-          <ul>
-            <li><strong>Python</strong></li>
-            <li><strong>C</strong></li>
-            <li><strong>JavaScript</strong></li>
-            <li><strong>HTML</strong></li>
-            <li><strong>Haskell</strong></li>
-            <li><strong>SuperCollider</strong></li>
-            <li><strong>C#</strong></li>
-            <li><strong>OpenGl</strong></li>
-          </ul>
-        </div>
-        <div id="tools" class="resume title">
-          <h4>Tools/Libraries</h4>
-          <ul>
-            <li><strong>Tensorflow </strong> + <strong>Keras</strong></li>
-            <li><strong>Numpy</strong></li>
-            <li><strong>Madmom Audio</strong></li>
-            <li><strong>WebGl</strong></li>
-            <li><strong>p5.js</strong></li>
-            <li><strong>Unity</strong></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div id="contact" class="infoBlock" data-staticX="52%" data-staticY=77% data-transitionDynamic="0s"
-    data-transitionStatic="0.2s" data-pivotX="50%" data-pivotY="50%" data-xfactor=0.5 data-yfactor=0.5>
-
-    <a href="https://github.com/Dsm0">github</a>
-    </br>
-    <a href="https://soundcloud.com/custom-rob0">soundcloud</a>
-    </br>
-    <a href="https://twitter.com/CUSTOM_ROB0">twitter </a>
-    </br>
 
     <div id=dynamicSwitch>
-      mouseover for static
+        mouseover for static
     </div>
 
-  </div>
+ <div id="gallery">
+
+      <div id="p5Shader1" class="p5Canvas"
+           data-pivotX="39%" data-pivotY="35%"
+           data-staticX="10%" data-staticY="25%"
+           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+      </div>
+
+      <div id="p5Shader2" class="p5Canvas"
+           data-pivotX="39%" data-pivotY="50%"
+           data-staticX="10%" data-staticY="50%"
+           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+      </div>
+
+      <div id="p5Shader3" class="p5Canvas"
+           data-pivotX="39%" data-pivotY="65%"
+           data-staticX="10%" data-staticY="75%"
+           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+      </div>
+
+      <div id="p51" class="p5Canvas"
+           data-pivotX="43%" data-pivotY="35%"
+           data-staticX="25%" data-staticY="25%"
+           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+      </div>
+
+      <div id="p52" class="p5Canvas"
+           data-pivotX="43%" data-pivotY="50%"
+           data-staticX="25%" data-staticY="50%"
+           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+      </div>
+
+      <div id="p53" class="p5Canvas"
+           data-pivotX="43%" data-pivotY="65%"
+           data-staticX="25%" data-staticY="75%"
+           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+      </div>
+
+      <div id="html1" class="p5Canvas"
+           data-pivotX="47%" data-pivotY="35%"
+           data-staticX="40%" data-staticY="25%"
+           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+      </div>
 
 
-  <div id="email" test="tst" data-pivotX="52.5%" data-pivotY="52.5%" data-xfactor=1 data-yfactor=0.7
-    data-staticX="52.5%" data-staticY="82.5%" data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-    <a href="mailto:wrinkoff@andrew.cmu.edu">email me: wrinkoff@andrew.cmu.edu</a>
-  </div>
-
-  <div id="p5Shader1" class="p5Canvas" data-pivotX="75%" data-pivotY="35%" data-staticX="75%" data-staticY="25%"
-    data-xfactor=2.5 data-yfactor=1 data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-  </div>
-
-  <div id="p5Shader2" class="p5Canvas" data-pivotX="75%" data-pivotY="50%" data-staticX="75%" data-staticY="50%"
-    data-xfactor=2.5 data-yfactor=1 data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-  </div>
-
-  <div id="p5Shader3" class="p5Canvas" data-pivotX="75%" data-pivotY="65%" data-staticX="75%" data-staticY="75%"
-    data-xfactor=2.5 data-yfactor=1 data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-  </div>
-
-  <div id="p51" class="p5Canvas" data-pivotX="79.5%" data-pivotY="35%" data-xfactor=2.5 data-yfactor=1
-    data-staticX="87%" data-staticY="25%" data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-  </div>
-
-  <div id="p52" class="p5Canvas" data-pivotX="79.5%" data-pivotY="50%" data-xfactor=2.5 data-yfactor=1
-    data-staticX="87%" data-staticY="50%" data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-  </div>
-
-  <div id="p53" class="p5Canvas" data-pivotX="79.5%" data-pivotY="65%" data-xfactor=2.5 data-yfactor=1
-    data-staticX="87%" data-staticY="75%" data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
   </div>
 
   <a id="blurb"></a>
@@ -424,11 +315,7 @@ li.resume {
 
   <meta charset="utf-8">
 
-  <title>Will Rinkoff's Portfolio</title>
-  <meta name="description" content="portfolio">
-  <meta name="Will" content="SitePoint">
-
-  <script>initScripts()</script>
+ <script>initScripts()</script>
 
 
 </body>

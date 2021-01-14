@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+         #anim {
+             background-color: black;
+             color: white;
+         }
+         table{
+             display:table;
+             table-layout: fixed;
+             margin-top: 50%;
+             margin-left: 50%;
+             position:fixed;
+         }
+
+         @keyframes example {
+             0%   {background-color:red; left:0px; top:0px;}
+             25%  {background-color:yellow; left:200px; top:0px;}
+             50%  {background-color:blue; left:200px; top:200px;}
+             75%  {background-color:green; left:0px; top:200px;}
+             100% {background-color:red; left:0px; top:0px;}
+         }
+
+         td {
+             /* background-color: var(--color-2); */
+             z-index: 2;
+             width: Xu;
+             height: Yu;
+             transition: transform 0.2s;
+             -moz-transform: scale(1);
+             -webkit-transform: scale(1);
+             position: relative;
+             transform: translate(-50%, -50%);
+             animation-name: example;
+             animation-duration: 4s;
+             /* animation-iteration-count:infinite; */
+         }
+         td:hover {
+             background-color: red;
+             /* only scale the div because the div will automatically scale 
+                the canvas inside */
+             z-index: 3;
+             /* position: absolute; */
+             transition: transform 0.2s;
+             transform: translate(-50%, -50%) scale(2);
+             -moz-transform: translate(-50%, -50%) scale(2);
+             -webkit-transform: translate(-50%, -50%) scale(2);
+             transition: transform 0.2s;
+         }
+        </style>
+    </head>
+    <body>
+        <table id="container">
+            <tr>
+                <td class="box">
+                    1
+                </td>
+                <td class="box">
+                    2
+                </td>
+                <td class="box">
+                    3
+                </td>
+            </tr>
+            <tr>
+                <td class="box">
+                    4
+                </td>
+                <td class="box">
+                    5
+                </td>
+                <td class="box">
+                    6
+                </td>
+            </tr>
+            <tr>
+                <td class="box">
+                    7
+                </td>
+                <td class="box">
+                    8
+                </td>
+                <td class="box">
+                    9
+                </td>
+            </tr>
+        </table>
+    </body>
+
+</html>

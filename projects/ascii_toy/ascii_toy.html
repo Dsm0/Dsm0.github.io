@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+
+<link rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css" media="screen"/>
+
+<html >
+    <style>
+
+     @font-face { font-family: 'Fedora_Symbols';
+         src: url("/assets/fonts/SFFedoraSymbols.ttf") format('woff2'); }
+
+     * {
+         --color-1: #ffffee;
+         --color-2: black;
+         --color-3: rgba(236, 198, 48, 0.4);
+
+         --track:  #ffffee;
+         --thumb:black;
+         scrollbar-color: var(--thumb) var(--track);
+     }
+
+     html {
+         background-color: var(--color-1);
+     }
+
+     pre, input {
+         white-space: pre-wrap;       /* Since CSS 2.1 */
+         white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+         white-space: -pre-wrap;      /* Opera 4-6 */
+         white-space: -o-pre-wrap;    /* Opera 7 */
+         word-wrap: break-word;       /* Internet Explorer 5.5+ */
+     }
+
+
+     #render {
+         position:static;
+         white-space: pre;
+         overflow-wrap:break-word;
+         font-size: 50px;
+         overflow-wrap:break-word;
+         font-family:'Fedora_Symbols';
+         letter-spacing: 0.1ch;
+         line-height: 1.25ch;
+     }
+
+     textarea {
+
+
+         display:block ;
+         width: 50%;
+         height: 4ch;
+         margin-left:auto;
+         margin-right:auto;
+         background-color: var(--color-2);
+         color: var(--color-1);
+
+         border-width: 3px;
+         border-color: var(--color-2);
+         border-style:hidden;
+
+         font-family:monospace;
+         font-size: 20px;
+         vertical-align:middle;
+         margin-top: 40px;
+         margin-bottom:40px;
+     }
+
+     span{
+         background-color: var(--color-1);
+         background-size:auto;
+         background-origin:border-box;
+         color: var(--color-2);
+     }
+     .italic {
+         font-style:italic;
+     }
+     .bold{
+         font-weight:900;
+     }
+     .cream{
+         background-color: var(--color-3);
+         color: var(--color-2);
+     }
+     .invert{
+         background-color: var(--color-2);
+         color: var(--color-1);
+     }
+
+     .shadow{
+         text-shadow:  5px 5px var(--color-3);
+     }
+
+     .size2{
+         font-size: 120%;
+     }
+
+     form {
+         display: flex;
+         height:5%;
+         padding-bottom:5%;
+     }
+
+     .render_container {
+         height: 90%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+     }
+
+    </style>
+    <head>
+    </head>
+    <body class="blackbar">
+        <form>
+            <textarea rows=1 type="text" id="ascii" name="ascii" placeholder=""
+                      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            ></textarea>
+        </form>
+
+        <div class="render_container">
+            <pre id="render"></pre>
+        </div>
+    </body>
+
+    <script src="ascii_toy.js"></script>
+
+</html>

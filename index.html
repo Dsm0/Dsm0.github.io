@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
 
 <html>
 
@@ -10,10 +12,23 @@
   </script>
 
   <style>
+
+
+   @font-face { font-family: 'space-mono';
+       src: url("/assets/fonts/SpaceMono-Regular.ttf") format('woff2'); }
+
+
     * {
       --color-1: #ffffee;
       --color-2: black;
       --color-3: rgba(236, 198, 48, 0.4);
+
+
+
+        --track:  #ffffee;
+        --thumb:black;
+        scrollbar-color: var(--thumb) var(--track);
+
     }
 
     html {
@@ -22,6 +37,9 @@
       border-width: 0px;
       overflow-x: hidden;
       font-size: 1.1rem;
+
+      font-family: 'monospace';
+
     }
 
     body {
@@ -34,8 +52,17 @@
     }
 
     .box-item {
-      display: block;
+
+      display: inline-block;
     }
+
+   .divider{
+       margin-bottom: 5px;
+       border-bottom: 5px;
+       border-width: 2px;
+       border-color: var(--color-2);
+   }
+
 
     div {
       margin-inline-start: 0px;
@@ -99,8 +126,10 @@
 
     .contacts {
       bottom: 0px;
-      list-style: none;
-      padding: 0px;
+
+      display:block;
+        margin-left: 5px;
+
     }
 
     .icon {
@@ -119,23 +148,32 @@
     <ul class="box-item">
       <li onclick="site('/src/pure_json/index.html')">pure_json</li>
       <li onclick="site('/src/pure_html/index.html')">pure_html</li>
-      <li onclick="site('/src/og_site/index.html')">og_site</li>
+      <li onclick="site('/src/og_site/index.html')">gallery</li>
+      ---
+      <div class="divider"> sketches </div>
+      <li onclick="site('/projects/ascii_toy/ascii_toy.html')">ascii_toy</li>
+      <div class="divider">
+          (working <br>
+          on more) </div>
     </ul>
 
     <br>
 
-    <!-- <ul class="box-item work">
-      <li>glsl</li>
-      <li>P5hs</li>
-    </ul> -->
-
-    <ul class="box-item contacts">
-      <a href='https://webring.xxiivv.com/#random' target='_blank'><img class="icon"
-          src='https://webring.xxiivv.com/icon.black.svg' /></a>
-    </ul>
-
+    <!-- <ul class="box-item contacts">
+         <a href="https://twitter.com/c_robo_" target='_blank'><img class="icon"
+         src="/assets/twitter.svg"></a>
+         <a href="https://webring.xxiivv.com/#random" target='_blank'><img class="icon"
+         src="https://webring.xxiivv.com/icon.black.svg"/></a>
+         <a href="https://merveilles.town/@CUStOMROBO" target='_blank'><img class="icon"
+         src="https://merveilles.town/mstile-150x150.png">
+         </a>
+         </ul>
+    -->
   </div>
-  <iframe id="site_container" src="/src/pure_html/index.html" class="box-item" frameborder="0"></iframe>
+  <iframe id="site_container" src="/src/pure_html/index.html" class="box-item" frameborder="0">
+
+  </iframe>
 </body>
 
 </html>
+
