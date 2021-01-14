@@ -41,8 +41,11 @@ function moveCanvi(e, canvi) {
 function moveByPivot(e, canv) {
     let pivotX = xpercentToFloat(canv.getAttribute("data-pivotX"));
     let pivotY = ypercentToFloat(canv.getAttribute("data-pivotY"));
-    let xfactor = canv.getAttribute("data-xfactor");
-    let yfactor = canv.getAttribute("data-yfactor");
+    let canvi = 6;
+    let xfactor = 2.5;
+    // canv.getAttribute("data-xfactor");
+    let yfactor = 1;
+    // canv.getAttribute("data-yfactor");
     let newX = pivotX + (pivotX - e.clientX) * xfactor;
     let newY = pivotY + (pivotY - e.clientY) * yfactor;
     let maxX = canv.getAttribute("data-maxX") != null

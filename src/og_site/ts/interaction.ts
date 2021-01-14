@@ -54,13 +54,7 @@ var initScripts = function (e) {
   move(p52, centerX + centerX / 20, centerY + centerY / 20);
   move(p53, centerX + centerX / 20, centerY + centerY / 20);
 
-  if (!static) {
-    const fakeEvent = {
-      clientX: centerX,
-      clientY: centerY,
-    };
-    moveElements(fakeEvent);
-  }
+
   dynamicSwitch.onmouseover = function () {
     static = !static;
     if (static) {
@@ -94,6 +88,20 @@ var initScripts = function (e) {
     };
   }
   window.scrollTo(0, 0);
+    if (!static) {
+        const fakeEvent = {
+            clientX: centerX,
+            clientY: centerY,
+        };
+        moveElements(fakeEvent);
+    }
+
+    moveElements({
+        clientX: centerX,
+        clientY: centerY,
+    }
+  )
+
 };
 
 onmousemove = function (event: MouseEvent) {
@@ -146,13 +154,6 @@ function staticify() {
     movetoStatic(p5Canvi[i]);
   }
 
-  // transitionStatic(contact);
-  // transitionStatic(email);
-  // transitionStatic(resume);
-
-  // movetoStatic(resume);
-  // movetoStatic(contact);
-  // movetoStatic(email);
 }
 
 // It won't scale, but it's good for now...

@@ -30,13 +30,6 @@ var initScripts = function (e) {
     move(p51, centerX + centerX / 20, centerY + centerY / 20);
     move(p52, centerX + centerX / 20, centerY + centerY / 20);
     move(p53, centerX + centerX / 20, centerY + centerY / 20);
-    if (!static) {
-        const fakeEvent = {
-            clientX: centerX,
-            clientY: centerY,
-        };
-        moveElements(fakeEvent);
-    }
     dynamicSwitch.onmouseover = function () {
         static = !static;
         if (static) {
@@ -69,6 +62,17 @@ var initScripts = function (e) {
         };
     }
     window.scrollTo(0, 0);
+    if (!static) {
+        const fakeEvent = {
+            clientX: centerX,
+            clientY: centerY,
+        };
+        moveElements(fakeEvent);
+    }
+    moveElements({
+        clientX: centerX,
+        clientY: centerY,
+    });
 };
 onmousemove = function (event) {
     if (!static) {
