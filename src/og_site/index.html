@@ -1,323 +1,178 @@
 <!DOCTYPE html>
 
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+
 <html lang="en">
 
-<head>
+    <head>
 
-  <style>
-* {
-  --color-1: black;
-  --color-2: #ffffee;
-  --color-3: rgba(236, 198, 48, 0.4);
+        <style>
+         * {
+             --color-1: black;
+             --color-2: #ffffee;
+             --color-3: rgba(236, 198, 48, 0.4);
 
-  --track:  #ffffee;
-  --thumb:black;
-  scrollbar-color: var(--thumb) var(--track);
-}
+             --track:  #ffffee;
+             --thumb:black;
+             scrollbar-color: var(--thumb) var(--track);
+         }
 
-html {
-  transform: scaleX(var(--page-scaleX, 1)) scaleY(var(--page-scaleY, 1));
-  -webkit-transform: scaleX(var(--page-scaleX, 1)) scaleY(var(--page-scaleY, 1));
-  -moz-transform: scaleX(var(--page-scaleX, 1)) scaleY(var(--page-scaleY, 1));
-  -o-transform: scaleX(var(--page-scaleX, 1)) scaleY(var(--page-scaleY, 1));
+         body {
+             background-color: var(--color-1);
+             margin-left: 0px;
+             margin-top: 0px;
+             overflow-x: var(--overflow-mode, hidden);
+             overflow-y: hidden;
+             /* font-family: monospace; */
+         }
 
-  transform-origin: 0 0;
-  -webkit-transform-origin: 0 0;
-  -moz-transform-origin: 0 0;
-  -o-transform-origin: 0 0;
-  z-index: -5;
-}
+         .p5Canvas {
+             color: var(--color-2);
+             background-color: var(--color-1);
+             z-index: 2;
+             width: Xu;
+             height: Yu;
+             transform: scale(1);
+             transition: transform 0.5s;
+             -moz-transform: scale(1);
+             -webkit-transform: scale(1);
+             position: absolute;
+             transform-origin: 100px 100px
+         }
 
-body {
-  background-color: var(--color-1);
-  margin-left: 0px;
-  margin-top: 0px;
-  overflow-x: var(--overflow-mode, hidden);
-  overflow-y: hidden;
-  /* font-family: monospace; */
-}
+         .p5Canvas:hover {
+             background-color: var(--color-2);
+             color: var(--color-1);
+             z-index: 3;
+             position: absolute;
+             transform: scale(1.4);
+             -moz-transform: scale(1.4);
+             -webkit-transform: scale(1.4);
+             transition: transform 0.5s;
+         }
 
-   /* #mainText {
-      color: var(--color-2);
-      z-index: 0;
-      margin-left: 35px;
-      width: 100%;
-      bottom: 35px;
-      font-size: 35px;
-      overflow: auto;
-      }
-    */
-/* #mainText : hover{
-  z-index: 2;
-} */
-
-#resume {
-  overflow: hidden;
-  width: 35;
-
-  transform: scale(1.25);
-  -moz-transform: scale(1.25);
-  -o-transform: scale(1.25);
-
-  transform-origin: 0 0;
-  -moz-transform-origin: 0 0;
-  -o-transform-origin: 0 0;
-
-  -webkit-transform: scale(1.25);
-  -webkit-transform-origin: 0 0;
-  position: absolute;
-  left: -150%; /*when the page loads, resume starts offscrean*/
-  top: 13.5%;
-}
-
-#navigation {
-  background-color: var(--color-1);
-  z-index: 0;
-  font-size: 35px;
-  color: var(--color-2);
-  width: Xu;
-  height: Yu;
-  position: absolute;
-  top: 35%;
-  left: 50%;
-}
-
-#contact {
-  background-color: var(--color-2);
-  font-size: 20px;
-  color: var(--color-2);
-  z-index: 1;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-#dynamicSwitch {
-  position: absolute;
-  background-color: var(--color-2);
-  z-index: 10;
-  left: 200%;
-  top: -70%;
-  color: var(--color-1);
-}
-
-.p5Canvas {
-  background-color: var(--color-2);
-  z-index: 2;
-  width: Xu;
-  height: Yu;
-  transform: scale(1);
-  transition: transform 0.2s;
-  -moz-transform: scale(1);
-  -webkit-transform: scale(1);
-  position: absolute;
-  transform: translate(-50%, -50%);
-}
-
-div.p5Canvas:hover {
-  /* only scale the div because the div will automatically scale 
-  the canvas inside */
-  background-color: var(--color-2);
-  z-index: 3;
-  position: absolute;
-  transition: transform 0.2s;
-  transform: translate(-50%, -50%) scale(2);
-  -moz-transform: translate(-50%, -50%) scale(2);
-  -webkit-transform: translate(-50%, -50%) scale(2);
-  transition: transform 0.2s;
-}
-
-#blurb {
-  background-color: var(--color-2);
-  color: var(--color-1);
-  font-weight: bold;
-  font-size: 20px;
-  font-feature-settings: "vrt2";
-  font-family: monospace;
-  overflow-y: hidden;
-  position: fixed;
-  box-shadow: -4px 4px 1px var(--color-2), -8px 8px 1px var(--color-2),
-    -12px 12px 1px var(--color-2), -16px 16px 1px var(--color-2),
-    -20px 20px 1px var(--color-2);
-  z-index: 5;
-}
-
-#email {
-  background-color: var(--color-2);
-  color: var(--color-1);
-  /* margin-left: -(X/2)u;
-  margin-top: -(Y/2)u;
-  width: Xu;
-  height: Yu; */
-  z-index: 1;
-  position: absolute;
-
-  top: 64.14%;
-  left: 56.45%;
-}
-
-/* courtesy of */
-/*https://stackoverflow.com/a/12065925  */
-/* I'll find a way to use this somehow */
-span.stretch {
-  display: inline-block;
-  margin-left: 35%;
-  -webkit-transform: scale(4, 1); /* Safari and Chrome */
-  -moz-transform: scale(4, 1); /* Firefox */
-  -ms-transform: scale(4, 1); /* IE 9 */
-  -o-transform: scale(4, 1); /* Opera */
-  transform: matrix(2, -0.6, 0, 2, 0, 0);
-}
-
-/*Resume properties, had to tack them on to this file*/
-
-div.resume {
-  line-height: 15px;
-}
-
-h1.resume,
-h2.resume,
-h3.resume,
-h4.resume,
-h5.resume,
-h6.resume,
-ul.resume {
-  margin-top: 2%;
-  margin-bottom: 2%;
-  line-height: 15px;
-}
-
-.resume {
-  position: relative;
-}
-
-#row.resume {
-  display: table-row;
-  width: 90%;
-}
-
-.title.resume {
-  background: inherit;
-  color: inherit;
-}
-
-.meat.resume {
-  display: table-cell;
-  background: var(--color-1);
-  color: var(--color-2);
-  padding-left: 1.5%;
-  position: relative;
-  width: 70%;
-  z-index: 0;
-}
-
-/*todo: make the box-shadows more attractive*/
-
-.sidebar.resume {
-  background: var(--color-2);
-  color: var(--color-1);
-  display: table-cell;
-  padding-left: 3%;
-  padding-right: 3%;
-  z-index: 2;
-}
-
-.sidebar > div {
-  box-shadow: var(--color-3) -1em 1em;
-  box-shadow: var(--color-3) -1em 1em;
-}
-
-#languages.resume {
-  margin-bottom: auto;
-}
-
-#resumeContact {
-  margin-bottom: auto;
-}
-
-#resumeEmail {
-  margin-bottom: auto;
-}
-
-li.resume {
-  position: relative;
-  left: -3%;
-  line-height: 15px;
-  font-size: 20;
-}
-
-  </style>
-  <link id="cssLoader" rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css">
-
-</head>
-
-<body id="body" class="blackbar">
-
-    <div id=dynamicSwitch>
-        mouseover for static
-    </div>
-
- <div id="gallery">
-
-      <div id="p5Shader1" class="p5Canvas"
-           data-pivotX="39%" data-pivotY="35%"
-           data-staticX="10%" data-staticY="25%"
-           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-      </div>
-
-      <div id="p5Shader2" class="p5Canvas"
-           data-pivotX="39%" data-pivotY="50%"
-           data-staticX="10%" data-staticY="50%"
-           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-      </div>
-
-      <div id="p5Shader3" class="p5Canvas"
-           data-pivotX="39%" data-pivotY="65%"
-           data-staticX="10%" data-staticY="75%"
-           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-      </div>
-
-      <div id="p51" class="p5Canvas"
-           data-pivotX="43%" data-pivotY="35%"
-           data-staticX="25%" data-staticY="25%"
-           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-      </div>
-
-      <div id="p52" class="p5Canvas"
-           data-pivotX="43%" data-pivotY="50%"
-           data-staticX="25%" data-staticY="50%"
-           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-      </div>
-
-      <div id="p53" class="p5Canvas"
-           data-pivotX="43%" data-pivotY="65%"
-           data-staticX="25%" data-staticY="75%"
-           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-      </div>
-
-      <div id="html1" class="p5Canvas"
-           data-pivotX="47%" data-pivotY="35%"
-           data-staticX="40%" data-staticY="25%"
-           data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-      </div>
+         #blurb {
+             background-color: var(--color-2);
+             color: var(--color-1);
+             bottom: 18px;
+             height: auto;
+             font-weight: bold;
+             font-size: 20px;
+             font-feature-settings: "vrt2";
+             font-family: monospace;
+             overflow-y: hidden;
+             position: fixed;
+             box-shadow: -4px 4px 1px var(--color-2), -8px 8px 1px var(--color-2),
+             -12px 12px 1px var(--color-2), -16px 16px 1px var(--color-2),
+             -20px 20px 1px var(--color-2);
+             z-index: 5;
+         }
 
 
-  </div>
+         table {
+             width: auto;
+             margin-top: 5%;
+             margin-left: 5%;
+             height: 100%;
+         }
 
-  <a id="blurb"></a>
+         tr {
+             padding: 1%;
+             margin: 100px;
+             background-color: var(--color-1);
+         }
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
-
-  <script src="/built/og_site/ts/scripts.js"></script>
-  <script src="/built/og_site/ts/projects.js"></script>
-  <script src="/built/og_site/ts/interaction.js"></script>
-
-  <meta charset="utf-8">
-
- <script>initScripts()</script>
+         td {
+             height: 200px;
+             width: 200px;
+             padding: 25px;
+             background-color: var(--color-1);
+         }
 
 
-</body>
+         /* courtesy of */
+         /*https://stackoverflow.com/a/12065925  */
+         /* I'll find a way to use this somehow */
+         span.stretch {
+             display: flexbox;
+             margin-left: 35%;
+             -webkit-transform: scale(4, 1); /* Safari and Chrome */
+             -moz-transform: scale(4, 1); /* Firefox */
+             -ms-transform: scale(4, 1); /* IE 9 */
+             -o-transform: scale(4, 1); /* Opera */
+             transform: matrix(2, -0.6, 0, 2, 0, 0);
+         }
+
+
+        </style>
+        <link id="cssLoader" rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css">
+
+    </head>
+
+    <body id="body" class="blackbar">
+
+        <table>
+
+            <tr>
+                <td
+                    id="p5Shader1" class="p5Canvas"
+                >
+                </td>
+
+                <td></td>
+                <td id="p51" class="p5Canvas">
+                </td>
+
+                <!-- <td></td>
+                     <td id="html1" class="p5Canvas"
+                     data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+                     ahhhhhhhhhhhhhhhhhhhhhhhh
+                     </td>
+                -->
+            </tr>
+
+
+            <tr>
+
+                <td
+                    id="p5Shader2" class="p5Canvas"
+                >
+                </td>
+                <td></td>
+
+                <td id="p52" class="p5Canvas"
+                >
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td id="p5Shader3" class="p5Canvas"
+                >
+                </td>
+                <td></td>
+
+                <td id="p53" class="p5Canvas"
+                >
+                </td>
+            </tr>
+
+        </table>
+
+        <a id="blurb"></a>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
+
+        <script src="/built/og_site/ts/scripts.js"></script>
+        <script src="/built/og_site/ts/projects.js"></script>
+        <script src="/built/og_site/ts/interaction.js"></script>
+
+
+        <script>initScripts()</script>
+
+
+    </body>
 
 </html>
