@@ -18,31 +18,34 @@ const canvi = document.getElementsByClassName("glCanvas");
 const p5Canvi = document.getElementsByClassName("p5Canvas");
 function initP5(p5Obj) {
     var div = document.getElementById(p5Obj.divId);
-    console.log(div);
+    // console.log(div)
     div.setAttribute("data-blurb", p5Obj.blurb);
     return new p5(p5Obj.sketch);
 }
 var initScripts = function (e) {
     let loadedP5s = p5Objs.map(initP5);
-    move(blurbDiv, window.innerWidth * recipX * 0.05, window.outerHeight * recipY * 0.85);
+    // move(
+    //   blurbDiv,
+    //   window.innerWidth * recipX * 0.05,
+    //   window.outerHeight
+    // );
     // move(contact, centerX, centerY);
     // move(email, centerX + centerX / 20, centerY + centerY / 20);
-    move(p51, centerX + centerX / 20, centerY + centerY / 20);
-    move(p52, centerX + centerX / 20, centerY + centerY / 20);
-    move(p53, centerX + centerX / 20, centerY + centerY / 20);
-    dynamicSwitch.onmouseover = function () {
-        static = !static;
-        if (static) {
-            // staticify();
-        }
-        else {
-            dynamicSwitch.innerHTML = "mouseover for static";
-            dynamify();
-        }
-    };
+    // move(p51, centerX + centerX / 20, centerY + centerY / 20);
+    // move(p52, centerX + centerX / 20, centerY + centerY / 20);
+    // move(p53, centerX + centerX / 20, centerY + centerY / 20);
+    // dynamicSwitch.onmouseover = function () {
+    //   static = !static;
+    //   if (static) {
+    //     staticify();
+    //   } else {
+    //     dynamicSwitch.innerHTML = "mouseover for static";
+    //     dynamify();
+    //   }
+    // };
     for (var i = 0; i < canvi.length; i++) {
         const canv = canvi[i];
-        move(canv, centerX + window.innerWidth, centerY + innerHeight);
+        // move(canv, centerX + window.innerWidth, centerY + innerHeight);
         canv.onmouseover = function () {
             blurbDiv.innerHTML = canv.innerHTML;
             // reset the color after a short delay
@@ -53,7 +56,7 @@ var initScripts = function (e) {
     }
     for (var i = 0; i < p5Canvi.length; i++) {
         const p5Canv = p5Canvi[i];
-        move(p5Canvi[i], centerX + window.innerWidth, centerY + innerHeight);
+        // move(p5Canvi[i], centerX + window.innerWidth, centerY + innerHeight);
         p5Canv.onmouseover = (_) => {
             blurbDiv.innerHTML = p5Canv.getAttribute("data-blurb");
         };
@@ -62,23 +65,23 @@ var initScripts = function (e) {
         };
     }
     window.scrollTo(0, 0);
-    if (!static) {
-        const fakeEvent = {
-            clientX: centerX,
-            clientY: centerY,
-        };
-        moveElements(fakeEvent);
-    }
-    moveElements({
-        clientX: centerX,
-        clientY: centerY,
-    });
+    // if (!static) {
+    //     const fakeEvent = {
+    //         clientX: centerX,
+    //         clientY: centerY,
+    //     };
+    //     moveElements(fakeEvent);
+    // }
+    // moveElements({
+    //     clientX: centerX,
+    //     clientY: centerY,
+    // })
 };
-onmousemove = function (event) {
-    if (!static) {
-        moveElements(event);
-    }
-};
+// onmousemove = function (event: MouseEvent) {
+//   if (!static) {
+//     moveElements(event);
+//   }
+// };
 onkeypress = function (event) {
     staticDynamic(event);
 };
@@ -136,14 +139,14 @@ const staticDynamic = function (e) {
         }
     }
 };
-const moveElements = function (e) {
-    // moveByPivot(e, contact);
-    moveCanvi(e, canvi);
-    moveCanvi(e, p5Canvi);
-    // moveByPivot(e, contact);
-    // moveByPivot(e, email);
-    // moveByPivot(e, resume);
-};
+// const moveElements = function (e) {
+// moveByPivot(e, contact);
+// moveCanvi(e, canvi);
+// moveCanvi(e, p5Canvi);
+// moveByPivot(e, contact);
+// moveByPivot(e, email);
+// moveByPivot(e, resume);
+// };
 // // courtesy of
 // // https://stackoverflow.com/a/16779702
 // function getStyleSheetPropertyValue(selectorText, propertyName) {
