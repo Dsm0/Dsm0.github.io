@@ -3,11 +3,12 @@
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
 
-<html lang="en">
+<html lang="en" id="html">
 
     <head>
 
         <style>
+
          * {
              --color-1: black;
              --color-2: #ffffee;
@@ -16,6 +17,68 @@
              --track:  #ffffee;
              --thumb:black;
              scrollbar-color: var(--thumb) var(--track);
+         }
+
+         #frame {
+             -ms-zoom: 0.25;
+             -moz-transform: scale(0.25);
+             -o-transform: scale(0.25);
+             -webkit-transform: scale(0.25);
+             /* -o-transform-origin: 0 0; */
+             /* -webkit-transform-origin: 0 0; */
+             /* -moz-transform-origin: 0 0; */
+             border: 0px;
+             transition: transform 0.5s;
+             width: 800px;
+             height: 800px;
+
+             -o-transform-origin: 0 0;
+             -webkit-transform-origin: 0 0;
+             -moz-transform-origin: 0 0;
+
+         }
+
+         /* #frame:hover{ */
+             /* background-color: var(--color-2); */
+             /* color: var(--color-1); */
+             /* z-index: 3; */
+             /* position: absolute; */
+             /* transform: scale(0.4); */
+             /* -moz-transform: scale(0.4); */
+             /* -webkit-transform: scale(0.4); */
+             /* transition: transform 0.5s; */
+             /* transform-origin: 50px 50px */
+
+
+             /* -o-transform-origin: 0 0; */
+             /* -webkit-transform-origin: 0 0; */
+             /* -moz-transform-origin: 0 0; */
+             /* } */
+         
+
+         #html1 {
+             background-color: var(--color-1);
+             transform: scale(1);
+             -moz-transform: scale(1);
+             -webkit-transform: scale(1);
+             border: 0px;
+             transition: transform 0.5s;
+             /* transform-origin: 50px 50px */
+         }
+
+         #html1:hover{
+             background-color: var(--color-1);
+             transform: scale(1);
+             -moz-transform: scale(1);
+             -webkit-transform: scale(1);
+             border: 0px;
+             transition: transform 0.5s;
+
+             /* -o-transform-origin: 0 0;
+                -webkit-transform-origin: 0 0;
+                -moz-transform-origin: 0 0;
+              */
+             /* transform-origin: 50px 50px */
          }
 
          body {
@@ -38,7 +101,7 @@
              -moz-transform: scale(1);
              -webkit-transform: scale(1);
              position: absolute;
-             transform-origin: 100px 100px
+             transform-origin: 50% 50%;
          }
 
          .p5Canvas:hover {
@@ -66,8 +129,28 @@
              box-shadow: -4px 4px 1px var(--color-2), -8px 8px 1px var(--color-2),
              -12px 12px 1px var(--color-2), -16px 16px 1px var(--color-2),
              -20px 20px 1px var(--color-2);
+             z-index: 2;
+         }
+
+
+         #cursor {
+             display: none;
+             /* background-color: var(--color-2); */
+             /* color: var(--color-2); */
+             fill:var(--color-2);
+             height: 40px;
+             width: 40px;
+             transform: translate(10px,10px);
+             transform-origin: 20px 20px;
+             font-weight: bold;
+             font-size: 20px;
+             font-feature-settings: "vrt2";
+             font-family: monospace;
+             position:absolute;
              z-index: 5;
          }
+         
+
 
 
          table {
@@ -89,6 +172,7 @@
              padding: 25px;
              background-color: var(--color-1);
          }
+
 
 
          /* courtesy of */
@@ -124,12 +208,12 @@
                 <td id="p51" class="p5Canvas">
                 </td>
 
-                <!-- <td></td>
-                     <td id="html1" class="p5Canvas"
-                     data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-                     ahhhhhhhhhhhhhhhhhhhhhhhh
-                     </td>
-                -->
+                <td></td>
+                <td id="html1" class="p5Canvas"
+                    data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
+                    <iframe id="frame" src="/src/og_site/index.html">
+                    </iframe>
+                </td>
             </tr>
 
 
@@ -159,9 +243,11 @@
                 </td>
             </tr>
 
+
         </table>
 
         <a id="blurb"></a>
+        <img id="cursor" src="/assets/cursor2.svg"/>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
 
@@ -170,9 +256,15 @@
         <script src="/built/og_site/ts/interaction.js"></script>
 
 
+
         <script>initScripts()</script>
+        <script>
+         if(!iniFrame){
+             document.getElementById("frame").src = "/src/og_site/index.html";
+         }
+        </script>
 
 
     </body>
-
+    
 </html>

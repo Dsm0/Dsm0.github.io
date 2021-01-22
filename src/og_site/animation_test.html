@@ -22,7 +22,7 @@
              75%  {background-color:green; left:0px; top:200px;}
              100% {background-color:red; left:0px; top:0px;}
          }
-
+         
          td {
              /* background-color: var(--color-2); */
              z-index: 2;
@@ -49,44 +49,53 @@
              -webkit-transform: translate(-50%, -50%) scale(2);
              transition: transform 0.2s;
          }
+
+
+
+         a.gallerypic{
+             width:140px;
+             text-decoration:none;
+             position:relative;
+             display:block;
+             border:1px solid #666;
+             padding:3px;
+             margin-right:5px;
+             float:left;
+         }
+
+         a.gallerypic span.zoom-icon{
+             visibility:hidden;
+             position:absolute;
+             left:40%;
+             top:35%;
+             filter:alpha(opacity=50);
+             -moz-opacity:0.5;
+             -khtml-opacity: 0.5;
+             opacity: 0.5;
+         }
+
+         a.gallerypic:hover span.zoom-icon{
+             visibility:visible;
+}
+
+
+
+
+
+
         </style>
     </head>
     <body>
-        <table id="container">
-            <tr>
-                <td class="box">
-                    1
-                </td>
-                <td class="box">
-                    2
-                </td>
-                <td class="box">
-                    3
-                </td>
-            </tr>
-            <tr>
-                <td class="box">
-                    4
-                </td>
-                <td class="box">
-                    5
-                </td>
-                <td class="box">
-                    6
-                </td>
-            </tr>
-            <tr>
-                <td class="box">
-                    7
-                </td>
-                <td class="box">
-                    8
-                </td>
-                <td class="box">
-                    9
-                </td>
-            </tr>
-        </table>
+
+
+        <a href="[fullsize]" class="gallerypic" title="">
+            <img src="[thumbnail pic]" height="90" width="140" alt="[Gallery Photo]" class="pic" />
+            <span class="zoom-icon">
+                <img src="/assets/kirb.jpeg" width="32" height="32" alt="Zoom">
+            </span>
+        </a>
+
+
     </body>
 
 </html>
