@@ -71,7 +71,7 @@ var initScripts = function (e) {
   }
 
   window.scrollTo(0, 0);
-
+    
 };
 
 onkeypress = function (event: KeyboardEvent) {
