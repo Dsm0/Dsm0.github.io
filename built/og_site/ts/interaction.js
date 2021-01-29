@@ -26,6 +26,7 @@ function initP5(p5Obj) {
 }
 var initScripts = function (e) {
     let loadedP5s = p5Objs.map(initP5);
+
     for (var i = 0; i < canvi.length; i++) {
         const canv = canvi[i];
         // move(canv, centerX + window.innerWidth, centerY + innerHeight);
@@ -48,7 +49,13 @@ var initScripts = function (e) {
         };
     }
     window.scrollTo(0, 0);
+
 };
+// onmousemove = function (event: MouseEvent) {
+//   if (!static) {
+//     moveElements(event);
+//   }
+// };
 onkeypress = function (event) {
     staticDynamic(event);
 };
@@ -106,6 +113,7 @@ const staticDynamic = function (e) {
         }
     }
 };
+
 // the mini-iframe thing is on hold for now
 /* onmousemove = (e) => { */
 /*     if(iniFrame){ */

@@ -71,7 +71,7 @@ var initScripts = function (e) {
   }
 
   window.scrollTo(0, 0);
-    
+
 };
 
 onkeypress = function (event: KeyboardEvent) {
@@ -152,7 +152,6 @@ const staticDynamic = function (e) {
     }
   }
 };
-
 
 // the mini-iframe thing is on hold for now
 
