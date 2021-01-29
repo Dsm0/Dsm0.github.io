@@ -1,568 +1,615 @@
-<html>
-    <head><meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-        <meta content="utf-8" http-equiv="encoding">
+<html class="creambar">
+	<head>
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+		<meta content="utf-8" http-equiv="encoding" />
 
-        <link rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css">
-        <style>
-         * {
-             --color-1: #ffffee;
-             --color-2: black;
-             --color-3: rgba(236, 198, 48, 0.4);
-             --color-4: rgba(48, 236, 226, 0.26);
-             --color-5: rgba(78, 202, 196, 0.568);
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/assets/css/scrollbar.css"
+		/>
+		<style>
+			@font-face {
+				font-family: "space-mono";
+				src: url("/assets/fonts/SpaceMono-Regular.ttf") format("woff2");
+			}
 
-             --track:  #ffffee;
-             --thumb:black;
-         }
+			* {
+				--color-1: #ffffee;
+				--color-2: black;
+				--color-3: rgba(236, 198, 48, 0.4);
+				--color-4: rgba(48, 236, 226, 0.26);
+				--color-5: rgba(78, 202, 196, 0.568);
+			}
 
+			html {
+				background-color: var(--color-1);
+				font-family: "monospace";
+				font-size: 1.1rem;
+			}
 
-         html {
-             background-color: var(--color-1);
-             font-family: monospace;
-             font-size: 1.1rem;
-         }
+			#top:first-of-type > a {
+				background-color: var(--color-2);
+				padding-left: 20px;
+				margin-top: 15px;
+				color: var(--color-1);
+				margin-left: 5px;
+				width: auto;
+			}
 
-         #top:first-child>a {
-             background-color: var(--color-3);
-         }
+			p {
+				display: flex;
+				width: fit-content;
+				/* height: 100%; */
+				color: var(--color-2);
+				background-color: var(--color-3);
+				font-weight: 900;
+				border: none;
+				padding: 0 0 0 20px;
+				margin: 0 5px 0 5px;
+			}
 
-         p {
-             display: flex;
-             width: fit-content;
-             height: 100%;
-             color: var(--color-1);
-             background-color: var(--color-2);
-             border: 2px dashed var(--color-4);
-             padding: 0 0 0 20px;
-             margin: 0 5px 0 5px;
-         }
+			div {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+				width: fit-content;
+				padding: 5px 0 5px 0;
+			}
 
-         div {
-             display: flex;
-             flex-direction: column;
-             flex: 1;
-             width: fit-content;
-             padding: 5px 0 5px 0;
-         }
+			div.container {
+				flex-direction: row;
+				text-align: center;
+			}
 
-         div.container {
-             flex-direction: row;
-             text-align: center;
-         }
+			a {
+				flex-direction: row;
+				border-radius: 8px;
+				width: fit-content;
+				height: fit-content;
+				font-weight: 200;
+				border: 0px;
+				text-align: left;
+				padding-left: 5px;
+				/* background-color: var(--color-3); */
+			}
 
-         a {
-             flex-direction: row;
-             border-radius: 4px;
-             width: fit-content;
-             height: fit-content;
-             border: 0px;
-             text-align: left;
-             padding-left: 5px;
-         }
+			a:link,
+			a:visited {
+				border-radius: 20px;
+			}
 
-         a:link,
-         a:visited {
-             border-radius: 20px;
-         }
+			a:link {
+				border-color: #0000ee;
+			}
 
-         a:link {
-             border-color: #0000ee;
-         }
+			a:visited {
+				border-color: #551a8b;
+			}
+		</style>
+		<script
+			src="/built/pure_html/ts/gen_pure_html.js"
+			onload="build()"
+		></script>
+	</head>
 
-         a:visited {
-             border-color: #551a8b;
-         }
-
-
-         ul {
-             height: auto;
-             position: fixed;
-
-             list-style-type: disc;
-             margin-block-start: 1em;
-             margin-block-end: 1em;
-             margin-inline-start: 10px;
-             margin-inline-end: 0px;
-
-             padding-inline-start: 20px;
-             padding-inline-end: 10%;
-
-             text-align: left;
-             margin-bottom: auto;
-         }
-
-         .contacts {
-             bottom: 0px;
-             list-style: none;
-             padding: 0px;
-         }
-
-         .box-item {
-             display: block;
-         }
-         .icon_container{
-             background-color: var(--color-1);
-             border:none;
-             padding:0px;
-         }
-
-         .icon {
-             width: 20px;
-             height: 20px;
-             margin-top: 5px;
-             margin-left: 0em;
-             margin-bottom: 5px;
-             padding: 0px;
-         }
-
-
-        </style>
-
-    </head>
-
-    <ul class="box-item contacts">
-        <p href="https://twitter.com/c_robo_" target='_blank' class="icon_container"><img class="icon"
-                                                                   src="/assets/twitter.svg"></a>
-            <a href="https://webring.xxiivv.com/#random" target='_blank'><img class="icon"
-                                                                              src="https://webring.xxiivv.com/icon.black.svg"/></a>
-            <a href="https://merveilles.town/@CUSTOMROBO" target='_blank'><img class="icon"
-                                                                               src="https://merveilles.town/mstile-150x150.png">
-            </a>
-    </ul>
-
-
-    <body id="body" class="creambar">
-
-        <div id="top"> 
-            <a class="item name">
-                name - Will Rinkoff
-            </a><div class="container">
-                <p class="title contact">
-                    contact
-                </p>
-                <div class="contact">
-                    <div class="container">
-                        <p class="title email">
-                            email
-                        </p>
-                        <div class="email">
-                            <a class="item link" target="_blank" rel="noopener noreferrer" href="mailto:will.rinkoff@gmail.com">
-                                link - mailto:will.rinkoff@gmail.com
-                            </a>
-                        </div>
-                    </div><div class="container">
-                        <p class="title github">
-                            github
-                        </p>
-                        <div class="github">
-                            <a class="item link" target="_blank" rel="noopener noreferrer" href="https://github.com/Dsm0/">
-                                link - https://github.com/Dsm0/
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div><div class="container">
-                <p class="title resume">
-                    resume
-                </p>
-                <div class="resume">
-                    <div class="container">
-                        <p class="title skill_summary">
-                            skill_summary
-                        </p>
-                        <div class="skill_summary">
-                            <div class="container">
-                                <p class="title languages">
-                                    languages
-                                </p>
-                                <div class="languages">
-                                    <a class="item ">
-                                        - javascript
-                                    </a><a class="item ">
-                                        - typescript
-                                    </a><a class="item ">
-                                        - html
-                                    </a><a class="item ">
-                                        - css
-                                    </a><a class="item ">
-                                        - python
-                                    </a><a class="item ">
-                                        - c
-                                    </a><a class="item ">
-                                        - bash
-                                    </a><a class="item ">
-                                        - haskell
-                                    </a><a class="item ">
-                                        - supercollider
-                                    </a><a class="item ">
-                                        - open_gl
-                                    </a>
-                                </div>
-                            </div><div class="container">
-                                <p class="title frameworks">
-                                    frameworks
-                                </p>
-                                <div class="frameworks">
-                                    <a class="item ">
-                                        - git
-                                    </a><a class="item ">
-                                        - axios
-                                    </a><a class="item ">
-                                        - Vue
-                                    </a><a class="item ">
-                                        - nuxt.js
-                                    </a><a class="item ">
-                                        - tensorflow
-                                    </a><a class="item ">
-                                        - keras
-                                    </a><a class="item ">
-                                        - numpy
-                                    </a><a class="item ">
-                                        - webgl
-                                    </a><a class="item ">
-                                        - open_sound_control
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div><div class="container">
-                        <p class="title education">
-                            education
-                        </p>
-                        <div class="education">
-                            <div class="container">
-                                <p class="title highschool">
-                                    highschool
-                                </p>
-                                <div class="highschool">
-                                    <a class="item name">
-                                        name - St. Paul Academy and Summit School
-                                    </a><a class="item location">
-                                        location - St. Paul, MN
-                                    </a><a class="item status">
-                                        status - graduated
-                                    </a>
-                                </div>
-                            </div><div class="container">
-                                <p class="title university">
-                                    university
-                                </p>
-                                <div class="university">
-                                    <a class="item name">
-                                        name - Carnegie Mellon University
-                                    </a><a class="item location">
-                                        location - Pittsburgh, PA
-                                    </a><a class="item status">
-                                        status - enrolled
-                                    </a><a class="item major">
-                                        major - Music and Technology (planning transfer to Bachlors of Computer Science and Music)
-                                    </a><div class="container">
-                                        <p class="title relevant_coursework">
-                                            relevant_coursework
-                                        </p>
-                                        <div class="relevant_coursework">
-                                            <div class="container">
-                                                <p class="title 15112">
-                                                    15112
-                                                </p>
-                                                <div class="15112">
-                                                    <a class="item name">
-                                                        name - Fundimentals of Programming and Computer Science
-                                                    </a><div class="container">
-                                                        <p class="title topics">
-                                                            topics
-                                                        </p>
-                                                        <div class="topics">
-                                                            <a class="item ">
-                                                                - program_design
-                                                            </a><a class="item ">
-                                                                - generalized_problem_solving
-                                                            </a>
-                                                        </div>
-                                                    </div><div class="container">
-                                                        <p class="title languages">
-                                                            languages
-                                                        </p>
-                                                        <div class="languages">
-                                                            <a class="item ">
-                                                                - python
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><div class="container">
-                                                <p class="title 15122">
-                                                    15122
-                                                </p>
-                                                <div class="15122">
-                                                    <a class="item name">
-                                                        name - Principles of Imperative Computation
-                                                    </a><div class="container">
-                                                        <p class="title topics">
-                                                            topics
-                                                        </p>
-                                                        <div class="topics">
-                                                            <a class="item ">
-                                                                - imperative_programming
-                                                            </a><a class="item ">
-                                                                - program_design
-                                                            </a><a class="item ">
-                                                                - generalized_problem_solving
-                                                            </a><a class="item ">
-                                                                - memory_management
-                                                            </a>
-                                                        </div>
-                                                    </div><div class="container">
-                                                        <p class="title languages">
-                                                            languages
-                                                        </p>
-                                                        <div class="languages">
-                                                            <a class="item ">
-                                                                - c
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><div class="container">
-                                                <p class="title 15322">
-                                                    15322
-                                                </p>
-                                                <div class="15322">
-                                                    <a class="item name">
-                                                        name - Introduction to Computer Music
-                                                    </a><div class="container">
-                                                        <p class="title topics">
-                                                            topics
-                                                        </p>
-                                                        <div class="topics">
-                                                            <a class="item ">
-                                                                - signal_processing
-                                                            </a><a class="item ">
-                                                                - programming
-                                                            </a>
-                                                        </div>
-                                                    </div><div class="container">
-                                                        <p class="title languages">
-                                                            languages
-                                                        </p>
-                                                        <div class="languages">
-                                                            <a class="item ">
-                                                                - nyquist
-                                                            </a><a class="item ">
-                                                                - lisp
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><div class="container">
-                        <p class="title work_experience">
-                            work_experience
-                        </p>
-                        <div class="work_experience">
-                            <div class="container">
-                                <p class="title resonant_cavity">
-                                    resonant_cavity
-                                </p>
-                                <div class="resonant_cavity">
-                                    <a class="item link" target="_blank" rel="noopener noreferrer" href="https://resonantcavity.com/">
-                                        link - https://resonantcavity.com/
-                                    </a><div class="container">
-                                        <p class="title duration">
-                                            duration
-                                        </p>
-                                        <div class="duration">
-                                            <a class="item start">
-                                                start - 2019-05-01
-                                            </a><a class="item end">
-                                                end - 2019-08-15
-                                            </a>
-                                        </div>
-                                    </div><div class="container">
-                                        <p class="title description">
-                                            description
-                                        </p>
-                                        <div class="description">
-                                            <a class="item ">
-                                                - created tools for deep-learning audio analysis/synthesis inside Python
-                                            </a><a class="item ">
-                                                - utilized Tensorflow, Keras, Numpy, and a number of Audio-Analysis libraries (particularly Madmom)
-                                            </a><a class="item ">
-                                                - successfully researched, modeled, and implemented complex audio-analysis techniques with little prior experience (I had just graduated high school at the time)
-                                            </a><a class="item ">
-                                                - presented progress of work to a broader team of application developers
-                                            </a>
-                                        </div>
-                                    </div><div class="container">
-                                        <p class="title languages">
-                                            languages
-                                        </p>
-                                        <div class="languages">
-                                            <a class="item ">
-                                                - python
-                                            </a>
-                                        </div>
-                                    </div><div class="container">
-                                        <p class="title frameworks">
-                                            frameworks
-                                        </p>
-                                        <div class="frameworks">
-                                            <a class="item ">
-                                                - tensorflow
-                                            </a><a class="item ">
-                                                - keras
-                                            </a><a class="item ">
-                                                - numpy
-                                            </a><a class="item ">
-                                                - Madmom
-                                            </a><a class="item ">
-                                                - git
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><div class="container">
-                                <p class="title neort">
-                                    neort
-                                </p>
-                                <div class="neort">
-                                    <a class="item link" target="_blank" rel="noopener noreferrer" href="https://neort.io">
-                                        link - https://neort.io
-                                    </a><div class="container">
-                                        <p class="title duration">
-                                            duration
-                                        </p>
-                                        <div class="duration">
-                                            <a class="item start">
-                                                start - 2020-07-01
-                                            </a><a class="item end">
-                                                end - 2020-08-01
-                                            </a>
-                                        </div>
-                                    </div><div class="container">
-                                        <p class="title description">
-                                            description
-                                        </p>
-                                        <div class="description">
-                                            <a class="item ">
-                                                - frontend development on the website's creation tool/editor
-                                            </a>
-                                        </div>
-                                    </div><div class="container">
-                                        <p class="title languages">
-                                            languages
-                                        </p>
-                                        <div class="languages">
-                                            <a class="item ">
-                                                - javascript
-                                            </a><a class="item ">
-                                                - typescript
-                                            </a><a class="item ">
-                                                - html
-                                            </a><a class="item ">
-                                                - css
-                                            </a>
-                                        </div>
-                                    </div><div class="container">
-                                        <p class="title frameworks">
-                                            frameworks
-                                        </p>
-                                        <div class="frameworks">
-                                            <a class="item ">
-                                                - Vue
-                                            </a><a class="item ">
-                                                - nuxt.js
-                                            </a><a class="item ">
-                                                - axios
-                                            </a><a class="item ">
-                                                - webgl
-                                            </a><a class="item ">
-                                                - git
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><div class="container">
-                        <p class="title relevant_hobbies">
-                            relevant_hobbies
-                        </p>
-                        <div class="relevant_hobbies">
-                            <div class="container">
-                                <p class="title linux">
-                                    linux
-                                </p>
-                                <div class="linux">
-                                    <div class="container">
-                                        <p class="title description">
-                                            description
-                                        </p>
-                                        <div class="description">
-                                            <a class="item ">
-                                                - no stranger to command line tools, unearthing dependencies, troubleshooting makefiles, etc
-                                            </a>
-                                        </div>
-                                    </div><div class="container">
-                                        <p class="title languages">
-                                            languages
-                                        </p>
-                                        <div class="languages">
-                                            <a class="item ">
-                                                - bash
-                                            </a><a class="item ">
-                                                - vimL
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><div class="container">
-                                <p class="title tidalcycles">
-                                    tidalcycles
-                                </p>
-                                <div class="tidalcycles">
-                                    <div class="container">
-                                        <p class="title description">
-                                            description
-                                        </p>
-                                        <div class="description">
-                                            <a class="item ">
-                                                - An experimental livecoding language based in Haskell and Supercollider
-                                            </a>
-                                        </div>
-                                    </div><div class="container">
-                                        <p class="title langauges">
-                                            langauges
-                                        </p>
-                                        <div class="langauges">
-                                            <a class="item ">
-                                                - haskell
-                                            </a><a class="item ">
-                                                - supercollider
-                                            </a>
-                                        </div>
-                                    </div><div class="container">
-                                        <p class="title frameworks">
-                                            frameworks
-                                        </p>
-                                        <div class="frameworks">
-                                            <a class="item ">
-                                                - open_sound_control
-                                            </a><a class="item ">
-                                                - jack
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div></body>
-    </html>
+	<body id="body" class="creambar">
+		<div id="top">
+			<a class="item name">
+				name - Will Rinkoff
+			</a>
+			<div class="container">
+				<p class="title contact">
+					contact
+				</p>
+				<div class="contact">
+					<div class="container">
+						<p class="title email">
+							email
+						</p>
+						<div class="email">
+							<a
+								class="item link"
+								target="_blank"
+								rel="noopener noreferrer"
+								href="mailto:will.rinkoff@gmail.com"
+							>
+								link - mailto:will.rinkoff@gmail.com
+							</a>
+						</div>
+					</div>
+					<div class="container">
+						<p class="title github">
+							github
+						</p>
+						<div class="github">
+							<a
+								class="item link"
+								target="_blank"
+								rel="noopener noreferrer"
+								href="https://github.com/Dsm0/"
+							>
+								link - https://github.com/Dsm0/
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<p class="title resume">
+					resume
+				</p>
+				<div class="resume">
+					<div class="container">
+						<p class="title skill_summary">
+							skill_summary
+						</p>
+						<div class="skill_summary">
+							<div class="container">
+								<p class="title languages">
+									languages
+								</p>
+								<div class="languages">
+									<a class="item">
+										- javascript </a
+									><a class="item">
+										- typescript </a
+									><a class="item">
+										- html </a
+									><a class="item">
+										- css </a
+									><a class="item">
+										- python </a
+									><a class="item">
+										- c </a
+									><a class="item">
+										- bash </a
+									><a class="item">
+										- haskell </a
+									><a class="item">
+										- supercollider </a
+									><a class="item">
+										- open_gl
+									</a>
+								</div>
+							</div>
+							<div class="container">
+								<p class="title frameworks">
+									frameworks
+								</p>
+								<div class="frameworks">
+									<a class="item">
+										- git </a
+									><a class="item">
+										- axios </a
+									><a class="item">
+										- Vue </a
+									><a class="item">
+										- nuxt.js </a
+									><a class="item">
+										- tensorflow </a
+									><a class="item">
+										- keras </a
+									><a class="item">
+										- numpy </a
+									><a class="item">
+										- webgl </a
+									><a class="item">
+										- open_sound_control
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<p class="title education">
+							education
+						</p>
+						<div class="education">
+							<div class="container">
+								<p class="title highschool">
+									highschool
+								</p>
+								<div class="highschool">
+									<a class="item name">
+										name - St. Paul Academy and Summit
+										School </a
+									><a class="item location">
+										location - St. Paul, MN </a
+									><a class="item status">
+										status - graduated
+									</a>
+								</div>
+							</div>
+							<div class="container">
+								<p class="title university">
+									university
+								</p>
+								<div class="university">
+									<a class="item name">
+										name - Carnegie Mellon University </a
+									><a class="item location">
+										location - Pittsburgh, PA </a
+									><a class="item status">
+										status - enrolled </a
+									><a class="item major">
+										major - Music and Technology (planning
+										transfer to Bachlors of Computer Science
+										and Music)
+									</a>
+									<div class="container">
+										<p class="title relevant_coursework">
+											relevant_coursework
+										</p>
+										<div class="relevant_coursework">
+											<div class="container">
+												<p class="title 15112">
+													15112
+												</p>
+												<div class="15112">
+													<a class="item name">
+														name - Fundimentals of
+														Programming and Computer
+														Science
+													</a>
+													<div class="container">
+														<p class="title topics">
+															topics
+														</p>
+														<div class="topics">
+															<a class="item">
+																- program_design </a
+															><a class="item">
+																-
+																generalized_problem_solving
+															</a>
+														</div>
+													</div>
+													<div class="container">
+														<p
+															class="title languages"
+														>
+															languages
+														</p>
+														<div class="languages">
+															<a class="item">
+																- python
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="container">
+												<p class="title 15122">
+													15122
+												</p>
+												<div class="15122">
+													<a class="item name">
+														name - Principles of
+														Imperative Computation
+													</a>
+													<div class="container">
+														<p class="title topics">
+															topics
+														</p>
+														<div class="topics">
+															<a class="item">
+																-
+																imperative_programming </a
+															><a class="item">
+																- program_design </a
+															><a class="item">
+																-
+																generalized_problem_solving </a
+															><a class="item">
+																-
+																memory_management
+															</a>
+														</div>
+													</div>
+													<div class="container">
+														<p
+															class="title languages"
+														>
+															languages
+														</p>
+														<div class="languages">
+															<a class="item">
+																- c
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="container">
+												<p class="title 15322">
+													15322
+												</p>
+												<div class="15322">
+													<a class="item name">
+														name - Introduction to
+														Computer Music
+													</a>
+													<div class="container">
+														<p class="title topics">
+															topics
+														</p>
+														<div class="topics">
+															<a class="item">
+																-
+																signal_processing </a
+															><a class="item">
+																- programming
+															</a>
+														</div>
+													</div>
+													<div class="container">
+														<p
+															class="title languages"
+														>
+															languages
+														</p>
+														<div class="languages">
+															<a class="item">
+																- nyquist </a
+															><a class="item">
+																- lisp
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<p class="title work_experience">
+							work_experience
+						</p>
+						<div class="work_experience">
+							<div class="container">
+								<p class="title resonant_cavity">
+									resonant_cavity
+								</p>
+								<div class="resonant_cavity">
+									<a
+										class="item link"
+										target="_blank"
+										rel="noopener noreferrer"
+										href="https://resonantcavity.com/"
+									>
+										link - https://resonantcavity.com/
+									</a>
+									<div class="container">
+										<p class="title duration">
+											duration
+										</p>
+										<div class="duration">
+											<a class="item start">
+												start - 2019-05-01 </a
+											><a class="item end">
+												end - 2019-08-15
+											</a>
+										</div>
+									</div>
+									<div class="container">
+										<p class="title description">
+											description
+										</p>
+										<div class="description">
+											<a class="item">
+												- created tools for
+												deep-learning audio
+												analysis/synthesis inside Python </a
+											><a class="item">
+												- utilized Tensorflow, Keras,
+												Numpy, and a number of
+												Audio-Analysis libraries
+												(particularly Madmom) </a
+											><a class="item">
+												- successfully researched,
+												modeled, and implemented complex
+												audio-analysis techniques with
+												little prior experience (I had
+												just graduated high school at
+												the time) </a
+											><a class="item">
+												- presented progress of work to
+												a broader team of application
+												developers
+											</a>
+										</div>
+									</div>
+									<div class="container">
+										<p class="title languages">
+											languages
+										</p>
+										<div class="languages">
+											<a class="item">
+												- python
+											</a>
+										</div>
+									</div>
+									<div class="container">
+										<p class="title frameworks">
+											frameworks
+										</p>
+										<div class="frameworks">
+											<a class="item">
+												- tensorflow </a
+											><a class="item">
+												- keras </a
+											><a class="item">
+												- numpy </a
+											><a class="item">
+												- Madmom </a
+											><a class="item">
+												- git
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="container">
+								<p class="title neort">
+									neort
+								</p>
+								<div class="neort">
+									<a
+										class="item link"
+										target="_blank"
+										rel="noopener noreferrer"
+										href="https://neort.io"
+									>
+										link - https://neort.io
+									</a>
+									<div class="container">
+										<p class="title duration">
+											duration
+										</p>
+										<div class="duration">
+											<a class="item start">
+												start - 2020-07-01 </a
+											><a class="item end">
+												end - 2020-08-01
+											</a>
+										</div>
+									</div>
+									<div class="container">
+										<p class="title description">
+											description
+										</p>
+										<div class="description">
+											<a class="item">
+												- frontend development on the
+												website's creation tool/editor
+											</a>
+										</div>
+									</div>
+									<div class="container">
+										<p class="title languages">
+											languages
+										</p>
+										<div class="languages">
+											<a class="item">
+												- javascript </a
+											><a class="item">
+												- typescript </a
+											><a class="item">
+												- html </a
+											><a class="item">
+												- css
+											</a>
+										</div>
+									</div>
+									<div class="container">
+										<p class="title frameworks">
+											frameworks
+										</p>
+										<div class="frameworks">
+											<a class="item">
+												- Vue </a
+											><a class="item">
+												- nuxt.js </a
+											><a class="item">
+												- axios </a
+											><a class="item">
+												- webgl </a
+											><a class="item">
+												- git
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<p class="title relevant_hobbies">
+							relevant_hobbies
+						</p>
+						<div class="relevant_hobbies">
+							<div class="container">
+								<p class="title linux">
+									linux
+								</p>
+								<div class="linux">
+									<div class="container">
+										<p class="title description">
+											description
+										</p>
+										<div class="description">
+											<a class="item">
+												- no stranger to command line
+												tools, unearthing dependencies,
+												troubleshooting makefiles, etc
+											</a>
+										</div>
+									</div>
+									<div class="container">
+										<p class="title languages">
+											languages
+										</p>
+										<div class="languages">
+											<a class="item">
+												- bash </a
+											><a class="item">
+												- vimL
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="container">
+								<p class="title tidalcycles">
+									tidalcycles
+								</p>
+								<div class="tidalcycles">
+									<div class="container">
+										<p class="title description">
+											description
+										</p>
+										<div class="description">
+											<a class="item">
+												- An experimental livecoding
+												language based in Haskell and
+												Supercollider
+											</a>
+										</div>
+									</div>
+									<div class="container">
+										<p class="title langauges">
+											langauges
+										</p>
+										<div class="langauges">
+											<a class="item">
+												- haskell </a
+											><a class="item">
+												- supercollider
+											</a>
+										</div>
+									</div>
+									<div class="container">
+										<p class="title frameworks">
+											frameworks
+										</p>
+										<div class="frameworks">
+											<a class="item">
+												- open_sound_control </a
+											><a class="item">
+												- jack
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
