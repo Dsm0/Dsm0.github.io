@@ -75,8 +75,6 @@ function mouseReleased() {
 
 
 function keyTyped(){
-	console.log(key);
-	switch(key){
 		case " ":
 			pg.clear();
 			break;

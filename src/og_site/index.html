@@ -1,270 +1,240 @@
 <!DOCTYPE html>
 
-<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-<meta content="utf-8" http-equiv="encoding">
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+<meta content="utf-8" http-equiv="encoding" />
 
 <html lang="en" id="html">
+	<head>
+		<style>
+			* {
+				--color-1: black;
+				--color-2: #ffffee;
+				--color-3: rgba(236, 198, 48, 0.4);
 
-    <head>
+				--track: #ffffee;
+				--thumb: black;
+				scrollbar-color: var(--thumb) var(--track);
+			}
 
-        <style>
+			#frame {
+				-ms-zoom: 0.25;
+				-moz-transform: scale(0.25);
+				-o-transform: scale(0.25);
+				-webkit-transform: scale(0.25);
+				/* -o-transform-origin: 0 0; */
+				/* -webkit-transform-origin: 0 0; */
+				/* -moz-transform-origin: 0 0; */
+				border: 0px;
+				transition: transform 0.5s;
+				width: 800px;
+				height: 800px;
 
-         * {
-             --color-1: black;
-             --color-2: #ffffee;
-             --color-3: rgba(236, 198, 48, 0.4);
+				-o-transform-origin: 0 0;
+				-webkit-transform-origin: 0 0;
+				-moz-transform-origin: 0 0;
+			}
 
-             --track:  #ffffee;
-             --thumb:black;
-             scrollbar-color: var(--thumb) var(--track);
-         }
+			/* #frame:hover{ */
+			/* background-color: var(--color-2); */
+			/* color: var(--color-1); */
+			/* z-index: 3; */
+			/* position: absolute; */
+			/* transform: scale(0.4); */
+			/* -moz-transform: scale(0.4); */
+			/* -webkit-transform: scale(0.4); */
+			/* transition: transform 0.5s; */
+			/* transform-origin: 50px 50px */
 
-         #frame {
-             -ms-zoom: 0.25;
-             -moz-transform: scale(0.25);
-             -o-transform: scale(0.25);
-             -webkit-transform: scale(0.25);
-             /* -o-transform-origin: 0 0; */
-             /* -webkit-transform-origin: 0 0; */
-             /* -moz-transform-origin: 0 0; */
-             border: 0px;
-             transition: transform 0.5s;
-             width: 800px;
-             height: 800px;
+			/* -o-transform-origin: 0 0; */
+			/* -webkit-transform-origin: 0 0; */
+			/* -moz-transform-origin: 0 0; */
+			/* } */
 
-             -o-transform-origin: 0 0;
-             -webkit-transform-origin: 0 0;
-             -moz-transform-origin: 0 0;
+			#html1 {
+				background-color: var(--color-1);
+				transform: scale(1);
+				-moz-transform: scale(1);
+				-webkit-transform: scale(1);
+				border: 0px;
+				transition: transform 0.5s;
+				/* transform-origin: 50px 50px */
+			}
 
-         }
+			#html1:hover {
+				background-color: var(--color-1);
+				transform: scale(1);
+				-moz-transform: scale(1);
+				-webkit-transform: scale(1);
+				border: 0px;
+				transition: transform 0.5s;
 
-         /* #frame:hover{ */
-             /* background-color: var(--color-2); */
-             /* color: var(--color-1); */
-             /* z-index: 3; */
-             /* position: absolute; */
-             /* transform: scale(0.4); */
-             /* -moz-transform: scale(0.4); */
-             /* -webkit-transform: scale(0.4); */
-             /* transition: transform 0.5s; */
-             /* transform-origin: 50px 50px */
-
-
-             /* -o-transform-origin: 0 0; */
-             /* -webkit-transform-origin: 0 0; */
-             /* -moz-transform-origin: 0 0; */
-             /* } */
-         
-
-         #html1 {
-             background-color: var(--color-1);
-             transform: scale(1);
-             -moz-transform: scale(1);
-             -webkit-transform: scale(1);
-             border: 0px;
-             transition: transform 0.5s;
-             /* transform-origin: 50px 50px */
-         }
-
-         #html1:hover{
-             background-color: var(--color-1);
-             transform: scale(1);
-             -moz-transform: scale(1);
-             -webkit-transform: scale(1);
-             border: 0px;
-             transition: transform 0.5s;
-
-             /* -o-transform-origin: 0 0;
+				/* -o-transform-origin: 0 0;
                 -webkit-transform-origin: 0 0;
                 -moz-transform-origin: 0 0;
               */
-             /* transform-origin: 50px 50px */
-         }
+				/* transform-origin: 50px 50px */
+			}
 
-         body {
-             background-color: var(--color-1);
-             margin-left: 0px;
-             margin-top: 0px;
-             overflow-x: var(--overflow-mode, hidden);
-             overflow-y: hidden;
-             /* font-family: monospace; */
-         }
+			body {
+				background-color: var(--color-1);
+				margin-left: 0px;
+				margin-top: 0px;
+				overflow-x: var(--overflow-mode, hidden);
+				overflow-y: hidden;
+				/* font-family: monospace; */
+			}
 
-         .p5Canvas {
-             color: var(--color-2);
-             background-color: var(--color-1);
-             z-index: 2;
-             width: Xu;
-             height: Yu;
-             transform: scale(1);
-             transition: transform 0.5s;
-             -moz-transform: scale(1);
-             -webkit-transform: scale(1);
-             position: absolute;
-             transform-origin: 50% 50%;
-         }
+			.p5Canvas {
+				color: var(--color-2);
+				background-color: var(--color-1);
+				z-index: 2;
+				width: Xu;
+				height: Yu;
+				transform: scale(1);
+				transition: transform 0.5s;
+				-moz-transform: scale(1);
+				-webkit-transform: scale(1);
+				position: absolute;
+				transform-origin: 50% 50%;
+			}
 
-         .p5Canvas:hover {
-             background-color: var(--color-2);
-             color: var(--color-1);
-             z-index: 3;
-             position: absolute;
-             transform: scale(1.4);
-             -moz-transform: scale(1.4);
-             -webkit-transform: scale(1.4);
-             transition: transform 0.5s;
-         }
+			.p5Canvas:hover {
+				background-color: var(--color-2);
+				color: var(--color-1);
+				z-index: 3;
+				position: absolute;
+				transform: scale(1.4);
+				-moz-transform: scale(1.4);
+				-webkit-transform: scale(1.4);
+				transition: transform 0.5s;
+			}
 
-         #blurb {
-             background-color: var(--color-2);
-             color: var(--color-1);
-             bottom: 18px;
-             height: auto;
-             font-weight: bold;
-             font-size: 20px;
-             font-feature-settings: "vrt2";
-             font-family: monospace;
-             overflow-y: hidden;
-             position: fixed;
-             box-shadow: -4px 4px 1px var(--color-2), -8px 8px 1px var(--color-2),
-             -12px 12px 1px var(--color-2), -16px 16px 1px var(--color-2),
-             -20px 20px 1px var(--color-2);
-             z-index: 2;
-         }
+			#blurb {
+				background-color: var(--color-2);
+				color: var(--color-1);
+				bottom: 18px;
+				height: auto;
+				font-weight: bold;
+				font-size: 20px;
+				font-feature-settings: "vrt2";
+				font-family: monospace;
+				overflow-y: hidden;
+				position: fixed;
+				box-shadow: -4px 4px 1px var(--color-2),
+					-8px 8px 1px var(--color-2), -12px 12px 1px var(--color-2),
+					-16px 16px 1px var(--color-2), -20px 20px 1px var(--color-2);
+				z-index: 2;
+			}
 
+			#cursor {
+				display: none;
+				/* background-color: var(--color-2); */
+				/* color: var(--color-2); */
+				fill: var(--color-2);
+				height: 80px;
+				width: 53.3px;
+				transform: translate(10px, 10px);
+				transform-origin: 20px 20px;
+				font-weight: bold;
+				font-size: 20px;
+				font-feature-settings: "vrt2";
+				font-family: monospace;
+				position: absolute;
+				z-index: 5;
+			}
 
-         #cursor {
-             display: none;
-             /* background-color: var(--color-2); */
-             /* color: var(--color-2); */
-             fill:var(--color-2);
-             height: 40px;
-             width: 40px;
-             transform: translate(10px,10px);
-             transform-origin: 20px 20px;
-             font-weight: bold;
-             font-size: 20px;
-             font-feature-settings: "vrt2";
-             font-family: monospace;
-             position:absolute;
-             z-index: 5;
-         }
-         
+			table {
+				width: auto;
+				margin-top: 5%;
+				margin-left: 5%;
+				height: 100%;
+			}
 
+			tr {
+				padding: 1%;
+				margin: 100px;
+				background-color: var(--color-1);
+			}
 
+			td {
+				height: 200px;
+				width: 200px;
+				padding: 25px;
+				background-color: var(--color-1);
+			}
 
-         table {
-             width: auto;
-             margin-top: 5%;
-             margin-left: 5%;
-             height: 100%;
-         }
+			/* courtesy of */
+			/*https://stackoverflow.com/a/12065925  */
+			/* I'll find a way to use this somehow */
+			span.stretch {
+				display: flexbox;
+				margin-left: 35%;
+				-webkit-transform: scale(4, 1); /* Safari and Chrome */
+				-moz-transform: scale(4, 1); /* Firefox */
+				-ms-transform: scale(4, 1); /* IE 9 */
+				-o-transform: scale(4, 1); /* Opera */
+				transform: matrix(2, -0.6, 0, 2, 0, 0);
+			}
+		</style>
+		<link
+			id="cssLoader"
+			rel="stylesheet"
+			type="text/css"
+			href="/assets/css/scrollbar.css"
+		/>
+	</head>
 
-         tr {
-             padding: 1%;
-             margin: 100px;
-             background-color: var(--color-1);
-         }
+	<body id="body" class="blackbar">
+		<table>
+			<tr>
+				<td id="p5Shader1" class="p5Canvas"></td>
 
-         td {
-             height: 200px;
-             width: 200px;
-             padding: 25px;
-             background-color: var(--color-1);
-         }
+				<td></td>
+				<td id="p51" class="p5Canvas"></td>
 
+				<td></td>
+				<td
+					id="html1"
+					class="p5Canvas"
+					data-transitionDynamic="transform 0.2s"
+					data-transitionStatic="0.2s"
+				>
+					<!-- <iframe id="frame" src="/src/og_site/index.html"> </iframe> -->
+				</td>
+			</tr>
 
+			<tr>
+				<td id="p5Shader2" class="p5Canvas"></td>
+				<td></td>
 
-         /* courtesy of */
-         /*https://stackoverflow.com/a/12065925  */
-         /* I'll find a way to use this somehow */
-         span.stretch {
-             display: flexbox;
-             margin-left: 35%;
-             -webkit-transform: scale(4, 1); /* Safari and Chrome */
-             -moz-transform: scale(4, 1); /* Firefox */
-             -ms-transform: scale(4, 1); /* IE 9 */
-             -o-transform: scale(4, 1); /* Opera */
-             transform: matrix(2, -0.6, 0, 2, 0, 0);
-         }
+				<td id="p52" class="p5Canvas"></td>
+			</tr>
 
+			<tr>
+				<td id="p5Shader3" class="p5Canvas"></td>
+				<td></td>
 
-        </style>
-        <link id="cssLoader" rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css">
+				<td id="p53" class="p5Canvas"></td>
+			</tr>
+		</table>
 
-    </head>
+		<a id="blurb"></a>
+		<!-- <img id="cursor" src="/assets/cursor2.svg" /> -->
 
-    <body id="body" class="blackbar">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
 
-        <table>
+		<script src="/built/og_site/ts/scripts.js"></script>
+		<script src="/built/og_site/ts/projects.js"></script>
+		<script src="/built/og_site/ts/interaction.js"></script>
 
-            <tr>
-                <td
-                    id="p5Shader1" class="p5Canvas"
-                >
-                </td>
-
-                <td></td>
-                <td id="p51" class="p5Canvas">
-                </td>
-
-                <td></td>
-                <td id="html1" class="p5Canvas"
-                    data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-                    <iframe id="frame" src="/src/og_site/index.html">
-                    </iframe>
-                </td>
-            </tr>
-
-
-            <tr>
-
-                <td
-                    id="p5Shader2" class="p5Canvas"
-                >
-                </td>
-                <td></td>
-
-                <td id="p52" class="p5Canvas"
-                >
-                </td>
-
-            </tr>
-
-
-            <tr>
-                <td id="p5Shader3" class="p5Canvas"
-                >
-                </td>
-                <td></td>
-
-                <td id="p53" class="p5Canvas"
-                >
-                </td>
-            </tr>
-
-
-        </table>
-
-        <a id="blurb"></a>
-        <img id="cursor" src="/assets/cursor2.svg"/>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
-
-        <script src="/built/og_site/ts/scripts.js"></script>
-        <script src="/built/og_site/ts/projects.js"></script>
-        <script src="/built/og_site/ts/interaction.js"></script>
-
-
-
-        <script>initScripts()</script>
-        <script>
-         if(!iniFrame){
-             document.getElementById("frame").src = "/src/og_site/index.html";
-         }
-        </script>
-
-
-    </body>
-    
+		<script>
+			initScripts();
+		</script>
+		<script>
+			if (!iniFrame) {
+				document.getElementById("frame").src =
+					"/src/og_site/index.html";
+			}
+		</script>
+	</body>
 </html>
