@@ -113,11 +113,12 @@
 		const cells = document.getElementById("matrix-container"),
 			rows = [].slice.call(cells.rows).map((row) => {
 				return [].slice.call(row.children);
-			});
+			}),
+			cols = rows[0].map((_, colIndex) =>
+				rows.map((row) => row[colIndex])
+			);
 
-		shift_cell = (cell) => {};
-
-		let matrix = [1, 0.9, 0, 1, 0, 0];
+		let matrix = (shift_cell = (cell) => {});
 
 		console.log(rows);
 	</script>
