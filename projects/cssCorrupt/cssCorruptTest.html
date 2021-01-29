@@ -1,150 +1,136 @@
 <!DOCTYPE html>
-<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-<meta content="utf-8" http-equiv="encoding">
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+<meta content="utf-8" http-equiv="encoding" />
 
 <html class="creambar">
+	<head>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/assets/css/scrollbar.css"
+		/>
+		<style>
+			* {
+				--color-1: #ffffee;
+				--color-2: black;
+				--color-3: rgba(236, 198, 48, 0.4);
+				--color-4: rgba(48, 236, 226, 0.26);
+				--color-5: rgba(78, 202, 196, 0.568);
+			}
 
-    <head>
-        <link rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css" />
-        <style>
+			#corruptor_bar {
+				padding-left: 20px;
+				padding-top: 20px;
+				display: flex;
+				flex-direction: row;
+			}
+			.corruptor {
+				background: var(--color-5);
+				margin-right: 7px;
+				color: var(--color2);
+				text-decoration: none;
+			}
 
-         @font-face { font-family: 'space-mono';
-             src: url("/assets/fonts/SpaceMono-Regular.ttf") format('woff2'); }
+			#how_to {
+				background: none;
+				right: -20px;
+				position: absolute;
+			}
 
-         * {
-             --color-1: #ffffee;
-             --color-2: black;
-             --color-3: rgba(236, 198, 48, 0.4);
-             --color-4: rgba(48, 236, 226, 0.26);
-             --color-5: rgba(78, 202, 196, 0.568);
-         }
+			hr {
+				margin: 4px;
+				margin-left: 20px;
+			}
 
-         html {
-             background-color: var(--color-1);
-             font-family: 'monospace';
-             font-size: 1.1rem;
-         }
+			html {
+				background-color: var(--color-1);
+				font-family: "monospace";
+				font-size: 1.1rem;
+			}
 
-         #top:first-child>a {
-             background-color: var(--color-2);
-             padding-left: 20px;
-             margin-top: 15px;
-             color: var(--color-1);
-             margin-left: 5px;
-             width: auto;
-         }
+			#top > a:first-of-type {
+				background-color: var(--color-2);
+				padding-left: 20px;
+				margin-top: 0px;
+				color: var(--color-1);
+				margin-left: 5px;
+				width: auto;
+			}
 
-         p {
-             display: flex;
-             width: fit-content;
-             /* height: 100%; */
-             color: var(--color-2);
-             background-color: var(--color-3);
-             font-weight: 900;
-             border: none;
-             padding: 0 0 0 20px;
-             margin: 0 5px 0 5px;
-         }
+			p {
+				display: flex;
+				width: fit-content;
+				/* height: 100%; */
+				color: var(--color-2);
+				background-color: var(--color-3);
+				font-weight: 900;
+				border: none;
+				padding: 0 0 0 20px;
+				margin: 0 5px 0 5px;
+			}
 
-         div {
-             display: flex;
-             flex-direction: column;
-             flex: 1;
-             width: fit-content;
-             padding: 5px 0 5px 0;
-         }
+			div {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+				width: fit-content;
+				padding: 5px 0 5px 0;
+			}
 
-         div.container {
-             flex-direction: row;
-             text-align: center;
-         }
+			div.container {
+				flex-direction: row;
+				text-align: center;
+			}
 
-         a {
-             flex-direction: row;
-             border-radius: 8px;
-             width: fit-content;
-             height: fit-content;
-             font-weight: 200;
-             border: 0px;
-             text-align: left;
-             padding-left: 5px;
-             /* background-color: var(--color-3); */
-         }
+			a {
+				flex-direction: row;
+				border-radius: 8px;
+				width: fit-content;
+				height: fit-content;
+				font-weight: 200;
+				border: 0px;
+				text-align: left;
+				padding-left: 5px;
+				/* background-color: var(--color-3); */
+			}
 
-         a:link,
-         a:visited {
-             border-radius: 20px;
-         }
+			a:link,
+			a:visited {
+				border-radius: 20px;
+			}
 
-         a:link {
-             border-color: #0000ee;
-         }
+			a:link {
+				border-color: #0000ee;
+			}
 
-         a:visited {
-             border-color: #551a8b;
-         }
-        </style>
-        <script src="/built/pure_html/ts/gen_pure_html.js" onload="build()"></script>
-    </head>
+			a:visited {
+				border-color: #551a8b;
+			}
+		</style>
+		<script
+			src="/built/pure_html/ts/gen_pure_html.js"
+			onload="build()"
+		></script>
+	</head>
 
-
-    <body id="body" class="creambar"></body>
-
-    <a href='javascript:(function(){let page=document.createElement("iframe");page.src="http://localhost:4507/projects/cssCorrupt/cssCorruptTest.html";page.style.cssText=`-ms-zoom: 1.0;-moz-transform: scale(1.0);-moz-transform-origin: 0 0;-o-transform: scale(1.0);-o-transform-origin: 0 0;-webkit-transform: scale(1.0);-webkit-transform-origin: 0 0;width:auto;height:auto;zoom:60%;`;var page_elems=document.body.getElementsByTagName("*"),toPage=function(element){if(element.tagName!="IFRAME"){element.parentElement.replaceChild(page.cloneNode(),element)}},getOne=function(elems){return elems[Math.floor(Math.random()*elems.length)]},corruptMe=function(){toPage(getOne(page_elems))};setInterval(corruptMe,1000)})();'>
-        ahhhhhh</a>
-    <a href='javascript:(function(){var elems=document.body.getElementsByTagName("*"),swapNodeStyle=function(sourceNode,targetNode){var style1=window.getComputedStyle(sourceNode);var style2=window.getComputedStyle(targetNode);Array.from(style1).map(function(key){return targetNode.style.setProperty(key,style1.getPropertyValue(key),style1.getPropertyPriority(key))});Array.from(style2).map(function(key){return sourceNode.style.setProperty(key,style2.getPropertyValue(key),style2.getPropertyPriority(key))})},getOne=function(){return elems[Math.floor(Math.random()*elems.length)]},corruptMe=function(){var e=getOne(),s=getOne();swapNodeStyle(e,s)};setInterval(corruptMe,1)})();'>
-        style swap</a>
-
-
-    <script>
-
-     //            javascript:(function(){
-     //                var elems = document.body.getElementsByTagName("*"), // all elements
-     //                    swapNodeStyle = function(sourceNode, targetNode){
-     //                        var style1 = window.getComputedStyle(sourceNode);
-     //                        var style2 = window.getComputedStyle(targetNode);
-     //                        Array.from(style1).map(function (key) {
-     //                            return targetNode.style.setProperty(key, style1.getPropertyValue(key), style1.getPropertyPriority(key));
-     //                        });
-     //                        Array.from(style2).map(function (key) {
-     //                            return sourceNode.style.setProperty(key, style2.getPropertyValue(key), style2.getPropertyPriority(key));
-     //                        });
-     //                    },
-     //                    getOne = function() {
-     //                        return elems[Math.floor(Math.random() * elems.length)]
-     //                    }, // gets one random html element
-     //                    corruptMe = function() {
-     //                        var e = getOne(), //get first class of random element
-     //                            s = getOne(); // get another random element
-     //                        swapNodeStyle(e,s);
-     //                    };
-     //                setInterval(
-     //                    corruptMe, 1);
-     //            })()
-
-     // gradually inserts my resume into the entire page
-     //         javascript:(function(){
-     //             let page = document.createElement("iframe");
-     //             page.src = "http://localhost:4507/projects/cssCorrupt/cssCorruptTest.html";
-     //             page.style.cssText = `-ms-zoom: 1.0;-moz-transform: scale(1.0);-moz-transform-origin: 0 0;-o-transform: scale(1.0);-o-transform-origin: 0 0;-webkit-transform: scale(1.0);-webkit-transform-origin: 0 0;width:auto;height:auto;zoom:60%;`
-     //             var page_elems = document.body.getElementsByTagName("*"), // all elements
-     //                 toPage = function(element){
-     //                     if(element.tagName != "IFRAME"){
-     //                         element.parentElement.replaceChild(page.cloneNode(),element);
-     //                     }
-     //                 },
-     //                 getOne = function(elems) {
-     //                     return elems[Math.floor(Math.random() * elems.length)]
-     //                 }, // gets one random html element
-     //                 corruptMe = function() {
-     //                     toPage(getOne(page_elems))
-     //                 };
-     //             setInterval(
-     //                 corruptMe, 1000);
-     //         })()
-     //     }
-
-
-    </script>
-
+	<body id="body" class="creambar">
+		<div id="corruptor_bar">
+			<a
+				class="corruptor"
+				href='javascript:(function(){let page=document.createElement("iframe");page.src="https://dsm0.github.io/no_js/index.html";page.style.cssText=`-ms-zoom: 1.0;-moz-transform: scale(1.0);-moz-transform-origin: 0 0;-o-transform: scale(1.0);-o-transform-origin: 0 0;-webkit-transform: scale(1.0);-webkit-transform-origin: 0 0;width:auto;height:auto;zoom:60%;`;var page_elems=document.body.getElementsByTagName("*"),toPage=function(element){if(element.tagName!="IFRAME"){element.parentElement.replaceChild(page.cloneNode(),element)}},getOne=function(elems){return elems[Math.floor(Math.random()*elems.length)]},corruptMe=function(){toPage(getOne(page_elems))};setInterval(corruptMe,1000)})();'
+			>
+				resume proliferator</a
+			>
+			<a
+				class="corruptor"
+				href='javascript:(function(){var elems=document.body.getElementsByTagName("*"),swapNodeStyle=function(sourceNode,targetNode){var style1=window.getComputedStyle(sourceNode);var style2=window.getComputedStyle(targetNode);Array.from(style1).map(function(key){return targetNode.style.setProperty(key,style1.getPropertyValue(key),style1.getPropertyPriority(key))});Array.from(style2).map(function(key){return sourceNode.style.setProperty(key,style2.getPropertyValue(key),style2.getPropertyPriority(key))})},getOne=function(){return elems[Math.floor(Math.random()*elems.length)]},corruptMe=function(){var e=getOne(),s=getOne();swapNodeStyle(e,s)};setInterval(corruptMe,1)})();'
+			>
+				style swap</a
+			>
+			<a id="how_to">
+				<- drag items to bookmarks bar for use on other pages
+			</a>
+		</div>
+		<hr />
+	</body>
 </html>
