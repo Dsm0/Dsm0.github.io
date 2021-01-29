@@ -1,6 +1,12 @@
+const iniFrame = !!window.frameElement;
+
 declare var p5: any; // stupid fix for "Cannot find name 'p5'"
 
+globalThis.inhtml1 = iniFrame ? true : false;
+
 var static = true;
+
+// const html_id = document.getElementById("html");
 
 const canvas1 = document.getElementById("canvas1");
 const canvas2 = document.getElementById("canvas2");
@@ -9,9 +15,9 @@ const p51 = document.getElementById("p51");
 const p52 = document.getElementById("p52");
 const p53 = document.getElementById("p53");
 
-// const contact = document.getElementById("contact");
-// const email = document.getElementById("email");
-// const resume = document.getElementById("resume");
+/* const cursor = document.getElementById("cursor"); */
+
+const frame = document.getElementById("frame");
 
 const blurbDiv = document.getElementById("blurb");
 
@@ -29,6 +35,7 @@ const canvi: HTMLCollectionOf<Element> = document.getElementsByClassName(
 const p5Canvi: HTMLCollectionOf<Element> = document.getElementsByClassName(
   "p5Canvas"
 );
+
 
 function initP5(p5Obj) {
   var div = document.getElementById(p5Obj.divId);
@@ -145,3 +152,40 @@ const staticDynamic = function (e) {
     }
   }
 };
+
+// the mini-iframe thing is on hold for now
+
+/* onmousemove = (e) => { */
+/*     if(iniFrame){ */
+/*         let x = e.clientX, y = e.clientY; */
+/*         let new_pos_string = {x,y}; */
+/*         window.parent.postMessage(new_pos_string,'*'); */
+/*     } else { */
+/*         cursor.style.display = 'none' */
+/*     } */
+/* } */
+/* window.addEventListener('message', function(e) { */
+/*     var event = new MouseEvent('mouseover', { */
+/*         'view': window, */
+/*         'clientX': e.clientX, */
+/*         'clientY': e.clientY, */
+/*         'cancelable': true */
+/*     }); */
+/*     body.dispatchEvent(event); */
+/*     const inset = e.data; */
+/*     let new_pos_string = `${inset.y}px 0px 0px ${inset.x}px`; */
+/*     cursor.style.display = 'block'; */
+/*     giantMouse(new_pos_string,cursor); */
+/* }); */
+/* html.onmouseenter = (e) => { */
+/*     if(iniFrame){ */
+/*         console.log("out"); */
+/*         cursor.style.display = 'none'; */
+/*     } */
+/* } */
+/* html.onmouseout = (e) => { */
+/*     if(iniFrame){ */
+/*         console.log("in"); */
+/*         cursor.style.display = 'block'; */
+/*     } */
+/* } */

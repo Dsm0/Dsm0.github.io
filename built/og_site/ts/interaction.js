@@ -1,13 +1,15 @@
+const iniFrame = !!window.frameElement;
+globalThis.inhtml1 = iniFrame ? true : false;
 var static = true;
+// const html_id = document.getElementById("html");
 const canvas1 = document.getElementById("canvas1");
 const canvas2 = document.getElementById("canvas2");
 const canvas3 = document.getElementById("canvas3");
 const p51 = document.getElementById("p51");
 const p52 = document.getElementById("p52");
 const p53 = document.getElementById("p53");
-// const contact = document.getElementById("contact");
-// const email = document.getElementById("email");
-// const resume = document.getElementById("resume");
+/* const cursor = document.getElementById("cursor"); */
+const frame = document.getElementById("frame");
 const blurbDiv = document.getElementById("blurb");
 const body = document.getElementById("body");
 const html = document.getElementById("html");
@@ -24,25 +26,7 @@ function initP5(p5Obj) {
 }
 var initScripts = function (e) {
     let loadedP5s = p5Objs.map(initP5);
-    // move(
-    //   blurbDiv,
-    //   window.innerWidth * recipX * 0.05,
-    //   window.outerHeight
-    // );
-    // move(contact, centerX, centerY);
-    // move(email, centerX + centerX / 20, centerY + centerY / 20);
-    // move(p51, centerX + centerX / 20, centerY + centerY / 20);
-    // move(p52, centerX + centerX / 20, centerY + centerY / 20);
-    // move(p53, centerX + centerX / 20, centerY + centerY / 20);
-    // dynamicSwitch.onmouseover = function () {
-    //   static = !static;
-    //   if (static) {
-    //     staticify();
-    //   } else {
-    //     dynamicSwitch.innerHTML = "mouseover for static";
-    //     dynamify();
-    //   }
-    // };
+
     for (var i = 0; i < canvi.length; i++) {
         const canv = canvi[i];
         // move(canv, centerX + window.innerWidth, centerY + innerHeight);
@@ -65,17 +49,7 @@ var initScripts = function (e) {
         };
     }
     window.scrollTo(0, 0);
-    // if (!static) {
-    //     const fakeEvent = {
-    //         clientX: centerX,
-    //         clientY: centerY,
-    //     };
-    //     moveElements(fakeEvent);
-    // }
-    // moveElements({
-    //     clientX: centerX,
-    //     clientY: centerY,
-    // })
+
 };
 // onmousemove = function (event: MouseEvent) {
 //   if (!static) {
@@ -139,25 +113,39 @@ const staticDynamic = function (e) {
         }
     }
 };
-// const moveElements = function (e) {
-// moveByPivot(e, contact);
-// moveCanvi(e, canvi);
-// moveCanvi(e, p5Canvi);
-// moveByPivot(e, contact);
-// moveByPivot(e, email);
-// moveByPivot(e, resume);
-// };
-// // courtesy of
-// // https://stackoverflow.com/a/16779702
-// function getStyleSheetPropertyValue(selectorText, propertyName) {
-//   // search backwards because the last match is more likely the right one
-//   for (var s = document.styleSheets.length - 1; s >= 0; s--) {
-//     var cssRules =
-//       document.styleSheets[s].cssRules || document.styleSheets[s].rules || []; // IE support
-//     for (var c = 0; c < cssRules.length; c++) {
-//       if (cssRules[c].selectorText === selectorText)
-//         return cssRules[c].style[propertyName];
-//     }
-//   }
-//   return null;
-// }
+
+// the mini-iframe thing is on hold for now
+/* onmousemove = (e) => { */
+/*     if(iniFrame){ */
+/*         let x = e.clientX, y = e.clientY; */
+/*         let new_pos_string = {x,y}; */
+/*         window.parent.postMessage(new_pos_string,'*'); */
+/*     } else { */
+/*         cursor.style.display = 'none' */
+/*     } */
+/* } */
+/* window.addEventListener('message', function(e) { */
+/*     var event = new MouseEvent('mouseover', { */
+/*         'view': window, */
+/*         'clientX': e.clientX, */
+/*         'clientY': e.clientY, */
+/*         'cancelable': true */
+/*     }); */
+/*     body.dispatchEvent(event); */
+/*     const inset = e.data; */
+/*     let new_pos_string = `${inset.y}px 0px 0px ${inset.x}px`; */
+/*     cursor.style.display = 'block'; */
+/*     giantMouse(new_pos_string,cursor); */
+/* }); */
+/* html.onmouseenter = (e) => { */
+/*     if(iniFrame){ */
+/*         console.log("out"); */
+/*         cursor.style.display = 'none'; */
+/*     } */
+/* } */
+/* html.onmouseout = (e) => { */
+/*     if(iniFrame){ */
+/*         console.log("in"); */
+/*         cursor.style.display = 'block'; */
+/*     } */
+/* } */

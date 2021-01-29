@@ -18,6 +18,10 @@ function seconds_elapsed() {
   return seconds_elapsed;
 }
 
+function move_by_style(moveme, str) {
+    moveme.style.inset = str;
+}
+
 function move(moveme, x_pos, y_pos) {
   moveme.style.left = parseFloat(x_pos) + "px";
   moveme.style.top = parseFloat(y_pos) + "px";
@@ -108,4 +112,18 @@ function xpercentToFloat(attr) {
 
 function ypercentToFloat(attr) {
   return window.innerHeight * (parseFloat(attr) / 100);
+}
+
+function getPosition(e) {
+    var rect = e.target.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    return {
+        x,
+        y
+    }
+}
+
+function giantMouse(pos,elem){
+    move_by_style(elem,pos);
 }
