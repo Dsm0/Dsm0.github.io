@@ -4,23 +4,35 @@
 /*              src: url("/assets/fonts/SFFedoraSymbols.ttf") format('woff2'); } */
 
 .italic {
-    font-style:italic;
+	font-style: italic;
 }
-.bold{
-    font-weight:900;
+.bold {
+	font-weight: 900;
 }
-.cream{
-    background-color: var(--color-3);
-    color: var(--color-2);
+.cream {
+	background-color: var(--color-3);
+	color: var(--color-2);
 }
-.invert{
-    background-color: var(--color-1);
-    color: var(--color-2);
+.invert {
+	background-color: var(--color-1);
+	color: var(--color-2);
 }
-.size2{
-    font-size: 20px;
+.size2 {
+	font-size: 20px;
 }
 
 #ascii {
-    width: 90%;
+	width: 90%;
+}
+
+.shadow {
+	text-shadow: 5px 5px var(--color-3);
+}
+
+.border{
+	border-width:3px;
+	border-style:inset;
+	border-collapse: 2px;
+	border-block-color: var(--color-3);
+	border-color: var(--color-1);
 }

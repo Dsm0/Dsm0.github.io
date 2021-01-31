@@ -39,8 +39,26 @@ function parse_char(ah){
         return "cream";
     case "s":
         return "shadow";
+    case "1":
+        return "size1";
     case "2":
         return "size2";
+    case "3":
+        return "size3";
+    case "4":
+        return "size2";
+    case "5":
+        return "size5";
+    case "6":
+        return "size6";
+    case "7":
+        return "size7";
+    case "8":
+        return "size8";
+    case "9":
+        return "size9";
+    case "r":
+        return "border";
     default:
         return "";
     }
@@ -65,6 +83,10 @@ update_render = () => {
             if(c = parse_char(ah)) {
                 classes.add(c);
             }
+            if(ah === "\\"){
+                classes.clear();
+				ah = " ";
+			}
             spans[index].className = Array.from(classes).join(' ');
             ah ||= " ";
             spans[index].innerText = ah;
