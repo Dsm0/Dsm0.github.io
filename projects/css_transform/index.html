@@ -19,15 +19,11 @@
 				grid-row-gap: 20px;
 				grid-template-columns: auto auto auto;
 				background-image: url("https://ctl.s6img.com/society6/img/sVxjhL5dvhzVTgobsYeJEKuzM1k/w_700/prints/~artwork/s6-original-art-uploads/society6/uploads/misc/3f478158b538433da2b9aae1bb9c898a/~~/grid-lines-pattern-prints.jpg?wait=0&attempt=0");
-				background-positon: center;
 				width: 400px;
 				height: 400px;
 				transform-style: preserve-3d;
 
 				transition: 0.25s;
-			}
-
-			#grid-container:hover {
 				transform: matrix(1, 0.9, 0, 1, 0, 0);
 			}
 
@@ -116,7 +112,8 @@
 		//			getMatrix = () =>
 		//				rows.map((row) => row.map((elem) => parseInt(elem.innerText)));
 
-		const cells = document.getElementById("matrix-container"),
+		const transformDiv = document.getElementById("grid-container"),
+			cells = document.getElementById("matrix-container"),
 			rows = [].slice.call(cells.rows).map((row) => {
 				return [].slice.call(row.children);
 			}),
@@ -124,15 +121,17 @@
 				rows.map((row) => row[colIndex])
 			);
 		let matrix = [1, 0, 0, 1];
-		updateStyle = () => {};
+		updateStyle = () => {
+			transformDiv
+		};
 
 		[].concat(...rows).forEach((cell, i) => {
 			cell.onwheel = (e) => {
 				let val = cell.innerText,
-					newVal = parseInt(val) + e.deltaY
+					newVal = parseInt(val) + e.deltaY;
 				matrix[i] = newVal;
 				cell.innerText = newVal;
-				console.log(matrix);
+				updateStyle();
 			};
 		});
 
