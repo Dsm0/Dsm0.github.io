@@ -23,8 +23,25 @@
 				height: 400px;
 				transform-style: preserve-3d;
 
-				transition: 0.25s;
-				transform: matrix(1, 0.9, 0, 1, 0, 0);
+				// transition: 0.25s;
+				transform: matrix3d(
+					1,
+					0,
+					0,
+					0,
+					0,
+					1,
+					0,
+					0,
+					0,
+					0,
+					1,
+					0,
+					0,
+					0,
+					0,
+					1
+				);
 			}
 
 			#matrix-container {
@@ -49,22 +66,11 @@
 		</style>
 	</head>
 	<body>
-		<div id="grid-container">
-			<!-- <div class="grid-item">1</div> -->
-			<!-- <div class="grid-item">2</div> -->
-			<!-- <div class="grid-item">3</div> -->
-			<!-- <div class="grid-item">4</div> -->
-			<!-- <div class="grid-item">5</div> -->
-			<!-- <div class="grid-item">6</div> -->
-			<!-- <div class="grid-item">7</div> -->
-			<!-- <div class="grid-item">8</div> -->
-			<!-- <div class="grid-item">9</div> -->
-		</div>
+		<div id="grid-container"></div>
 		<table id="matrix-container">
 			<tr>
 				<td
 					type="text"
-					data-value="1"
 					placeholder="1"
 					class="matrix grid-item"
 				>
@@ -72,7 +78,20 @@
 				</td>
 				<td
 					type="text"
-					data-value="0"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+				<td
+					type="text"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+				<td
+					type="text"
 					placeholder="0"
 					class="matrix grid-item"
 				>
@@ -83,7 +102,6 @@
 			<tr>
 				<td
 					type="text"
-					data-value="0"
 					placeholder="0"
 					class="matrix grid-item"
 				>
@@ -91,7 +109,80 @@
 				</td>
 				<td
 					type="text"
-					data-value="1"
+					placeholder="1"
+					class="matrix grid-item"
+				>
+					1
+				</td>
+				<td
+					type="text"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+				<td
+					type="text"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+			</tr>
+			<tr>
+				<td
+					type="text"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+				<td
+					type="text"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+				<td
+					type="text"
+					placeholder="1"
+					class="matrix grid-item"
+				>
+					1
+				</td>
+				<td
+					type="text"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+			</tr>
+			<tr>
+				<td
+					type="text"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+				<td
+					type="text"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+				<td
+					type="text"
+					placeholder="0"
+					class="matrix grid-item"
+				>
+					0
+				</td>
+				<td
+					type="text"
 					placeholder="1"
 					class="matrix grid-item"
 				>
@@ -120,22 +211,38 @@
 			cols = rows[0].map((_, colIndex) =>
 				rows.map((row) => row[colIndex])
 			);
-		let matrix = [1, 0, 0, 1];
+
+		var matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+
 		updateStyle = (cell) => {
-			const ah = `matrix(${matrix[0]},${matrix[1]},${matrix[2]},${matrix[3]},0,0)`;
-			transformDiv.style["transform"] = ah;
+			transformDiv.style[
+				"transform"
+			] = `matrix3d(${matrix[0]} ,${matrix[1]} ,${matrix[2]} ,${matrix[3]},
+						  ${matrix[4]} ,${matrix[5]} ,${matrix[6]} ,${matrix[7]},
+						  ${matrix[8]} ,${matrix[9]} ,${matrix[10]},${matrix[11]},
+						  ${matrix[12]},${matrix[13]},${matrix[14]},${matrix[15]})`;
 		};
 
 		[].concat(...rows).forEach((cell, i) => {
 			cell.onwheel = (e) => {
 				let val = cell.innerText,
 					newVal =
-						Number(val) +
-						Math.sign(e.deltaY) / (e.shiftKey ? 100 : 10);
+						Number(val) -
+						Math.sign(e.deltaY) * (e.shiftKey ? 10 : 1) +
+						Math.sign(e.deltaX) / (e.shiftKey ? 100 : 10);
 				matrix[i] = newVal;
 				cell.innerText = newVal.toFixed(2);
 				updateStyle(cell);
 			};
 		});
+		document.body.onkeyup = (e) => {
+			if (e.keyCode == 32) {
+				[].concat(...rows).forEach(cell => {
+
+					cell.innerText = cell.getAttribute("placeholder");
+				}
+				)
+			}
+		};
 	</script>
 </html>
