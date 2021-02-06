@@ -121,20 +121,21 @@
 				rows.map((row) => row[colIndex])
 			);
 		let matrix = [1, 0, 0, 1];
-		updateStyle = () => {
-			transformDiv
+		updateStyle = (cell) => {
+			const ah = `matrix(${matrix[0]},${matrix[1]},${matrix[2]},${matrix[3]},0,0)`;
+			transformDiv.style["transform"] = ah;
 		};
 
 		[].concat(...rows).forEach((cell, i) => {
 			cell.onwheel = (e) => {
 				let val = cell.innerText,
-					newVal = parseInt(val) + e.deltaY;
+					newVal =
+						Number(val) +
+						Math.sign(e.deltaY) / (e.shiftKey ? 100 : 10);
 				matrix[i] = newVal;
-				cell.innerText = newVal;
-				updateStyle();
+				cell.innerText = newVal.toFixed(2);
+				updateStyle(cell);
 			};
 		});
-
-		console.log(rows);
 	</script>
 </html>
