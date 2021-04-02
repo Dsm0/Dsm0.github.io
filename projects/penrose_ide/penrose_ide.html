@@ -1,29 +1,29 @@
+<!-- Originally written by jsunshine -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
-      .rainbow-text {
-        background-image: linear-gradient(
-          to left,
-          violet,
-          indigo,
-          blue,
-          green,
-          yellow,
-          orange,
-          red
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+        .rainbow-text {
+            background-image: linear-gradient(to left,
+                    violet,
+                    indigo,
+                    blue,
+                    green,
+                    yellow,
+                    orange,
+                    red);
+            -webkit-background-clip: text;
+            -moz-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
     <title>Penrose</title>
-    <script
-      type="text/javascript"
-      src="https://unpkg.com/@penrose/core@1.0.0/build/dist/penrose.min.js"
-    ></script>
+    <script type="text/javascript"
+        src="https://unpkg.com/browse/@penrose/core@1.0.1-alpha.29/build/dist/penrose.min.js"></script>
     <script type="text/javascript">
         function penrosify() {
             const elem = document.getElementById("root");
@@ -37,16 +37,18 @@
             penrose.interactiveDiagram(domain, substance, style, elem);
         }
     </script>
-  </head>
-  <body>
+</head>
+
+<body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <h1 style="text-align: center; width: 300px; margin:auto" class="rainbow-text">
         Penrose IDE!!!!!!!!!!!
     </h1>
+    <h5>originally written by <a href="https://www.cs.cmu.edu/~jssunshi/">Joshua Sunshine</a></h5>
     <div id="codeColumn" style="float: left; width: 50%;">
-    <p>Substance:</p>
-    <div>
-    <textarea id="subArea" cols="80" rows=20 wrap="soft">
+        <p>Substance:</p>
+        <div>
+            <textarea id="subArea" cols="80" rows=20 wrap="soft">
 Set A, B, C, D, E, F, G
 
 IsSubset(B, A)
@@ -61,10 +63,11 @@ Not(Intersecting(F, G))
 Not(Intersecting(B, C))
   
 AutoLabel All
-    </textarea></div>
-    <p>Style:</p>
-    <div>
-    <textarea id="styArea" cols="80" rows=20 wrap="soft">
+    </textarea>
+        </div>
+        <p>Style:</p>
+        <div>
+            <textarea id="styArea" cols="80" rows=20 wrap="soft">
 Set x {
     x.shape = Circle {
         strokeWidth : 0
@@ -121,10 +124,11 @@ where Intersecting(x, y) {
     ensure outsideOf(y.text, x.shape)
     ensure outsideOf(x.text, y.shape)
 }
-    </textarea></div>
-    <p>DSL:</p>
-    <div>
-    <textarea id="dslArea" cols="80" rows=20 wrap="soft">
+    </textarea>
+        </div>
+        <p>DSL:</p>
+        <div>
+            <textarea id="dslArea" cols="80" rows=20 wrap="soft">
 type Set
 type Point
 type Map
@@ -151,11 +155,12 @@ predicate Surjection : Map m
 predicate Bijection : Map m
 predicate PairIn : Point * Point * Map
     </textarea>
-    </div>
-    <p>
-        <button type="button"onclick="penrosify()">Penrosify</button>
-    </p>
+        </div>
+        <p>
+            <button type="button" onclick="penrosify()">Penrosify</button>
+        </p>
     </div>
     <div id="root" style=" height: 100vh; float: left; width: 50%;"></div>
-  </body>
+</body>
+
 </html>
