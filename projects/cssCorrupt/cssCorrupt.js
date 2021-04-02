@@ -41,4 +41,29 @@
                   setInterval(
                       corruptMe, 1000);
               })()
-          }
+
+// (hopefully) shuffles elems offscrene
+
+javascript:(function(){
+	var elems = document.body.getElementsByTagName("*"), // all elements
+		swapNodeStyle = function(sourceNode){
+			var style1 = window.getComputedStyle(sourceNode),
+				rect = sourceNode.getBoundingClientRect();
+			sourceNode.style.setProperty("right",rect.right)
+			sourceNode.style.setProperty("left",rect.left - 2)
+			sourceNode.style.setProperty("top",rect.top)
+			sourceNode.style.setProperty("bottom",rect.bottom)
+			sourceNode.style.setProperty("position","fixed")
+		},
+		getOne = function() {
+			return elems[Math.floor(Math.random() * elems.length)]
+		}, // gets one random html element
+		corruptMe = function() {
+			swapNodeStyle(getOne());
+		};
+	setInterval(
+		corruptMe, 1);
+})()
+
+
+
