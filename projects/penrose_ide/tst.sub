@@ -1,0 +1,8 @@
+Set A, B, C, D, E, F, G
+
+Point P
+
+IsSubset(A, B)
+IsSubset(B, C)
+
+AutoLabel All
