@@ -1,65 +1,39 @@
-// var file = "/projects/scrot_viewer/scrot_paths.txt"
-// var reader = new FileReader();
-// reader.onload = function(progressEvent){
-//   // Entire file
-//   console.log(this.result);
-//   // By lines
-//   var lines = this.result.split('\n');
-
-// };
-// reader.readAsDataURL(file);
-
 const url = "/projects/scrot_viewer/scrot_paths.txt"
-const tst = document.getElementById('tst')
+const body = document.getElementById('body')
 
-console.log(scrot_paths);
+// console.log(scrot_paths);
 
-/*
-fetch(url)
-    .then(r => r.text())
-    .then(t => {
+const make_folders = (folder) => {
+    let maybe_folder, input, label;
 
-        let lines = t.split('\n');
-        let folder, maybe_folder,input,label,folder_name;
-        lines.forEach(line => {
-            switch (line.split('.').pop()) {
-                // cases:
-                case "png":
-                case "jpg":
-                    let a = document.createElement("a");
-                    a.href= folder + "/" + line
-                    console.log("a?", a.href);
-                    document.getElementById(folder + "_ul").appendChild(a);
-                    break;
+    let ah = folder.children.map(child => {
+        switch (child.type) {
+            case "folder":
+                return `
+            <li>
+            <input type='checkbox' id='${child.name}_input'/>
+            <label for=${child.name}_input>${child.name}
+            </label>
+            <ul>${make_folders(child)}</ul>
+            </li>
+            `
+                break;
 
-                // ends w/ .png or .jpg (file)
+            case "file":
+                return `<li><a href='${child.path}'>${child.name}</a></li>`
+                break;
 
-                // starts w/ ./ (new folder)
-                default:
-                    maybe_folder = line.split(':')[0]
-                    console.log("folder?", maybe_folder);
-                    if (maybe_folder != "" && maybe_folder[0]!= ".") {
-                        folder = maybe_folder
-                        li = document.createElement("li")
-                        li.id = folder + "_li";
-                        input = document.createElement("input")
-                        input.type = "checkbox"
-                        input.id = folder + "_input";
-                        label = document.createElement("label")
-                        label.for = folder
-                        ul = document.createElement("ul")
-                        ul.id = folder + "_ul"
-                        li.appendChild(input);
-                        li.appendChild(label);
-                        li.appendChild(ul);
-                        tst.appendChild(li);
-                    }
-                    // console.log("folder?", folder);
-                    // doesn't start with ./ (nested folder) (could probably ignore)
-                    // blank line (folder end)
-                    break;
-            }
-        })
+            default:
+                console.log("???")
+                break;
+        }
     }
+
     )
-*/
+
+    return ah.join('')
+}
+
+const init = () => {body.insertAdjacentHTML("beforeend", `<div id="top" class="css-treeview"> 
+                                              ${make_folders(scrot_paths)}
+                                            </div>`)}
