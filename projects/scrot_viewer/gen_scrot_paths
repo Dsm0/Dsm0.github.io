@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ls -R ../../assets/selectedScrots > scrot_paths.txt
