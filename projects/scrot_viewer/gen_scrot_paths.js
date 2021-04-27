@@ -3,6 +3,11 @@ const body = document.getElementById('body')
 
 // console.log(scrot_paths);
 
+const setimg = (path) => {
+    // console.log("setimg: " + path)
+    document.getElementById('preview').src = path
+}
+
 const make_folders = (folder) => {
     let maybe_folder, input, label;
 
@@ -20,7 +25,7 @@ const make_folders = (folder) => {
                 break;
 
             case "file":
-                return `<li><a href='${child.path}'>${child.name}</a></li>`
+                return `<li><a target='_blank' href='${child.path}' onmouseover="setimg('${child.path}')">${child.name}</a></li>`
                 break;
 
             default:
@@ -34,6 +39,8 @@ const make_folders = (folder) => {
     return ah.join('')
 }
 
-const init = () => {body.insertAdjacentHTML("beforeend", `<div id="top" class="css-treeview"> 
+const init = () => {
+    body.insertAdjacentHTML("beforeend", `<div id="top" class="css-treeview"> 
                                               ${make_folders(scrot_paths)}
-                                            </div>`)}
+                                            </div>`)
+}
