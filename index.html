@@ -10,12 +10,13 @@
       document.getElementById("site_container").src = file;
     };
   </script>
-   <link rel="icon" type="image/gif" href="/corrupted.gif">
+  <link rel="icon" type="image/gif" href="/corrupted.gif">
 
   <style>
-
-   @font-face { font-family: 'space-mono';
-       src: url("/assets/fonts/SpaceMono-Regular.ttf") format('woff2'); }
+    @font-face {
+      font-family: 'space-mono';
+      src: url("/assets/fonts/SpaceMono-Regular.ttf") format('woff2');
+    }
 
     * {
       --color-1: #ffffee;
@@ -24,9 +25,9 @@
 
 
 
-        --track:  #ffffee;
-        --thumb:black;
-        scrollbar-color: var(--thumb) var(--track);
+      --track: #ffffee;
+      --thumb: black;
+      scrollbar-color: var(--thumb) var(--track);
 
     }
 
@@ -56,12 +57,12 @@
       display: inline-block;
     }
 
-   .divider{
-       margin-bottom: 5px;
-       border-bottom: 5px;
-       border-width: 2px;
-       border-color: var(--color-2);
-   }
+    .divider {
+      margin-bottom: 5px;
+      border-bottom: 5px;
+      border-width: 2px;
+      border-color: var(--color-2);
+    }
 
 
     div {
@@ -127,8 +128,8 @@
     .contacts {
       bottom: 0px;
 
-      display:block;
-        margin-left: 5px;
+      display: block;
+      margin-left: 5px;
 
     }
 
@@ -140,6 +141,16 @@
       margin-bottom: 5px;
     }
   </style>
+  <script>
+
+    const filetst = (path) => {
+      var myObject, afile, size;
+      myObject = new ActiveXObject("Scripting.FileSystemObject");
+      afile = myObject.GetFile(path)
+      size = afile.Size;
+      alert("The size of the test.txt file is:" + size);
+    }
+  </script>
 </head>
 
 <body>
@@ -150,15 +161,15 @@
       <li onclick="site('/src/pure_html/index.html')">pure_html</li>
       <li onclick="site('/src/og_site/index.html')">gallery</li>
       ---
-	  <div class="divider"> sketches </div>
+      <div class="divider"> sketches </div>
       ---
       <li onclick="site('/projects/ascii_toy/ascii_toy.html')">ascii_toy</li>
-	  <li onclick="site('/projects/cursor_toy/index.html')">cursor_toy</li>
-	  <li onclick="site('/projects/cssCorrupt/cssCorruptTest.html')">css<br>corruptors</li>
-	  ---
-	  <!-- <div class="divider"> curations </div>
-	  ---
-	  <li onclick="site('/assets/selectedScrots')">scrots</li> -->
+      <li onclick="site('/projects/cursor_toy/index.html')">cursor_toy</li>
+      <li onclick="site('/projects/cssCorrupt/cssCorruptTest.html')">css<br>corruptors</li>
+      ---
+      <div class="divider"> curations </div>
+      ---
+      <li onclick="site('/projects/scrot_viewer/index.html')">scrots</li>
 
       <!-- <div class="divider"> -->
       <!--     (working <br> -->
@@ -175,4 +186,3 @@
 </body>
 
 </html>
-

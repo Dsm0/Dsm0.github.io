@@ -1,0 +1,3 @@
+#!/bin/bash
+
+./gen_scrot_json.py ../../assets/selectedScrots > scrot_paths.js
