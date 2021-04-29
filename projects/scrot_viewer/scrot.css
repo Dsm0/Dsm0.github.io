@@ -34,6 +34,8 @@
   image-rendering: optimizeSpeed;
   image-resolution: 20dpi;
 
+  background-color: var(--color-3);
+
   filter: blur(25px);
 }
 
