@@ -17,15 +17,14 @@ const make_folders = (folder) => {
                 return `
             <li>
             <input type='checkbox' id='${child.name}_input'/>
-            <label for=${child.name}_input>${child.name}
-            </label>
+            <label for=${child.name}_input>- ${child.name}</label>
             <ul>${make_folders(child)}</ul>
             </li>
             `
                 break;
 
             case "file":
-                return `<li><a target='_blank' href='${child.path}' onmouseover="setimg('${child.path}')">${child.name}</a></li>`
+                return `<li><a target='_blank' href='${child.path}' onmouseover="setimg('${child.path}')">- ${child.name}</a></li>`
                 break;
 
             default:

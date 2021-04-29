@@ -20,7 +20,9 @@
   justify-content: right;
   z-index: 5;
   position: absolute;
-  margin-top: 15px;
+  margin-top: 17.6px;
+  float: right;
+  bottom: 0%;
 }
 
 #preview {
@@ -44,10 +46,12 @@ a {
 }
 
 label {
-  background: var(--color-3);
+  background: var(--color-1);
   color: var(--color-2);
-  padding: 5px;
-  margin: 2px;
+  padding-bottom: 5.65px;
+  padding-top: 5px;
+  margin-left: 0px;
+  font-size: 1.1rem;
 }
 
 a {
@@ -57,17 +61,23 @@ a {
   margin: 2px;
 }
 
+li {
+  direction: rtl;
+  list-style: none;
+}
+
 .css-treeview ul,
 .css-treeview li {
-  padding: 0;
-  margin: 0;
-  list-style: "~";
+  padding-bottom: 3px;
+  margin-bottom: -7px;
   color: var(--color-2);
 }
 
 .css-treeview input {
   position: absolute;
   opacity: 0;
+  display: none;
+  background: none;
 }
 
 .css-treeview {
@@ -94,11 +104,6 @@ a {
   display: none;
 }
 
-.css-treeview label,
-.css-treeview label::before {
-  cursor: pointer;
-}
-
 .css-treeview input:disabled + label {
   cursor: default;
   opacity: 0.6;
@@ -106,7 +111,6 @@ a {
 
 .css-treeview input:checked:not(:disabled) + label + ul {
   display: block;
-  list-style: "-";
 }
 
 /* .css-treeview label,
@@ -115,8 +119,7 @@ a {
 } */
 
 .css-treeview label,
-.css-treeview a,
-.css-treeview label::before {
+.css-treeview a {
   display: inline-block;
   height: 16px;
   line-height: 16px;
@@ -125,15 +128,8 @@ a {
 
 .css-treeview label {
   background-position: 18px 0;
-  list-style: "-";
-}
-
-.css-treeview label::before {
-  content: "";
-  width: 16px;
-  margin: 0 22px 0 0;
-  vertical-align: middle;
-  background-position: 0 -32px;
+  list-style: none;
+  padding-right: 5px;
 }
 
 .css-treeview input:checked + label::before {
