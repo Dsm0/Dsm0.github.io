@@ -1,8 +1,12 @@
 {
 	"name": "Will Rinkoff",
 	"contact": {
-		"email": { "link": "mailto:will.rinkoff@gmail.com" },
-		"github": { "link": "https://github.com/Dsm0/" }
+		"email": {
+			"link": "mailto:will.rinkoff@gmail.com"
+		},
+		"github": {
+			"link": "https://github.com/Dsm0/"
+		}
 	},
 	"resume": {
 		"skill_summary": {
@@ -50,12 +54,20 @@
 							"program_design",
 							"generalized_problem_solving"
 						],
-						"languages": ["python"]
+						"languages": [
+							"python"
+						]
 					},
 					"15322": {
 						"name": "Introduction to Computer Music",
-						"topics": ["signal_processing", "programming"],
-						"languages": ["nyquist", "lisp"]
+						"topics": [
+							"signal_processing",
+							"programming"
+						],
+						"languages": [
+							"nyquist",
+							"lisp"
+						]
 					},
 					"15150": {
 						"name": "Functional Programming",
@@ -64,7 +76,10 @@
 							"program_design",
 							"programming"
 						],
-						"languages": ["Standard ML","LaTeX"]
+						"languages": [
+							"Standard ML",
+							"LaTeX"
+						]
 					},
 					"15122": {
 						"name": "Principles of Imperative Computation",
@@ -74,7 +89,9 @@
 							"generalized_problem_solving",
 							"memory_management"
 						],
-						"languages": ["c"]
+						"languages": [
+							"c"
+						]
 					},
 					"15213": {
 						"name": "Introduction to Computer Systems",
@@ -84,7 +101,9 @@
 							"memory_management",
 							"linux"
 						],
-						"languages": ["c"]
+						"languages": [
+							"c"
+						]
 					}
 				}
 			}
@@ -102,8 +121,16 @@
 					"successfully researched, modeled, and implemented complex audio-analysis techniques with little prior experience (I had just graduated high school at the time)",
 					"presented progress of work to a broader team of application developers"
 				],
-				"languages": ["python"],
-				"frameworks": ["tensorflow", "keras", "numpy", "Madmom", "git"]
+				"languages": [
+					"python"
+				],
+				"frameworks": [
+					"tensorflow",
+					"keras",
+					"numpy",
+					"Madmom",
+					"git"
+				]
 			},
 			"neort": {
 				"link": "https://neort.io",
@@ -114,8 +141,37 @@
 				"description": [
 					"frontend development on the website's creation tool/editor"
 				],
-				"languages": ["javascript", "typescript", "html", "css"],
-				"frameworks": ["Vue", "nuxt.js", "axios", "webgl", "git"]
+				"languages": [
+					"javascript",
+					"typescript",
+					"html",
+					"css"
+				],
+				"frameworks": [
+					"Vue",
+					"nuxt.js",
+					"axios",
+					"webgl",
+					"git"
+				]
+			},
+			"penrose": {
+				"link": "https://penrose.ink/",
+				"duration": {
+					"start": "2021-02-04"
+				},
+				"description": [
+					"bringing shapes up to svg spec, adding command line tools, misc"
+				],
+				"languages": [
+					"javascript",
+					"typescript",
+					"html"
+				],
+				"frameworks": [
+					"svg",
+					"react"
+				]
 			}
 		},
 		"relevant_hobbies": {
@@ -123,14 +179,23 @@
 				"description": [
 					"no stranger to command line tools, unearthing dependencies, troubleshooting makefiles, etc"
 				],
-				"languages": ["bash", "vimL"]
+				"languages": [
+					"bash",
+					"vimL"
+				]
 			},
 			"tidalcycles": {
 				"description": [
 					"An experimental livecoding language based in Haskell and Supercollider"
 				],
-				"langauges": ["haskell", "supercollider"],
-				"frameworks": ["open_sound_control", "jack"]
+				"langauges": [
+					"haskell",
+					"supercollider"
+				],
+				"frameworks": [
+					"open_sound_control",
+					"jack"
+				]
 			}
 		}
 	}
