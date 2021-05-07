@@ -188,7 +188,7 @@
 				"description": [
 					"An experimental livecoding language based in Haskell and Supercollider"
 				],
-				"langauges": [
+				"languages": [
 					"haskell",
 					"supercollider"
 				],
