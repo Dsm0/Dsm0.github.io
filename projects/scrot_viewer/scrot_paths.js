@@ -109,6 +109,43 @@ scrot_paths =
           "name": "evanRoth",
           "path": "../../assets/selectedScrots/art/evanRoth",
           "type": "folder"
+        },
+        {
+          "children": [
+            {
+              "name": "casino_night_1.png",
+              "path": "../../assets/selectedScrots/art/pilotredsun/casino_night_1.png",
+              "type": "file"
+            },
+            {
+              "name": "casino_night_2.png",
+              "path": "../../assets/selectedScrots/art/pilotredsun/casino_night_2.png",
+              "type": "file"
+            },
+            {
+              "name": "casino_night_3.png",
+              "path": "../../assets/selectedScrots/art/pilotredsun/casino_night_3.png",
+              "type": "file"
+            },
+            {
+              "name": "casino_night_4.png",
+              "path": "../../assets/selectedScrots/art/pilotredsun/casino_night_4.png",
+              "type": "file"
+            },
+            {
+              "name": "casino_night_5.png",
+              "path": "../../assets/selectedScrots/art/pilotredsun/casino_night_5.png",
+              "type": "file"
+            },
+            {
+              "name": "casino_night_6.png",
+              "path": "../../assets/selectedScrots/art/pilotredsun/casino_night_6.png",
+              "type": "file"
+            }
+          ],
+          "name": "pilotredsun",
+          "path": "../../assets/selectedScrots/art/pilotredsun",
+          "type": "folder"
         }
       ],
       "name": "art",
@@ -117,6 +154,11 @@ scrot_paths =
     },
     {
       "children": [
+        {
+          "name": "2021-08-05-064651_1920x1080_scrot.png",
+          "path": "../../assets/selectedScrots/bad/2021-08-05-064651_1920x1080_scrot.png",
+          "type": "file"
+        },
         {
           "name": "large_ds.jpeg",
           "path": "../../assets/selectedScrots/bad/large_ds.jpeg",
@@ -134,6 +176,88 @@ scrot_paths =
     },
     {
       "children": [
+        {
+          "children": [
+            {
+              "name": "2021-09-19-205137_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-205137_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-205248_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-205248_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-205251_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-205251_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-205300_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-205300_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-205706_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-205706_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-205755_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-205755_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-205849_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-205849_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-205933_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-205933_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-205937_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-205937_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-210211_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-210211_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-210236_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-210236_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-210326_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-210326_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-210326_1920x1080_scrot_edit.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-210326_1920x1080_scrot_edit.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-210607_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-210607_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-19-210744_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-210744_1920x1080_scrot.png",
+              "type": "file"
+            }
+          ],
+          "name": "custom_robo_arena_assets",
+          "path": "../../assets/selectedScrots/games/custom_robo_arena_assets",
+          "type": "folder"
+        },
         {
           "children": [
             {
@@ -281,6 +405,11 @@ scrot_paths =
     {
       "children": [
         {
+          "name": "bitwig.png",
+          "path": "../../assets/selectedScrots/gimp_edits/bitwig.png",
+          "type": "file"
+        },
+        {
           "name": "design_in_theory_and_practice_cat_pfp.png",
           "path": "../../assets/selectedScrots/gimp_edits/design_in_theory_and_practice_cat_pfp.png",
           "type": "file"
@@ -307,6 +436,11 @@ scrot_paths =
             {
               "name": "2021-04-29-110027_1920x1080_scrot.png",
               "path": "../../assets/selectedScrots/papers/individual/2021-04-29-110027_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-04-29-110027_1920x1080_scrot_dark.png",
+              "path": "../../assets/selectedScrots/papers/individual/2021-04-29-110027_1920x1080_scrot_dark.png",
               "type": "file"
             }
           ],
@@ -611,6 +745,48 @@ scrot_paths =
           "name": "P5hs",
           "path": "../../assets/selectedScrots/tools/P5hs",
           "type": "folder"
+        },
+        {
+          "children": [
+            {
+              "name": "2021-09-26-130259_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/pip/2021-09-26-130259_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-26-130304_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/pip/2021-09-26-130304_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-26-130308_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/pip/2021-09-26-130308_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-26-130311_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/pip/2021-09-26-130311_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-26-130311_1920x1080_scrot_edit.png",
+              "path": "../../assets/selectedScrots/tools/pip/2021-09-26-130311_1920x1080_scrot_edit.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-26-130311_1920x1080_scrot_edit_edit.png",
+              "path": "../../assets/selectedScrots/tools/pip/2021-09-26-130311_1920x1080_scrot_edit_edit.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-09-26-130315_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/pip/2021-09-26-130315_1920x1080_scrot.png",
+              "type": "file"
+            }
+          ],
+          "name": "pip",
+          "path": "../../assets/selectedScrots/tools/pip",
+          "type": "folder"
         }
       ],
       "name": "tools",
@@ -679,6 +855,16 @@ scrot_paths =
         {
           "name": "yt_techno.png",
           "path": "../../assets/selectedScrots/videos/yt_techno.png",
+          "type": "file"
+        },
+        {
+          "name": "yt_techno_edit.png",
+          "path": "../../assets/selectedScrots/videos/yt_techno_edit.png",
+          "type": "file"
+        },
+        {
+          "name": "yt_techno_inverted.png",
+          "path": "../../assets/selectedScrots/videos/yt_techno_inverted.png",
           "type": "file"
         }
       ],
