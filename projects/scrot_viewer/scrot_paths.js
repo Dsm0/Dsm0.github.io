@@ -41,11 +41,6 @@ scrot_paths =
               "type": "file"
             },
             {
-              "name": "2019-10-26-204434_1920x1080_scrot.png",
-              "path": "../../assets/selectedScrots/art/evanRoth/2019-10-26-204434_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
               "name": "2019-10-26-204435_1920x1080_scrot.png",
               "path": "../../assets/selectedScrots/art/evanRoth/2019-10-26-204435_1920x1080_scrot.png",
               "type": "file"
@@ -177,6 +172,21 @@ scrot_paths =
     {
       "children": [
         {
+          "name": "bomberman_hero_remix.png",
+          "path": "../../assets/selectedScrots/games/bomberman_hero_remix.png",
+          "type": "file"
+        },
+        {
+          "name": "bomberman_hero_remix_lens_stack.png",
+          "path": "../../assets/selectedScrots/games/bomberman_hero_remix_lens_stack.png",
+          "type": "file"
+        },
+        {
+          "name": "bomberman_hero_remix_v_invert.png",
+          "path": "../../assets/selectedScrots/games/bomberman_hero_remix_v_invert.png",
+          "type": "file"
+        },
+        {
           "children": [
             {
               "name": "2021-09-19-205137_1920x1080_scrot.png",
@@ -251,6 +261,16 @@ scrot_paths =
             {
               "name": "2021-09-19-210744_1920x1080_scrot.png",
               "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/2021-09-19-210744_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "nodata_polar.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/nodata_polar.png",
+              "type": "file"
+            },
+            {
+              "name": "nodata_warp_news.png",
+              "path": "../../assets/selectedScrots/games/custom_robo_arena_assets/nodata_warp_news.png",
               "type": "file"
             }
           ],
@@ -633,11 +653,6 @@ scrot_paths =
                   "type": "file"
                 },
                 {
-                  "name": "2021-02-28-183848_1920x1080_scrot.png",
-                  "path": "../../assets/selectedScrots/tools/noclip.site/fez/2021-02-28-183848_1920x1080_scrot.png",
-                  "type": "file"
-                },
-                {
                   "name": "2021-02-28-184008_1920x1080_scrot.png",
                   "path": "../../assets/selectedScrots/tools/noclip.site/fez/2021-02-28-184008_1920x1080_scrot.png",
                   "type": "file"
@@ -786,6 +801,185 @@ scrot_paths =
           ],
           "name": "pip",
           "path": "../../assets/selectedScrots/tools/pip",
+          "type": "folder"
+        },
+        {
+          "children": [
+            {
+              "name": "2021-10-06-155244_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155244_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-154639_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-154639_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-154649_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-154649_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-154652_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-154652_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-154708_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-154708_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-154726_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-154726_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-154750_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-154750_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-154902_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-154902_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-154936_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-154936_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155109_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155109_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155114_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155114_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155118_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155118_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155127_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155127_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155249_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155249_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155308_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155308_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155310_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155310_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155318_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155318_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155338_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155338_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155414_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155414_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155433_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155433_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155441_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155441_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155514_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155514_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155522_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155522_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155526_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155526_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155530_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155530_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155600_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155600_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155621_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155621_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155628_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155628_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155631_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155631_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155737_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155737_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155905_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155905_1920x1080_scrot.png",
+              "type": "file"
+            },
+            {
+              "name": "2021-10-06-155916_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/projectM/2021-10-06-155916_1920x1080_scrot.png",
+              "type": "file"
+            }
+          ],
+          "name": "projectM",
+          "path": "../../assets/selectedScrots/tools/projectM",
+          "type": "folder"
+        },
+        {
+          "children": [
+            {
+              "name": "2021-10-04-122829_1920x1080_scrot.png",
+              "path": "../../assets/selectedScrots/tools/term/2021-10-04-122829_1920x1080_scrot.png",
+              "type": "file"
+            }
+          ],
+          "name": "term",
+          "path": "../../assets/selectedScrots/tools/term",
           "type": "folder"
         }
       ],
