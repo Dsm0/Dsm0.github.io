@@ -113,39 +113,3 @@ const staticDynamic = function (e) {
         }
     }
 };
-
-// the mini-iframe thing is on hold for now
-/* onmousemove = (e) => { */
-/*     if(iniFrame){ */
-/*         let x = e.clientX, y = e.clientY; */
-/*         let new_pos_string = {x,y}; */
-/*         window.parent.postMessage(new_pos_string,'*'); */
-/*     } else { */
-/*         cursor.style.display = 'none' */
-/*     } */
-/* } */
-/* window.addEventListener('message', function(e) { */
-/*     var event = new MouseEvent('mouseover', { */
-/*         'view': window, */
-/*         'clientX': e.clientX, */
-/*         'clientY': e.clientY, */
-/*         'cancelable': true */
-/*     }); */
-/*     body.dispatchEvent(event); */
-/*     const inset = e.data; */
-/*     let new_pos_string = `${inset.y}px 0px 0px ${inset.x}px`; */
-/*     cursor.style.display = 'block'; */
-/*     giantMouse(new_pos_string,cursor); */
-/* }); */
-/* html.onmouseenter = (e) => { */
-/*     if(iniFrame){ */
-/*         console.log("out"); */
-/*         cursor.style.display = 'none'; */
-/*     } */
-/* } */
-/* html.onmouseout = (e) => { */
-/*     if(iniFrame){ */
-/*         console.log("in"); */
-/*         cursor.style.display = 'block'; */
-/*     } */
-/* } */

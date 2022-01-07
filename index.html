@@ -5,25 +5,13 @@
 <html>
 
 <head>
-  <script>
-    const site = (file) => {
-      document.getElementById("site_container").src = file;
-    };
-  </script>
   <link rel="icon" type="image/gif" href="/corrupted.gif">
-
   <style>
-    @font-face {
-      font-family: 'space-mono';
-      src: url("/assets/fonts/SpaceMono-Regular.ttf") format('woff2');
-    }
 
     * {
       --color-1: #ffffee;
       --color-2: black;
       --color-3: rgba(236, 198, 48, 0.4);
-
-
 
       --track: #ffffee;
       --thumb: black;
@@ -53,7 +41,6 @@
     }
 
     .box-item {
-
       display: inline-block;
     }
 
@@ -73,10 +60,13 @@
     }
 
     ul {
+      width: auto;
       height: auto;
       position: fixed;
       border-right: var(--color-2);
       border-right-width: 20px;
+      left: 45%;
+      top: 25%;
 
       list-style-type: disc;
       margin-block-start: 1em;
@@ -87,8 +77,7 @@
       padding-inline-start: 20px;
       padding-inline-end: 10%;
 
-      text-align: left;
-
+      text-align: right;
 
       margin-bottom: auto;
     }
@@ -102,10 +91,17 @@
       list-style: "- ";
     }
 
-    ul li:hover {
+    a {
+      text-decoration: none;
+      color: var(--color-2)
+    }
+
+    a:hover {
       background-color: var(--color-2);
       color: var(--color-1);
     }
+
+    /* a:visited { text-decoration: none; } */
 
     iframe {
       display: flexbox;
@@ -117,12 +113,6 @@
       margin-left: 8em;
       width: 100%;
       border: none;
-    }
-
-    .work {
-      bottom: 35px;
-      background-color: var(--color-3);
-      color: var(--color-2);
     }
 
     .contacts {
@@ -141,48 +131,35 @@
       margin-bottom: 5px;
     }
   </style>
-  <script>
 
-    const filetst = (path) => {
-      var myObject, afile, size;
-      myObject = new ActiveXObject("Scripting.FileSystemObject");
-      afile = myObject.GetFile(path)
-      size = afile.Size;
-      alert("The size of the test.txt file is:" + size);
-    }
-  </script>
 </head>
 
 <body>
   <div>
 
     <ul class="box-item">
-      <li onclick="site('/src/pure_json/index.html')">pure_json</li>
-      <li onclick="site('/src/pure_html/index.html')">pure_html</li>
-      <li onclick="site('/src/og_site/index.html')">gallery</li>
+      <div class="divider"> cv </div>
+      ---
+      <li><a target="_blank" rel="noopener noreferrer" href="/src/pure_json/index.html">pure_json</a></li>
+      <li><a target="_blank" rel="noopener noreferrer" href="/src/pure_html/index.html">pure_html</a></li>
+      <li><a target="_blank" rel="noopener noreferrer" href="/src/og_site/index.html">gallery</a></li>
       ---
       <div class="divider"> sketches </div>
       ---
-      <li onclick="site('/projects/ascii_toy/ascii_toy.html')">ascii_toy</li>
-      <li onclick="site('/projects/cursor_toy/index.html')">cursor_toy</li>
-      <li onclick="site('/projects/cssCorrupt/cssCorruptTest.html')">css<br>corruptors</li>
+      <li><a target="_blank" rel="noopener noreferrer" href="/projects/ascii_toy/ascii_toy.html">ascii_toy</a></li>
+      <li><a target="_blank" rel="noopener noreferrer" href="/projects/cursor_toy/index.html">cursor_toy</a></li>
+      <li><a target="_blank" rel="noopener noreferrer"
+          href="/projects/cssCorrupt/cssCorruptTest.html">css<br>corruptors</a></li>
       ---
-      <div class="divider"> curations <br>(not mine)</div>
+      <div class="divider"> curations</div>
       ---
-      <li onclick="site('/projects/scrot_viewer/index.html')">scrots</li>
-
-      <!-- <div class="divider"> -->
-      <!--     (working <br> -->
-      <!--     on more) </div> -->
+      <li><a target="_blank" rel="noopener noreferrer" href="/projects/scrot_viewer/index.html">scrots</a></li>
 
     </ul>
 
     <br>
 
   </div>
-  <iframe id="site_container" src="/src/pure_html/index.html" class="box-item" frameborder="0">
-
-  </iframe>
 </body>
 
 </html>
