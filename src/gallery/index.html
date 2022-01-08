@@ -182,12 +182,11 @@
 		}
 	</style>
 	<script src="/assets/libs/p5.min.js"></script>
-	<script src="/built/og_site/ts/projects.js"></script>
+	<script src="/src/gallery/p5_projects.js"></script>
 	<script>
 
 		function initP5(p5Obj) {
 			var div = document.getElementById(p5Obj.divId);
-			console.log("AHHHHHHH")
 			div.setAttribute("data-blurb", p5Obj.blurb);
 			return new p5(p5Obj.sketch);
 		}
@@ -208,7 +207,6 @@
 				p5Canv.onmouseleave = (_) => {
 					blurbDiv.innerHTML = "";
 				};
-				console.log(p5Canv);
 			}
 			window.scrollTo(0, 0);
 		};
