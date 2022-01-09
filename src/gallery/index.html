@@ -18,24 +18,6 @@
 			scrollbar-color: var(--thumb) var(--track);
 		}
 
-		#frame {
-			-ms-zoom: 0.25;
-			-moz-transform: scale(0.25);
-			-o-transform: scale(0.25);
-			-webkit-transform: scale(0.25);
-			/* -o-transform-origin: 0 0; */
-			/* -webkit-transform-origin: 0 0; */
-			/* -moz-transform-origin: 0 0; */
-			border: 0px;
-			transition: transform 0.5s;
-			width: 800px;
-			height: 800px;
-
-			-o-transform-origin: 0 0;
-			-webkit-transform-origin: 0 0;
-			-moz-transform-origin: 0 0;
-		}
-
 		/* #frame:hover{ */
 		/* background-color: var(--color-2); */
 		/* color: var(--color-1); */
@@ -110,6 +92,18 @@
 			-webkit-transform: scale(1.4);
 			transition: transform 0.5s;
 		}
+
+		video:hover {
+			/* background-color: var(--color-2); */
+			/* color: var(--color-1); */
+			z-index: 3;
+			position: absolute;
+			transform: scale(1.4);
+			-moz-transform: scale(1.4);
+			-webkit-transform: scale(1.4);
+			transition: transform 0.5s;
+		}
+
 
 		#blurb {
 			background-color: var(--color-2);
@@ -201,6 +195,7 @@
 			);
 			for (var i = 0; i < p5Canvi.length; i++) {
 				const p5Canv = p5Canvi[i];
+				console.log(p5Canv)
 				p5Canv.onmouseover = (_) => {
 					blurbDiv.innerHTML = p5Canv.getAttribute("data-blurb");
 				};
@@ -226,8 +221,32 @@
 			<td id="p51" class="p5Canvas"></td>
 
 			<td></td>
-			<td id="html1" class="p5Canvas" data-transitionDynamic="transform 0.2s" data-transitionStatic="0.2s">
-				<!-- <iframe id="frame" src="/src/og_site/index.html"> </iframe> -->
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/brks.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/kane.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/sonic_boom.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/purple_interp.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
 			</td>
 		</tr>
 
@@ -236,6 +255,35 @@
 			<td></td>
 
 			<td id="p52" class="p5Canvas"></td>
+
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/longest_night.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/kane.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/ravemail.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/exposure_.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
 		</tr>
 
 		<tr>
@@ -243,6 +291,35 @@
 			<td></td>
 
 			<td id="p53" class="p5Canvas"></td>
+
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/cong.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/chill.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/kemp.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid">
+				<video height=200px width=200px controls>
+					<source src="/assets/snippetPosts/jak3.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
 		</tr>
 	</table>
 
