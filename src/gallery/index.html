@@ -18,6 +18,11 @@
 			scrollbar-color: var(--thumb) var(--track);
 		}
 
+		@font-face {
+		  font-family: "vcr-font";
+		  src: url("/assets/fonts/VCRFont.ttf") format("woff2");
+		}
+
 		/* #frame:hover{ */
 		/* background-color: var(--color-2); */
 		/* color: var(--color-1); */
@@ -63,9 +68,23 @@
 			background-color: var(--color-1);
 			margin-left: 0px;
 			margin-top: 0px;
-			overflow-x: var(--overflow-mode, hidden);
+			overflow-x: auto;
 			overflow-y: hidden;
-			/* font-family: monospace; */
+		}
+
+		.flash {
+			/* background-color: crimson; */
+			left: 10%;
+			top: 15%;
+			width: auto;
+			height: auto;
+			backdrop-filter: blur(40%);
+			position:fixed;
+			z-index: 10;
+			font-family: "vcr-font";
+			color: var(--color-2);
+			font-size: 40px;
+			display: none;
 		}
 
 		.p5Canvas {
@@ -125,8 +144,6 @@
 
 		#cursor {
 			display: none;
-			/* background-color: var(--color-2); */
-			/* color: var(--color-2); */
 			fill: var(--color-2);
 			height: 80px;
 			width: 53.3px;
@@ -178,6 +195,26 @@
 	<script src="/assets/libs/p5.min.js"></script>
 	<script src="/src/gallery/p5_projects.js"></script>
 	<script>
+		var playFlash
+
+		function flash(txt){
+			playFlash.innerHTML = txt
+			playFlash.style.display = "block";
+			setTimeout(() => {
+				playFlash.style.display = "none"
+			},300)
+		}
+
+		function togglePause(elem){
+			if(elem.paused){
+				elem.play()
+				flash("PLAY")
+			}else{
+				elem.pause()
+				flash("PAUSE")
+			}
+
+		}
 
 		function initP5(p5Obj) {
 			var div = document.getElementById(p5Obj.divId);
@@ -187,15 +224,19 @@
 
 		var initScripts = function () {
 
+			playFlash = document.getElementById("playFlash")
+			pauseFlash = document.getElementById("playFlash")
+
 			let loadedP5s = p5Objs.map(initP5);
 			var p5; // stupid fix for "Cannot find name 'p5'"
 			const blurbDiv = document.getElementById("blurb");
 			const p5Canvi = document.getElementsByClassName(
 				"p5Canvas"
 			);
+
 			for (var i = 0; i < p5Canvi.length; i++) {
 				const p5Canv = p5Canvi[i];
-				console.log(p5Canv)
+				// console.log(p5Canv)
 				p5Canv.onmouseover = (_) => {
 					blurbDiv.innerHTML = p5Canv.getAttribute("data-blurb");
 				};
@@ -213,6 +254,7 @@
 </head>
 
 <body id="body" class="blackbar">
+	<div class="flash" id="playFlash">play</div>
 	<table>
 		<tr>
 			<td id="p5Shader1" class="p5Canvas"></td>
@@ -222,28 +264,28 @@
 
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/brks.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/kane.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/sonic_boom.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/purple_interp.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
@@ -258,28 +300,28 @@
 
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/longest_night.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/kane.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/ravemail.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/exposure_.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
@@ -294,28 +336,28 @@
 
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/cong.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/chill.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/kemp.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
 			<td class="p5Canvas vid">
-				<video height=200px width=200px controls>
+				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/jak3.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
