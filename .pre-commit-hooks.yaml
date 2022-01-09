@@ -1,6 +1,6 @@
 - id: "scrots"
   name: "Update Scrots"
-  entry: scrot_viewer/gen_scrot_paths
+  entry: gen_scrot_paths.sh
   # types: [paths]
   # exclude: ".yaml$|.yml$"
   language: "script"

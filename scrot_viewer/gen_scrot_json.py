@@ -15,7 +15,8 @@ def path_hierarchy(path):
     try:
         hierarchy['children'] = [
             path_hierarchy(os.path.join(path, contents))
-            for contents in os.listdir(path)
+            for contents in [
+                p for p in os.listdir(path) if p != ".DS_Store"]
         ]
     except OSError as e:
         if e.errno != errno.ENOTDIR:
