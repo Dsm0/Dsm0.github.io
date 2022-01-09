@@ -1,8 +1,0 @@
-- id: "scrots"
-  name: "Update Scrots"
-  entry: gen_scrot_paths.sh
-  # types: [paths]
-  # exclude: ".yaml$|.yml$"
-  language: "script"
-  description: "Saves pathNames to a json file to load images in the scrot_viewer"
-  # args: [--example1, --example2]
