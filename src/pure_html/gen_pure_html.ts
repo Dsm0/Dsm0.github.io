@@ -1,6 +1,6 @@
 async function build() {
   const doc = document
-      , info = await (await fetch("/info.json")).json()
+      , info = await (await fetch("/will_rinkoff_cv.json")).json()
       , body = doc?.getElementById("body")
   doc && body 
     ? body.insertAdjacentHTML("beforeend", `<div id="top"> 

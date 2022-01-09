@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 function build() {
     return __awaiter(this, void 0, void 0, function* () {
-        const doc = document, info = yield (yield fetch("/info.json")).json(), body = doc === null || doc === void 0 ? void 0 : doc.getElementById("body");
+        const doc = document, info = yield (yield fetch("/will_rinkoff_cv.json")).json(), body = doc === null || doc === void 0 ? void 0 : doc.getElementById("body");
         doc && body
             ? body.insertAdjacentHTML("beforeend", `<div id="top"> 
                                               ${gen_html("", info)}
