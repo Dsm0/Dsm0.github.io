@@ -6,7 +6,7 @@
 <html lang="en" id="html">
 
 <head>
-  	<link rel="icon" type="image/gif" href="/corrupted.gif">
+	<link rel="icon" type="image/gif" href="/corrupted.gif">
 	<style>
 		* {
 			--color-1: black;
@@ -19,8 +19,8 @@
 		}
 
 		@font-face {
-		  font-family: "vcr-font";
-		  src: url("/assets/fonts/VCRFont.ttf") format("woff2");
+			font-family: "vcr-font";
+			src: url("/assets/fonts/VCRFont.ttf") format("woff2");
 		}
 
 		#html1 {
@@ -57,7 +57,7 @@
 			width: auto;
 			height: auto;
 			backdrop-filter: blur(40%);
-			position:fixed;
+			position: fixed;
 			z-index: 10;
 			font-family: "vcr-font";
 			color: var(--color-2);
@@ -173,19 +173,19 @@
 	<script>
 		var playFlash
 
-		function flash(txt){
+		function flash(txt) {
 			playFlash.innerHTML = txt
 			playFlash.style.display = "block";
 			setTimeout(() => {
 				playFlash.style.display = "none"
-			},300)
+			}, 300)
 		}
 
-		function togglePause(elem){
-			if(elem.paused){
+		function togglePause(elem) {
+			if (elem.paused) {
 				elem.play()
 				flash("PLAY")
-			}else{
+			} else {
 				elem.pause()
 				flash("PAUSE")
 			}
@@ -225,7 +225,7 @@
 
 	<link id="cssLoader" rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css" />
 
-  	<title>will - gallery</title>
+	<title>will - gallery</title>
 </head>
 
 <body id="body" class="blackbar">
@@ -235,31 +235,32 @@
 			<td id="p5Shader1" class="p5Canvas"></td>
 
 			<td></td>
-			<td id="p51" class="p5Canvas"></td>
 
-			<td></td>
-			<td class="p5Canvas vid">
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and projectM">
 				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/brks.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
-			<td class="p5Canvas vid">
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and projectM">
 				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/kane.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
-			<td class="p5Canvas vid">
+			<td class="p5Canvas vid"
+				data-blurb="made with tidalcycles, bitwig, and a modivied version of Max Bittker's 'Shaderbooth'">
 				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/sonic_boom.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
-			<td class="p5Canvas vid">
+			<td id="p51" class="p5Canvas"></td>
+			<td></td>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles, projectM, and ffmpeg">
 				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/purple_interp.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
@@ -268,34 +269,36 @@
 		</tr>
 
 		<tr>
-			<td id="p5Shader2" class="p5Canvas"></td>
-			<td></td>
 
-			<td id="p52" class="p5Canvas"></td>
 
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and scide's frequency scope">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/webster.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
 			<td></td>
-			<td class="p5Canvas vid">
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and godot">
 				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/longest_night.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
+
 			<td></td>
-			<td class="p5Canvas vid">
-				<video height=200px width=200px onclick="togglePause(this)">
-					<source src="/assets/snippetPosts/kane.mp4" type="video/mp4">
-					I'm guessing the browser doesn't support the html \<video\> tag
-				</video>
-			</td>
+			<td id="p52" class="p5Canvas"></td>
 			<td></td>
-			<td class="p5Canvas vid">
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles, bitwig, and godot">
 				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/ravemail.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
-			<td class="p5Canvas vid">
+
+			<td id="p5Shader2" class="p5Canvas"></td>
+			<td></td>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles, projectM, and ffmpeg">
 				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/exposure_.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
@@ -304,34 +307,39 @@
 		</tr>
 
 		<tr>
-			<td id="p5Shader3" class="p5Canvas"></td>
-			<td></td>
-
-			<td id="p53" class="p5Canvas"></td>
-
-			<td></td>
-			<td class="p5Canvas vid">
-				<video height=200px width=200px onclick="togglePause(this)">
-					<source src="/assets/snippetPosts/cong.mp4" type="video/mp4">
-					I'm guessing the browser doesn't support the html \<video\> tag
-				</video>
-			</td>
-			<td></td>
-			<td class="p5Canvas vid">
-				<video height=200px width=200px onclick="togglePause(this)">
-					<source src="/assets/snippetPosts/chill.mp4" type="video/mp4">
-					I'm guessing the browser doesn't support the html \<video\> tag
-				</video>
-			</td>
-			<td></td>
-			<td class="p5Canvas vid">
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and projectM">
 				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/kemp.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
 				</video>
 			</td>
 			<td></td>
-			<td class="p5Canvas vid">
+
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles, projectM, and scide's frequency scope">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/cong.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+
+			<td id="p53" class="p5Canvas"></td>
+			<td></td>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and projectM">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/chill.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+
+
+
+			<td id="p5Shader3" class="p5Canvas"></td>
+			<td></td>
+
+
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles,bitwig, and projectM">
 				<video height=200px width=200px onclick="togglePause(this)">
 					<source src="/assets/snippetPosts/jak3.mp4" type="video/mp4">
 					I'm guessing the browser doesn't support the html \<video\> tag
