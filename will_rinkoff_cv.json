@@ -1,11 +1,14 @@
 {
 	"name": "Will Rinkoff",
 	"contact": {
-		"email": {
-			"link": "mailto:will.rinkoff@gmail.com"
-		},
 		"github": {
 			"link": "https://github.com/Dsm0/"
+		},
+		"linkedin" : {
+			"link": "https://www.linkedin.com/in/will-rinkoff-5150a0189/"
+		},
+		"email": {
+			"link": "mailto:will.rinkoff@gmail.com"
 		}
 	},
 	"resume": {
