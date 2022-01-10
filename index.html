@@ -26,7 +26,6 @@
       overflow-x: hidden;
       font-size: 1.1rem;
 
-
       font-family: 'monospace';
 
     }
@@ -50,7 +49,6 @@
       border-width: 2px;
       border-color: var(--color-2);
     }
-
 
     div {
       margin-inline-start: 0px;
@@ -103,18 +101,6 @@
 
     /* a:visited { text-decoration: none; } */
 
-    iframe {
-      display: flexbox;
-      top: 0px;
-      margin-top: 0%;
-      margin-bottom: 0%;
-      position: fixed;
-      height: 100%;
-      margin-left: 8em;
-      width: 100%;
-      border: none;
-    }
-
     .contacts {
       bottom: 0px;
 
@@ -130,6 +116,59 @@
       margin-left: 0em;
       margin-bottom: 5px;
     }
+
+    pre {
+      font-size: 8px;
+      line-height: 1.0;
+    }
+
+    .blurb {
+      z-index: -5;
+      display: none;
+      position: fixed;
+      line-height: 1;
+      overflow-wrap: break-word;
+      width: 45%;
+      margin-top: -1%;
+      margin-left: 1%;
+    }
+
+    /* TODO: add custom/more interesting styling for each individual blurb */
+
+    #this_site_blurb {
+      display: none;
+    }
+
+    #pure_json_blurb {
+      display: none;
+    }
+
+    #pure_html_blurb {
+      display: none;
+      width: auto;
+    }
+
+    #gallery_blurb {
+      display: none;
+    }
+
+    #ascii_toy_blurb {
+      display: none;
+    }
+
+    #cursor_toy_blurb {
+      display: none;
+    }
+
+    #css_corruptors_blurb {
+      display: none;
+    }
+
+    #scrot_viewer_blurb {
+      display: none;
+    }
+
+
   </style>
 
   <title>will - site</title>
@@ -138,30 +177,156 @@
 
 <body>
   <div>
-
     <ul class="box-item">
+      <li><a class="lnk" id="this_site" target="_blank" rel="noopener noreferrer" href=".">this site</a></li>
+      <br>
       <div class="divider"> cv </div>
       ---
-      <li><a target="_blank" rel="noopener noreferrer" href="/src/pure_json/index.html">pure_json</a></li>
-      <li><a target="_blank" rel="noopener noreferrer" href="/src/pure_html/index.html">pure_html</a></li>
-      <li><a target="_blank" rel="noopener noreferrer" href="/src/og_site/index.html">gallery</a></li>
+      <li><a class="lnk" id="pure_json" target="_blank" rel="noopener noreferrer" href="/will_rinkoff_cv.json">pure_json</a></li>
+      <li><a class="lnk" id="pure_html" target="_blank" rel="noopener noreferrer" href="/src/pure_html/index.html">pure_html</a></li>
+      <li><a class="lnk" id="gallery" target="_blank" rel="noopener noreferrer" href="/src/gallery/index.html">gallery</a></li>
       ---
       <div class="divider"> sketches </div>
       ---
-      <li><a target="_blank" rel="noopener noreferrer" href="/projects/ascii_toy/ascii_toy.html">ascii_toy</a></li>
-      <li><a target="_blank" rel="noopener noreferrer" href="/projects/cursor_toy/index.html">cursor_toy</a></li>
-      <li><a target="_blank" rel="noopener noreferrer"
-          href="/projects/cssCorrupt/cssCorruptTest.html">css<br>corruptors</a></li>
+      <li><a class="lnk" id="ascii_toy" target="_blank" rel="noopener noreferrer" href="/sketches/ascii_toy/ascii_toy.html">ascii_toy</a></li>
+      <li><a class="lnk" id="cursor_toy" target="_blank" rel="noopener noreferrer" href="/sketches/cursor_toy/index.html">cursor_toy</a></li>
+      <li><a class="lnk" id="css_corruptors" target="_blank" rel="noopener noreferrer"
+          href="/sketches/cssCorrupt/cssCorruptTest.html">css<br>corruptors</a></li>
       ---
       <div class="divider"> curations</div>
       ---
-      <li><a target="_blank" rel="noopener noreferrer" href="/projects/scrot_viewer/index.html">scrots</a></li>
+      <li><a class="lnk" id="scrot_viewer" target="_blank" rel="noopener noreferrer" href="/scrot_viewer/index.html">scrots</a></li>
 
     </ul>
 
     <br>
 
   </div>
+  <div id="blurbs">
+    <div class="blurb" id="this_site_blurb">
+      this site
+      <br>
+      ---
+      <br>
+      i wrote it in pure html/js/css without libraries 
+      <br>
+      (apart from some p5.js sketches in the gallery).
+      <br>
+      I wanted a small footprint
+    </div>
+    <div class="blurb" id="pure_json_blurb">
+      my cv in pure json form
+      <br>
+      ---
+      <br>
+      it also has my github, linkedin, and email 
+    </div>
+    <div class="blurb" id="pure_html_blurb">
+      <div id="blurb_text">
+        my json cv turned into pure html with a recursive typescript function.
+      <br>
+      ---
+      <br>
+        At the time of programming, I wanted to code-golf my site, generating html 
+        at runtime via recursive functions and datastructures.
+        <br>
+        I've moved away from that since, because as I added work/sketches it morphed into a small framework.
+        <br>
+        I might revisit it someday, but it felt like overkill just for a small personal site.
+      </div>
+      <pre>
+      <code class="html_code">
+function gen_html(html, obj: object) {
+  let _html = ""
+  Object.keys(obj).forEach((key: string, i: number) =&gt; {
+    const val = obj[key], disp_key = key2show(key, i) // dk = displayed key
+    switch (typeof val) {
+      case "string":
+        _html += `&lt;a class="item ${disp_key}" 
+                     ${disp_key === "link" ? `target="_blank" 
+                     rel="noopener noreferrer" href=${val}` : ""}&gt;
+                    ${disp_key} - ${val}
+                  &lt;/a&gt;`
+        break
+      case "object":
+        _html += `&lt;div class="container"&gt;
+                    &lt;p class="title ${disp_key}"&gt;
+                      ${disp_key}
+                    &lt;/p&gt;
+                    &lt;div class="${disp_key}"&gt;
+                      ${gen_html(_html, val)}
+                    &lt;/div&gt;
+                  &lt;/div&gt;`
+        break
+    }
+  })
+  return _html
+}
+      </code>
+      </pre>
+
+    </div>
+    <div class="blurb" id="gallery_blurb">
+      sample of my livecoding and visual work
+      <br>
+      ---
+      <br>
+      click videos to play/pause them
+    </div>
+    <div class="blurb" id="ascii_toy_blurb">
+      toy involving strange fonts and patterned text
+      <br>
+      ---
+      <br>
+      inspired by the idea of a templating language that <i>always</i> compiles
+    </div>
+    <div class="blurb" id="cursor_toy_blurb">
+      toy involving mice and mirrors
+      <br>
+      ---
+      <br>
+      inspired by those children's "make a snowflake" flash games from the 2000s
+    </div>
+    <div class="blurb" id="css_corruptors_blurb">
+      bookmarklets that goof a page's css
+      <br>
+      ---
+      <br>
+      inspired by ui scaling issues and video game corruptors
+    </div>
+    <div class="blurb" id="scrot_viewer_blurb">
+      page for viewing screenshots I've taken. 
+      <br>
+      they're grouped by their media of origin
+      <br>
+      ---
+      <br>
+      if an object or landscape strikes, I take a picture.
+      <br>
+      if what's on my laptop strikes me, I take a picture.
+      <br>
+      <br>
+      (photos <i>in</i> technology > photos <i>of</i> technology)
+
+    </div>
+
+  </div>
+
+  <script>
+    const lnks = [...document.getElementsByClassName("lnk")]
+    const blurbs = [...document.getElementsByClassName("blurb")]
+    lnks.forEach((element,i) => {
+
+      element.addEventListener("mouseover", (e)=>{
+        blurbs[i].style.display = "block"
+      })
+      element.addEventListener("mouseleave", (e)=>{
+        blurbs[i].style.display = "none"
+      })
+      
+    });
+
+  </script>
 </body>
 
 </html>

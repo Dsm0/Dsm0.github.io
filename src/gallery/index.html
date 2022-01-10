@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+<meta content="utf-8" http-equiv="encoding" />
+
+<html lang="en" id="html">
+
+<head>
+	<link rel="icon" type="image/gif" href="/corrupted.gif">
+	<style>
+		* {
+			--color-1: black;
+			--color-2: #ffffee;
+			--color-3: rgba(236, 198, 48, 0.4);
+
+			--track: #ffffee;
+			--thumb: black;
+			scrollbar-color: var(--thumb) var(--track);
+		}
+
+		@font-face {
+			font-family: "vcr-font";
+			src: url("/assets/fonts/VCRFont.ttf") format("woff2");
+		}
+
+		#html1 {
+			background-color: var(--color-1);
+			transform: scale(1);
+			-moz-transform: scale(1);
+			-webkit-transform: scale(1);
+			border: 0px;
+			transition: transform 0.5s;
+			/* transform-origin: 50px 50px */
+		}
+
+		#html1:hover {
+			background-color: var(--color-1);
+			transform: scale(1);
+			-moz-transform: scale(1);
+			-webkit-transform: scale(1);
+			border: 0px;
+			transition: transform 0.5s;
+
+		}
+
+		body {
+			background-color: var(--color-1);
+			margin-left: 0px;
+			margin-top: 0px;
+			overflow-x: auto;
+			overflow-y: hidden;
+		}
+
+		.flash {
+			left: 10%;
+			top: 15%;
+			width: auto;
+			height: auto;
+			backdrop-filter: blur(40%);
+			position: fixed;
+			z-index: 10;
+			font-family: "vcr-font";
+			color: var(--color-2);
+			font-size: 40px;
+			display: none;
+		}
+
+		.p5Canvas {
+			color: var(--color-2);
+			background-color: var(--color-1);
+			z-index: 2;
+			width: Xu;
+			height: Yu;
+			transform: scale(1);
+			transition: transform 0.5s;
+			-moz-transform: scale(1);
+			-webkit-transform: scale(1);
+			position: absolute;
+			transform-origin: 50% 50%;
+		}
+
+		.p5Canvas:hover {
+			background-color: var(--color-2);
+			color: var(--color-1);
+			z-index: 3;
+			position: absolute;
+			transform: scale(1.4);
+			-moz-transform: scale(1.4);
+			-webkit-transform: scale(1.4);
+			transition: transform 0.5s;
+		}
+
+		video:hover {
+			z-index: 3;
+			position: absolute;
+			transform: scale(1.4);
+			-moz-transform: scale(1.4);
+			-webkit-transform: scale(1.4);
+			transition: transform 0.5s;
+		}
+
+
+		#blurb {
+			background-color: var(--color-2);
+			color: var(--color-1);
+			bottom: 18px;
+			right: 20px;
+			height: auto;
+			font-weight: bold;
+			font-size: 20px;
+			font-feature-settings: "vrt2";
+			font-family: monospace;
+			overflow-y: hidden;
+			position: fixed;
+			box-shadow: 4px 4px 1px var(--color-2),
+				8px 8px 1px var(--color-2), 12px 12px 1px var(--color-2),
+				16px 16px 1px var(--color-2), 20px 20px 1px var(--color-2);
+			z-index: 5;
+		}
+
+		#cursor {
+			display: none;
+			fill: var(--color-2);
+			height: 80px;
+			width: 53.3px;
+			transform: translate(10px, 10px);
+			transform-origin: 20px 20px;
+			font-weight: bold;
+			font-size: 20px;
+			font-feature-settings: "vrt2";
+			font-family: monospace;
+			position: absolute;
+			z-index: 5;
+		}
+
+		table {
+			width: auto;
+			height: auto;
+		}
+
+		tr {
+			padding: 1%;
+			margin: 100px;
+			background-color: var(--color-1);
+		}
+
+		td {
+			height: 200px;
+			width: 200px;
+			padding: 25px;
+			background-color: var(--color-1);
+		}
+
+		/* courtesy of */
+		/*https://stackoverflow.com/a/12065925  */
+		/* I'll find a way to use this somehow */
+		span.stretch {
+			display: flexbox;
+			margin-left: 35%;
+			-webkit-transform: scale(4, 1);
+			/* Safari and Chrome */
+			-moz-transform: scale(4, 1);
+			/* Firefox */
+			-ms-transform: scale(4, 1);
+			/* IE 9 */
+			-o-transform: scale(4, 1);
+			/* Opera */
+			transform: matrix(2, -0.6, 0, 2, 0, 0);
+		}
+	</style>
+	<script src="/assets/libs/p5.min.js"></script>
+	<script src="/src/gallery/p5_projects.js"></script>
+	<script>
+		var playFlash
+
+		function flash(txt) {
+			playFlash.innerHTML = txt
+			playFlash.style.display = "block";
+			setTimeout(() => {
+				playFlash.style.display = "none"
+			}, 300)
+		}
+
+		function togglePause(elem) {
+			if (elem.paused) {
+				elem.play()
+				flash("PLAY")
+			} else {
+				elem.pause()
+				flash("PAUSE")
+			}
+
+		}
+
+		function initP5(p5Obj) {
+			var div = document.getElementById(p5Obj.divId);
+			div.setAttribute("data-blurb", p5Obj.blurb);
+			return new p5(p5Obj.sketch);
+		}
+
+		var initScripts = function () {
+
+			playFlash = document.getElementById("playFlash")
+			pauseFlash = document.getElementById("playFlash")
+
+			let loadedP5s = p5Objs.map(initP5);
+			var p5; // stupid fix for "Cannot find name 'p5'"
+			const blurbDiv = document.getElementById("blurb");
+			const p5Canvi = document.getElementsByClassName(
+				"p5Canvas"
+			);
+
+			for (var i = 0; i < p5Canvi.length; i++) {
+				const p5Canv = p5Canvi[i];
+				// console.log(p5Canv)
+				p5Canv.onmouseover = (_) => {
+					blurbDiv.innerHTML = p5Canv.getAttribute("data-blurb");
+				};
+				p5Canv.onmouseleave = (_) => {
+					blurbDiv.innerHTML = "";
+				};
+			}
+		};
+	</script>
+
+	<link id="cssLoader" rel="stylesheet" type="text/css" href="/assets/css/scrollbar.css" />
+
+	<title>will - gallery</title>
+</head>
+
+<body id="body" class="blackbar">
+	<div class="flash" id="playFlash">play</div>
+	<table>
+		<tr>
+			<td id="p5Shader1" class="p5Canvas"></td>
+
+			<td></td>
+
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and projectM">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/brks.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and projectM">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/kane.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid"
+				data-blurb="made with tidalcycles, bitwig, and a modivied version of Max Bittker's 'Shaderbooth'">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/sonic_boom.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td id="p51" class="p5Canvas"></td>
+			<td></td>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles, projectM, and ffmpeg">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/purple_interp.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+		</tr>
+
+		<tr>
+
+
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and scide's frequency scope">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/webster.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and godot">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/longest_night.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+
+			<td></td>
+			<td id="p52" class="p5Canvas"></td>
+			<td></td>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles, bitwig, and godot">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/ravemail.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+
+			<td id="p5Shader2" class="p5Canvas"></td>
+			<td></td>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles, projectM, and ffmpeg">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/exposure_.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and projectM">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/kemp.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles, projectM, and scide's frequency scope">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/cong.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+
+			<td id="p53" class="p5Canvas"></td>
+			<td></td>
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles and projectM">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/chill.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+			<td></td>
+
+
+
+			<td id="p5Shader3" class="p5Canvas"></td>
+			<td></td>
+
+
+			<td class="p5Canvas vid" data-blurb="made with tidalcycles,bitwig, and projectM">
+				<video height=200px width=200px onclick="togglePause(this)">
+					<source src="/assets/snippetPosts/jak3.mp4" type="video/mp4">
+					I'm guessing the browser doesn't support the html \<video\> tag
+				</video>
+			</td>
+		</tr>
+	</table>
+
+	<a id="blurb"></a>
+
+	<script>
+		initScripts();
+	</script>
+
+</body>
+
+</html>
