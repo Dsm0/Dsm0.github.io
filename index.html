@@ -26,7 +26,6 @@
       overflow-x: hidden;
       font-size: 1.1rem;
 
-
       font-family: 'monospace';
 
     }
@@ -119,43 +118,50 @@
     }
 
     pre {
-      font-size: 12px;
+      font-size: 8px;
       line-height: 1.0;
     }
 
     .blurb {
+      z-index: -5;
       display: none;
+      position: fixed;
+      line-height: 1;
+      overflow-wrap: break-word;
+      width: 45%;
+      margin-top: -1%;
+      margin-left: 1%;
     }
 
   /* ideally, each of the blurb divs would be done in wildly different styles 
     b/c my landing is very much a canvas rn*/
 
-    #pure_json {
+    #pure_json_blurb {
       display: none;
     }
 
-    #pure_html {
+    #pure_html_blurb {
       display: none;
-      font-size: 18px;
+      width: auto;
     }
 
-    #gallery {
-      display: none;
-    }
-
-    #ascii_toy {
+    #gallery_blurb {
       display: none;
     }
 
-    #cursor_toy {
+    #ascii_toy_blurb {
       display: none;
     }
 
-    #css_corruptors {
+    #cursor_toy_blurb {
       display: none;
     }
 
-    #scrot_viewer {
+    #css_corruptors_blurb {
+      display: none;
+    }
+
+    #scrot_viewer_blurb {
       display: none;
     }
 
@@ -171,20 +177,20 @@
     <ul class="box-item">
       <div class="divider"> cv </div>
       ---
-      <li><a target="_blank" rel="noopener noreferrer" href="/will_rinkoff_cv.json">pure_json</a></li>
-      <li><a target="_blank" rel="noopener noreferrer" href="/src/pure_html/index.html">pure_html</a></li>
-      <li><a target="_blank" rel="noopener noreferrer" href="/src/gallery/index.html">gallery</a></li>
+      <li><a class="lnk" id="pure_json" target="_blank" rel="noopener noreferrer" href="/will_rinkoff_cv.json">pure_json</a></li>
+      <li><a class="lnk" id="pure_html" target="_blank" rel="noopener noreferrer" href="/src/pure_html/index.html">pure_html</a></li>
+      <li><a class="lnk" id="gallery" target="_blank" rel="noopener noreferrer" href="/src/gallery/index.html">gallery</a></li>
       ---
       <div class="divider"> sketches </div>
       ---
-      <li><a target="_blank" rel="noopener noreferrer" href="/sketches/ascii_toy/ascii_toy.html">ascii_toy</a></li>
-      <li><a target="_blank" rel="noopener noreferrer" href="/sketches/cursor_toy/index.html">cursor_toy</a></li>
-      <li><a target="_blank" rel="noopener noreferrer"
+      <li><a class="lnk" id="ascii_toy" target="_blank" rel="noopener noreferrer" href="/sketches/ascii_toy/ascii_toy.html">ascii_toy</a></li>
+      <li><a class="lnk" id="cursor_toy" target="_blank" rel="noopener noreferrer" href="/sketches/cursor_toy/index.html">cursor_toy</a></li>
+      <li><a class="lnk" id="css_corruptors" target="_blank" rel="noopener noreferrer"
           href="/sketches/cssCorrupt/cssCorruptTest.html">css<br>corruptors</a></li>
       ---
       <div class="divider"> curations</div>
       ---
-      <li><a target="_blank" rel="noopener noreferrer" href="/scrot_viewer/index.html">scrots</a></li>
+      <li><a class="lnk" id="scrot_viewer" target="_blank" rel="noopener noreferrer" href="/scrot_viewer/index.html">scrots</a></li>
 
     </ul>
 
@@ -192,21 +198,25 @@
 
   </div>
   <div id="blurbs">
-    <div class="blurb" id="pure_json">
+    <div class="blurb" id="pure_json_blurb">
       my cv in pure json form
+      <br>
+      ---
+      <br>
     </div>
-    <div class="blurb" id="pure_html">
+    <div class="blurb" id="pure_html_blurb">
       <div id="blurb_text">
         my cv turned into pure html with a recursive typescript function.
+      <br>
+      ---
+      <br>
         At the time of programming, I wanted to code-golf my site, only having data and code, 
         with html generated at runtime. I've moved away from that since, but still find
         ultra-condensed code incredibly interesting.
         highly 
       </div>
       <pre>
-
       <code class="html_code">
-
 function gen_html(html, obj: object) {
   let _html = ""
   Object.keys(obj).forEach((key: string, i: number) =&gt; {
@@ -233,40 +243,64 @@ function gen_html(html, obj: object) {
   })
   return _html
 }
-
       </code>
       </pre>
 
     </div>
-    <div class="blurb" id="gallery">
+    <div class="blurb" id="gallery_blurb">
       sample of my livecoding and visual work
     </div>
-    <div class="blurb" id="ascii_toy">
+    <div class="blurb" id="ascii_toy_blurb">
       toy involving strange fonts and patterned text
       <br>
-      inspired by the idea of a templating language that <i>always</i>compiles
+      ---
+      <br>
+      inspired by the idea of a templating language that <i>always</i> compiles
     </div>
-    <div class="blurb" id="cursor_toy">
+    <div class="blurb" id="cursor_toy_blurb">
       toy involving mice and mirrors
+      <br>
+      ---
       <br>
       inspired by those children's "make a snowflake" flash games from the 2000s
     </div>
-    <div class="blurb" id="css_corruptors">
+    <div class="blurb" id="css_corruptors_blurb">
       bookmarklets that goof a page's css
+      <br>
+      ---
       <br>
       inspired by ui scaling issues and video game corruptors
     </div>
-    <div class="blurb" id="scrot_viewer">
+    <div class="blurb" id="scrot_viewer_blurb">
       page for viewing screenshots I've taken. 
+      <br>
       they're grouped by their media of origin
       <br>
+      ---
+      <br>
       if an object or landscape strikes, I take a picture.
+      <br>
       if what's on my laptop strikes me, I take a picture.
 
     </div>
 
   </div>
 
+  <script>
+    const lnks = [...document.getElementsByClassName("lnk")]
+    const blurbs = [...document.getElementsByClassName("blurb")]
+    lnks.forEach((element,i) => {
+
+      element.addEventListener("mouseover", (e)=>{
+        blurbs[i].style.display = "block"
+      })
+      element.addEventListener("mouseleave", (e)=>{
+        blurbs[i].style.display = "none"
+      })
+      
+    });
+
+  </script>
 </body>
 
 </html>
