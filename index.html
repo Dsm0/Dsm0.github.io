@@ -102,18 +102,6 @@
 
     /* a:visited { text-decoration: none; } */
 
-    iframe {
-      display: flexbox;
-      top: 0px;
-      margin-top: 0%;
-      margin-bottom: 0%;
-      position: fixed;
-      height: 100%;
-      margin-left: 8em;
-      width: 100%;
-      border: none;
-    }
-
     .contacts {
       bottom: 0px;
 
@@ -129,6 +117,49 @@
       margin-left: 0em;
       margin-bottom: 5px;
     }
+
+    pre {
+      font-size: 12px;
+      line-height: 1.0;
+    }
+
+    .blurb {
+      display: none;
+    }
+
+  /* ideally, each of the blurb divs would be done in wildly different styles 
+    b/c my landing is very much a canvas rn*/
+
+    #pure_json {
+      display: none;
+    }
+
+    #pure_html {
+      display: none;
+      font-size: 18px;
+    }
+
+    #gallery {
+      display: none;
+    }
+
+    #ascii_toy {
+      display: none;
+    }
+
+    #cursor_toy {
+      display: none;
+    }
+
+    #css_corruptors {
+      display: none;
+    }
+
+    #scrot_viewer {
+      display: none;
+    }
+
+
   </style>
 
   <title>will - site</title>
@@ -161,13 +192,53 @@
 
   </div>
   <div id="blurbs">
-    <div id="pure_json"></div>
-    <div id="pure_html"></div>
-    <div id="gallery"></div>
-    <div id="ascii_toy"></div>
-    <div id="cursor_toy"></div>
-    <div id="css_corruptors"></div>
-    <div id="scrot_viewer"></div>
+    <div class="blurb" id="pure_json">
+      my cv in pure json form
+    </div>
+    <div class="blurb" id="pure_html">
+      <div id="blurb_text">
+        my cv
+      </div>
+      <pre>
+
+      <code class="html_code">
+
+function gen_html(html, obj: object) {
+  let _html = ""
+  Object.keys(obj).forEach((key: string, i: number) =&gt; {
+    const val = obj[key], disp_key = key2show(key, i) // dk = displayed key
+    switch (typeof val) {
+      case "string":
+        _html += `&lt;a class="item ${disp_key}" 
+                     ${disp_key === "link" ? `target="_blank" 
+                     rel="noopener noreferrer" href=${val}` : ""}&gt;
+                    ${disp_key} - ${val}
+                  &lt;/a&gt;`
+        break
+      case "object":
+        _html += `&lt;div class="container"&gt;
+                    &lt;p class="title ${disp_key}"&gt;
+                      ${disp_key}
+                    &lt;/p&gt;
+                    &lt;div class="${disp_key}"&gt;
+                      ${gen_html(_html, val)}
+                    &lt;/div&gt;
+                  &lt;/div&gt;`
+        break
+    }
+  })
+  return _html
+}
+
+      </code>
+      </pre>
+
+    </div>
+    <div class="blurb" id="gallery"></div>
+    <div class="blurb" id="ascii_toy"></div>
+    <div class="blurb" id="cursor_toy"></div>
+    <div class="blurb" id="css_corruptors"></div>
+    <div class="blurb" id="scrot_viewer"></div>
 
   </div>
 
