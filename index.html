@@ -133,8 +133,11 @@
       margin-left: 1%;
     }
 
-  /* ideally, each of the blurb divs would be done in wildly different styles 
-    b/c my landing is very much a canvas rn*/
+    /* TODO: add custom/more interesting styling for each individual blurb */
+
+    #this_site_blurb {
+      display: none;
+    }
 
     #pure_json_blurb {
       display: none;
@@ -175,6 +178,8 @@
 <body>
   <div>
     <ul class="box-item">
+      <li><a class="lnk" id="this_site" target="_blank" rel="noopener noreferrer" href=".">this site</a></li>
+      <br>
       <div class="divider"> cv </div>
       ---
       <li><a class="lnk" id="pure_json" target="_blank" rel="noopener noreferrer" href="/will_rinkoff_cv.json">pure_json</a></li>
@@ -198,6 +203,17 @@
 
   </div>
   <div id="blurbs">
+    <div class="blurb" id="this_site_blurb">
+      this site
+      <br>
+      ---
+      <br>
+      i wrote it in pure html/js/css without libraries 
+      <br>
+      (apart from some p5.js sketches in the gallery).
+      <br>
+      I wanted a small footprint
+    </div>
     <div class="blurb" id="pure_json_blurb">
       my cv in pure json form
       <br>
@@ -253,7 +269,7 @@ function gen_html(html, obj: object) {
     <div class="blurb" id="gallery_blurb">
       sample of my livecoding and visual work
       <br>
-      --
+      ---
       <br>
       click videos to play/pause them
     </div>
@@ -289,7 +305,8 @@ function gen_html(html, obj: object) {
       <br>
       if what's on my laptop strikes me, I take a picture.
       <br>
-      photos <i>in</i> technology >>>>>> photos <i>of</i> technology
+      <br>
+      (photos <i>in</i> technology > photos <i>of</i> technology)
 
     </div>
 
