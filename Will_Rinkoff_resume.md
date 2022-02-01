@@ -1,4 +1,4 @@
-# Will Rinkoff
+## Will Rinkoff
 
 ###### will.rinkoff@gmail.com / 651-280-9119 / dsm0.github.io
 
@@ -6,9 +6,8 @@
 
 ### Education
 
-Carnegie Mellon University, Pittsburgh PA
-Bachelors of Computer Science and Music
-August 2019 - Present
+Carnegie Mellon University  /  Pittsburgh PA  /  August 2019 - Present
+Bachelors of Computer Science and Music 
 
 ##### Relevant Coursework:
 
@@ -39,7 +38,7 @@ Imperative Computation | Computer Music | Functional Programming | Data Structur
 
 #### Programming Languages/Frameworks
 
-Git, Html/css, Javascript, Typescript, Vue, Axios, C, Python, Numpy, Tensorflow, Keras, Haskell, Bash
+Git, Html/CSS, Javascript, Typescript, Vue, Axios, C, Python, Numpy, Tensorflow, Keras, Haskell, Bash
 
 #### Applications/Ecosystems
 
