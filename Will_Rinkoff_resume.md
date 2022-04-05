@@ -1,6 +1,7 @@
+
 ## Will Rinkoff
 
-###### will.rinkoff@gmail.com / 651-280-9119 / dsm0.github.io
+###### will.rinkoff@gmail.com / 651-280-9119 / [dsm0.github.io](https://dsm0.github.io/)
 
 ---
 
@@ -40,7 +41,7 @@ Imperative Computation | Computer Music | Functional Programming | Data Structur
 
 Git, Html/CSS, Javascript, Typescript, Vue, Axios, C, Python, Numpy, Tensorflow, Keras, Haskell, Bash
 
-#### Applications/Ecosystems
+#### Applications/Environments
 
 Bitwig (digital audio workstation), Max/MSP/Jitter, Godot, Unity, Audacity, Pro Tools, Microsoft Word/Powerpoint, Adobe Indesign
 
