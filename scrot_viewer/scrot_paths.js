@@ -568,31 +568,6 @@ scrot_paths =
         {
           "children": [
             {
-              "name": "2021-04-06-221414_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-221414_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-221507_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-221507_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-221518_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-221518_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-221827_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-221827_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-221834_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-221834_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
               "name": "2021-04-06-221910_1920x1080_scrot.png",
               "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-221910_1920x1080_scrot.png",
               "type": "file"
@@ -608,48 +583,8 @@ scrot_paths =
               "type": "file"
             },
             {
-              "name": "2021-04-06-222147_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-222147_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-222157_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-222157_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-222213_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-222213_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-222225_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-222225_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-222242_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-222242_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-222436_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-222436_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
               "name": "2021-04-06-223201_1920x1080_scrot.png",
               "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-223201_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-223755_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-223755_1920x1080_scrot.png",
-              "type": "file"
-            },
-            {
-              "name": "2021-04-06-223809_1920x1080_scrot.png",
-              "path": "../assets/selectedScrots/papers/Rosaldo/2021-04-06-223809_1920x1080_scrot.png",
               "type": "file"
             }
           ],

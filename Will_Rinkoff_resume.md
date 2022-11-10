@@ -12,7 +12,7 @@ Bachelors of Computer Science and Music
 
 ##### Relevant Coursework:
 
-Imperative Computation | Computer Music | Functional Programming | Data Structures and Algorithms | Computer Systems | Fundamentals of Software Engineering 
+Imperative Computation | Computer Music | Functional Programming | Data Structures and Algorithms | Computer Systems | Enterprise Software Engineering
 
 ## Experience
 
@@ -33,7 +33,6 @@ Imperative Computation | Computer Music | Functional Programming | Data Structur
 - Created tools for deep-learning audio analysis/synthesis inside Python
 - Researched and worked with complex vocal-analysis machine learning architectures
 - Developed documentation for developed in-house tools
-- Presented my work to the company
 
 ## Skills
 
@@ -43,9 +42,10 @@ Git, Html/CSS, Javascript, Typescript, Vue, Axios, C, Python, Numpy, Tensorflow,
 
 #### Applications/Environments
 
-Bitwig (digital audio workstation), Max/MSP/Jitter, Godot, Unity, Audacity, Pro Tools, Microsoft Word/Powerpoint, Adobe Indesign
+Bitwig (digital audio workstation), Max/MSP/Jitter, Godot, Unity, Audacity, Vim, Pro Tools, Microsoft Word/Powerpoint, Adobe Indesign
 
 #### Other Skills
 
-- 4+ years experience with linux (daily personal use)
-- 3+ years of experimental livecoding audio production work involving Haskell and Bitwig
+- 4+ years experience with debuging linux systems (daily personal use and some work with servers)
+- 4+ years of experimental livecoding audio production work involving Haskell, Supercollider, and Bitwig
+  - including 3+ years of both online and in-person live performances

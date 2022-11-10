@@ -4,9 +4,8 @@
 		"github": {
 			"link": "https://github.com/Dsm0/"
 		},
-		"linkedin" : {
+		"linkedin": {
 			"link": "https://www.linkedin.com/in/will-rinkoff"
-		
 		},
 		"email": {
 			"link": "mailto:will.rinkoff@gmail.com"
@@ -108,6 +107,17 @@
 						"languages": [
 							"c"
 						]
+					},
+					"15210": {
+						"name": "Parallel and Sequential Data Structures and Algorithms",
+						"topics": [
+							"functional_programming",
+							"systems_programming",
+							"linux"
+						],
+						"languages": [
+							"sml"
+						]
 					}
 				}
 			}
@@ -187,7 +197,9 @@
 					"bash",
 					"vimL"
 				]
-			},
+			}
+		},
+		"creative_work": {
 			"tidalcycles": {
 				"description": [
 					"An experimental livecoding language based in Haskell and Supercollider"
@@ -199,7 +211,24 @@
 				"frameworks": [
 					"open_sound_control",
 					"jack"
-				]
+				],
+				"work": {
+					"toplap_new_moon": {
+						"description": "live-stream performance for livecoding organization toplap",
+						"link": "https://youtu.be/j5t7D5E4YR8",
+						"date": "2020-08-19"
+					},
+					"toplap_longest_night": {
+						"description": "live-stream performance for livecoding organization toplap",
+						"link": "https://archive.org/details/longest-night-dec-2021-2-c-robo-",
+						"date": "2021-12-23"
+					},
+					"toplap_10th_aniversary": {
+						"description": "live-stream performance for livecoding organization toplap",
+						"link": "https://archive.org/details/algorave-10--c-robo--",
+						"date": "2022-03-20"
+					}
+				}
 			}
 		}
 	}
