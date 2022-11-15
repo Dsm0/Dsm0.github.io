@@ -227,7 +227,22 @@
 						"description": "live-stream performance for livecoding organization toplap",
 						"link": "https://archive.org/details/algorave-10--c-robo--",
 						"date": "2022-03-20"
-					}
+					},
+          "avcomp_final": {
+            "description":"audio-visual composition I made using Tidalcycles, Supercollider, and Godot",
+            "link": "https://www.youtube.com/watch?v=OHiS7uCZxZY",
+						"date": "2022-03-20"
+          },
+          "wpts_live_set":{
+            "description": "I was asked to perform live for the University of Pittsburgh's radio station",
+            "link": "https://youtu.be/aLCcTEHX0Ww",
+						"date": "2022-10-19"
+          },
+          "bandcamp": {
+            "description": "Most of the live sets I perform I only perform once, then archive on my bandcamp",
+            "link": "https://c-robo.bandcamp.com/",
+            "date": "various"
+          }
 				}
 			}
 		}
