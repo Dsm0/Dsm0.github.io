@@ -15,13 +15,6 @@ Bachelors of Computer Science and Music
 Imperative Computation | Computer Music | Functional Programming | Data Structures and Algorithms | Computer Systems | Theoretical Computer Science | Enterprise Software Engineering | Audiovisual Composition | 
 Experimental Capture
 
-## Skills relevant to Artistic Practice
-
-(format similar to experience bullet points)
-
-- 4+ years of experimental live coding audio production work involving Haskell, Supercollider, and Bitwig
-  - including 3+ years of both live-streamed and in-person live performances
-
 ## Experience
 
 ##### Front-end Developer for [Penrose](https://github.com/penrose/penrose) (Pittsburgh PA, February-July 2020)
@@ -55,3 +48,5 @@ Vim, Bitwig (digital audio workstation), Max/MSP/Jitter, Godot, Unity, Audacity,
 
 - 4+ years experience with debugging Linux systems (daily personal use and some work with servers)
 - 4+ years experience navigating obscure open source software and libraries for artistic exploration/personal use
+- 4+ years of experimental live coding audio production work involving Haskell, Supercollider, and Bitwig
+  - including 3+ years of both live-streamed and in-person live performances

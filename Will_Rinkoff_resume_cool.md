@@ -12,15 +12,13 @@ Bachelors of Computer Science and Music
 
 ##### Relevant Coursework:
 
-Imperative Computation | Computer Music | Functional Programming | Data Structures and Algorithms | Computer Systems | Theoretical Computer Science | Enterprise Software Engineering | Audiovisual Composition | 
-Experimental Capture
+Imperative Computation | Computer Music | Functional Programming | Data Structures and Algorithms | Computer Systems | Theoretical Computer Science | Enterprise Software Engineering | Audiovisual Composition | Experimental Capture
 
 ## Skills relevant to Artistic Practice
 
-(format similar to experience bullet points)
-
-- 4+ years of experimental live coding audio production work involving Haskell, Supercollider, and Bitwig
+- 4+ years of experimental live coding audio production work using [Tidalcycles](https://tidalcycles.org/) (in Haskell), [Supercollider](), and [Bitwig](https://www.bitwig.com/)
   - including 3+ years of both live-streamed and in-person live performances
+- 2+ years navigating both enterprise and open source video editing software (Adobe Premier, [Kdenlive](https://kdenlive.org/en/), [Cinnelera](https://www.cinelerra-gg.org/))
 
 ## Experience
 
@@ -33,7 +31,7 @@ Experimental Capture
 
 * Proposed and deployed a non-trivial website feature in just over a month, the programming of which was largely solo
 * Familiarized myself with a large Vue.js code base quickly with little documentation
-* Effectively worked with developers across both language and timezone barriers
+* Effectively worked/communicated with developers across both language and timezone barriers
 
 ##### Audio Processing / Machine Learning Intern at [Resonant Cavity](https://resonantcavity.com/) (Minneapolis MN, May-August 2019)
 
@@ -49,7 +47,7 @@ Git, Html/CSS, Javascript, Typescript, Vue, Axios, C, Python, Numpy, Tensorflow,
 
 #### Applications/Environments
 
-Vim, Bitwig (digital audio workstation), Max/MSP/Jitter, Godot, Unity, Audacity, Pro Tools, Microsoft Word/Powerpoint, Adobe Indesign
+Vim, [Bitwig](https://www.bitwig.com/) (digital audio workstation), Max/MSP/Jitter, [Godot](https://godotengine.org/), Unity, Audacity, Pro Tools, G Suite, Adobe Indesign
 
 #### Other Skills
 
