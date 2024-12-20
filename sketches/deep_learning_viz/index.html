@@ -4,12 +4,22 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%; width: 100%">
   <head>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
     <meta charset="utf-8" />
+
+    <style>
+      /* body {
+        height: 100%;
+      } */
+
+      /* canvas {
+        width: 100%;
+      } */
+    </style>
   </head>
-  <body>
+  <body style="height: 100%; width: 100%">
     <h1>deep learning viz</h1>
     <!-- <button id="startButton">Reset & Start Training</button> -->
     <input
@@ -24,23 +34,23 @@
       <input type="range" id="networkSize" min="1" max="24" value="3" />
       <span id="networkSizeValue">8</span> -->
     </div>
-    <canvas id="networkCanvas" width="800" height="1000"></canvas>
+    <canvas id="networkCanvas" width="1000" height="1000"></canvas>
   </body>
-  <script src="sketch.js"></script>
+  <!-- <script src="sketch.js"></script> -->
   <script>
     // Get canvas context
     const canvas = document.getElementById("networkCanvas");
     const ctx = canvas.getContext("2d");
     // const startButton = document.getElementById("startButton");
     const targetInput = document.getElementById("targetInput");
-    const networkSizeValue = document.getElementById("networkSizeValue");
+    // const networkSizeValue = document.getElementById("networkSizeValue");
 
     let NETWORK_SIZE = parseInt(targetInput.value.length);
 
     // Update network size display and reinitialize when slider changes
     targetInput.addEventListener("input", (e) => {
       NETWORK_SIZE = parseInt(e.target.value.length);
-      networkSizeValue.textContent = NETWORK_SIZE;
+      // networkSizeValue.textContent = NETWORK_SIZE;
       if (isTraining) {
         isTraining = false;
       }
@@ -120,13 +130,18 @@
       // Draw title and info
       ctx.fillStyle = "black";
       ctx.font = "16px Arial";
-      ctx.fillText(`Epoch: ${epoch.toFixed(2)}`, 10, 20);
-      ctx.fillText(`Loss: ${loss.toFixed(2)}`, 10, 40);
-      ctx.fillText(`Target: "${String.fromCharCode(...target)}"`, 10, 60);
+      const distFromLeft = 90;
+      ctx.fillText(`Epoch: ${epoch.toFixed(2)}`, distFromLeft, 40);
+      ctx.fillText(`Loss: ${loss.toFixed(2)}`, distFromLeft, 60);
+      ctx.fillText(
+        `Target: "${String.fromCharCode(...target)}"`,
+        distFromLeft,
+        80
+      );
       ctx.fillText(
         `Current output: "${String.fromCharCode(...output)}"`,
-        10,
-        80
+        distFromLeft,
+        100
       );
 
       // Draw nodes and connections
@@ -181,6 +196,22 @@
         ctx.beginPath();
         ctx.arc(600, outputY + i * 40 - 40, 20, 0, Math.PI * 2);
         ctx.fill();
+
+        // Add character labels
+        ctx.fillStyle = "white";
+        ctx.font = "16px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(
+          String.fromCharCode(target[i]),
+          200,
+          hiddenY + i * 40 - 35
+        ); // Input layer label
+        ctx.fillStyle = "black";
+        ctx.fillText(
+          String.fromCharCode(output[i]),
+          600,
+          outputY + i * 40 - 35
+        ); // Output layer label
       });
     }
 
