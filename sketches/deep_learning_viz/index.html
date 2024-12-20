@@ -1,0 +1,230 @@
+<!-- 
+- TODO!!!!!!!!!!!!!!!!!!!!!!!! add faust to this holy shit
+- would be cool to just have faust embedded everywhere in a bunch of projects
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h1>deep learning viz</h1>
+    <!-- <button id="startButton">Reset & Start Training</button> -->
+    <input
+      type="text"
+      id="targetInput"
+      value="target"
+      placeholder="target"
+      maxlength="24"
+    />
+    <div>
+      <!-- <label for="networkSize">Network Size:</label>
+      <input type="range" id="networkSize" min="1" max="24" value="3" />
+      <span id="networkSizeValue">8</span> -->
+    </div>
+    <canvas id="networkCanvas" width="800" height="1000"></canvas>
+  </body>
+  <script src="sketch.js"></script>
+  <script>
+    // Get canvas context
+    const canvas = document.getElementById("networkCanvas");
+    const ctx = canvas.getContext("2d");
+    // const startButton = document.getElementById("startButton");
+    const targetInput = document.getElementById("targetInput");
+    const networkSizeValue = document.getElementById("networkSizeValue");
+
+    let NETWORK_SIZE = parseInt(targetInput.value.length);
+
+    // Update network size display and reinitialize when slider changes
+    targetInput.addEventListener("input", (e) => {
+      NETWORK_SIZE = parseInt(e.target.value.length);
+      networkSizeValue.textContent = NETWORK_SIZE;
+      if (isTraining) {
+        isTraining = false;
+      }
+      //   targetInput.maxLength = NETWORK_SIZE;
+      setTimeout(() => {
+        initializeWeights();
+        train();
+      }, 200);
+    });
+
+    // Move weights declaration to a function so we can reset it
+    let weights;
+    function initializeWeights() {
+      weights = {
+        layer1: Array(NETWORK_SIZE)
+          .fill()
+          .map(() => Math.random() * 2 - 1),
+        layer2: Array(NETWORK_SIZE)
+          .fill()
+          .map(() => Math.random() * 2 - 1),
+      };
+    }
+    initializeWeights();
+
+    // Move target declaration inside a function so we can update it
+    let target;
+    function updateTarget(str) {
+      target = str
+        // .padEnd(3, " ")
+        .split("")
+        .map((c) => c.charCodeAt(0));
+    }
+    updateTarget(targetInput.value);
+
+    // Add input handler
+    targetInput.addEventListener("input", (e) => {
+      if (isTraining) {
+        isTraining = false;
+      }
+      setTimeout(() => {
+        updateTarget(e.target.value);
+        initializeWeights();
+        train();
+      }, 200);
+    });
+
+    const learningRate = 0.1;
+
+    function lossFunction(output, target) {
+      return output.reduce((sum, o, i) => sum + Math.pow(o - target[i], 2), 0);
+    }
+
+    function forward(weights) {
+      // First layer
+      const hiddenLayer = weights.layer1.map((w) => Math.tanh(w));
+      // Second layer
+      return weights.layer2.map(
+        (w) => 32 + (Math.round(w * hiddenLayer[0] * 100) % 95)
+      );
+    }
+
+    function backward(weights, output, target) {
+      const gradients = output.map((o, i) => (o - target[i]) / 100);
+
+      // Update both layers
+      const newWeights = {
+        layer1: weights.layer1.map((w, i) => w - learningRate * gradients[i]),
+        layer2: weights.layer2.map((w, i) => w - learningRate * gradients[i]),
+      };
+      return newWeights;
+    }
+
+    // Add visualization function
+    function drawNetwork(weights, output, loss, epoch) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw title and info
+      ctx.fillStyle = "black";
+      ctx.font = "16px Arial";
+      ctx.fillText(`Epoch: ${epoch.toFixed(2)}`, 10, 20);
+      ctx.fillText(`Loss: ${loss.toFixed(2)}`, 10, 40);
+      ctx.fillText(`Target: "${String.fromCharCode(...target)}"`, 10, 60);
+      ctx.fillText(
+        `Current output: "${String.fromCharCode(...output)}"`,
+        10,
+        80
+      );
+
+      // Draw nodes and connections
+      const inputY = 200;
+      const hiddenY = 200;
+      const outputY = 200;
+      const lineWidth = 1;
+
+      // Draw first layer weights
+      // Draw first layer weights
+      weights.layer1.forEach((w1, i) => {
+        weights.layer2.forEach((w2, j) => {
+          ctx.beginPath();
+          ctx.strokeStyle = w1 > 0 ? "blue" : "red";
+          ctx.lineWidth = Math.abs(w1) * lineWidth;
+          ctx.moveTo(200, inputY + j * 40 - 40);
+          ctx.lineTo(400, outputY + i * 40 - 40);
+          ctx.stroke();
+          ctx.arc(200, inputY + i * 400, 20, 0, Math.PI * 2);
+        });
+      });
+
+      // Draw second layer weights
+      weights.layer2.forEach((w2, j) => {
+        weights.layer1.forEach((w1, i) => {
+          ctx.beginPath();
+          ctx.strokeStyle = w2 > 0 ? "blue" : "red";
+          ctx.lineWidth = Math.abs(w2) * lineWidth;
+          ctx.moveTo(400, outputY + i * 40 - 40);
+          ctx.lineTo(600, outputY + j * 40 - 40);
+          ctx.stroke();
+        });
+      });
+
+      weights.layer1.forEach((w1, i) => {
+        ctx.fillStyle = w1 > 0 ? "blue" : "red";
+        ctx.beginPath();
+        ctx.arc(200, hiddenY + i * 40 - 40, 20, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      weights.layer2.forEach((w1, i) => {
+        ctx.fillStyle = w1 > 0 ? "blue" : "red";
+        ctx.beginPath();
+        ctx.arc(400, hiddenY + i * 40 - 40, 20, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Draw output nodes
+      output.forEach((o, i) => {
+        ctx.fillStyle = o === target[i] ? "green" : "orange";
+        ctx.beginPath();
+        ctx.arc(600, outputY + i * 40 - 40, 20, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    // Modify training loop to support stopping
+    let isTraining = false;
+    async function train() {
+      isTraining = true;
+      for (let epoch = 0; epoch < 1000; epoch++) {
+        if (!isTraining) break;
+
+        const output = forward(weights);
+        const loss = lossFunction(output, target);
+
+        drawNetwork(weights, output, loss, epoch);
+
+        if (output.every((val, i) => val === target[i])) {
+          console.log(
+            `Found "${String.fromCharCode(...target)}" in ${epoch} epochs`
+          );
+          console.log(`Weights: ${JSON.stringify(weights)}`);
+          break;
+        }
+
+        Object.assign(weights, backward(weights, output, target));
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      isTraining = false;
+    }
+
+    // Add button click handler
+    // startButton.addEventListener("click", () => {
+    //   if (isTraining) {
+    //     isTraining = false;
+    //     setTimeout(() => {
+    //       initializeWeights();
+    //       train();
+    //     }, 200);
+    //   } else {
+    //     initializeWeights();
+    //     train();
+    //   }
+    // });
+
+    // Start initial training
+    train();
+  </script>
+</html>
