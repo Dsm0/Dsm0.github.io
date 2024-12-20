@@ -206,14 +206,23 @@
 		}
 
 		function togglePause(elem) {
-			if (elem.paused) {
-				elem.play()
-				flash("PLAY")
-			} else {
-				elem.pause()
-				flash("PAUSE")
+			// Pause all other playing videos first
+			const videos = document.getElementsByTagName('video');
+			for (let video of videos) {
+				if (video !== elem && !video.paused) {
+					video.pause();
+					flash("PAUSE");
+				}
 			}
 
+			// Toggle the clicked video
+			if (elem.paused) {
+				elem.play();
+				flash("PLAY");
+			} else {
+				elem.pause();
+				flash("PAUSE");
+			}
 		}
 
 		function initP5(p5Obj) {

@@ -1,15 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="utf-8" />
 
     <title>will - cursor_toy</title>
-    <link rel="icon" type="image/gif" href="/corrupted.gif">
+    <style>
+      * {
+        --slider-length: 400px;
+        --slider-thickness: 20px;
+      }
+
+      .ctrl_slider {
+        /* width: 100%; */
+        z-index: 10;
+      }
+
+      .cool_slider {
+        /* width: 100%; */
+        z-index: 0;
+      }
+
+      #sliders {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        left: 0%;
+        padding: 20px;
+      }
+
+      .slider-pair {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      body {
+        margin: 0;
+        padding: 20px;
+        overflow: hidden;
+      }
+
+      input[type="range"] {
+        position: absolute;
+        -webkit-appearance: none;
+        appearance: none;
+        background: #d3d3d3;
+        outline: none;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #4caf50;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+
+      .vertical-slider {
+        width: var(--slider-length);
+        height: var(--slider-thickness);
+        transform: rotate(90deg);
+        transform-origin: left top;
+      }
+
+      .horizontal-slider {
+        width: var(--slider-length);
+        height: var(--slider-thickness);
+      }
+
+      /* Make horizontal sliders appear above vertical ones on even numbers */
+      .horizontal-slider:nth-child(even) {
+        z-index: 2;
+      }
+
+      /* Make vertical sliders appear above horizontal ones on odd numbers */
+      .vertical-slider:nth-child(odd) {
+        z-index: 2;
+      }
+    </style>
+    <link rel="icon" type="image/gif" href="/corrupted.gif" />
   </head>
   <body>
-    <div id="sliders">
-    </div>
+    <div id="sliders"></div>
 
     <script src="sketch.js"></script>
   </body>

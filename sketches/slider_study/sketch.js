@@ -1,126 +1,150 @@
+const NUM_SLIDERS = 20;
+const SLIDER_GAP = 30;  // Gap between sliders
+const SLIDER_LENGTH = 400;  // Length of each slider
+const SLIDER_THICKNESS = 20;  // Thickness of the slider track
+const INCREMENT_AMOUNT = 1;  // Amount to change slider value by
 
-const main_slider_div = document.getElementById("sliders")
+// Add state tracking for slider directions
+const sliderDirections = new Map();
 
-const sl_min = 0
-const sl_max = 100
-const body = document.body;
-const sliders = document.getElementById("sliders");
+let animationInterval = null;
 
-// console.log(sl_min, sl_max)
+function createAnimationControls() {
+  const controlsContainer = document.createElement('div');
+  controlsContainer.style.position = 'fixed';
+  controlsContainer.style.top = '40px';
+  controlsContainer.style.right = '20px';
+  controlsContainer.style.display = 'flex';
+  controlsContainer.style.gap = '10px';
+  controlsContainer.style.alignItems = 'center';
 
-// https://stackoverflow.com/a/10624656
-function percentwidth(elem) {
-  var pa = elem.offsetParent || elem;
-  return parseFloat(((elem.offsetWidth / pa.offsetWidth) * 100).toFixed(2));
-}
+  // Create speed slider
+  const speedSlider = document.createElement('input');
+  speedSlider.type = 'range';
+  speedSlider.min = '1';  // 60fps
+  speedSlider.max = '2000';  // 1 second
+  speedSlider.value = '100';  // Default speed
+  speedSlider.style.width = '100px';
 
+  const speedLabel = document.createElement('span');
+  speedLabel.textContent = 'Speed: ';
+  speedLabel.style.color = 'white';
 
+  // Create play/pause button
+  const playButton = document.createElement('button');
+  playButton.textContent = 'Play';
+  playButton.style.padding = '10px';
+  playButton.style.top = '20px';
+  playButton.style.position = 'absolute';
 
-body.onkeydown = (e) => {
-  switch (e.key) {
-    case " ":
-      resetSliders()
-      break;
+  let isPlaying = false;
 
-    default:
-      break;
+  const updateAnimation = () => {
+    if (isPlaying) {
+      clearInterval(animationInterval);
+      animationInterval = setInterval(animateSliders, parseInt(speedSlider.value));
+    }
+  };
 
-  }
+  playButton.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    playButton.textContent = isPlaying ? 'Pause' : 'Play';
 
-}
-
-
-const effects = [
-  (x, sl, w) => { sl.value = x },
-  (x, sl, w) => { sl.value = 100 - x },
-
-  (x, sl, w) => { sl.value = x < 50 ? Math.abs((((x / 8.05) ** 2.1405)) * Math.sin(((x - 4.405) / (4.082)))) : x },
-
-  (x, sl, w) => {
-    sl.value = x
-    sl.style.transform = `scaleX(${((x) / 50) ** 7})`
-  },
-
-  (x, sl, w) => { sl.value = x; sl.style.transform = `scaleY(${((x) / 50) ** 7})` },
-
-  (x, sl, w) => { sl.value = x; sl.style.transform = `scaleY(${((x - 50) / 50) ** 2})` },
-
-  (x, sl, w) => {
-    if (x < 50) {
-      sl.value = x;
-      sl.style.width = w + '%';
+    if (isPlaying) {
+      updateAnimation();
     } else {
-      sl.value = 50; // + ((x-50)/50)*45;
-      c_w = parseFloat(sl.style.width)
-      console.log(c_w)
-      sl.style.width = (c_w + ((x - 50) / 50)) + '%'
+      clearInterval(animationInterval);
     }
-  },
+  });
 
-  (x, sl, w) => {
-    sliders.style.left = parseFloat(x) + "%"
-  },
+  speedSlider.addEventListener('input', updateAnimation);
 
-]
-
-function initalizeSliders() {
-  for (var i = 0; i < effects.length; i++) {
-
-    let ctrl_slider = document.createElement("input");
-    let cool_slider = document.createElement("input");
-    let slider_div = document.createElement("div");
-
-
-    ctrl_slider.type = 'range'
-    ctrl_slider.min = '1'
-    ctrl_slider.max = '100'
-    ctrl_slider.value= 50
-    ctrl_slider.class = 'ctrl_slider'
-
-    let func = effects[i]
-    let w = percentwidth(cool_slider)
-
-
-    cool_slider.type = 'range'
-    cool_slider.min = '1'
-    cool_slider.max = '100'
-    cool_slider.value= 50
-    cool_slider.class = 'cool_slider'
-    cool_slider.disabled = true
-
-    slider_div.appendChild(ctrl_slider)
-    slider_div.appendChild(cool_slider)
-
-    ctrl_slider.oninput = function (input) {
-      x = input.target.value
-      func(x, cool_slider, w)
-    }
-
-    func(50, cool_slider, w)
-
-    main_slider_div.appendChild(slider_div)
-
-  }
+  controlsContainer.appendChild(speedLabel);
+  controlsContainer.appendChild(speedSlider);
+  controlsContainer.appendChild(playButton);
+  document.body.appendChild(controlsContainer);
 }
 
+function animateSliders() {
+  document.querySelectorAll('input[type="range"]').forEach(slider => {
+    // Handle value animation
+    const currentValue = parseInt(slider.value);
+    const direction = sliderDirections.get(slider) || 1;
 
+    // Calculate new value
+    const newValue = currentValue + (INCREMENT_AMOUNT * direction);
 
-function resetSliders() {
-  for (var i = 0; i < ctrl_sliders.length; i++) {
+    // Check bounds and update direction if needed
+    if (newValue >= slider.max) {
+      sliderDirections.set(slider, -1);
+      slider.value = slider.max;
+    } else if (newValue <= slider.min) {
+      sliderDirections.set(slider, 1);
+      slider.value = slider.min;
+    } else {
+      slider.value = newValue;
+    }
 
-    const func = effects[i]
-
-    ctrl_sliders[i].value = 50
-    cool_sliders[i].value = 50
-
-    func(50, cool_slider, w)
-
-  }
+    // Randomly adjust z-index
+    if (Math.random() < 0.1) { // 10% chance to change z-index each frame
+      slider.style.zIndex = Math.floor(Math.random() * 30) + 1; // Random z-index between 1-3
+    }
+  });
 }
 
-initalizeSliders()
+function createSliderPair(index) {
+  const sliderContainer = document.createElement('div');
+  sliderContainer.className = 'slider-pair';
 
-const ctrl_sliders = document.getElementsByClassName('ctrl_slider');
-const cool_sliders = document.getElementsByClassName('cool_slider');
+  // Create vertical slider
+  const verticalSlider = document.createElement('input');
+  verticalSlider.type = 'range';
+  verticalSlider.className = 'vertical-slider';
+  verticalSlider.min = 0;
+  verticalSlider.max = 100;
+  verticalSlider.value = 50;
 
-resetSliders()
+  // Create horizontal slider
+  const horizontalSlider = document.createElement('input');
+  horizontalSlider.type = 'range';
+  horizontalSlider.className = 'horizontal-slider';
+  horizontalSlider.min = 0;
+  horizontalSlider.max = 100;
+  horizontalSlider.value = 50;
+
+  // Position the sliders with absolute positioning
+  verticalSlider.style.left = `${index * SLIDER_GAP}px`;
+  horizontalSlider.style.top = `${index * SLIDER_GAP}px`;
+
+  // Initialize direction for new sliders
+  sliderDirections.set(verticalSlider, 1);
+  sliderDirections.set(horizontalSlider, 1);
+
+  // Add event listeners for interaction
+  const handleSliderFocus = (slider) => {
+    // Reset all sliders to their default z-index
+    document.querySelectorAll('input[type="range"]').forEach(s => {
+      s.style.zIndex = s.classList.contains('horizontal-slider') && index % 2 === 0 ||
+        s.classList.contains('vertical-slider') && index % 2 === 1 ? 2 : 1;
+    });
+    // Set the active slider to highest z-index
+    slider.style.zIndex = 3;
+  };
+
+  verticalSlider.addEventListener('mousedown', () => handleSliderFocus(verticalSlider));
+  horizontalSlider.addEventListener('mousedown', () => handleSliderFocus(horizontalSlider));
+
+  document.body.appendChild(verticalSlider);
+  document.body.appendChild(horizontalSlider);
+}
+
+// Create all slider pairs
+for (let i = 0; i < NUM_SLIDERS; i++) {
+  createSliderPair(i);
+}
+
+// Add the control button
+createAnimationControls();
+
+
+

@@ -23,6 +23,9 @@
   margin-top: 17.6px;
   float: right;
   bottom: 0%;
+  max-height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 #preview {
