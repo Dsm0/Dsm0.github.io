@@ -1,0 +1,334 @@
+%-------------------------
+% Resume in Latex
+% Author
+% License : MIT
+%------------------------
+
+%---- Required Packages and Functions ----
+
+\documentclass[a4paper,11pt]{article}
+\usepackage{latexsym}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{ragged2e}
+\usepackage[empty]{fullpage}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{marvosym}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{cfr-lm}
+\usepackage[T1]{fontenc}
+\setlength{\multicolsep}{0pt} 
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\geometry{left=1.4cm, top=0.8cm, right=1.2cm, bottom=1cm}
+% Adjust margins
+%\addtolength{\oddsidemargin}{-0.5in}
+%\addtolength{\evensidemargin}{-0.5in}
+%\addtolength{\textwidth}{1in}
+\usepackage[most]{tcolorbox}
+\tcbset{
+	frame code={}
+	center title,
+	left=0pt,
+	right=0pt,
+	top=0pt,
+	bottom=0pt,
+	colback=gray!20,
+	colframe=white,
+	width=\dimexpr\textwidth\relax,
+	enlarge left by=-2mm,
+	boxsep=4pt,
+	arc=0pt,outer arc=0pt,
+}
+
+\urlstyle{same}
+
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-7pt}]
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[2]{
+  \item{
+    \textbf{#1}{\hspace{0.5mm}#2 \vspace{-0.5mm}}
+  }
+}
+
+\newcommand{\resumePOR}[3]{
+\vspace{0.5mm}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \textbf{#1}\hspace{0.3mm}#2 & \textit{\small{#3}} 
+    \end{tabular*}
+    \vspace{-2mm}
+}
+
+\newcommand{\resumeSubheading}[4]{
+\vspace{0.5mm}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \textbf{#1} & \textit{\footnotesize{#4}} \\
+        \textit{\footnotesize{#3}} &  \footnotesize{#2}\\
+    \end{tabular*}
+    \vspace{-2.4mm}
+}
+
+\newcommand{\resumeProject}[4]{
+\vspace{0.5mm}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \textbf{#1} & \textit{\footnotesize{#3}} \\
+        \footnotesize{\textit{#2}} & \footnotesize{#4}
+    \end{tabular*}
+    \vspace{-2.4mm}
+}
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-4pt}}
+
+% \renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemi}{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*,labelsep=0mm]}
+\newcommand{\resumeHeadingSkillStart}{\begin{itemize}[leftmargin=*,itemsep=1.7mm, rightmargin=2ex]}
+\newcommand{\resumeItemListStart}{\begin{justify}\begin{itemize}[leftmargin=3ex, rightmargin=2ex, noitemsep,labelsep=1.2mm,itemsep=0mm]\small}
+
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{2mm}}
+\newcommand{\resumeHeadingSkillEnd}{\end{itemize}\vspace{-2mm}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\end{justify}\vspace{-2mm}}
+\newcommand{\cvsection}[1]{%
+\vspace{2mm}
+\begin{tcolorbox}
+    \textbf{\large #1}
+\end{tcolorbox}
+    \vspace{-4mm}
+}
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}%
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}%
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+%---- End of Packages and Functions ------
+
+%-------------------------------------------
+%%%%%%  CV STARTS HERE  %%%%%%%%%%%
+%%%%%% DEFINE ELEMENTS HERE %%%%%%%
+\newcommand{\name}{Will Rinkoff} % Your Name
+% \newcommand{\course}{Your Program} % Your Program
+% \newcommand{\roll}{xxxxxxx} % Your Roll No.
+\newcommand{\phone}{+1 651-280-9119} % Your Phone Number
+\newcommand{\emaila}{will.rinkoff@gmail.com} %Email 1
+
+\begin{document}
+\fontfamily{cmr}\selectfont
+%----------HEADING-----------------
+
+% \parbox{2.5cm}{%
+% \includegraphics[width=2.5cm,clip]{resume_image.png}
+% }
+
+
+
+\parbox{\dimexpr\linewidth-2.8cm\relax}{
+\begin{tabularx}{\linewidth}{L} 
+  \textbf{\Large \name} &
+  \href{mailto:\emaila}{\raisebox{0.0\height}{\footnotesize \faEnvelope}\ {\emaila}} 
+  \href{}{\raisebox{0.0\height}{\footnotesize \faPhone}\ {\phone}} \\
+  % & \multicolumn{2}{r}{\href{https://www.linkedin.com/in/will-rinkoff/}{\raisebox{0.0\height}{\footnotesize \faLinkedin}\ {LinkedIn}}}
+\end{tabularx}
+}
+
+
+\vspace{-3.5mm}
+% \parbox{3.0cm}{%
+% \flushright \includegraphics[width=2cm,clip]{nitp_logo.png}
+% }
+
+%-----------EDUCATION-----------
+\section{\textbf{Education}}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {\ California Institute of the Arts}{}
+      {}{Masters of Music Technology, 2024-2026}
+      \vspace{-5.0mm}
+      \resumeItemListStart
+        \item  
+            \footnotesize {DSP, Creative AI Pipelines, Music Information Retrieval, Neural Audio Synthesis, Interface Design}
+      \resumeItemListEnd
+    \vspace{-3.0mm}
+    \resumeSubheading
+      {\ Carnegie Mellon University}{}
+      {}{Bachelor of Computer Science and Music Technology}
+      \vspace{-5.0mm}
+      \resumeItemListStart
+        \item 
+            \footnotesize {Software Engineering, Databases, Algorithms, Low Level Computer Systems, Linear Algebra, DSP, \\ Machine Learning, QA, Audiovisual Composition, Experimental Data Capture}
+      \resumeItemListEnd
+    \vspace{-4.0mm}
+  \resumeSubHeadingListEnd
+\vspace{-7mm}
+
+%-----------Technical skills-----------------
+\section{\textbf{Skills}}
+ \begin{itemize}[leftmargin=0.05in, label={}]
+    \small{\item{
+     \textbf{Linux}{: 5+ years daily use, regularly assisted/debugged the systems of my peers} \\
+     \textbf{Languages}{: Javascript/Typescript, Python, C/C++, Java, Lua, Haskell, Rust, Bash} \\
+     \textbf{Developer Tools}{: Git, Vim, Make, gdb, Valgrind, Stack + Cabal} \\
+     \textbf{Frameworks}{: React, Vue.js, Node.js, Firebase, Amazon Web Services, Pandas, Godot} \\
+     \textbf{Software}{: Comfy UI, Max/MSP, Touchdesigner, Puredata, Adobe Suite, Ableton} \\
+     % \textbf{Soft Skills}{: writing, creative leadership, team coordination, self direction} \\
+     % \textbf{Areas of Interest}{: Digital/Accessible tools for live performance, Audio Processing, Sound Design, Interaction Design} \\
+    }}
+ \end{itemize}
+\vspace{-7mm}
+
+% %-----------PROJECTS-----------------
+% \section{\textbf{Selected Personal Projects}}
+% \resumeSubHeadingListStart
+
+% \resumeSubHeadingListEnd
+% \vspace{-5.5mm}
+
+%-----------EXPERIENCE-----------------
+\section{\textbf{Experience}}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {\ The Builders Association \textit{(Award Winning Theater Company)}}{New York City} %Project Name
+      {Fullstack Developer} %Project Name, Location Name
+      {\text{May-October} 2024} %Event Dates
+      \vspace{0.25mm}
+      \resumeItemListStart
+        \item {Built a twitter clone in React for use in a live theater production}
+        \item {Created cueing system to alter the app over the course of the play}
+        \item {Worked under extremely tight deadlines in a live rehearsal setting to appease directors}
+    \resumeItemListEnd
+    
+    \vspace{-3mm}
+    
+    \resumeSubheading
+      {\ Penrose}{Pittsburgh, PA}
+      {Software Engineer}{February-July 2021}
+      \vspace{0.25mm}
+      \resumeItemListStart
+    \item {Extended feature set of a web-based mathematics visualization tool in React}
+    \item {Designed, proposed and implemented interfaces for a domain specific programming language}
+    \item {Implemented components of compilation process from user code to SVG diagrams}
+    \resumeItemListEnd
+    
+    \vspace{-3mm}
+    
+    \resumeSubheading
+      {\ Neort.io}{Japan (Remote)}
+      {Frontend Developer}{July-August 2020}
+      \vspace{0.25mm}
+      \resumeItemListStart
+    \item {Proposed, developed and deployed a non-trivial website feature in just over a month}
+    \item {Used Vue.js, Webgl, and Axios to develop a glsl texture loading/managing system}
+    \item {Communicated with developers across both language and timezone barriers}
+    \resumeItemListEnd
+    
+    \vspace{-3mm}
+    
+    \resumeSubheading
+      {\ Resonant Cavity}{Minneapolis MN}
+      {Audio Processing / Machine Learning Intern}{May-August 2019}
+      % \vspace{-2.0mm}
+      \resumeItemListStart
+    \item {Developed tools for deep-learning audio analysis/synthesis inside Python with keras}
+    \item {Implemented/worked with vocal-analysis and synthesis machine learning architectures}
+    \item {Developed documentation for in-house tools}
+    \resumeItemListEnd
+    
+  \resumeSubHeadingListEnd
+\vspace{-9mm}
+
+%-----------Projects---------------------
+
+\section{\textbf{Selected Projects}}
+  \resumeSubHeadingListStart
+  
+    \resumeSubheading
+      {\ lua\_tidavim} %Project Name
+      {}
+      {} %Event Dates
+      {Laptop Performance Interface}
+      \vspace{-5mm}
+      \resumeItemListStart
+        \item {Designed a Dynamic Performance Interface for Sequencing Language Tidalcycles}
+        \item {Invited to perform at creative technology events/conferences around United States and Europe}
+        \item {Tech used: Neovim, Lua, Tidalcycles, Supercollider}
+      \resumeItemListEnd
+  
+    \vspace{-3mm}
+    \resumeSubheading
+      {\ 'Look Closely'} %Project Name
+      {}
+      {} %Event Dates
+      {Web-Based Experimental Installation Work}
+      \vspace{-5mm}
+      \resumeItemListStart
+        \item {Web-based artwork involving a digital synth made in controlled using iris movement, with reactive visual elements made in Three.js and WebGL}
+        \item {Created a system to design performant web-based synths/instruments around hand and face gestures}
+        \item {Tech used: Media Pipe, Three.js, Web Assembly, Faust Audio, Html, Javascript }
+      \resumeItemListEnd
+      
+    \vspace{-3mm}
+    \resumeSubheading
+      {Lissajous A/V Synth} %Project Name
+      {}
+      {} %Event Dates
+      {Software Audio Synthesizer}
+     \vspace{-5mm}
+      \resumeItemListStart
+        \item {Designed real-time audio synthesis pipeline that transforms video data to audio that resembles the original video data when viewed via Lissajous Oscilloscope}
+        \item {Tech used: Python, Pandas, XServer, C, Ffmpeg, OBS}
+      \resumeItemListEnd
+      
+  \resumeSubHeadingListEnd
+
+\vspace{-10mm}
+%-----------Achievements-----------------
+\section{\textbf{Awards}}
+\vspace{-0.4mm}
+\resumeSubHeadingListStart
+\resumePOR{International Conference on Live Coding} % Award
+    {}
+    {}
+    {Utrecht, Netherlands, 2023 \/ Shanghai, China, 2024} %Event Year
+    
+\resumePOR{Grants} % Award
+    \footnotesize { BXA Grant (*2), CFA Grant, Undergraduate Research Grant, School of Music Travel Grant} % Event
+    {} %Event Year
+\resumeSubHeadingListEnd
+\vspace{-10mm}
+
+% %-----------Positions of Responsibility-----------------
+% \section{\textbf{Affiliations}}
+% \vspace{-0mm}
+% \resumeSubHeadingListStart
+% \resumePOR{Volunteer} % Position
+%     {  Frank-Ratchye Studio for Creative Inquiry} %Club,Event
+%     {2019-2023} %Tenure Period
+% \resumePOR{Performer} % Position
+%     {LiveCode.NYC} %Club,Event
+%     {2022-Present} %Tenure Period
+% \resumeSubHeadingListEnd
+% \vspace{-5mm}
+
+%-------------------------------------------
+\end{document}
