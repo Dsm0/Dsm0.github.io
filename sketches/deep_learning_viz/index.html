@@ -61,16 +61,20 @@
       }, 200);
     });
 
+    // Add this constant near the top of the script, after NETWORK_SIZE declaration
+    const NUM_HIDDEN_LAYERS = 5; // Adjust this value to change number of hidden layers
+
     // Move weights declaration to a function so we can reset it
     let weights;
     function initializeWeights() {
       weights = {
-        layer1: Array(NETWORK_SIZE)
+        layers: Array(NUM_HIDDEN_LAYERS + 1)
           .fill()
-          .map(() => Math.random() * 2 - 1),
-        layer2: Array(NETWORK_SIZE)
-          .fill()
-          .map(() => Math.random() * 2 - 1),
+          .map(() =>
+            Array(NETWORK_SIZE)
+              .fill()
+              .map(() => Math.random() * 2 - 1)
+          ),
       };
     }
     initializeWeights();
@@ -104,21 +108,36 @@
     }
 
     function forward(weights) {
-      // First layer
-      const hiddenLayer = weights.layer1.map((w) => Math.tanh(w));
-      // Second layer
-      return weights.layer2.map(
-        (w) => 32 + (Math.round(w * hiddenLayer[0] * 100) % 95)
+      let layerOutput = weights.layers[0].map((w) => Math.tanh(w));
+
+      // Process middle layers
+      for (let i = 1; i < weights.layers.length - 1; i++) {
+        layerOutput = weights.layers[i].map((w) =>
+          Math.tanh(w * layerOutput[0])
+        );
+      }
+
+      // Final layer
+      return weights.layers[weights.layers.length - 1].map(
+        (w) => 32 + (Math.round(w * layerOutput[0] * 100) % 95)
       );
     }
 
+    // Add these variables near the top of the script
+    let lastGradients = null;
+    const PULSE_DURATION = 500; // Duration of pulse animation in ms
+    let pulseStartTime = 0;
+
+    // Update the backward function to store gradients
     function backward(weights, output, target) {
       const gradients = output.map((o, i) => (o - target[i]) / 100);
+      lastGradients = gradients;
+      pulseStartTime = performance.now();
 
-      // Update both layers
       const newWeights = {
-        layer1: weights.layer1.map((w, i) => w - learningRate * gradients[i]),
-        layer2: weights.layer2.map((w, i) => w - learningRate * gradients[i]),
+        layers: weights.layers.map((layer) =>
+          layer.map((w, i) => w - learningRate * gradients[i])
+        ),
       };
       return newWeights;
     }
@@ -144,74 +163,64 @@
         100
       );
 
-      // Draw nodes and connections
       const inputY = 200;
-      const hiddenY = 200;
       const outputY = 200;
       const lineWidth = 1;
+      const layerSpacing = 400 / (NUM_HIDDEN_LAYERS + 1);
 
-      // Draw first layer weights
-      // Draw first layer weights
-      weights.layer1.forEach((w1, i) => {
-        weights.layer2.forEach((w2, j) => {
-          ctx.beginPath();
-          ctx.strokeStyle = w1 > 0 ? "blue" : "red";
-          ctx.lineWidth = Math.abs(w1) * lineWidth;
-          ctx.moveTo(200, inputY + j * 40 - 40);
-          ctx.lineTo(400, outputY + i * 40 - 40);
-          ctx.stroke();
-          ctx.arc(200, inputY + i * 400, 20, 0, Math.PI * 2);
+      const currentTime = performance.now();
+      const pulseProgress = (currentTime - pulseStartTime) / PULSE_DURATION;
+      const pulseAlpha = Math.max(0, 1 - pulseProgress);
+
+      // Draw connections between all layers
+      for (let layer = 0; layer < weights.layers.length - 1; layer++) {
+        const startX = 200 + layer * layerSpacing;
+        const endX = startX + layerSpacing;
+
+        weights.layers[layer].forEach((w1, i) => {
+          weights.layers[layer].forEach((_, j) => {
+            ctx.beginPath();
+            // Normal connection
+            ctx.strokeStyle = w1 > 0 ? "blue" : "red";
+            ctx.lineWidth = Math.abs(w1) * lineWidth;
+            ctx.moveTo(startX, inputY + j * 40 - 40);
+            ctx.lineTo(endX, outputY + i * 40 - 40);
+            ctx.stroke();
+
+            // Gradient pulse overlay
+            if (lastGradients && pulseAlpha > 0) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(255, 255, 0, ${pulseAlpha})`;
+              ctx.lineWidth = Math.abs(lastGradients[i]) * 3;
+              ctx.moveTo(startX, inputY + j * 40 - 40);
+              ctx.lineTo(endX, outputY + i * 40 - 40);
+              ctx.stroke();
+            }
+          });
         });
-      });
+      }
 
-      // Draw second layer weights
-      weights.layer2.forEach((w2, j) => {
-        weights.layer1.forEach((w1, i) => {
+      // Draw nodes for all layers
+      weights.layers.forEach((layer, layerIndex) => {
+        const x = 200 + layerIndex * layerSpacing;
+        layer.forEach((w, i) => {
+          ctx.fillStyle = w > 0 ? "blue" : "red";
           ctx.beginPath();
-          ctx.strokeStyle = w2 > 0 ? "blue" : "red";
-          ctx.lineWidth = Math.abs(w2) * lineWidth;
-          ctx.moveTo(400, outputY + i * 40 - 40);
-          ctx.lineTo(600, outputY + j * 40 - 40);
-          ctx.stroke();
+          ctx.arc(x, inputY + i * 40 - 40, 20, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Add labels for input and output layers
+          if (layerIndex === 0 || layerIndex === weights.layers.length - 1) {
+            ctx.fillStyle = "white";
+            ctx.font = "16px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText(
+              String.fromCharCode(layerIndex === 0 ? target[i] : output[i]),
+              x,
+              inputY + i * 40 - 35
+            );
+          }
         });
-      });
-
-      weights.layer1.forEach((w1, i) => {
-        ctx.fillStyle = w1 > 0 ? "blue" : "red";
-        ctx.beginPath();
-        ctx.arc(200, hiddenY + i * 40 - 40, 20, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      weights.layer2.forEach((w1, i) => {
-        ctx.fillStyle = w1 > 0 ? "blue" : "red";
-        ctx.beginPath();
-        ctx.arc(400, hiddenY + i * 40 - 40, 20, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // Draw output nodes
-      output.forEach((o, i) => {
-        ctx.fillStyle = o === target[i] ? "green" : "orange";
-        ctx.beginPath();
-        ctx.arc(600, outputY + i * 40 - 40, 20, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Add character labels
-        ctx.fillStyle = "white";
-        ctx.font = "16px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText(
-          String.fromCharCode(target[i]),
-          200,
-          hiddenY + i * 40 - 35
-        ); // Input layer label
-        ctx.fillStyle = "black";
-        ctx.fillText(
-          String.fromCharCode(output[i]),
-          600,
-          outputY + i * 40 - 35
-        ); // Output layer label
       });
     }
 

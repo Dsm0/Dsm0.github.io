@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clap Emoji</title>
+    <style>
+        :root {
+            --fade-time: 0.5s;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20vmin;
+            /* Responsive font size based on viewport */
+            background-color: black;
+        }
+
+        .clap {
+            user-select: none;
+            /* Prevents text selection */
+            opacity: 0;
+            transition: none;
+            position: absolute; /* Add this to allow positioning */
+            transform: translate(-50%, -50%); /* Center the emoji on the click position */
+            font-size: 20vmin;
+        }
+
+        .clap.fade-out {
+            transition: opacity var(--fade-time) ease-out;
+        }
+
+        .clap.small {
+            font-size: 12vmin;
+        }
+
+        .clap.tiny {
+            font-size: 8vmin;
+        }
+
+        .button {
+            position: fixed;
+            bottom: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .control-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            font-size: 18px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .control-button:hover {
+            background: #444;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #999;
+            font-size: 14px;
+            font-family: monospace;
+        }
+
+        .speed-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 120px;
+            height: 2px;
+            background: #666;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .speed-slider:hover {
+            opacity: 1;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .speed-slider::-moz-range-thumb {
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clap">👏</div>
+    <audio id="clapSound" src="/sketches/clock/clap.wav" preload="auto"></audio>
+
+    <script>
+
+        const clapButtons = {
+            hours: [],
+            minutes: [],
+            seconds: [],
+            milliseconds: []
+        }
+
+        const getHoursMinutesSecondsMilliseconds = () => {
+            const now = new Date();
+            return {
+                hours: now.getHours(),
+                minutes: now.getMinutes(),
+                seconds: now.getSeconds(),
+                milliseconds: now.getMilliseconds()
+            }
+        }
+
+        // Initialize audio context and nodes
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const delayNode = audioContext.createDelay(5.0);
+        const gainNode = audioContext.createGain();
+
+        // Create audio source once and connect it
+        const sound = document.getElementById('clapSound');
+        const audioSource = audioContext.createMediaElementSource(sound);
+
+        // Set up delay effect
+        delayNode.delayTime.value = 0.01;
+        gainNode.gain.value = 0.0;
+
+        // Connect nodes: source -> delay -> gain -> delay (feedback loop) -> destination
+        audioSource.connect(delayNode);
+        audioSource.connect(audioContext.destination);
+        delayNode.connect(gainNode);
+        gainNode.connect(delayNode);
+        delayNode.connect(audioContext.destination);
+
+        function handleClap() {
+            const clap = document.querySelector('.clap');
+
+            // Play sound with delay effect
+            sound.currentTime = 0;
+
+            // Resume audio context if suspended
+            audioContext.resume().then(() => {
+                sound.play();
+            });
+
+            // Visual feedback
+            clap.classList.remove('fade-out');
+            clap.style.opacity = '1';
+
+            // Reset opacity after a brief delay
+            setTimeout(() => {
+                clap.classList.add('fade-out');
+                clap.style.opacity = '0';
+            }, 100);
+
+
+        }
+
+
+        function newClap(x, y, width, height, pitch, size = false) {
+            const button = document.createElement('button');
+            button.className = 'button';
+            
+            button.style.position = 'absolute';
+            button.style.left = `${x}px`;
+            button.style.top = `${y}px`;
+            button.style.width = `${width}px`;
+            button.style.height = `${height}px`;
+            
+            const deltaX = (x + width/2) - centerX;
+            const deltaY = (y + height/2) - centerY;
+            const angle = Math.atan2(deltaY, deltaX);
+            const normalizedAngle = (angle + Math.PI) / (2 * Math.PI);
+            const delayTime = 0.1 + (normalizedAngle * 0.4);
+            
+            button.onclick = () => {
+                const clap = document.querySelector('.clap');
+                
+                // Handle size classes
+                clap.classList.remove('small', 'tiny');
+                if (size === true) {
+                    clap.classList.add('small');
+                } else if (size === 'tiny') {
+                    clap.classList.add('tiny');
+                }
+                
+                // Update delay time based on position
+                delayNode.delayTime.value = delayTime;
+                
+                // Position and rotate the clap emoji
+                clap.style.left = `${x + width/2}px`;
+                clap.style.top = `${y + height/2}px`;
+                
+                // Calculate rotation
+                const degrees = (angle * (180 / Math.PI)) - 45;
+                clap.style.transform = `translate(-50%, -50%) rotate(${degrees}deg)`;
+                
+                sound.currentTime = 0;
+                // console.log(sound);
+                
+                sound.playbackRate = pitch;
+                console.log(sound.playbackRate);
+                
+                
+                // Resume audio context if suspended
+                audioContext.resume().then(() => {
+                    sound.play();
+                });
+                
+                // Visual feedback
+                clap.classList.remove('fade-out');
+                clap.style.opacity = '1';
+                
+                setTimeout(() => {
+                    clap.classList.add('fade-out');
+                    clap.style.opacity = '0';
+                }, 100);
+            };
+            
+            document.body.appendChild(button);
+            return button;
+        }
+
+        // Example usage:
+        // newClap(100, 100, 50, 50, 1.0);  // Normal pitch
+        // newClap(200, 100, 50, 50, 1.5);  // Higher pitch
+        // newClap(300, 100, 50, 50, 0.5);  // Lower pitch
+
+        // Create clock buttons
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const hourRadius = Math.min(window.innerWidth, window.innerHeight) * 0.35;
+        const minuteRadius = hourRadius * 0.8;
+        const secondRadius = hourRadius * 0.6; // 60% of hour radius
+        const hourButtonSize = 50;
+        const minuteButtonSize = 30;
+        const secondButtonSize = 20; // Smallest size for seconds
+
+        // Create hour buttons
+        for (let i = 0; i < 12; i++) {
+            const angle = (i * Math.PI * 2 / 12) - Math.PI / 2;
+            const x = centerX + hourRadius * Math.cos(angle);
+            const y = centerY + hourRadius * Math.sin(angle);
+            const pitch = 0.8 + (i / 12) * 0.4; // Range: 0.8 to 1.2
+
+            const button = newClap(
+                x - hourButtonSize/2,
+                y - hourButtonSize/2,
+                hourButtonSize,
+                hourButtonSize,
+                pitch,
+                false
+            );
+            clapButtons.hours.push(button);
+        }
+
+        // Create minute buttons
+        for (let i = 0; i < 60; i++) {
+            const angle = (i * Math.PI * 2 / 60) - Math.PI / 2;
+            const x = centerX + minuteRadius * Math.cos(angle);
+            const y = centerY + minuteRadius * Math.sin(angle);
+            const pitch = 1.0 + (i / 60) * 0.4; // Range: 1.0 to 1.4
+
+            const button = newClap(
+                x - minuteButtonSize/2,
+                y - minuteButtonSize/2,
+                minuteButtonSize,
+                minuteButtonSize,
+                pitch,
+                true
+            );
+            clapButtons.minutes.push(button);
+        }
+
+        // Create second buttons
+        for (let i = 0; i < 60; i++) {
+            const angle = (i * Math.PI * 2 / 60) - Math.PI / 2;
+            const x = centerX + secondRadius * Math.cos(angle);
+            const y = centerY + secondRadius * Math.sin(angle);
+            const pitch = 1.2 + (i / 60) * 0.4; // Range: 1.2 to 1.6
+
+            const button = newClap(
+                x - secondButtonSize/2,
+                y - secondButtonSize/2,
+                secondButtonSize,
+                secondButtonSize,
+                pitch,
+                'tiny'
+            );
+            clapButtons.seconds.push(button);
+        }
+
+        // Function to simulate a click on a button
+        function simulateClick(button) {
+            if (button) {
+                button.click();
+            }
+        }
+
+        // Create control button
+        const controlButton = document.createElement('button');
+        controlButton.className = 'control-button';
+        controlButton.textContent = 'Start Clock';
+        document.body.appendChild(controlButton);
+
+        let clockInterval = null;
+
+        // Create controls container
+        const controls = document.createElement('div');
+        controls.className = 'controls';
+
+        // Move existing control button to container
+        controls.appendChild(controlButton);
+
+        // Create speed control
+        const speedControl = document.createElement('div');
+        speedControl.className = 'speed-control';
+
+        const speedLabel = document.createElement('label');
+        speedLabel.textContent = 'Speed: 1x';
+
+        const speedSlider = document.createElement('input');
+        speedSlider.type = 'range';
+        speedSlider.className = 'speed-slider';
+        speedSlider.min = '0.1';
+        speedSlider.max = '10';
+        speedSlider.step = '0.1';
+        speedSlider.value = '1';
+
+        speedControl.appendChild(speedLabel);
+        speedControl.appendChild(speedSlider);
+        controls.appendChild(speedControl);
+        document.body.appendChild(controls);
+
+        let timeOffset = 0;
+        let lastUpdate = Date.now();
+
+        speedSlider.oninput = () => {
+            speedLabel.textContent = `Speed: ${speedSlider.value}x`;
+        };
+
+        controlButton.onclick = async () => {
+            if (clockInterval === null) {
+                // Start the clock
+                await audioContext.resume();
+                lastUpdate = Date.now();
+                
+                clockInterval = setInterval(() => {
+                    const now = Date.now();
+                    const delta = now - lastUpdate;
+                    lastUpdate = now;
+                    
+                    // Adjust time offset based on speed
+                    timeOffset += delta * (speedSlider.value - 1);
+                    
+                    // Calculate adjusted time
+                    const adjustedTime = new Date(Date.now() + timeOffset);
+                    const hours = adjustedTime.getHours() % 12;
+                    const minutes = adjustedTime.getMinutes();
+                    const seconds = adjustedTime.getSeconds();
+
+                    // console.log({hours, minutes, seconds});
+
+                    setTimeout(() => {
+                        simulateClick(clapButtons.hours[hours]);
+                    }, 10);
+
+                    setTimeout(() => {
+                        simulateClick(clapButtons.minutes[minutes]);
+                    }, 100);
+
+                    setTimeout(() => {
+                        simulateClick(clapButtons.seconds[seconds]);
+                    }, 200);
+
+                    // simulateClick(clapButtons.minutes[minutes]);
+                    // simulateClick(clapButtons.seconds[seconds]);
+                }, 1000);
+
+                controlButton.textContent = 'Stop Clock';
+            } else {
+                // Stop the clock
+                clearInterval(clockInterval);
+                clockInterval = null;
+                await audioContext.suspend();
+                controlButton.textContent = 'Start Clock';
+            }
+        };
+
+    </script>
+
+</body>
+
+</html>
