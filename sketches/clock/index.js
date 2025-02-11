@@ -70,9 +70,9 @@ const activateFaustNode = async () => {
     // faustNode.connect(audioContext.destination);
 
     // Connect the Faust node to the audio input
-    if (faustNode.getNumInputs() > 0) {
-        await connectToAudioInput(audioContext, null, faustNode, null);
-    }
+    // if (faustNode.getNumInputs() > 0) {
+    //     await connectToAudioInput(audioContext, null, faustNode, null);
+    // }
 
     console.log("hhhhhhhhhhhhhhhhhhhh", faustNode);
     
