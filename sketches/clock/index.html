@@ -90,10 +90,10 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            transform: none;
+            /* transform: translateX(-50%); */
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             gap: 15px;
             z-index: 1000;
         }
@@ -158,6 +158,17 @@
         .button-row {
             display: flex;
             gap: 10px;
+            align-items: center;  /* Align items vertically */
+        }
+
+        .time-display {
+            font-family: monospace;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-left: 20px;  /* Space between buttons and time */
         }
     </style>
 </head>
@@ -362,7 +373,7 @@
                 minuteButtonSize,
                 minuteButtonSize,
                 pitch,
-                true
+                'small'
             );
             clapButtons.minutes.push(button);
         }
@@ -528,9 +539,24 @@
             speedLabel.textContent = `Speed: ${speedSlider.value}x`;
         };
 
+        // Create time display
+        const timeDisplay = document.createElement('div');
+        timeDisplay.className = 'time-display';
+        
+        // Add time display to button row instead of body
+        buttonRow.appendChild(timeDisplay);
+
+        // Format time helper function
+        function formatTime(date) {
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const seconds = date.getSeconds().toString().padStart(2, '0');
+            const millis = date.getMilliseconds().toString().padStart(3, '0');
+            return `${hours}:${minutes}:${seconds}.${millis}`;
+        }
+
         controlButton.onclick = async () => {
             if (clockInterval === null) {
-                // Start the clock
                 await audioContext.resume();
                 lastUpdate = Date.now();
                 
@@ -539,39 +565,26 @@
                     const delta = now - lastUpdate;
                     lastUpdate = now;
                     
-                    // Adjust time offset based on speed
                     timeOffset += delta * (speedSlider.value - 1);
-                    
-                    // Calculate adjusted time
                     const adjustedTime = new Date(Date.now() + timeOffset);
+                    
+                    // Update time display
+                    timeDisplay.textContent = formatTime(adjustedTime);
+                    
                     const hours = adjustedTime.getHours() % 12;
                     const minutes = adjustedTime.getMinutes();
                     const seconds = adjustedTime.getSeconds();
-                    const millis = Math.floor(adjustedTime.getMilliseconds() / 10);  // 0-99
+                    const millis = Math.floor(adjustedTime.getMilliseconds() / 10);
 
-                    // console.log({hours, minutes, seconds});
+                    simulateClick(clapButtons.hours[hours]);
+                    simulateClick(clapButtons.minutes[minutes]);
+                    simulateClick(clapButtons.seconds[seconds]);
+                    simulateClick(clapButtons.milliseconds[millis]);
 
-                    setTimeout(() => {
-                        simulateClick(clapButtons.hours[hours]);
-                    }, 10);
-
-                    setTimeout(() => {
-                        simulateClick(clapButtons.minutes[minutes]);
-                    }, 30);
-
-                    setTimeout(() => {
-                        simulateClick(clapButtons.seconds[seconds]);
-                    }, 50);
-
-                    setTimeout(() => {
-                        simulateClick(clapButtons.milliseconds[millis]);
-                    }, 70);
-
-                }, 1000);
+                }, 10);
 
                 controlButton.textContent = 'Stop Clock';
             } else {
-                // Stop the clock
                 clearInterval(clockInterval);
                 clockInterval = null;
                 await audioContext.suspend();
