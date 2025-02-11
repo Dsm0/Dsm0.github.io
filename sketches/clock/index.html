@@ -213,7 +213,7 @@
     <!-- Add this new modal div right after body tag -->
     <div id="browserModal" class="modal">
         <p>NOTE: This sketch only works in Chrome right now.</p>
-        <button id="enter-button" onclick="(() => {this.parentElement.remove(); activateFaustNode()})()">Got it</button>
+        <button id="enter-button" onclick="(() => {this.parentElement.remove(); startupFunc()})()">Got it</button>
     </div>
 
     <div class="clap-emoji">👏</div>
@@ -260,15 +260,25 @@
         gainNode.gain.value = 0.0;
 
         // Connect nodes: source -> delay -> gain -> delay (feedback loop) -> destination
-        audioSource.connect(gainNode);
-        gainNode.connect(audioContext.destination);
 
 
-        // if (faustNode) {
-        //     audioSource.connect(faustNode);
-        //     faustNode.connect(delayGain);
-        //     console.log(faustNode);
-        // }
+        const startupFunc = async () => {
+            activateFaustNode().then(() => {
+                audioSource.connect(gainNode);
+                gainNode.connect(faustNode);
+                console.log("faustNode", faustNode);
+
+
+                faustNode.setParamValue("/echo-simple/echo_1000/feedback", 90);
+                faustNode.setParamValue("/echo-simple/echo_1000/millisecond", 800);
+
+                faustNode.connect(audioContext.destination);
+            })
+
+
+
+        }
+
 
         function handleClap() {
             const clap = document.querySelector('.clap-emoji');
@@ -341,7 +351,6 @@
             }
 
             button.appendChild(emoji);
-            // emoji.appendChild(emoji);
 
             button.className = 'button';
             button.style.position = 'absolute';
@@ -367,11 +376,6 @@
             document.body.appendChild(button);
             return button;
         }
-
-        // Example usage:
-        // newClap(100, 100, 50, 50, 1.0);  // Normal pitch
-        // newClap(200, 100, 50, 50, 1.5);  // Higher pitch
-        // newClap(300, 100, 50, 50, 0.5);  // Lower pitch
 
         // Create clock buttons
         const centerX = window.innerWidth / 2;
@@ -525,7 +529,6 @@
         const fadeTimeControl = document.createElement('div');
         fadeTimeControl.className = 'gain-control';
         const fadeTimeLabel = document.createElement('label');
-        fadeTimeLabel.textContent = 'Fade Time: 0.5';
         const fadeTimeSlider = document.createElement('input');
         fadeTimeSlider.type = 'range';
         fadeTimeSlider.className = 'speed-slider';
@@ -533,12 +536,12 @@
         fadeTimeSlider.max = '10';
         fadeTimeSlider.step = '0.01';
         fadeTimeSlider.value = '1';
+        fadeTimeLabel.textContent = 'Fade Time: ' + fadeTimeSlider.value;
 
         // Delay gain control
         const delayControl = document.createElement('div');
         delayControl.className = 'gain-control';
         const delayLabel = document.createElement('label');
-        delayLabel.textContent = 'Delay: 0.3';
         const delaySlider = document.createElement('input');
         delaySlider.type = 'range';
         delaySlider.className = 'speed-slider';
@@ -546,6 +549,7 @@
         delaySlider.max = '1';
         delaySlider.step = '0.01';
         delaySlider.value = '0.3';
+        delayLabel.textContent = 'Delay: ' + delaySlider.value;
 
         // Add event listeners
         gainSlider.oninput = () => {
@@ -557,12 +561,16 @@
         delaySlider.oninput = () => {
             const value = delaySlider.value;
             // TODO implement delay w/ faust
+            faustNode.setParamValue("/echo-simple/echo_1000/feedback", value * 100);
             delayLabel.textContent = `Delay: ${Number(value).toFixed(2)}`;
         };
 
         fadeTimeSlider.oninput = () => {
             const value = fadeTimeSlider.value;
-            fadeTime.adjustFadeTime(value);
+            // fadeTime.adjustFadeTime(value);
+            // console.log(fadeTime.value,value);
+            document.documentElement.style.setProperty('--fade-time', `${value}s`);
+            faustNode.setParamValue("/echo-simple/echo_1000/millisecond", Number(value) * 100);
             fadeTimeLabel.textContent = `Fade Time: ${Number(value).toFixed(2)}`;
         };
 
