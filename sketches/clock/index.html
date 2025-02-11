@@ -251,41 +251,24 @@
 
         // Initialize audio context and nodes
         // const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const delayNode = audioContext.createDelay(5.0);
         const gainNode = audioContext.createGain();
 
         // Create audio source once and connect it
         const sound = document.getElementById('clapSound');
         const audioSource = audioContext.createMediaElementSource(sound);
 
-        // Set up delay effect
-        delayNode.delayTime.value = 0.01;
         gainNode.gain.value = 0.0;
 
         // Connect nodes: source -> delay -> gain -> delay (feedback loop) -> destination
-        audioSource.connect(delayNode);
-        delayNode.connect(gainNode);
-        gainNode.connect(delayNode);
-        // delayNode.connect(audioContext.destination);
+        audioSource.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
-        // Create audio nodes
-        const directGain = audioContext.createGain();
-        const delayGain = audioContext.createGain();
 
-        // Set initial gain values
-        directGain.gain.value = 0.0;
-        delayGain.gain.value = 0.0;
-
-        // Connect audio paths
-        audioSource.connect(directGain);
-
-        if (faustNode) {
-            audioSource.connect(faustNode);
-            faustNode.connect(delayGain);
-            console.log(faustNode);
-        }
-        directGain.connect(audioContext.destination);
-        delayGain.connect(audioContext.destination);
+        // if (faustNode) {
+        //     audioSource.connect(faustNode);
+        //     faustNode.connect(delayGain);
+        //     console.log(faustNode);
+        // }
 
         function handleClap() {
             const clap = document.querySelector('.clap-emoji');
@@ -310,6 +293,34 @@
 
 
         }
+
+        function doClap(button, overrides = {}) {
+            let { angle, pitch } = button.data;
+            const emoji = button.emoji;
+
+            // Calculate rotation
+            const degrees = (angle * (180 / Math.PI)) - 45;
+            emoji.style.transform = `translate(-50%, -50%) rotate(${degrees}deg)`;
+
+            // Audio playback
+            sound.currentTime = 0;
+            sound.playbackRate = pitch;
+
+            // Resume audio context if suspended
+            audioContext.resume().then(() => {
+                sound.play();
+            });
+
+            // Visual feedback with proper transitions
+            emoji.classList.add('visible');
+
+            // Use requestAnimationFrame to ensure the visible class is applied first
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    emoji.classList.remove('visible');
+                });
+            });
+        };
 
 
         function newClap(x, y, width, height, pitch, index, size = false) {
@@ -346,30 +357,12 @@
             const normalizedAngle = (angle + Math.PI) / (2 * Math.PI);
             const delayTime = 0.1 + (normalizedAngle * 0.4);
 
-            button.onclick = () => {
-                // Calculate rotation
-                const degrees = (angle * (180 / Math.PI)) - 45;
-                emoji.style.transform = `translate(-50%, -50%) rotate(${degrees}deg)`;
+            button.data = { deltaX, deltaY, angle, normalizedAngle, delayTime, pitch, size };
+            button.emoji = emoji;
 
-                // Audio playback
-                sound.currentTime = 0;
-                sound.playbackRate = pitch;
+            // console.log(button.data);
 
-                // Resume audio context if suspended
-                audioContext.resume().then(() => {
-                    sound.play();
-                });
-
-                // Visual feedback with proper transitions
-                emoji.classList.add('visible');
-
-                // Use requestAnimationFrame to ensure the visible class is applied first
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        emoji.classList.remove('visible');
-                    });
-                });
-            };
+            button.onclick = () => doClap(button);
 
             document.body.appendChild(button);
             return button;
@@ -516,17 +509,17 @@
         gainControls.className = 'gain-controls';
 
         // Direct gain control
-        const directControl = document.createElement('div');
-        directControl.className = 'gain-control';
-        const directLabel = document.createElement('label');
-        directLabel.textContent = 'Direct: 0.0';
-        const directSlider = document.createElement('input');
-        directSlider.type = 'range';
-        directSlider.className = 'speed-slider';
-        directSlider.min = '0';
-        directSlider.max = '1';
-        directSlider.step = '0.01';
-        directSlider.value = '0.0';
+        const gainControl = document.createElement('div');
+        gainControl.className = 'gain-control';
+        const gainLabel = document.createElement('label');
+        gainLabel.textContent = 'Gain: 0.0';
+        const gainSlider = document.createElement('input');
+        gainSlider.type = 'range';
+        gainSlider.className = 'speed-slider';
+        gainSlider.min = '0';
+        gainSlider.max = '1';
+        gainSlider.step = '0.01';
+        gainSlider.value = '0.0';
 
         // Direct gain control
         const fadeTimeControl = document.createElement('div');
@@ -555,15 +548,15 @@
         delaySlider.value = '0.3';
 
         // Add event listeners
-        directSlider.oninput = () => {
-            const value = directSlider.value;
-            directGain.gain.value = value;
-            directLabel.textContent = `Direct: ${Number(value).toFixed(2)}`;
+        gainSlider.oninput = () => {
+            const value = gainSlider.value;
+            gainNode.gain.value = value;
+            gainLabel.textContent = `Gain: ${Number(value).toFixed(2)}`;
         };
 
         delaySlider.oninput = () => {
             const value = delaySlider.value;
-            delayGain.gain.value = value;
+            // TODO implement delay w/ faust
             delayLabel.textContent = `Delay: ${Number(value).toFixed(2)}`;
         };
 
@@ -574,13 +567,13 @@
         };
 
         // Assemble controls
-        directControl.appendChild(directLabel);
-        directControl.appendChild(directSlider);
+        gainControl.appendChild(gainLabel);
+        gainControl.appendChild(gainSlider);
         delayControl.appendChild(delayLabel);
         delayControl.appendChild(delaySlider);
         fadeTimeControl.appendChild(fadeTimeLabel);
         fadeTimeControl.appendChild(fadeTimeSlider);
-        gainControls.appendChild(directControl);
+        gainControls.appendChild(gainControl);
         gainControls.appendChild(delayControl);
 
         // Create and assemble button row
@@ -669,7 +662,7 @@
                     }
 
                     // Always trigger millisecond clicks
-                    simulateClick(clapButtons.milliseconds[millis]);
+                    // simulateClick(clapButtons.milliseconds[millis]);
                 }, 10);  // Run interval more frequently for smooth millisecond updates
 
                 controlButton.textContent = 'Stop Clock';
