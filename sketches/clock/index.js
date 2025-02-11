@@ -6,39 +6,41 @@ let faustNode;
 
 // Create audio context activation button
 /** @type {HTMLButtonElement} */
-const $buttonDsp = document.getElementById("controlButton");
+// const $buttonDsp = document.getElementById("enter-buttonhhhh");
 
 // Create audio context
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioCtx({ latencyHint: 0.00001 });
 
-// // Activate AudioContext and Sensors on user interaction
-// $buttonDsp.disabled = true;
-// let sensorHandlersBound = false;
-// $buttonDsp.onclick = async () => {
+// Activate AudioContext and Sensors on user interaction
+let sensorHandlersBound = false;
+const activateFaustNode = async () => {
+    console.log("AHHHHHHHH");
+    
+    // Import the requestPermissions function
+    const { requestPermissions } = await import("./create-node.js");
 
-//     // Import the requestPermissions function
-//     const { requestPermissions } = await import("./create-node.js");
+    // Request permission for sensors
+    await requestPermissions();
 
-//     // Request permission for sensors
-//     await requestPermissions();
+    // Activate sensor listeners
+    if (!sensorHandlersBound) {
+        await faustNode.startSensors();
+        sensorHandlersBound = true;
+    }
 
-//     // Activate sensor listeners
-//     if (!sensorHandlersBound) {
-//         await faustNode.startSensors();
-//         sensorHandlersBound = true;
-//     }
-
-//     // Activate or suspend the AudioContext
-//     if (audioContext.state === "running") {
-//         $buttonDsp.textContent = "Suspended";
-//         await audioContext.suspend();
-//     } else if (audioContext.state === "suspended") {
-//         $buttonDsp.textContent = "Running";
-//         await audioContext.resume();
-//         if (FAUST_DSP_VOICES) play(faustNode);
-//     }
-// }
+    // Activate or suspend the AudioContext
+    if (audioContext.state === "running") {
+        // $buttonDsp.textContent = "Suspended";
+        await audioContext.suspend();
+    } else if (audioContext.state === "suspended") {
+        // $buttonDsp.textContent = "Running";
+        await audioContext.resume();
+        if (FAUST_DSP_VOICES) {
+            play(faustNode);
+        }
+    }
+}
 
 // Called at load time
 (async () => {
