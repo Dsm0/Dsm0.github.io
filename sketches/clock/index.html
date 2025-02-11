@@ -7,7 +7,7 @@
     <title>Clap Emoji</title>
     <style>
         :root {
-            --fade-time: 0.5s;
+            --fade-time: 1s;
         }
 
         body {
@@ -33,7 +33,7 @@
             transform: translate(-50%, -50%);
             font-size: 20vmin;
             filter: blur(10px);
-            transition: opacity 1s ease-out, filter 1.2s ease-in-out;
+            transition: opacity var(--fade-time) ease-out, filter calc(var(--fade-time) * 1.2) ease-in-out;
             /* Default transition for opacity */
             pointer-events: none;
             /* Allow clicks to pass through to button */
@@ -100,7 +100,7 @@
             /* transform: translateX(-50%); */
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: left;
             gap: 15px;
             z-index: 1000;
         }
@@ -195,6 +195,15 @@
             minutes: [],
             seconds: [],
             milliseconds: []
+        }
+
+        let fadeTime = {
+            value: 1,
+            adjustFadeTime: (value) => {
+                this.value = value;
+                // Update CSS variable for fade time
+                document.documentElement.style.setProperty('--fade-time', `${value}s`);
+            }
         }
 
         const getHoursMinutesSecondsMilliseconds = () => {
@@ -486,6 +495,19 @@
         directSlider.step = '0.1';
         directSlider.value = '0.5';
 
+        // Direct gain control
+        const fadeTimeControl = document.createElement('div');
+        fadeTimeControl.className = 'gain-control';
+        const fadeTimeLabel = document.createElement('label');
+        fadeTimeLabel.textContent = 'Fade Time: 0.5';
+        const fadeTimeSlider = document.createElement('input');
+        fadeTimeSlider.type = 'range';
+        fadeTimeSlider.className = 'speed-slider';
+        fadeTimeSlider.min = '0';
+        fadeTimeSlider.max = '10';
+        fadeTimeSlider.step = '0.1';
+        fadeTimeSlider.value = '1';
+
         // Delay gain control
         const delayControl = document.createElement('div');
         delayControl.className = 'gain-control';
@@ -512,11 +534,19 @@
             delayLabel.textContent = `Delay: ${value}`;
         };
 
+        fadeTimeSlider.oninput = () => {
+            const value = fadeTimeSlider.value;
+            fadeTime.adjustFadeTime(value);
+            fadeTimeLabel.textContent = `Fade Time: ${value}`;
+        };
+
         // Assemble controls
         directControl.appendChild(directLabel);
         directControl.appendChild(directSlider);
         delayControl.appendChild(delayLabel);
         delayControl.appendChild(delaySlider);
+        fadeTimeControl.appendChild(fadeTimeLabel);
+        fadeTimeControl.appendChild(fadeTimeSlider);
         gainControls.appendChild(directControl);
         gainControls.appendChild(delayControl);
 
@@ -545,6 +575,7 @@
         controls.appendChild(buttonRow);
         controls.appendChild(gainControls);
         controls.appendChild(speedControl);
+        controls.appendChild(fadeTimeControl);
         document.body.appendChild(controls);
 
         let timeOffset = 0;
