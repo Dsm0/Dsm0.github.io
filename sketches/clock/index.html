@@ -25,20 +25,25 @@
         .clap-emoji {
             user-select: none;
             /* Prevents text selection */
-            visibility:visible;
+            visibility: visible;
             opacity: 0;
             position: absolute;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
             font-size: 20vmin;
-            transition: opacity 1s ease-out;  /* Default transition for opacity */
-            pointer-events: none;  /* Allow clicks to pass through to button */
+            filter: blur(10px);
+            transition: opacity 1s ease-out, filter 1.2s ease-in-out;
+            /* Default transition for opacity */
+            pointer-events: none;
+            /* Allow clicks to pass through to button */
         }
 
         .clap-emoji.visible {
             opacity: 1;
-            transition: none;  /* No transition when appearing */
+            filter: blur(0px);
+            transition: none;
+            /* No transition when appearing */
         }
 
         .clap-emoji.small {
@@ -50,7 +55,7 @@
         }
 
         .clap-emoji.micro {
-            font-size: 5vmin;  // Even smaller than tiny
+            font-size: 3vmin; // Even smaller than tiny
         }
 
         .button {
@@ -58,7 +63,8 @@
             width: 100%;
             height: 100%;
             cursor: pointer;
-            background: rgba(255, 255, 255, 0.1);  /* Slight visible area by default */
+            background: rgba(255, 255, 255, 0.1);
+            /* Slight visible area by default */
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             padding: 0;
@@ -68,7 +74,8 @@
         .button.hidden {
             background: transparent;
             border-color: transparent;
-            pointer-events: none;  /* Disable interaction when hidden */
+            pointer-events: none;
+            /* Disable interaction when hidden */
         }
 
         .control-button {
@@ -158,7 +165,8 @@
         .button-row {
             display: flex;
             gap: 10px;
-            align-items: center;  /* Align items vertically */
+            align-items: center;
+            /* Align items vertically */
         }
 
         .time-display {
@@ -168,7 +176,8 @@
             background: rgba(0, 0, 0, 0.5);
             padding: 10px 15px;
             border-radius: 8px;
-            margin-left: 20px;  /* Space between buttons and time */
+            margin-left: 20px;
+            /* Space between buttons and time */
         }
     </style>
 </head>
@@ -221,14 +230,14 @@
         // Create audio nodes
         const directGain = audioContext.createGain();
         const delayGain = audioContext.createGain();
-        
+
         // Set initial gain values
         directGain.gain.value = 0.5;
         delayGain.gain.value = 0.3;
 
         // Connect audio paths
         audioSource.connect(directGain);
-        if(faustNode) {
+        if (faustNode) {
             audioSource.connect(faustNode);
             faustNode.connect(delayGain);
             console.log(faustNode);
@@ -261,15 +270,14 @@
         }
 
 
-        function newClap(x, y, width, height, pitch, size = false) {
+        function newClap(x, y, width, height, pitch, index, size = false) {
             const button = document.createElement('button');
-            button.className = 'button';
-            
+
             // Create emoji element for this button
             const emoji = document.createElement('div');
             emoji.className = 'clap-emoji';
             emoji.textContent = '👏';
-            
+
             // Add size class if specified
             if (size === 'small') {
                 emoji.classList.add('small');
@@ -278,39 +286,41 @@
             } else if (size === 'micro') {
                 emoji.classList.add('micro');
             }
-            
+
             button.appendChild(emoji);
             // emoji.appendChild(emoji);
-            
+
+            button.className = 'button';
             button.style.position = 'absolute';
+            button.style.color = 'white';
             button.style.left = `${x}px`;
             button.style.top = `${y}px`;
             button.style.width = `${width}px`;
             button.style.height = `${height}px`;
-            
-            const deltaX = (x + width/2) - centerX;
-            const deltaY = (y + height/2) - centerY;
+
+            const deltaX = (x + width / 2) - centerX;
+            const deltaY = (y + height / 2) - centerY;
             const angle = Math.atan2(deltaY, deltaX);
             const normalizedAngle = (angle + Math.PI) / (2 * Math.PI);
             const delayTime = 0.1 + (normalizedAngle * 0.4);
-            
+
             button.onclick = () => {
                 // Calculate rotation
                 const degrees = (angle * (180 / Math.PI)) - 45;
                 emoji.style.transform = `translate(-50%, -50%) rotate(${degrees}deg)`;
-                
+
                 // Audio playback
                 sound.currentTime = 0;
                 sound.playbackRate = pitch;
-                
+
                 // Resume audio context if suspended
                 audioContext.resume().then(() => {
                     sound.play();
                 });
-                
+
                 // Visual feedback with proper transitions
                 emoji.classList.add('visible');
-                
+
                 // Use requestAnimationFrame to ensure the visible class is applied first
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
@@ -318,7 +328,7 @@
                     });
                 });
             };
-            
+
             document.body.appendChild(button);
             return button;
         }
@@ -350,11 +360,12 @@
             const pitch = 1.0 + (i / 12) * 0.4; // Range: 0.8 to 1.2
 
             const button = newClap(
-                x - hourButtonSize/2,
-                y - hourButtonSize/2,
+                x - hourButtonSize / 2,
+                y - hourButtonSize / 2,
                 hourButtonSize,
                 hourButtonSize,
                 pitch,
+                i,
                 false
             );
             clapButtons.hours.push(button);
@@ -368,11 +379,12 @@
             const pitch = 1.0 + (i / 60) * 0.4; // Range: 1.0 to 1.4
 
             const button = newClap(
-                x - minuteButtonSize/2,
-                y - minuteButtonSize/2,
+                x - minuteButtonSize / 2,
+                y - minuteButtonSize / 2,
                 minuteButtonSize,
                 minuteButtonSize,
                 pitch,
+                i,
                 'small'
             );
             clapButtons.minutes.push(button);
@@ -386,11 +398,12 @@
             const pitch = 1.0 + (i / 60) * 0.4; // Range: 1.0 to 1.4
 
             const button = newClap(
-                x - secondButtonSize/2,
-                y - secondButtonSize/2,
+                x - secondButtonSize / 2,
+                y - secondButtonSize / 2,
                 secondButtonSize,
                 secondButtonSize,
                 pitch,
+                i,
                 'tiny'
             );
             clapButtons.seconds.push(button);
@@ -404,12 +417,14 @@
             const pitch = 1.4 + (i / 100); // Higher pitch range for milliseconds
 
             const button = newClap(
-                x - millisButtonSize/2,
-                y - millisButtonSize/2,
+                x - millisButtonSize / 2,
+                y - millisButtonSize / 2,
                 millisButtonSize,
                 millisButtonSize,
                 pitch,
+                i,
                 'micro'  // New smallest size class
+
             );
             clapButtons.milliseconds.push(button);
         }
@@ -521,7 +536,7 @@
             buttons.forEach(button => {
                 button.classList.toggle('hidden');
             });
-            visibilityButton.textContent = 
+            visibilityButton.textContent =
                 visibilityButton.textContent === 'Hide Buttons' ? 'Show Buttons' : 'Hide Buttons';
         };
 
@@ -542,7 +557,11 @@
         // Create time display
         const timeDisplay = document.createElement('div');
         timeDisplay.className = 'time-display';
-        
+        let adjustedTime = new Date(Date.now());
+
+        // Update time display
+        timeDisplay.textContent = formatTime(adjustedTime);
+
         // Add time display to button row instead of body
         buttonRow.appendChild(timeDisplay);
 
@@ -559,29 +578,35 @@
             if (clockInterval === null) {
                 await audioContext.resume();
                 lastUpdate = Date.now();
-                
+                let lastSecond = -1;  // Track last second value
+
                 clockInterval = setInterval(() => {
                     const now = Date.now();
                     const delta = now - lastUpdate;
                     lastUpdate = now;
-                    
+
                     timeOffset += delta * (speedSlider.value - 1);
                     const adjustedTime = new Date(Date.now() + timeOffset);
-                    
+
                     // Update time display
                     timeDisplay.textContent = formatTime(adjustedTime);
-                    
+
                     const hours = adjustedTime.getHours() % 12;
                     const minutes = adjustedTime.getMinutes();
                     const seconds = adjustedTime.getSeconds();
                     const millis = Math.floor(adjustedTime.getMilliseconds() / 10);
 
-                    simulateClick(clapButtons.hours[hours]);
-                    simulateClick(clapButtons.minutes[minutes]);
-                    simulateClick(clapButtons.seconds[seconds]);
-                    simulateClick(clapButtons.milliseconds[millis]);
+                    // Only trigger hour, minute, second clicks when second changes
+                    if (seconds !== lastSecond) {
+                        setTimeout(() => simulateClick(clapButtons.hours[hours]), 50);
+                        setTimeout(() => simulateClick(clapButtons.minutes[minutes]), 100);
+                        setTimeout(() => simulateClick(clapButtons.seconds[seconds]), 150);
+                        lastSecond = seconds;
+                    }
 
-                }, 10);
+                    // Always trigger millisecond clicks
+                    simulateClick(clapButtons.milliseconds[millis]);
+                }, 10);  // Run interval more frequently for smooth millisecond updates
 
                 controlButton.textContent = 'Stop Clock';
             } else {
