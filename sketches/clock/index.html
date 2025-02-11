@@ -22,38 +22,53 @@
             background-color: black;
         }
 
-        .clap {
+        .clap-emoji {
             user-select: none;
             /* Prevents text selection */
+            visibility:visible;
             opacity: 0;
-            transition: none;
-            position: absolute; /* Add this to allow positioning */
-            transform: translate(-50%, -50%); /* Center the emoji on the click position */
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             font-size: 20vmin;
+            transition: opacity 1s ease-out;  /* Default transition for opacity */
+            pointer-events: none;  /* Allow clicks to pass through to button */
         }
 
-        .clap.fade-out {
-            transition: opacity var(--fade-time) ease-out;
+        .clap-emoji.visible {
+            opacity: 1;
+            transition: none;  /* No transition when appearing */
         }
 
-        .clap.small {
+        .clap-emoji.small {
             font-size: 12vmin;
         }
 
-        .clap.tiny {
+        .clap-emoji.tiny {
             font-size: 8vmin;
         }
 
+        .clap-emoji.micro {
+            font-size: 5vmin;  // Even smaller than tiny
+        }
+
         .button {
-            position: fixed;
-            bottom: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
+            position: absolute;
+            width: 100%;
+            height: 100%;
             cursor: pointer;
-            background: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);  /* Slight visible area by default */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            padding: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .button.hidden {
+            background: transparent;
+            border-color: transparent;
+            pointer-events: none;  /* Disable interaction when hidden */
         }
 
         .control-button {
@@ -144,15 +159,11 @@
             display: flex;
             gap: 10px;
         }
-
-        .button.hidden {
-            opacity: 0;
-        }
     </style>
 </head>
 
 <body>
-    <div class="clap">👏</div>
+    <div class="clap-emoji">👏</div>
     <audio id="clapSound" src="/sketches/clock/clap.wav" preload="auto"></audio>
 
     <script src="/sketches/clock/index.js"></script>
@@ -215,7 +226,7 @@
         delayGain.connect(audioContext.destination);
 
         function handleClap() {
-            const clap = document.querySelector('.clap');
+            const clap = document.querySelector('.clap-emoji');
 
             // Play sound with delay effect
             sound.currentTime = 0;
@@ -232,7 +243,7 @@
             // Reset opacity after a brief delay
             setTimeout(() => {
                 clap.classList.add('fade-out');
-                clap.style.opacity = '0';
+                clap.style.opacity = '0 !important';
             }, 100);
 
 
@@ -242,6 +253,23 @@
         function newClap(x, y, width, height, pitch, size = false) {
             const button = document.createElement('button');
             button.className = 'button';
+            
+            // Create emoji element for this button
+            const emoji = document.createElement('div');
+            emoji.className = 'clap-emoji';
+            emoji.textContent = '👏';
+            
+            // Add size class if specified
+            if (size === 'small') {
+                emoji.classList.add('small');
+            } else if (size === 'tiny') {
+                emoji.classList.add('tiny');
+            } else if (size === 'micro') {
+                emoji.classList.add('micro');
+            }
+            
+            button.appendChild(emoji);
+            // emoji.appendChild(emoji);
             
             button.style.position = 'absolute';
             button.style.left = `${x}px`;
@@ -256,30 +284,12 @@
             const delayTime = 0.1 + (normalizedAngle * 0.4);
             
             button.onclick = () => {
-                const clap = document.querySelector('.clap');
-                
-                // Handle size classes
-                clap.classList.remove('small', 'tiny');
-                if (size === true) {
-                    clap.classList.add('small');
-                } else if (size === 'tiny') {
-                    clap.classList.add('tiny');
-                }
-                
-                // Update delay time based on position
-                delayNode.delayTime.value = delayTime;
-                
-                // Position and rotate the clap emoji
-                clap.style.left = `${x + width/2}px`;
-                clap.style.top = `${y + height/2}px`;
-                
                 // Calculate rotation
                 const degrees = (angle * (180 / Math.PI)) - 45;
-                clap.style.transform = `translate(-50%, -50%) rotate(${degrees}deg)`;
+                emoji.style.transform = `translate(-50%, -50%) rotate(${degrees}deg)`;
                 
+                // Audio playback
                 sound.currentTime = 0;
-                // console.log(sound);
-                
                 sound.playbackRate = pitch;
                 
                 // Resume audio context if suspended
@@ -287,14 +297,15 @@
                     sound.play();
                 });
                 
-                // Visual feedback
-                clap.classList.remove('fade-out');
-                clap.style.opacity = '1';
+                // Visual feedback with proper transitions
+                emoji.classList.add('visible');
                 
-                setTimeout(() => {
-                    clap.classList.add('fade-out');
-                    clap.style.opacity = '0';
-                }, 100);
+                // Use requestAnimationFrame to ensure the visible class is applied first
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        emoji.classList.remove('visible');
+                    });
+                });
             };
             
             document.body.appendChild(button);
@@ -311,10 +322,14 @@
         const centerY = window.innerHeight / 2;
         const hourRadius = Math.min(window.innerWidth, window.innerHeight) * 0.35;
         const minuteRadius = hourRadius * 0.8;
-        const secondRadius = hourRadius * 0.6; // 60% of hour radius
+        const secondRadius = hourRadius * 0.6;
+        const millisRadius = hourRadius * 0.4;  // 40% of hour radius
+
+        // Update button sizes
         const hourButtonSize = 50;
         const minuteButtonSize = 30;
-        const secondButtonSize = 20; // Smallest size for seconds
+        const secondButtonSize = 20;
+        const millisButtonSize = 12;  // Smallest size for milliseconds
 
         // Create hour buttons
         for (let i = 0; i < 12; i++) {
@@ -368,6 +383,24 @@
                 'tiny'
             );
             clapButtons.seconds.push(button);
+        }
+
+        // Create millisecond buttons
+        for (let i = 0; i < 100; i++) {
+            const angle = (i * Math.PI * 2 / 100) - Math.PI / 2;
+            const x = centerX + millisRadius * Math.cos(angle);
+            const y = centerY + millisRadius * Math.sin(angle);
+            const pitch = 1.4 + (i / 100); // Higher pitch range for milliseconds
+
+            const button = newClap(
+                x - millisButtonSize/2,
+                y - millisButtonSize/2,
+                millisButtonSize,
+                millisButtonSize,
+                pitch,
+                'micro'  // New smallest size class
+            );
+            clapButtons.milliseconds.push(button);
         }
 
         // Function to simulate a click on a button
@@ -474,7 +507,9 @@
         // Add visibility toggle functionality
         visibilityButton.onclick = () => {
             const buttons = document.querySelectorAll('.button');
-            buttons.forEach(button => button.classList.toggle('hidden'));
+            buttons.forEach(button => {
+                button.classList.toggle('hidden');
+            });
             visibilityButton.textContent = 
                 visibilityButton.textContent === 'Hide Buttons' ? 'Show Buttons' : 'Hide Buttons';
         };
@@ -512,6 +547,7 @@
                     const hours = adjustedTime.getHours() % 12;
                     const minutes = adjustedTime.getMinutes();
                     const seconds = adjustedTime.getSeconds();
+                    const millis = Math.floor(adjustedTime.getMilliseconds() / 10);  // 0-99
 
                     // console.log({hours, minutes, seconds});
 
@@ -521,14 +557,16 @@
 
                     setTimeout(() => {
                         simulateClick(clapButtons.minutes[minutes]);
-                    }, 100);
+                    }, 30);
 
                     setTimeout(() => {
                         simulateClick(clapButtons.seconds[seconds]);
-                    }, 200);
+                    }, 50);
 
-                    // simulateClick(clapButtons.minutes[minutes]);
-                    // simulateClick(clapButtons.seconds[seconds]);
+                    setTimeout(() => {
+                        simulateClick(clapButtons.milliseconds[millis]);
+                    }, 70);
+
                 }, 1000);
 
                 controlButton.textContent = 'Stop Clock';
@@ -540,6 +578,12 @@
                 controlButton.textContent = 'Start Clock';
             }
         };
+
+        // Remove the single clap div since each button now has its own
+        const oldClap = document.querySelector('.clap-emoji');
+        if (oldClap) {
+            oldClap.remove();
+        }
 
     </script>
 
