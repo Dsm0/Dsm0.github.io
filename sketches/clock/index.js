@@ -53,7 +53,7 @@ const activateFaustNode = async () => {
     const { createFaustNode, connectToAudioInput } = await import("./create-node.js");
 
     play = (node) => {
-        console.log("play", node);
+        // console.log("play", node);
         node.keyOn(0, 60, 100);
         // setTimeout(() => node.keyOn(0, 64, 100), 1000);
         // setTimeout(() => node.keyOn(0, 67, 100), 2000);

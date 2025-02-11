@@ -266,7 +266,7 @@
             activateFaustNode().then(() => {
                 audioSource.connect(gainNode);
                 gainNode.connect(faustNode);
-                console.log("faustNode", faustNode);
+                // console.log("faustNode", faustNode);
 
 
                 faustNode.setParamValue("/echo-simple/echo_1000/feedback", 90);
@@ -552,7 +552,7 @@
         delayLabel.textContent = 'Delay: ' + delaySlider.value;
 
         // Add event listeners
-        gainSlider.oninput = () => {
+        gainSlider.oninput = (val) => {
             const value = gainSlider.value;
             gainNode.gain.value = value;
             gainLabel.textContent = `Gain: ${Number(value).toFixed(2)}`;
