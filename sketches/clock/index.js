@@ -74,7 +74,7 @@ const activateFaustNode = async () => {
     //     await connectToAudioInput(audioContext, null, faustNode, null);
     // }
 
-    console.log("hhhhhhhhhhhhhhhhhhhh", faustNode);
+    // console.log("hhhhhhhhhhhhhhhhhhhh", faustNode);
     
 
     // Create Faust node activation button

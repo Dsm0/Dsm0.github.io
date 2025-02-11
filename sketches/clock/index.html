@@ -212,7 +212,10 @@
 <body>
     <!-- Add this new modal div right after body tag -->
     <div id="browserModal" class="modal">
-        <p>NOTE: This sketch only works in Chrome right now.</p>
+        <p>NOTE: <br>
+            This sketch only works in Chrome right now.<br>
+            Press space to toggle controls visibility.
+        </p>
         <button id="enter-button" onclick="(() => {this.parentElement.remove(); startupFunc()})()">Got it</button>
     </div>
 
@@ -291,42 +294,19 @@
         }
 
 
-        function handleClap() {
-            const clap = document.querySelector('.clap-emoji');
-
-            // Play sound with delay effect
-            sound.currentTime = 0;
-
-            // Resume audio context if suspended
-            audioContext.resume().then(() => {
-                sound.play();
-            });
-
-            // Visual feedback
-            clap.classList.remove('fade-out');
-            clap.style.opacity = '1';
-
-            // Reset opacity after a brief delay
-            setTimeout(() => {
-                clap.classList.add('fade-out');
-                clap.style.opacity = '0 !important';
-            }, 100);
-
-
-        }
 
         function doClap(button, overrides = {}) {
-            let { angle, pitch, delayTime, delayFeedback, gain } = button.data;
+            let { angle, pitch, delayTime, delayFeedback, gain, size } = button.data;
             const emoji = button.emoji;
 
             // Apply the button-specific gain value
             gainNode.gain.value = gain * Number(gainSlider.value);
 
             // Update Faust node parameters for this specific clap
-            if(delayTime !== false) {
+            if (delayTime !== false) {
                 faustNode.setParamValue("/echo-simple/echo_1000/millisecond", delayTime);
             }
-            if(delayFeedback !== false) {
+            if (delayFeedback !== false) {
                 faustNode.setParamValue("/echo-simple/echo_1000/feedback", delayFeedback);
             }
 
@@ -334,15 +314,8 @@
             const degrees = (angle * (180 / Math.PI)) - 45;
             emoji.style.transform = `translate(-50%, -50%) rotate(${degrees}deg)`;
 
-            // Audio playback
-            sound.currentTime = 0;
-            sound.playbackRate = pitch;
-            
 
-            // Resume audio context if suspended
-            audioContext.resume().then(() => {
-                sound.play();
-            });
+
 
             // Visual feedback with proper transitions
             emoji.classList.add('visible');
@@ -353,6 +326,23 @@
                     emoji.classList.remove('visible');
                 });
             });
+
+
+            if (size === 'micro')
+                return
+
+            // Audio playback
+            sound.currentTime = 0;
+            sound.playbackRate = pitch;
+
+            // Resume audio context if suspended
+            audioContext.resume().then(() => {
+                sound.play();
+            });
+
+
+
+
         };
 
 
@@ -385,12 +375,12 @@
 
             const deltaX = (x + width / 2) - centerX;
             const deltaY = (y + height / 2) - centerY;
-            const angle = Math.atan2(deltaY, deltaX) + Math.PI/2;
+            const angle = Math.atan2(deltaY, deltaX) + Math.PI / 2;
             const normalizedAngle = ((angle + Math.PI) / (2 * Math.PI));
 
             // Get total items in ring and normalize index
             let totalItems;
-            switch(size) {
+            switch (size) {
                 case false:    // Hours
                     totalItems = 12;
                     break;
@@ -406,13 +396,13 @@
                 default:
                     totalItems = 12;
             }
-            
+
             const normalizedIndex = index / totalItems; // Value between 0 and 1
 
             // Calculate parameters based on normalized index
             let baseGain, playbackRate, delayTime, delayFeedback;
-            
-            switch(size) {
+
+            switch (size) {
                 case false:    // Hours
                     baseGain = 1.0;
                     playbackRate = 0.1 + (normalizedIndex * 0.9); // 0.8 to 1.2
@@ -442,7 +432,7 @@
             // Add slight variation based on 12 o'clock position
             const positionGain = baseGain * (1 - (normalizedAngle * 0.2)); // 20% variation by position
 
-            button.data = { 
+            button.data = {
                 angle,
                 normalizedIndex,
                 normalizedAngle,
@@ -582,9 +572,9 @@
         const speedSlider = document.createElement('input');
         speedSlider.type = 'range';
         speedSlider.className = 'speed-slider';
-        speedSlider.min = '0.1';
-        speedSlider.max = '10';
-        speedSlider.step = '0.1';
+        speedSlider.min = '0.01';
+        speedSlider.max = '100';
+        speedSlider.step = '0.01';
         speedSlider.value = '1';
 
         speedControl.appendChild(speedLabel);
@@ -677,6 +667,26 @@
         visibilityButton.className = 'control-button';
         visibilityButton.textContent = 'Hide Buttons';
 
+        // Create reset button
+        const resetButton = document.createElement('button');
+        resetButton.className = 'control-button';
+        resetButton.textContent = 'Reset Controls';
+        resetButton.onclick = () => {
+            speedSlider.value = 1;
+            speedSlider.oninput();
+
+            gainSlider.value = 0.2;
+            gainSlider.oninput();
+
+            fadeTimeSlider.value = 1;
+            fadeTimeSlider.oninput();
+        };
+
+        // Add everything to controls and then to document
+        buttonRow.appendChild(visibilityButton);
+        buttonRow.appendChild(resetButton);  // Add reset button to button row
+        controls.appendChild(buttonRow);
+
         // Add visibility toggle functionality
         visibilityButton.onclick = () => {
             const buttons = document.querySelectorAll('.button');
@@ -687,8 +697,6 @@
                 visibilityButton.textContent === 'Hide Buttons' ? 'Show Buttons' : 'Hide Buttons';
         };
 
-        // Add everything to controls and then to document
-        buttonRow.appendChild(visibilityButton);
         controls.appendChild(buttonRow);
         controls.appendChild(gainControls);
         controls.appendChild(speedControl);
@@ -746,14 +754,14 @@
 
                     // Only trigger hour, minute, second clicks when second changes
                     if (seconds !== lastSecond) {
-                        setTimeout(() => simulateClick(clapButtons.hours[hours]), 0);
+                        setTimeout(() => simulateClick(clapButtons.seconds[seconds]), 0);
                         setTimeout(() => simulateClick(clapButtons.minutes[minutes]), 333);
-                        setTimeout(() => simulateClick(clapButtons.seconds[seconds]), 666);
+                        setTimeout(() => simulateClick(clapButtons.hours[hours]), 666);
                         lastSecond = seconds;
                     }
 
                     // Always trigger millisecond clicks
-                    // simulateClick(clapButtons.milliseconds[millis]);
+                    simulateClick(clapButtons.milliseconds[millis]);
                 }, 10);  // Run interval more frequently for smooth millisecond updates
 
                 controlButton.textContent = 'Stop Clock';
@@ -770,6 +778,17 @@
         if (oldClap) {
             oldClap.remove();
         }
+
+        // Add space key listener to toggle controls visibility
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                event.preventDefault(); // Prevent page scroll
+                controls.style.display = controls.style.display === 'none' ? 'flex' : 'none';
+            }
+        });
+
+        // Initialize controls as visible
+        controls.style.display = 'flex';
 
     </script>
 
