@@ -179,10 +179,43 @@
             margin-left: 20px;
             /* Space between buttons and time */
         }
+
+        /* Add these new styles */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            color: white;
+            font-family: sans-serif;
+            z-index: 1001;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal button {
+            display: block;
+            margin: 15px auto 0;
+            padding: 8px 16px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
+    <!-- Add this new modal div right after body tag -->
+    <div id="browserModal" class="modal">
+        <p>NOTE: This sketch only works in Chrome right now.</p>
+        <button onclick="this.parentElement.remove()">Got it</button>
+    </div>
+
     <div class="clap-emoji">👏</div>
     <audio id="clapSound" src="/sketches/clock/clap.wav" preload="auto"></audio>
 
