@@ -1,0 +1,563 @@
+{
+    "name": "FMSynth2_FX_Analog",
+    "filename": "FMSynth2_FX_Analog.dsp",
+    "version": "2.78.3",
+    "compile_options": "-lang wasm-e -inpl -ct 1 -es 1 -mcd 16 -mdd 1024 -mdy 33 -single -ftz 2",
+    "library_list": [
+        "/usr/share/faust/all.lib",
+        "/usr/share/faust/webaudio.lib",
+        "/usr/share/faust/wdmodels.lib",
+        "/usr/share/faust/version.lib",
+        "/usr/share/faust/vaeffects.lib",
+        "/usr/share/faust/synths.lib",
+        "/usr/share/faust/spats.lib",
+        "/usr/share/faust/soundfiles.lib",
+        "/usr/share/faust/signals.lib",
+        "/usr/share/faust/routes.lib",
+        "/usr/share/faust/reverbs.lib",
+        "/usr/share/faust/reducemaps.lib",
+        "/usr/share/faust/quantizers.lib",
+        "/usr/share/faust/physmodels.lib",
+        "/usr/share/faust/stdfaust.lib",
+        "/usr/share/faust/phaflangers.lib",
+        "/usr/share/faust/noises.lib",
+        "/usr/share/faust/oscillators.lib",
+        "/usr/share/faust/misceffects.lib",
+        "/usr/share/faust/mi.lib",
+        "/usr/share/faust/maths.lib",
+        "/usr/share/faust/linearalgebra.lib",
+        "/usr/share/faust/interpolators.lib",
+        "/usr/share/faust/hoa.lib",
+        "/usr/share/faust/filters.lib",
+        "/usr/share/faust/fds.lib",
+        "/usr/share/faust/envelopes.lib",
+        "/usr/share/faust/dx7.lib",
+        "/usr/share/faust/demos.lib",
+        "/usr/share/faust/delays.lib",
+        "/usr/share/faust/compressors.lib",
+        "/usr/share/faust/basics.lib",
+        "/usr/share/faust/analyzers.lib",
+        "/usr/share/faust/aanl.lib",
+        "/usr/share/faust/platform.lib"
+    ],
+    "include_pathnames": [
+        "/share/faust",
+        "/usr/local/share/faust",
+        "/usr/share/faust",
+        "."
+    ],
+    "size": 586348,
+    "code": "cDDdASQPHw==",
+    "inputs": 2,
+    "outputs": 2,
+    "meta": [
+        {
+            "aanl.lib/name": "Faust Antialiased Nonlinearities"
+        },
+        {
+            "aanl.lib/version": "1.4.0"
+        },
+        {
+            "analyzers.lib/name": "Faust Analyzer Library"
+        },
+        {
+            "analyzers.lib/version": "1.2.0"
+        },
+        {
+            "basics.lib/name": "Faust Basic Element Library"
+        },
+        {
+            "basics.lib/version": "1.21.0"
+        },
+        {
+            "compile_options": "-lang wasm-e -inpl -ct 1 -es 1 -mcd 16 -mdd 1024 -mdy 33 -single -ftz 2"
+        },
+        {
+            "compressors.lib/name": "Faust Compressor Effect Library"
+        },
+        {
+            "compressors.lib/version": "1.6.0"
+        },
+        {
+            "delays.lib/name": "Faust Delay Library"
+        },
+        {
+            "delays.lib/version": "1.1.0"
+        },
+        {
+            "demos.lib/name": "Faust Demos Library"
+        },
+        {
+            "demos.lib/version": "1.2.0"
+        },
+        {
+            "dx7.lib/version": "1.1.0"
+        },
+        {
+            "envelopes.lib/adsre:author": "Julius O. Smith III"
+        },
+        {
+            "envelopes.lib/adsre:licence": "STK-4.3"
+        },
+        {
+            "envelopes.lib/author": "GRAME"
+        },
+        {
+            "envelopes.lib/copyright": "GRAME"
+        },
+        {
+            "envelopes.lib/license": "LGPL with exception"
+        },
+        {
+            "envelopes.lib/name": "Faust Envelope Library"
+        },
+        {
+            "envelopes.lib/version": "1.3.0"
+        },
+        {
+            "fds.lib/author": "Romain Michon"
+        },
+        {
+            "fds.lib/name": "Faust Finite Difference Schemes Library"
+        },
+        {
+            "fds.lib/version": "1.1.0"
+        },
+        {
+            "filename": "FMSynth2_FX_Analog.dsp"
+        },
+        {
+            "filters.lib/allpass_comb:author": "Julius O. Smith III"
+        },
+        {
+            "filters.lib/allpass_comb:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>"
+        },
+        {
+            "filters.lib/allpass_comb:license": "MIT-style STK-4.3 license"
+        },
+        {
+            "filters.lib/dcblocker:author": "Julius O. Smith III"
+        },
+        {
+            "filters.lib/dcblocker:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>"
+        },
+        {
+            "filters.lib/dcblocker:license": "MIT-style STK-4.3 license"
+        },
+        {
+            "filters.lib/lowpass0_highpass1": "MIT-style STK-4.3 license"
+        },
+        {
+            "filters.lib/name": "Faust Filters Library"
+        },
+        {
+            "filters.lib/pole:author": "Julius O. Smith III"
+        },
+        {
+            "filters.lib/pole:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>"
+        },
+        {
+            "filters.lib/pole:license": "MIT-style STK-4.3 license"
+        },
+        {
+            "filters.lib/version": "1.6.0"
+        },
+        {
+            "filters.lib/zero:author": "Julius O. Smith III"
+        },
+        {
+            "filters.lib/zero:copyright": "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>"
+        },
+        {
+            "filters.lib/zero:license": "MIT-style STK-4.3 license"
+        },
+        {
+            "hoa.lib/author": "Pierre Guillot"
+        },
+        {
+            "hoa.lib/copyright": "2012-2013 Guillot, Paris, Colafrancesco, CICM labex art H2H, U. Paris 8, 2019 Wargreen, 2022 Bonardi, Goutmann"
+        },
+        {
+            "hoa.lib/name": "High Order Ambisonics library"
+        },
+        {
+            "hoa.lib/version": "1.4.0"
+        },
+        {
+            "interpolators.lib/name": "Faust Interpolator Library"
+        },
+        {
+            "interpolators.lib/version": "1.4.0"
+        },
+        {
+            "linearalgebra.lib/name": "Faust Linear Algebra Library"
+        },
+        {
+            "linearalgebra.lib/version": "0.1.0"
+        },
+        {
+            "maths.lib/author": "GRAME"
+        },
+        {
+            "maths.lib/copyright": "GRAME"
+        },
+        {
+            "maths.lib/license": "LGPL with exception"
+        },
+        {
+            "maths.lib/name": "Faust Math Library"
+        },
+        {
+            "maths.lib/version": "2.8.1"
+        },
+        {
+            "mi.lib/author": "Romain Michon"
+        },
+        {
+            "mi.lib/copyright": "2018-2020 GRAME / GIPSA-Lab"
+        },
+        {
+            "mi.lib/name": "Faust mass-interaction physical modelling library"
+        },
+        {
+            "mi.lib/version": "1.1.0"
+        },
+        {
+            "misceffects.lib/cubicnl:author": "Julius O. Smith III"
+        },
+        {
+            "misceffects.lib/cubicnl:license": "STK-4.3"
+        },
+        {
+            "misceffects.lib/cubicnl_nodc:author": "Julius O. Smith III"
+        },
+        {
+            "misceffects.lib/cubicnl_nodc:license": "STK-4.3"
+        },
+        {
+            "misceffects.lib/name": "Misc Effects Library"
+        },
+        {
+            "misceffects.lib/version": "2.5.0"
+        },
+        {
+            "name": "FMSynth2_FX_Analog"
+        },
+        {
+            "noises.lib/name": "Faust Noise Generator Library"
+        },
+        {
+            "noises.lib/version": "1.4.1"
+        },
+        {
+            "oscillators.lib/lf_sawpos:author": "Bart Brouns, revised by Stéphane Letz"
+        },
+        {
+            "oscillators.lib/lf_sawpos:licence": "STK-4.3"
+        },
+        {
+            "oscillators.lib/lf_triangle:author": "Bart Brouns"
+        },
+        {
+            "oscillators.lib/lf_triangle:licence": "STK-4.3"
+        },
+        {
+            "oscillators.lib/name": "Faust Oscillator Library"
+        },
+        {
+            "oscillators.lib/saw1:author": "Bart Brouns"
+        },
+        {
+            "oscillators.lib/saw1:licence": "STK-4.3"
+        },
+        {
+            "oscillators.lib/version": "1.5.1"
+        },
+        {
+            "phaflangers.lib/name": "Faust Phaser and Flanger Library"
+        },
+        {
+            "phaflangers.lib/version": "1.1.0"
+        },
+        {
+            "physmodels.lib/name": "Faust Physical Models Library"
+        },
+        {
+            "physmodels.lib/version": "1.1.0"
+        },
+        {
+            "platform.lib/name": "Generic Platform Library"
+        },
+        {
+            "platform.lib/version": "1.3.0"
+        },
+        {
+            "quantizers.lib/name": "Faust Frequency Quantization Library"
+        },
+        {
+            "quantizers.lib/version": "1.1.1"
+        },
+        {
+            "reducemaps.lib/author": "Yann Orlarey"
+        },
+        {
+            "reducemaps.lib/copyright": "Grame and Yann Orlarey"
+        },
+        {
+            "reducemaps.lib/license": "LGPL with exception"
+        },
+        {
+            "reducemaps.lib/name": "Reduce Library"
+        },
+        {
+            "reducemaps.lib/version": "1.2.0"
+        },
+        {
+            "reverbs.lib/mono_freeverb:author": "Romain Michon"
+        },
+        {
+            "reverbs.lib/name": "Faust Reverb Library"
+        },
+        {
+            "reverbs.lib/stereo_freeverb:author": "Romain Michon"
+        },
+        {
+            "reverbs.lib/version": "1.3.2"
+        },
+        {
+            "routes.lib/name": "Faust Signal Routing Library"
+        },
+        {
+            "routes.lib/version": "1.2.0"
+        },
+        {
+            "signals.lib/name": "Faust Signal Routing Library"
+        },
+        {
+            "signals.lib/version": "1.6.0"
+        },
+        {
+            "soundfiles.lib/name": "Faust Soundfile Library"
+        },
+        {
+            "soundfiles.lib/version": "1.7.0"
+        },
+        {
+            "spats.lib/name": "Faust Spatialization Library"
+        },
+        {
+            "spats.lib/version": "1.1.0"
+        },
+        {
+            "synths.lib/name": "Faust Synthesizer Library"
+        },
+        {
+            "synths.lib/version": "1.1.0"
+        },
+        {
+            "vaeffects.lib/name": "Faust Virtual Analog Filter Effect Library"
+        },
+        {
+            "vaeffects.lib/version": "1.2.1"
+        },
+        {
+            "wdmodels.lib/name": "Faust Wave Digital Model Library"
+        },
+        {
+            "wdmodels.lib/version": "1.2.1"
+        },
+        {
+            "webaudio.lib/author": "GRAME"
+        },
+        {
+            "webaudio.lib/copyright": "GRAME"
+        },
+        {
+            "webaudio.lib/license": "LGPL with exception"
+        },
+        {
+            "webaudio.lib/name": "Faust WebAudio Filters Library"
+        },
+        {
+            "webaudio.lib/version": "1.1.0"
+        }
+    ],
+    "ui": [
+        {
+            "type": "vgroup",
+            "label": "FMSynth2_FX_Analog",
+            "items": [
+                {
+                    "type": "vslider",
+                    "label": "Damp",
+                    "varname": "fVslider2",
+                    "shortname": "Damp",
+                    "address": "/FMSynth2_FX_Analog/Damp",
+                    "index": 140,
+                    "meta": [
+                        {
+                            "midi": "ctrl 95"
+                        }
+                    ],
+                    "init": 0.5,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.025
+                },
+                {
+                    "type": "vslider",
+                    "label": "RoomSize",
+                    "varname": "fVslider1",
+                    "shortname": "RoomSize",
+                    "address": "/FMSynth2_FX_Analog/RoomSize",
+                    "index": 132,
+                    "meta": [
+                        {
+                            "BELA": "ANALOG_7"
+                        }
+                    ],
+                    "init": 0.7,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.025
+                },
+                {
+                    "type": "vslider",
+                    "label": "Stereo",
+                    "varname": "fVslider3",
+                    "shortname": "Stereo",
+                    "address": "/FMSynth2_FX_Analog/Stereo",
+                    "index": 324004,
+                    "meta": [
+                        {
+                            "midi": "ctrl 90"
+                        }
+                    ],
+                    "init": 0.6,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.01
+                },
+                {
+                    "type": "hslider",
+                    "label": "drive",
+                    "varname": "fHslider3",
+                    "shortname": "drive",
+                    "address": "/FMSynth2_FX_Analog/drive",
+                    "index": 24,
+                    "meta": [
+                        {
+                            "BELA": "ANALOG_4"
+                        }
+                    ],
+                    "init": 0.3,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.001
+                },
+                {
+                    "type": "hslider",
+                    "label": "dryWetFlang",
+                    "varname": "fHslider1",
+                    "shortname": "dryWetFlang",
+                    "address": "/FMSynth2_FX_Analog/dryWetFlang",
+                    "index": 8,
+                    "meta": [
+                        {
+                            "BELA": "ANALOG_5"
+                        }
+                    ],
+                    "init": 0.5,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.001
+                },
+                {
+                    "type": "vslider",
+                    "label": "dryWetReverb",
+                    "varname": "fVslider0",
+                    "shortname": "dryWetReverb",
+                    "address": "/FMSynth2_FX_Analog/dryWetReverb",
+                    "index": 0,
+                    "meta": [
+                        {
+                            "BELA": "ANALOG_6"
+                        }
+                    ],
+                    "init": 0.4,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.001
+                },
+                {
+                    "type": "hslider",
+                    "label": "flangDel",
+                    "varname": "fHslider5",
+                    "shortname": "flangDel",
+                    "address": "/FMSynth2_FX_Analog/flangDel",
+                    "index": 96,
+                    "meta": [
+                        {
+                            "midi": "ctrl 13"
+                        }
+                    ],
+                    "init": 4,
+                    "min": 0.001,
+                    "max": 10,
+                    "step": 0.001
+                },
+                {
+                    "type": "hslider",
+                    "label": "flangFeedback",
+                    "varname": "fHslider4",
+                    "shortname": "flangFeedback",
+                    "address": "/FMSynth2_FX_Analog/flangFeedback",
+                    "index": 44,
+                    "meta": [
+                        {
+                            "midi": "ctrl 94"
+                        }
+                    ],
+                    "init": 0.7,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.001
+                },
+                {
+                    "type": "hslider",
+                    "label": "pan",
+                    "varname": "fHslider0",
+                    "shortname": "pan",
+                    "address": "/FMSynth2_FX_Analog/pan",
+                    "index": 4,
+                    "meta": [
+                        {
+                            "midi": "ctrl 10"
+                        }
+                    ],
+                    "init": 0.5,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.001
+                },
+                {
+                    "type": "hslider",
+                    "label": "volume",
+                    "varname": "fHslider2",
+                    "shortname": "volume",
+                    "address": "/FMSynth2_FX_Analog/volume",
+                    "index": 20,
+                    "meta": [
+                        {
+                            "midi": "ctrl 7"
+                        }
+                    ],
+                    "init": 1,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.001
+                }
+            ]
+        }
+    ]
+}
