@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Faust DSP</title>
+    <style>
+        .slider-container {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .slider-label {
+            min-width: 60px;
+        }
+        input[type="range"] {
+            flex: 1;
+        }
+        .value-display {
+            min-width: 50px;
+            text-align: right;
+        }
+        .reset-button {
+            padding: 2px 8px;
+            cursor: pointer;
+        }
+        .reset-all-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #reset-all-button {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #reset-all-button:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <span id="dsp-switch">
+            <center><button id="button-dsp">Activate DSP</button></center>
+            <center><button id="gate-button">Gate</button></center>
+        </span>
+        <div class="slider-container">
+            <div class="slider-group">
+                <span class="slider-label">A</span>
+                <input type="range" id="slider-a" min="0.01" max="4" step="0.01" value="0.01">
+                <span class="value-display" id="value-a">0.01</span>
+                <button class="reset-button" data-slider="a" data-default="0.01">↺</button>
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">DR</span>
+                <input type="range" id="slider-dr" min="0.01" max="8" step="0.01" value="0.6">
+                <span class="value-display" id="value-dr">0.6</span>
+                <button class="reset-button" data-slider="dr" data-default="0.6">↺</button>
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">S</span>
+                <input type="range" id="slider-s" min="0" max="1" step="0.01" value="0.2">
+                <span class="value-display" id="value-s">0.2</span>
+                <button class="reset-button" data-slider="s" data-default="0.2">↺</button>
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Bend</span>
+                <input type="range" id="slider-bend" min="-2" max="2" step="0.01" value="0">
+                <span class="value-display" id="value-bend">0</span>
+                <button class="reset-button" data-slider="bend" data-default="0">↺</button>
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Feedb</span>
+                <input type="range" id="slider-feedb" min="0" max="1" step="0.001" value="0">
+                <span class="value-display" id="value-feedb">0</span>
+                <button class="reset-button" data-slider="feedb" data-default="0">↺</button>
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Freq</span>
+                <input type="range" id="slider-freq" min="20" max="20000" step="1" value="440">
+                <span class="value-display" id="value-freq">440</span>
+                <button class="reset-button" data-slider="freq" data-default="440">↺</button>
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Gain</span>
+                <input type="range" id="slider-gain" min="0" max="1" step="0.01" value="1">
+                <span class="value-display" id="value-gain">1</span>
+                <button class="reset-button" data-slider="gain" data-default="1">↺</button>
+            </div>
+            <div class="slider-group">
+                <span class="slider-label">Ratio</span>
+                <input type="range" id="slider-ratio" min="0" max="20" step="0.01" value="2">
+                <span class="value-display" id="value-ratio">2</span>
+                <button class="reset-button" data-slider="ratio" data-default="2">↺</button>
+            </div>
+            <div class="reset-all-container">
+                <button id="reset-all-button">Reset All Parameters</button>
+            </div>
+        </div>
+    </main>
+    <script src="./index.js"></script>
+</body>
+
+</html>

@@ -39,7 +39,7 @@ const EFFECT_PARAMS = [
     { name: 'drive', min: 0, max: 1, default: 0.0, step: 0.001 },
     { name: 'dryWetFlang', min: 0, max: 1, default: 0.0, step: 0.001 },
     { name: 'dryWetReverb', min: 0, max: 1, default: 0.0, step: 0.001 },
-    { name: 'flangDel', min: 0.001, max: 10, default: 0, step: 0.001 },
+    { name: 'flangDel', min: 0.001, max: 10, default: 0.01, step: 0.001 },
     { name: 'flangFeedback', min: 0, max: 1, default: 0.0, step: 0.001 },
     { name: 'pan', min: 0, max: 1, default: 0.5, step: 0.001 },
     { name: 'volume', min: 0, max: 1, default: 0.1, step: 0.001 }
@@ -62,6 +62,212 @@ let gameOfLifeWorld;
 let animationInterval;
 let isRunning = false;
 let updateRate = 10; // Default rate in Hz
+let currentRuleset = 'game-of-life';
+
+// Ruleset definitions
+const RULESETS = {
+    'game-of-life': {
+        name: 'Game of Life',
+        init: function() {
+            return new CellAuto.World({
+                width: GRID_WIDTH,
+                height: GRID_HEIGHT
+            });
+        },
+        registerCell: function(world) {
+            world.registerCellType('living', {
+                getColor: function () {
+                    return this.alive ? 0 : 1;
+                },
+                process: function (neighbors) {
+                    const wasAlive = this.alive;
+                    var surrounding = this.countSurroundingCellsWithValue(neighbors, 'wasAlive');
+                    this.alive = surrounding === 3 || surrounding === 2 && this.alive;
+                    
+                    // Trigger note events when cell state changes
+                    if (this.alive !== wasAlive) {
+                        if (this.alive) {
+                            cellStateChange(this.x, this.y, true);
+                        } else {
+                            cellStateChange(this.x, this.y, false);
+                        }
+                    }
+                },
+                reset: function () {
+                    this.wasAlive = this.alive;
+                }
+            }, function () {
+                this.alive = Math.random() > 0.5;
+            });
+
+            world.initialize([
+                { name: 'living', distribution: 100 }
+            ]);
+        },
+        getCellColor: function(cell) {
+            return cell.alive ? '#44ff44' : '#000000';
+        },
+        randomize: function(cell) {
+            cell.alive = Math.random() > 0.5;
+        },
+        toggleCell: function(cell) {
+            cell.alive = !cell.alive;
+            return cell.alive;
+        },
+        soundMapping: {
+            // Map x to pitch (2 octaves, pentatonic scale)
+            getPitch: function(x, y) {
+                const pitches = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69];
+                return pitches[Math.floor((x / GRID_WIDTH) * pitches.length)];
+            },
+            // Map y to velocity (higher = louder)
+            getVelocity: function(x, y) {
+                return Math.floor(((GRID_HEIGHT - y) / GRID_HEIGHT) * 127);
+            }
+        }
+    },
+    'water-ripples': {
+        name: 'Water Ripples',
+        init: function() {
+            return new CellAuto.World({
+                width: GRID_WIDTH,
+                height: GRID_HEIGHT
+            });
+        },
+        registerCell: function(world) {
+            // Create color palette
+            world.palette = [];
+            const colors = [];
+            for (let index = 0; index < 64; index++) {
+                world.palette.push('89, 125, 206, ' + index/64);
+                colors[index] = 63 - index;
+            }
+
+            world.registerCellType('water', {
+                getColor: function () {
+                    const v = (Math.max(2 * this.value + 0.02, 0) - 0.02) + 0.5;
+                    return colors[Math.floor(colors.length * v)];
+                },
+                process: function (neighbors) {
+                    if(this.droplet == true) {
+                        for (let i = 0; i < neighbors.length; i++) {
+                            if (neighbors[i] !== null && neighbors[i].value) {
+                                neighbors[i].value = 0.5 * this.value;
+                                neighbors[i].prev = 0.5 * this.prev;
+                            }
+                        }
+                        this.droplet = false;
+                        cellStateChange(this.x, this.y, true);
+                        return true;
+                    }
+                    const avg = this.getSurroundingCellsAverageValue(neighbors, 'value');
+                    this.next = 0.99 * (2 * avg - this.prev);
+                    return true;
+                },
+                reset: function () {
+                    const wasValue = this.value;
+                    if(Math.random() > 0.9999) {
+                        this.value = -0.2 + 0.25*Math.random();
+                        this.prev = this.value;
+                        this.droplet = true;
+                    }
+                    else {
+                        this.prev = this.value;
+                        this.value = this.next;
+                    }
+                    if (Math.abs(this.value - wasValue) > 0.1) {
+                        cellStateChange(this.x, this.y, this.value > wasValue);
+                    }
+                    return true;
+                }
+            }, function () {
+                this.water = true;
+                this.value = 0.0;
+                this.prev = this.value;
+                this.next = this.value;
+            });
+
+            world.initialize([
+                { name: 'water', distribution: 100 }
+            ]);
+        },
+        getCellColor: function(cell) {
+            const v = (Math.max(2 * cell.value + 0.02, 0) - 0.02) + 0.5;
+            const intensity = Math.floor(255 * v);
+            return `rgb(${intensity}, ${intensity + 30}, ${intensity + 80})`;
+        },
+        randomize: function(cell) {
+            cell.value = -0.2 + 0.25*Math.random();
+            cell.prev = cell.value;
+            cell.droplet = true;
+        },
+        toggleCell: function(cell) {
+            cell.value = 0.5;
+            cell.prev = cell.value;
+            cell.droplet = true;
+            return true;
+        },
+        soundMapping: {
+            getPitch: function(x, y) {
+                // Use a different scale for water ripples
+                const pitches = [36, 38, 40, 43, 45, 48, 50, 52, 55, 57, 60]; // Blues scale
+                return pitches[Math.floor((x / GRID_WIDTH) * pitches.length)];
+            },
+            getVelocity: function(x, y, value) {
+                // Use the ripple value to affect velocity
+                const baseVelocity = Math.floor(((GRID_HEIGHT - y) / GRID_HEIGHT) * 100);
+                return baseVelocity + Math.floor(Math.abs(value) * 27);
+            }
+        }
+    }
+};
+
+function cellStateChange(x, y, isOn) {
+    if (!faustNode) return;
+    
+    const ruleset = RULESETS[currentRuleset];
+    const pitch = ruleset.soundMapping.getPitch(x, y);
+    const cell = gameOfLifeWorld.grid[y][x];
+    const velocity = ruleset.soundMapping.getVelocity(x, y, cell.value);
+    
+    if (isOn) {
+        faustNode.keyOn(0, pitch, velocity);
+        pianoState.activeKeys.add(pitch);
+    } else {
+        faustNode.keyOff(0, pitch);
+        pianoState.activeKeys.delete(pitch);
+    }
+    drawPianoKeyboard();
+}
+
+function initWorld() {
+    const ruleset = RULESETS[currentRuleset];
+    gameOfLifeWorld = ruleset.init();
+    ruleset.registerCell(gameOfLifeWorld);
+    return gameOfLifeWorld;
+}
+
+function drawWorld() {
+    const canvas = document.getElementById('automata-canvas');
+    const ctx = canvas.getContext('2d');
+    const ruleset = RULESETS[currentRuleset];
+    
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let y = 0; y < GRID_HEIGHT; y++) {
+        for (let x = 0; x < GRID_WIDTH; x++) {
+            const cell = gameOfLifeWorld.grid[y][x];
+            ctx.fillStyle = ruleset.getCellColor(cell);
+            ctx.fillRect(
+                x * CELL_SIZE,
+                y * CELL_SIZE,
+                CELL_SIZE - 1,
+                CELL_SIZE - 1
+            );
+        }
+    }
+}
 
 function setUpdateRate(rate) {
     updateRate = rate;
@@ -70,108 +276,22 @@ function setUpdateRate(rate) {
         clearInterval(animationInterval);
         animationInterval = setInterval(() => {
             gameOfLifeWorld.step();
-            drawGameOfLife();
+            drawWorld();
         }, 1000 / updateRate);
     }
 }
 
-// Map cell positions to musical notes
-function cellOnToNote(x, y) {
-    if (!faustNode) return;
-
-    // Map x to pitch (2 octaves, pentatonic scale)
-    const pitches = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69]; // C3 to C5 pentatonic
-    const pitch = pitches[Math.floor((x / GRID_WIDTH) * pitches.length)];
-    
-    // Map y to velocity (higher = louder)
-    const velocity = Math.floor(((GRID_HEIGHT - y) / GRID_HEIGHT) * 127);
-    
-    faustNode.keyOn(0, pitch, velocity);
-    pianoState.activeKeys.add(pitch);
-    drawPianoKeyboard();
-}
-
-function cellOffToNote(x, y) {
-    if (!faustNode) return;
-
-    // Use same pitch mapping as cellOnToNote
-    const pitches = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69];
-    const pitch = pitches[Math.floor((x / GRID_WIDTH) * pitches.length)];
-    
-    faustNode.keyOff(0, pitch);
-    pianoState.activeKeys.delete(pitch);
-    drawPianoKeyboard();
-}
-
-function initGameOfLife() {
-    gameOfLifeWorld = new CellAuto.World({
-        width: GRID_WIDTH,
-        height: GRID_HEIGHT
-    });
-
-    gameOfLifeWorld.registerCellType('living', {
-        getColor: function () {
-            return this.alive ? 0 : 1;
-        },
-        process: function (neighbors) {
-            const wasAlive = this.alive;
-            var surrounding = this.countSurroundingCellsWithValue(neighbors, 'wasAlive');
-            this.alive = surrounding === 3 || surrounding === 2 && this.alive;
-            
-            // Trigger note events when cell state changes
-            if (this.alive !== wasAlive) {
-                if (this.alive) {
-                    cellOnToNote(this.x, this.y);
-                } else {
-                    cellOffToNote(this.x, this.y);
-                }
-            }
-        },
-        reset: function () {
-            this.wasAlive = this.alive;
-        }
-    }, function () {
-        // init
-        this.alive = Math.random() > 0.5;
-    });
-
-    gameOfLifeWorld.initialize([
-        { name: 'living', distribution: 100 }
-    ]);
-
-    return gameOfLifeWorld;
-}
-
-function drawGameOfLife() {
-    const canvas = document.getElementById('automata-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    for (let y = 0; y < GRID_HEIGHT; y++) {
-        for (let x = 0; x < GRID_WIDTH; x++) {
-            const cell = gameOfLifeWorld.grid[y][x];
-            if (cell.alive) {
-                ctx.fillStyle = '#44ff44';
-                ctx.fillRect(
-                    x * CELL_SIZE,
-                    y * CELL_SIZE,
-                    CELL_SIZE - 1,
-                    CELL_SIZE - 1
-                );
-            }
-        }
-    }
-}
-
 function startGameOfLife() {
+    if(audioContext.state === 'suspended') {
+        changeAudioContext();
+    }
+
     if (!isRunning) {
-        activateAudioContext();
         isRunning = true;
         document.getElementById('automata-start').textContent = 'Stop';
         animationInterval = setInterval(() => {
             gameOfLifeWorld.step();
-            drawGameOfLife();
+            drawWorld();
         }, 1000 / updateRate);
     } else {
         isRunning = false;
@@ -187,26 +307,60 @@ function resetGameOfLife() {
     if (isRunning) {
         startGameOfLife(); // Stop the animation
     }
-    initGameOfLife();
-    drawGameOfLife();
+    initWorld();
+    drawWorld();
 }
 
 function randomizeGameOfLife() {
     if (isRunning) {
         startGameOfLife(); // Stop the animation
     }
+    const ruleset = RULESETS[currentRuleset];
     for (let y = 0; y < GRID_HEIGHT; y++) {
         for (let x = 0; x < GRID_WIDTH; x++) {
-            gameOfLifeWorld.grid[y][x].alive = Math.random() > 0.5;
+            ruleset.randomize(gameOfLifeWorld.grid[y][x]);
         }
     }
-    drawGameOfLife();
+    drawWorld();
 }
 
 // Initialize Game of Life
 document.addEventListener('DOMContentLoaded', () => {
-    initGameOfLife();
-    drawGameOfLife();
+    // Add ruleset selector
+    const rulesetContainer = document.createElement('div');
+    rulesetContainer.className = 'parameter-control';
+    
+    const rulesetLabel = document.createElement('label');
+    rulesetLabel.textContent = 'Ruleset';
+    
+    const rulesetSelect = document.createElement('select');
+    Object.keys(RULESETS).forEach(key => {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = RULESETS[key].name;
+        rulesetSelect.appendChild(option);
+    });
+    
+    rulesetSelect.addEventListener('change', (e) => {
+        currentRuleset = e.target.value;
+        changeAudioContext(STOP_AUDIO);
+        if (isRunning) {
+            startGameOfLife(); // Stop the current animation
+        }
+        initWorld();
+        drawWorld();
+    });
+    
+    rulesetContainer.appendChild(rulesetLabel);
+    rulesetContainer.appendChild(rulesetSelect);
+    
+    // Insert ruleset selector before rate control
+    const rateControl = document.querySelector('.parameter-control');
+    rateControl.parentNode.insertBefore(rulesetContainer, rateControl);
+
+    // Initialize the world
+    initWorld();
+    drawWorld();
 
     // Add event listeners for controls
     document.getElementById('automata-start').addEventListener('click', startGameOfLife);
@@ -232,16 +386,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
             const cell = gameOfLifeWorld.grid[y][x];
-            cell.alive = !cell.alive;
+            const ruleset = RULESETS[currentRuleset];
+            const isOn = ruleset.toggleCell(cell);
             
-            // Trigger note events
-            if (cell.alive) {
-                cellOnToNote(x, y);
+            if (isOn) {
+                cellStateChange(x, y, true);
             } else {
-                cellOffToNote(x, y);
+                cellStateChange(x, y, false);
             }
             
-            drawGameOfLife();
+            drawWorld();
         }
     });
 });
@@ -496,7 +650,9 @@ pianoState.canvas.addEventListener('mouseleave', () => {
 $buttonDsp.disabled = true;
 let sensorHandlersBound = false;
 
-async function activateAudioContext() {
+const TOGGLE_AUDIO=0,START_AUDIO=1, STOP_AUDIO=2;
+
+async function changeAudioContext(action=TOGGLE_AUDIO) {
     // Import the requestPermissions function
     const { requestPermissions } = await import("./create-node.js");
 
@@ -510,16 +666,16 @@ async function activateAudioContext() {
     }
 
     // Activate or suspend the AudioContext
-    if (audioContext.state === "running") {
+    if (action === STOP_AUDIO || audioContext.state === "running") {
         $buttonDsp.textContent = "Suspended";
         await audioContext.suspend();
-    } else if (audioContext.state === "suspended") {
+    } else if (action === START_AUDIO || audioContext.state === "suspended") {
         $buttonDsp.textContent = "Running";
         await audioContext.resume();
     }
 }
 
-$buttonDsp.onclick = activateAudioContext; 
+$buttonDsp.onclick = changeAudioContext; 
 
 // Called at load time
 (async () => {
