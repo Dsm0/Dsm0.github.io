@@ -1,6 +1,38 @@
 // Set to > 0 if the DSP is polyphonic
 const FAUST_DSP_VOICES = 64;
 
+// Game of Life implementation
+const CELL_SIZE = 6;
+const GRID_WIDTH = 64;
+const GRID_HEIGHT = 64;
+
+let gameOfLifeWorld;
+let animationInterval;
+let isRunning = false;
+let updateRate = 10; // Default rate in Hz
+let currentRuleset = 'game-of-life';
+let isDrawing = false;
+let lastDrawnCell = null;
+let currentRule = 30; // Default rule for elementary CA
+
+
+// Window parameters for cell monitoring
+const WINDOW_PARAMS = {
+    x: { name: 'Window X', min: 0, max: GRID_WIDTH - 1, default: 0, step: 1 },
+    y: { name: 'Window Y', min: 0, max: GRID_HEIGHT - 1, default: 0, step: 1 },
+    width: { name: 'Window Width', min: 1, max: GRID_WIDTH, default: GRID_WIDTH, step: 1 },
+    height: { name: 'Window Height', min: 1, max: GRID_HEIGHT, default: GRID_HEIGHT, step: 1 }
+};
+
+// Current window state
+const windowState = {
+    x: WINDOW_PARAMS.x.default,
+    y: WINDOW_PARAMS.y.default,
+    width: WINDOW_PARAMS.width.default,
+    height: WINDOW_PARAMS.height.default,
+    activeCells: new Set() // Track cells currently playing notes
+};
+
 // Declare faustNode as a global variable
 let faustNode, faustNodeJSON;
 
@@ -53,19 +85,6 @@ const pianoState = {
     mouseIsDown: false
 };
 
-// Game of Life implementation
-const CELL_SIZE = 6;
-const GRID_WIDTH = 64;
-const GRID_HEIGHT = 64;
-
-let gameOfLifeWorld;
-let animationInterval;
-let isRunning = false;
-let updateRate = 10; // Default rate in Hz
-let currentRuleset = 'game-of-life';
-let isDrawing = false;
-let lastDrawnCell = null;
-let currentRule = 30; // Default rule for elementary CA
 
 // Ruleset definitions
 const RULESETS = {
@@ -297,20 +316,62 @@ const RULESETS = {
     }
 };
 
+// Helper function to check if a cell is in the window
+function isCellInWindow(x, y) {
+    return x >= windowState.x && 
+           x < windowState.x + windowState.width &&
+           y >= windowState.y && 
+           y < windowState.y + windowState.height;
+}
+
+// Helper function to turn off notes for cells outside the window
+function turnOffNotesOutsideWindow() {
+    if (!faustNode) return;
+    
+    const cellsToRemove = [];
+    for (const cellKey of windowState.activeCells) {
+        const [x, y] = cellKey.split(',').map(Number);
+        if (!isCellInWindow(x, y)) {
+            const ruleset = RULESETS[currentRuleset];
+            const pitch = ruleset.soundMapping.getPitch(x, y);
+            faustNode.keyOff(0, pitch);
+            pianoState.activeKeys.delete(pitch);
+            cellsToRemove.push(cellKey);
+        }
+    }
+    
+    // Remove cells that are no longer in the window
+    cellsToRemove.forEach(cellKey => {
+        windowState.activeCells.delete(cellKey);
+    });
+    
+    if (cellsToRemove.length > 0) {
+        drawPianoKeyboard();
+    }
+}
+
 function cellStateChange(x, y, isOn) {
     if (!faustNode) return;
+
+    // Check if cell is within the monitoring window
+    if (!isCellInWindow(x, y)) {
+        return;
+    }
     
     const ruleset = RULESETS[currentRuleset];
     const pitch = ruleset.soundMapping.getPitch(x, y);
     const cell = gameOfLifeWorld.grid[y][x];
     const velocity = ruleset.soundMapping.getVelocity(x, y, cell.value);
+    const cellKey = `${x},${y}`;
     
     if (isOn) {
         faustNode.keyOn(0, pitch, velocity);
         pianoState.activeKeys.add(pitch);
+        windowState.activeCells.add(cellKey);
     } else {
         faustNode.keyOff(0, pitch);
         pianoState.activeKeys.delete(pitch);
+        windowState.activeCells.delete(cellKey);
     }
     drawPianoKeyboard();
 }
@@ -330,6 +391,7 @@ function drawWorld() {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Draw cells
     for (let y = 0; y < GRID_HEIGHT; y++) {
         for (let x = 0; x < GRID_WIDTH; x++) {
             const cell = gameOfLifeWorld.grid[y][x];
@@ -342,6 +404,16 @@ function drawWorld() {
             );
         }
     }
+
+    // Draw window border
+    ctx.strokeStyle = '#ff0000';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(
+        windowState.x * CELL_SIZE,
+        windowState.y * CELL_SIZE,
+        windowState.width * CELL_SIZE,
+        windowState.height * CELL_SIZE
+    );
 }
 
 function setUpdateRate(rate) {
@@ -495,10 +567,48 @@ document.addEventListener('DOMContentLoaded', () => {
         setUpdateRate(rate);
     });
 
+    // Add window control handlers
+    Object.keys(WINDOW_PARAMS).forEach(param => {
+        const slider = document.getElementById(`window-${param}`);
+        const value = document.getElementById(`window-${param}-value`);
+        
+        slider.addEventListener('input', (e) => {
+            windowState[param] = parseInt(e.target.value);
+            value.textContent = windowState[param];
+            
+            // Ensure window stays within grid bounds
+            if (param === 'width' || param === 'x') {
+                const maxX = GRID_WIDTH - windowState.width;
+                if (windowState.x > maxX) {
+                    windowState.x = maxX;
+                    document.getElementById('window-x').value = maxX;
+                    document.getElementById('window-x-value').textContent = maxX;
+                }
+            }
+            if (param === 'height' || param === 'y') {
+                const maxY = GRID_HEIGHT - windowState.height;
+                if (windowState.y > maxY) {
+                    windowState.y = maxY;
+                    document.getElementById('window-y').value = maxY;
+                    document.getElementById('window-y-value').textContent = maxY;
+                }
+            }
+            
+            // Turn off notes for cells that left the window
+            turnOffNotesOutsideWindow();
+            
+            drawWorld();
+        });
+    });
+
     // Add mouse interaction with the canvas
     const canvas = document.getElementById('automata-canvas');
     
+    let isRightMouseDown = false; // Track right mouse button state
+
     function handleCellInteraction(e) {
+        if (e.button === 2) return; // Ignore right-click for cell toggling
+        
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
         const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
@@ -514,9 +624,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const isOn = ruleset.toggleCell(cell);
             
             if (isOn) {
-                cellStateChange(x, y, cell, true);
+                cellStateChange(x, y, true);
             } else {
-                cellStateChange(x, y, cell, false);
+                cellStateChange(x, y, false);
             }
             
             lastDrawnCell = { x, y };
@@ -524,25 +634,107 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    canvas.addEventListener('mousedown', (e) => {
-        isDrawing = true;
-        handleCellInteraction(e);
-    });
+    function updateWindowPosition(e) {
+        if (!isRightMouseDown) return;
+        
+        const rect = canvas.getBoundingClientRect();
+        const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+        const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+        
+        // Calculate new window position, centering on mouse
+        let newX = Math.floor(x - windowState.width / 2);
+        let newY = Math.floor(y - windowState.height / 2);
+        
+        // Clamp to grid bounds
+        newX = Math.max(0, Math.min(newX, GRID_WIDTH - windowState.width));
+        newY = Math.max(0, Math.min(newY, GRID_HEIGHT - windowState.height));
+        
+        // Update window position
+        windowState.x = newX;
+        windowState.y = newY;
+        
+        // Update sliders
+        document.getElementById('window-x').value = newX;
+        document.getElementById('window-x-value').textContent = newX;
+        document.getElementById('window-y').value = newY;
+        document.getElementById('window-y-value').textContent = newY;
+        
+        // Turn off notes for cells that left the window
+        turnOffNotesOutsideWindow();
+        
+        drawWorld();
+    }
 
-    canvas.addEventListener('mousemove', (e) => {
-        if (isDrawing) {
+    function handleWheel(e) {
+        e.preventDefault();
+        
+        const isShiftPressed = e.shiftKey;
+        const delta = -Math.sign(e.deltaY); // Normalize wheel direction
+        const step = 2; // Change size by 2 cells at a time
+        
+        if (isShiftPressed) {
+            // Adjust height
+            let newHeight = windowState.height + delta * step;
+            newHeight = Math.max(1, Math.min(newHeight, GRID_HEIGHT - windowState.y));
+            windowState.height = newHeight;
+            
+            document.getElementById('window-height').value = newHeight;
+            document.getElementById('window-height-value').textContent = newHeight;
+        } else {
+            // Adjust width
+            let newWidth = windowState.width + delta * step;
+            newWidth = Math.max(1, Math.min(newWidth, GRID_WIDTH - windowState.x));
+            windowState.width = newWidth;
+            
+            document.getElementById('window-width').value = newWidth;
+            document.getElementById('window-width-value').textContent = newWidth;
+        }
+        
+        // Turn off notes for cells that left the window
+        turnOffNotesOutsideWindow();
+        
+        drawWorld();
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+        if (e.button === 2) {
+            e.preventDefault();
+            isRightMouseDown = true;
+            updateWindowPosition(e);
+        } else {
+            isDrawing = true;
             handleCellInteraction(e);
         }
     });
 
-    canvas.addEventListener('mouseup', () => {
-        isDrawing = false;
-        lastDrawnCell = null;
+    canvas.addEventListener('mousemove', (e) => {
+        if (isRightMouseDown) {
+            updateWindowPosition(e);
+        } else if (isDrawing) {
+            handleCellInteraction(e);
+        }
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+        if (e.button === 2) {
+            isRightMouseDown = false;
+        } else {
+            isDrawing = false;
+            lastDrawnCell = null;
+        }
     });
 
     canvas.addEventListener('mouseleave', () => {
         isDrawing = false;
+        isRightMouseDown = false;
         lastDrawnCell = null;
+    });
+
+    canvas.addEventListener('wheel', handleWheel, { passive: false });
+
+    // Prevent context menu on right-click
+    canvas.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
     });
 
     // Prevent default drag behavior

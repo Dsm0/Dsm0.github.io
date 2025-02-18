@@ -90,6 +90,17 @@
         .automata-controls button:hover {
             background: #e0e0e0;
         }
+        .window-controls {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .window-controls h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #333;
+        }
     </style>
 </head>
 
@@ -106,6 +117,32 @@
                 <label>Rate (Hz)</label>
                 <input type="range" id="automata-rate" min="0.5" max="20" step="0.5" value="10">
                 <span id="automata-rate-value">10</span>
+            </div>
+            <div class="window-controls">
+                <h3>Window Controls</h3>
+                <p style="margin-bottom: 10px; color: #666; font-size: 14px">
+                    Right-click and drag to move the window. Use mouse wheel to adjust window width, hold Shift + mouse wheel to adjust height.
+                </p>
+                <div class="parameter-control">
+                    <label>Window X</label>
+                    <input type="range" id="window-x" min="0" max="63" step="1" value="0">
+                    <span id="window-x-value">0</span>
+                </div>
+                <div class="parameter-control">
+                    <label>Window Y</label>
+                    <input type="range" id="window-y" min="0" max="63" step="1" value="0">
+                    <span id="window-y-value">0</span>
+                </div>
+                <div class="parameter-control">
+                    <label>Window Width</label>
+                    <input type="range" id="window-width" min="1" max="64" step="1" value="64">
+                    <span id="window-width-value">64</span>
+                </div>
+                <div class="parameter-control">
+                    <label>Window Height</label>
+                    <input type="range" id="window-height" min="1" max="64" step="1" value="64">
+                    <span id="window-height-value">64</span>
+                </div>
             </div>
         </div>
         <div class="main-section">
