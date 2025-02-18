@@ -63,6 +63,9 @@ let animationInterval;
 let isRunning = false;
 let updateRate = 10; // Default rate in Hz
 let currentRuleset = 'game-of-life';
+let isDrawing = false;
+let lastDrawnCell = null;
+let currentRule = 30; // Default rule for elementary CA
 
 // Ruleset definitions
 const RULESETS = {
@@ -219,6 +222,78 @@ const RULESETS = {
                 return baseVelocity + Math.floor(Math.abs(value) * 27);
             }
         }
+    },
+    'elementary-ca': {
+        name: 'Elementary CA',
+        init: function() {
+            return new CellAuto.World({
+                width: GRID_WIDTH,
+                height: GRID_HEIGHT
+            });
+        },
+        registerCell: function(world) {
+            world.registerCellType('elementary', {
+                getColor: function () {
+                    return this.state ? 0 : 1;
+                },
+                process: function (neighbors) {
+                    if (this.y === 0) return; // First row doesn't change
+                    
+                    // Get states of the three cells above
+                    const above = neighbors.filter(n => n !== null && n.y === this.y - 1);
+                    above.sort((a, b) => a.x - b.x); // Sort by x position
+                    
+                    // Convert three states to binary number (0-7)
+                    const pattern = above.reduce((acc, cell, i) => {
+                        return acc | ((cell.wasState ? 1 : 0) << (2 - i));
+                    }, 0);
+                    
+                    // Apply the rule
+                    const wasState = this.state;
+                    this.state = (currentRule & (1 << pattern)) !== 0;
+                    
+                    // Trigger note events when cell state changes
+                    if (this.state !== wasState) {
+                        if (this.state) {
+                            cellStateChange(this.x, this.y, true);
+                        } else {
+                            cellStateChange(this.x, this.y, false);
+                        }
+                    }
+                },
+                reset: function () {
+                    this.wasState = this.state;
+                }
+            }, function () {
+                this.state = this.y === 0 && this.x === Math.floor(GRID_WIDTH / 2);
+            });
+
+            world.initialize([
+                { name: 'elementary', distribution: 100 }
+            ]);
+        },
+        getCellColor: function(cell) {
+            return cell.state ? '#44ff44' : '#000000';
+        },
+        randomize: function(cell) {
+            cell.state = cell.y === 0 && Math.random() > 0.5;
+        },
+        toggleCell: function(cell) {
+            if (cell.y === 0) { // Only allow toggling cells in the first row
+                cell.state = !cell.state;
+                return cell.state;
+            }
+            return false;
+        },
+        soundMapping: {
+            getPitch: function(x, y) {
+                const pitches = [60, 62, 64, 67, 69, 72, 74, 76]; // Major scale
+                return pitches[Math.floor((x / GRID_WIDTH) * pitches.length)];
+            },
+            getVelocity: function(x, y) {
+                return Math.floor(((GRID_HEIGHT - y) / GRID_HEIGHT) * 127);
+            }
+        }
     }
 };
 
@@ -349,6 +424,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         initWorld();
         drawWorld();
+        
+        // Show/hide rule number control based on selected ruleset
+        const ruleControl = document.getElementById('rule-control');
+        if (currentRuleset === 'elementary-ca') {
+            ruleControl.style.display = 'flex';
+        } else {
+            ruleControl.style.display = 'none';
+        }
     });
     
     rulesetContainer.appendChild(rulesetLabel);
@@ -357,6 +440,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // Insert ruleset selector before rate control
     const rateControl = document.querySelector('.parameter-control');
     rateControl.parentNode.insertBefore(rulesetContainer, rateControl);
+
+    // Add rule number control for elementary CA
+    const ruleContainer = document.createElement('div');
+    ruleContainer.id = 'rule-control';
+    ruleContainer.className = 'parameter-control';
+    ruleContainer.style.display = 'none';
+    
+    const ruleLabel = document.createElement('label');
+    ruleLabel.textContent = 'Rule Number';
+    
+    const ruleSlider = document.createElement('input');
+    ruleSlider.type = 'range';
+    ruleSlider.min = 0;
+    ruleSlider.max = 255;
+    ruleSlider.step = 1;
+    ruleSlider.value = currentRule;
+    
+    const ruleValue = document.createElement('span');
+    ruleValue.textContent = currentRule;
+    
+    ruleSlider.addEventListener('input', (e) => {
+        currentRule = parseInt(e.target.value);
+        ruleValue.textContent = currentRule;
+        if (isRunning) {
+            startGameOfLife(); // Restart with new rule
+        }
+        resetGameOfLife();
+    });
+    
+    ruleContainer.appendChild(ruleLabel);
+    ruleContainer.appendChild(ruleSlider);
+    ruleContainer.appendChild(ruleValue);
+    
+    // Insert rule control after rate control
+    rateControl.parentNode.insertBefore(ruleContainer, rateControl.nextSibling);
 
     // Initialize the world
     initWorld();
@@ -377,26 +495,59 @@ document.addEventListener('DOMContentLoaded', () => {
         setUpdateRate(rate);
     });
 
-    // Add click interaction with the canvas
+    // Add mouse interaction with the canvas
     const canvas = document.getElementById('automata-canvas');
-    canvas.addEventListener('click', (e) => {
+    
+    function handleCellInteraction(e) {
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
         const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
         
         if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
+            // Prevent drawing the same cell multiple times
+            if (lastDrawnCell && lastDrawnCell.x === x && lastDrawnCell.y === y) {
+                return;
+            }
+            
             const cell = gameOfLifeWorld.grid[y][x];
             const ruleset = RULESETS[currentRuleset];
             const isOn = ruleset.toggleCell(cell);
             
             if (isOn) {
-                cellStateChange(x, y, true);
+                cellStateChange(x, y, cell, true);
             } else {
-                cellStateChange(x, y, false);
+                cellStateChange(x, y, cell, false);
             }
             
+            lastDrawnCell = { x, y };
             drawWorld();
         }
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        handleCellInteraction(e);
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (isDrawing) {
+            handleCellInteraction(e);
+        }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        isDrawing = false;
+        lastDrawnCell = null;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        isDrawing = false;
+        lastDrawnCell = null;
+    });
+
+    // Prevent default drag behavior
+    canvas.addEventListener('dragstart', (e) => {
+        e.preventDefault();
     });
 });
 
