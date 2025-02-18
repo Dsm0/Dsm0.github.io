@@ -5,16 +5,140 @@ const FAUST_DSP_VOICES = 64;
 const CELL_SIZE = 6;
 const GRID_WIDTH = 64;
 const GRID_HEIGHT = 64;
+const HISTORY_LENGTH = 10; // Number of steps to track history
 
 let gameOfLifeWorld;
 let animationInterval;
 let isRunning = false;
 let updateRate = 10; // Default rate in Hz
-let currentRuleset = 'game-of-life';
+let currentRuleset = 'water-ripples';
 let isDrawing = false;
 let lastDrawnCell = null;
 let currentRule = 30; // Default rule for elementary CA
 
+// Cell history tracking
+const cellHistory = new Map(); // Map of cell coordinates to their history
+
+// World statistics tracking
+const worldStats = {
+    aliveCells: 0,
+    updateStats: function() {
+        let count = 0;
+        const ruleset = RULESETS[currentRuleset];
+        
+        for (let y = windowState.y; y < windowState.y + windowState.height; y++) {
+            for (let x = windowState.x; x < windowState.x + windowState.width; x++) {
+                if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
+                    const cell = gameOfLifeWorld.grid[y][x];
+                    
+                    // Different counting logic based on ruleset
+                    switch(currentRuleset) {
+                        case 'water-ripples':
+                            // Consider a cell "alive" if its value is above a threshold
+                            if (Math.abs(cell.value) > 0.1) {
+                                count++;
+                            }
+                            break;
+                        case 'elementary-ca':
+                            if (cell.state) {
+                                count++;
+                            }
+                            break;
+                        case 'game-of-life':
+                        default:
+                            if (cell.alive) {
+                                count++;
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+        this.aliveCells = count;
+        document.getElementById('alive-cells-count').textContent = count;
+    }
+};
+
+// Helper function to get cell history key
+function getCellKey(x, y) {
+    return `${x},${y}`;
+}
+
+// Helper function to initialize or update cell history
+function updateCellHistory(x, y, isAlive) {
+    const key = getCellKey(x, y);
+    let history = cellHistory.get(key) || {
+        states: new Array(HISTORY_LENGTH).fill(false),
+        neighborStates: new Array(HISTORY_LENGTH).fill(0),
+        changeRate: 0
+    };
+    
+    // Shift history and add new state
+    history.states.shift();
+    history.states.push(isAlive);
+    
+    // Calculate change rate (number of state changes in history)
+    history.changeRate = history.states.slice(1).reduce((changes, state, i) => {
+        return changes + (state !== history.states[i] ? 1 : 0);
+    }, 0) / (HISTORY_LENGTH - 1);
+    
+    cellHistory.set(key, history);
+    return history;
+}
+
+// Helper function to update neighbor history
+function updateNeighborHistory(x, y) {
+    const key = getCellKey(x, y);
+    let history = cellHistory.get(key);
+    if (!history) return;
+    
+    // Get neighbor states
+    let aliveNeighbors = 0;
+    for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+            if (dx === 0 && dy === 0) continue;
+            
+            const nx = x + dx;
+            const ny = y + dy;
+            if (nx >= 0 && nx < GRID_WIDTH && ny >= 0 && ny < GRID_HEIGHT) {
+                const neighborKey = getCellKey(nx, ny);
+                const neighborHistory = cellHistory.get(neighborKey);
+                if (neighborHistory && neighborHistory.states[HISTORY_LENGTH - 1]) {
+                    aliveNeighbors++;
+                }
+            }
+        }
+    }
+    
+    // Update neighbor history
+    history.neighborStates.shift();
+    history.neighborStates.push(aliveNeighbors);
+    cellHistory.set(key, history);
+}
+
+// Helper function to calculate effect parameters based on cell history
+function calculateEffectParams(x, y) {
+    const history = cellHistory.get(getCellKey(x, y));
+    if (!history) return null;
+    
+    // Calculate various metrics from history
+    const recentActivity = history.states.slice(-3).filter(Boolean).length / 3;
+    const neighborActivity = history.neighborStates.reduce((sum, count) => sum + count, 0) / 
+                           (history.neighborStates.length * 8); // Normalize by max neighbors
+    const stateChanges = history.changeRate;
+    
+    // Map metrics to effect parameters
+    return {
+        Damp: 0.2 + (recentActivity * 0.8), // More damping with more recent activity
+        RoomSize: neighborActivity, // Larger room with more neighbor activity
+        Stereo: 0.3 + (stateChanges * 0.7), // More stereo spread with more changes
+        drive: stateChanges * 0.8, // More drive with more changes
+        dryWetFlang: neighborActivity * 0.7, // More flanging with more neighbor activity
+        dryWetReverb: recentActivity * 0.8, // More reverb with more recent activity
+        flangDel: 0.001 + (stateChanges * 0.5), // Longer delay with more changes
+        flangFeedback: neighborActivity * 0.7 // More feedback with more neighbor activity
+    };
+}
 
 // Window parameters for cell monitoring
 const WINDOW_PARAMS = {
@@ -106,6 +230,10 @@ const RULESETS = {
                     var surrounding = this.countSurroundingCellsWithValue(neighbors, 'wasAlive');
                     this.alive = surrounding === 3 || surrounding === 2 && this.alive;
                     
+                    // Update history before triggering state change
+                    updateCellHistory(this.x, this.y, this.alive);
+                    updateNeighborHistory(this.x, this.y);
+                    
                     // Trigger note events when cell state changes
                     if (this.alive !== wasAlive) {
                         if (this.alive) {
@@ -120,6 +248,8 @@ const RULESETS = {
                 }
             }, function () {
                 this.alive = Math.random() > 0.5;
+                // Initialize history for new cells
+                updateCellHistory(this.x, this.y, this.alive);
             });
 
             world.initialize([
@@ -362,7 +492,15 @@ function cellStateChange(x, y, isOn) {
     const pitch = ruleset.soundMapping.getPitch(x, y);
     const cell = gameOfLifeWorld.grid[y][x];
     const velocity = ruleset.soundMapping.getVelocity(x, y, cell.value);
-    const cellKey = `${x},${y}`;
+    const cellKey = getCellKey(x, y);
+    
+    // Calculate and apply effect parameters
+    const effectParams = calculateEffectParams(x, y);
+    if (effectParams && isOn) {
+        Object.entries(effectParams).forEach(([param, value]) => {
+            updateFaustParams(param, value);
+        });
+    }
     
     if (isOn) {
         faustNode.keyOn(0, pitch, velocity);
@@ -414,6 +552,9 @@ function drawWorld() {
         windowState.width * CELL_SIZE,
         windowState.height * CELL_SIZE
     );
+
+    // Update statistics
+    worldStats.updateStats();
 }
 
 function setUpdateRate(rate) {
@@ -454,6 +595,7 @@ function resetGameOfLife() {
     if (isRunning) {
         startGameOfLife(); // Stop the animation
     }
+    cellHistory.clear(); // Clear history when resetting
     initWorld();
     drawWorld();
 }
@@ -462,6 +604,7 @@ function randomizeGameOfLife() {
     if (isRunning) {
         startGameOfLife(); // Stop the animation
     }
+    cellHistory.clear(); // Clear history when randomizing
     const ruleset = RULESETS[currentRuleset];
     for (let y = 0; y < GRID_HEIGHT; y++) {
         for (let x = 0; x < GRID_WIDTH; x++) {
@@ -485,6 +628,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const option = document.createElement('option');
         option.value = key;
         option.textContent = RULESETS[key].name;
+        // Set the initial selected option to water-ripples
+        if (key === 'water-ripples') {
+            option.selected = true;
+        }
         rulesetSelect.appendChild(option);
     });
     
@@ -631,6 +778,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             lastDrawnCell = { x, y };
             drawWorld();
+            worldStats.updateStats();
         }
     }
 
@@ -659,17 +807,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('window-y').value = newY;
         document.getElementById('window-y-value').textContent = newY;
         
-        // Turn off notes for cells that left the window
-        turnOffNotesOutsideWindow();
-        
+        updateWindowNotes();
         drawWorld();
+        worldStats.updateStats();
     }
 
     function handleWheel(e) {
         e.preventDefault();
         
         const isShiftPressed = e.shiftKey;
-        const delta = -Math.sign(e.deltaY); // Normalize wheel direction
+        // DO NOT CHANGE THE FOLLOWING LINE
+        const delta = isShiftPressed ? -Math.sign(e.deltaX) : Math.sign(e.deltaY); // DO NOT CHANGE THIS LINE
         const step = 2; // Change size by 2 cells at a time
         
         if (isShiftPressed) {
@@ -690,10 +838,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('window-width-value').textContent = newWidth;
         }
         
-        // Turn off notes for cells that left the window
-        turnOffNotesOutsideWindow();
-        
+        updateWindowNotes();
         drawWorld();
+        worldStats.updateStats();
     }
 
     canvas.addEventListener('mousedown', (e) => {
@@ -768,15 +915,14 @@ function createParameterControl(param, container) {
         slider.value = param.default;
         value.textContent = param.default;
         if (faustNode) {
-            faustNode.setParamValue(`/${faustNodeJSON.name}/${param.name}`, param.default);
+            updateFaustParams(param.name, param.default);
         }
     };
     
     slider.oninput = () => {
         value.textContent = slider.value;
         if (faustNode) {
-            let paramName = `/${faustNodeJSON.name}/${param.name}`;
-            faustNode.setParamValue(paramName, parseFloat(slider.value));
+            updateFaustParams(param.name, parseFloat(slider.value));
         }
     };
     
@@ -793,7 +939,7 @@ function createParameterControl(param, container) {
             slider.value = val;
             value.textContent = val;
             if (faustNode) {
-                faustNode.setParamValue(`/${faustNodeJSON.name}/${param.name}`, val);
+                updateFaustParams(param.name, val);
             }
         }
     };
@@ -1048,3 +1194,157 @@ $buttonDsp.onclick = changeAudioContext;
     // Set page title to the DSP name
     document.title = faustNodeJSON.name;
 })();
+
+// Helper function to check and trigger notes for cells in window
+function checkAndTriggerWindowCells() {
+    if (!faustNode) return;
+    
+    // Check all cells in the current window
+    for (let y = windowState.y; y < windowState.y + windowState.height; y++) {
+        for (let x = windowState.x; x < windowState.x + windowState.width; x++) {
+            if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
+                const cell = gameOfLifeWorld.grid[y][x];
+                const cellKey = getCellKey(x, y);
+                
+                // If cell is alive and not already playing, trigger it
+                if (cell.alive && !windowState.activeCells.has(cellKey)) {
+                    const ruleset = RULESETS[currentRuleset];
+                    const pitch = ruleset.soundMapping.getPitch(x, y);
+                    const velocity = ruleset.soundMapping.getVelocity(x, y, cell.value);
+                    
+                    // Calculate and apply effect parameters
+                    const effectParams = calculateEffectParams(x, y);
+                    if (effectParams) {
+                        Object.entries(effectParams).forEach(([param, value]) => {
+                            updateFaustParams(param, value);
+                        });
+                    }
+                    
+                    faustNode.keyOn(0, pitch, velocity);
+                    pianoState.activeKeys.add(pitch);
+                    windowState.activeCells.add(cellKey);
+                }
+            }
+        }
+    }
+    drawPianoKeyboard();
+}
+
+// Helper function to check if any cells are alive in the window
+function hasAliveCellsInWindow() {
+    for (let y = windowState.y; y < windowState.y + windowState.height; y++) {
+        for (let x = windowState.x; x < windowState.x + windowState.width; x++) {
+            if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
+                if (gameOfLifeWorld.grid[y][x].alive) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+// Helper function to turn off all notes
+function turnOffAllNotes() {
+    if (!faustNode) return;
+    
+    faustNode.allNotesOff();
+    windowState.activeCells.clear();
+    pianoState.activeKeys.clear();
+    drawPianoKeyboard();
+}
+
+// Helper function to check window state and update notes
+function updateWindowNotes() {
+    if (!hasAliveCellsInWindow()) {
+        turnOffAllNotes();
+    } else {
+        turnOffNotesOutsideWindow();
+        checkAndTriggerWindowCells();
+    }
+}
+
+function updateWindowPosition(e) {
+    if (!isRightMouseDown) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+    const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+    
+    // Calculate new window position, centering on mouse
+    let newX = Math.floor(x - windowState.width / 2);
+    let newY = Math.floor(y - windowState.height / 2);
+    
+    // Clamp to grid bounds
+    newX = Math.max(0, Math.min(newX, GRID_WIDTH - windowState.width));
+    newY = Math.max(0, Math.min(newY, GRID_HEIGHT - windowState.height));
+    
+    // Update window position
+    windowState.x = newX;
+    windowState.y = newY;
+    
+    // Update sliders
+    document.getElementById('window-x').value = newX;
+    document.getElementById('window-x-value').textContent = newX;
+    document.getElementById('window-y').value = newY;
+    document.getElementById('window-y-value').textContent = newY;
+    
+    updateWindowNotes();
+    drawWorld();
+    worldStats.updateStats();
+}
+
+function handleWheel(e) {
+    e.preventDefault();
+    
+    const isShiftPressed = e.shiftKey;
+    const delta = -Math.sign(e.deltaY); // Normalize wheel direction
+    const step = 2; // Change size by 2 cells at a time
+    
+    if (isShiftPressed) {
+        // Adjust height
+        let newHeight = windowState.height + delta * step;
+        newHeight = Math.max(1, Math.min(newHeight, GRID_HEIGHT - windowState.y));
+        windowState.height = newHeight;
+        
+        document.getElementById('window-height').value = newHeight;
+        document.getElementById('window-height-value').textContent = newHeight;
+    } else {
+        // Adjust width
+        let newWidth = windowState.width + delta * step;
+        newWidth = Math.max(1, Math.min(newWidth, GRID_WIDTH - windowState.x));
+        windowState.width = newWidth;
+        
+        document.getElementById('window-width').value = newWidth;
+        document.getElementById('window-width-value').textContent = newWidth;
+    }
+    
+    updateWindowNotes();
+    drawWorld();
+    worldStats.updateStats();
+}
+
+// Helper function to update Faust parameters and corresponding UI elements
+function updateFaustParams(param, value) {
+    if (!faustNode) return;
+    
+    const paramPath = param.startsWith('/') ? param : `/${faustNodeJSON.name}/${param}`;
+    faustNode.setParamValue(paramPath, value);
+    
+    // Find and update the corresponding slider if it exists
+    const paramName = paramPath.split('/').pop();
+    const allControls = [...document.querySelectorAll('.parameter-control')];
+    const control = allControls.find(div => {
+        const label = div.querySelector('label');
+        return label && label.textContent === paramName;
+    });
+    
+    if (control) {
+        const slider = control.querySelector('input[type="range"]');
+        const valueDisplay = control.querySelector('span');
+        if (slider && valueDisplay) {
+            slider.value = value;
+            valueDisplay.textContent = value;
+        }
+    }
+}

@@ -1,0 +1,34 @@
+.window-controls {
+    margin-bottom: 20px;
+}
+
+.world-stats {
+    background-color: #1a1a1a;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.world-stats h3 {
+    margin: 0 0 10px 0;
+    color: #fff;
+    font-size: 16px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    color: #ddd;
+}
+
+.stat-item label {
+    font-size: 14px;
+}
+
+.stat-item span {
+    font-family: monospace;
+    font-size: 14px;
+    color: #4CAF50;
+} 
