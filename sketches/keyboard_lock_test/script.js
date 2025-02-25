@@ -9,6 +9,8 @@ if (window.self === window.top) {
   const body = document.body;
   const div = document.querySelector("div");
   const info = document.querySelector(".info");
+  const toggleControlsButton = document.querySelector("#toggle-controls");
+  const controlsContainer = document.querySelector("#controls-container");
   
   const ENTER_FULLSCREEN = "Enter full screen";
   const LEAVE_FULLSCREEN = "Leave full screen";
@@ -18,6 +20,7 @@ if (window.self === window.top) {
   const LOCKED_KEYS = ["MetaLeft", "MetaRight", "Tab", "KeyN", "KeyT", "Escape"];
   
   let lock = false;
+  let controlsVisible = true;
   
   fullscreenButton.addEventListener("click", async () => {
     if (window.self !== window.top) {
@@ -191,7 +194,7 @@ if (window.self === window.top) {
   const pianoRoll = {
     scrollSpeed: 1, // pixels per frame
     noteWidth: 1, // pixels per frame of note length (reduced to match scroll speed)
-    laneHeight: 16, // height of each key lane (reduced for better fit)
+    laneHeight: 12, // height of each key lane (reduced for better fit)
     laneGap: 1, // gap between lanes (reduced for better fit)
     gridLineFrequency: 60, // frames between grid lines
     gridLineWidth: 1,
@@ -208,6 +211,22 @@ if (window.self === window.top) {
       control: '#00BCD4', // cyan
       alt: '#FF5722', // deep orange
       shift: '#9E9E9E', // grey
+      // Modifier combinations with distinct colors
+      allModifiers: '#8E24AA', // All modifiers - deep purple
+      shiftCtrlAlt: '#D81B60', // Shift+Ctrl+Alt - pink
+      shiftCtrlMeta: '#5E35B1', // Shift+Ctrl+Meta - deep purple
+      shiftAltMeta: '#1E88E5', // Shift+Alt+Meta - blue
+      ctrlAltMeta: '#43A047', // Ctrl+Alt+Meta - green
+      shiftCtrl: '#3949AB', // Shift+Ctrl - indigo
+      shiftAlt: '#039BE5', // Shift+Alt - light blue
+      shiftMeta: '#8E24AA', // Shift+Meta - purple
+      ctrlAlt: '#00897B', // Ctrl+Alt - teal
+      ctrlMeta: '#7CB342', // Ctrl+Meta - light green
+      altMeta: '#FB8C00', // Alt+Meta - orange
+      shiftCombo: '#757575', // Shift+Key - grey
+      ctrlCombo: '#0097A7', // Ctrl+Key - cyan
+      altCombo: '#FF7043', // Alt+Key - deep orange
+      metaCombo: '#EC407A', // Meta+Key - pink
     },
     notes: [], // active notes
     history: [], // past notes for scrolling
@@ -258,8 +277,11 @@ if (window.self === window.top) {
   
   // Resize canvas to fit container while maintaining aspect ratio
   function resizeCanvas() {
-    // Update the canvas width to match the window width
-    canvas.width = window.innerWidth - 40; // Subtract padding
+    // Calculate available width based on controls visibility
+    let availableWidth = window.innerWidth - 40; // Subtract padding
+    
+    // Update the canvas width
+    canvas.width = availableWidth;
     
     // Keep the canvas style height at its actual pixel height
     canvas.style.width = '100%';
@@ -300,9 +322,45 @@ if (window.self === window.top) {
     if (keyCode.startsWith('Alt')) return pianoRoll.noteColors.alt;
     if (keyCode.startsWith('Shift')) return pianoRoll.noteColors.shift;
     
-    // If a non-modifier key is pressed with a modifier, use the combo color
-    if (hasModifier) {
-      return pianoRoll.noteColors.modifierCombo;
+    // If this is a modifier key, we've already handled it above
+    if (isModifierKey(keyCode)) {
+      return pianoRoll.noteColors.default;
+    }
+    
+    // Get current modifier state
+    const modState = getCurrentModifierState();
+    
+    // Handle different modifier combinations
+    if (modState.shift && modState.ctrl && modState.alt && modState.meta) {
+      return pianoRoll.noteColors.allModifiers; // All modifiers
+    } else if (modState.shift && modState.ctrl && modState.alt) {
+      return pianoRoll.noteColors.shiftCtrlAlt; // Shift+Ctrl+Alt
+    } else if (modState.shift && modState.ctrl && modState.meta) {
+      return pianoRoll.noteColors.shiftCtrlMeta; // Shift+Ctrl+Meta
+    } else if (modState.shift && modState.alt && modState.meta) {
+      return pianoRoll.noteColors.shiftAltMeta; // Shift+Alt+Meta
+    } else if (modState.ctrl && modState.alt && modState.meta) {
+      return pianoRoll.noteColors.ctrlAltMeta; // Ctrl+Alt+Meta
+    } else if (modState.shift && modState.ctrl) {
+      return pianoRoll.noteColors.shiftCtrl; // Shift+Ctrl
+    } else if (modState.shift && modState.alt) {
+      return pianoRoll.noteColors.shiftAlt; // Shift+Alt
+    } else if (modState.shift && modState.meta) {
+      return pianoRoll.noteColors.shiftMeta; // Shift+Meta
+    } else if (modState.ctrl && modState.alt) {
+      return pianoRoll.noteColors.ctrlAlt; // Ctrl+Alt
+    } else if (modState.ctrl && modState.meta) {
+      return pianoRoll.noteColors.ctrlMeta; // Ctrl+Meta
+    } else if (modState.alt && modState.meta) {
+      return pianoRoll.noteColors.altMeta; // Alt+Meta
+    } else if (modState.shift) {
+      return pianoRoll.noteColors.shiftCombo; // Shift+Key
+    } else if (modState.ctrl) {
+      return pianoRoll.noteColors.ctrlCombo; // Ctrl+Key
+    } else if (modState.alt) {
+      return pianoRoll.noteColors.altCombo; // Alt+Key
+    } else if (modState.meta) {
+      return pianoRoll.noteColors.metaCombo; // Meta+Key
     }
     
     // Default color for regular keys
@@ -317,9 +375,8 @@ if (window.self === window.top) {
     // Skip if we don't have a lane for this key
     if (laneIndex === undefined) return;
     
-    // Check if any modifier is active using our helper
+    // Get current modifier state
     const modifierState = getCurrentModifierState();
-    const hasModifier = modifierState.hasAny();
     
     // Check if this note is already active
     const existingNoteIndex = pianoRoll.notes.findIndex(note => note.keyCode === keyCode);
@@ -331,11 +388,17 @@ if (window.self === window.top) {
         laneIndex,
         startFrame: pianoRoll.frame,
         length: 0, // Will be updated each frame
-        color: getNoteColor(keyCode, hasModifier),
-        hasModifier
+        color: getNoteColor(keyCode, modifierState.hasAny()),
+        hasModifier: modifierState.hasAny(),
+        // Store the specific modifier state for this note
+        modifierState: {
+          shift: modifierState.shift,
+          ctrl: modifierState.ctrl,
+          alt: modifierState.alt,
+          meta: modifierState.meta
+        }
       });
     }
-    // We don't need to update existing notes here anymore since that's handled in drawPianoRoll
   }
   
   // Handle key up for piano roll
@@ -373,9 +436,6 @@ if (window.self === window.top) {
     // Get current modifier state
     const modifierState = getCurrentModifierState();
     
-    // Check if any modifier is currently active
-    const hasModifier = modifierState.hasAny();
-    
     // Update note lengths and colors for active notes
     pianoRoll.notes.forEach(note => {
       // Use the same rate for note length as for scrolling
@@ -383,8 +443,14 @@ if (window.self === window.top) {
       
       // Check if this is a non-modifier key that needs color update
       if (!isModifierKey(note.keyCode)) {
-        // Update hasModifier status based on current state
-        if (note.hasModifier !== hasModifier) {
+        // Check if modifier state has changed
+        const modifiersChanged = 
+          note.modifierState.shift !== modifierState.shift ||
+          note.modifierState.ctrl !== modifierState.ctrl ||
+          note.modifierState.alt !== modifierState.alt ||
+          note.modifierState.meta !== modifierState.meta;
+        
+        if (modifiersChanged) {
           // If modifier state changed, create a history note with the current segment
           const historicalNote = {
             ...note,
@@ -394,8 +460,14 @@ if (window.self === window.top) {
           
           // Update the current note with new start frame and color
           note.startFrame = pianoRoll.frame;
-          note.hasModifier = hasModifier;
-          note.color = getNoteColor(note.keyCode, hasModifier);
+          note.hasModifier = modifierState.hasAny();
+          note.modifierState = {
+            shift: modifierState.shift,
+            ctrl: modifierState.ctrl,
+            alt: modifierState.alt,
+            meta: modifierState.meta
+          };
+          note.color = getNoteColor(note.keyCode, note.hasModifier);
           note.length = 0; // Reset length for the new segment
         }
       }
@@ -533,5 +605,22 @@ if (window.self === window.top) {
     // Reset piano roll
     pianoRoll.notes = [];
     pianoRoll.history = [];
+  });
+  
+  // Toggle controls visibility
+  toggleControlsButton.addEventListener("click", () => {
+    controlsVisible = !controlsVisible;
+    if (controlsVisible) {
+      controlsContainer.classList.remove("hidden");
+      toggleControlsButton.innerHTML = "<span>≡</span>";
+    } else {
+      controlsContainer.classList.add("hidden");
+      toggleControlsButton.innerHTML = "<span>≫</span>";
+    }
+    
+    // Trigger a resize event to update the canvas size
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 300); // Wait for the transition to complete
   });
   
