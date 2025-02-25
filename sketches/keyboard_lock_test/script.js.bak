@@ -1,0 +1,384 @@
+if (window.self === window.top) {
+    if (!("keyboard" in navigator)) {
+      alert("Your browser does not support the Keyboard Lock API.");
+    }
+  }
+  
+  const fullscreenButton = document.querySelector("#fullscreen");
+  const keyboardButton = document.querySelector("#keyboard");
+  const body = document.body;
+  const div = document.querySelector("div");
+  const info = document.querySelector(".info");
+  
+  const ENTER_FULLSCREEN = "Enter full screen";
+  const LEAVE_FULLSCREEN = "Leave full screen";
+  const ACTIVATE_KEYBOARD_LOCK = "Activate keyboard lock";
+  const DEACTIVATE_KEYBOARD_LOCK = "Dectivate keyboard lock";
+  
+  const LOCKED_KEYS = ["MetaLeft", "MetaRight", "Tab", "KeyN", "KeyT", "Escape"];
+  
+  let lock = false;
+  
+  fullscreenButton.addEventListener("click", async () => {
+    if (window.self !== window.top) {
+      window.open(location.href, "", "noopener,noreferrer");
+      return;
+    }
+    try {
+      if (!document.fullscreen) {
+        await document.documentElement.requestFullscreen();
+        fullscreenButton.textContent = LEAVE_FULLSCREEN;
+        return;
+      }
+      await document.exitFullscreen();
+      fullscreenButton.textContent = ENTER_FULLSCREEN;
+    } catch (err) {
+      fullscreenButton.textContent = ENTER_FULLSCREEN;
+      alert(`${err.name}: ${err.message}`);
+    }
+  });
+  
+  keyboardButton.addEventListener("click", async () => {
+    try {
+      if (!lock) {
+        await navigator.keyboard.lock(LOCKED_KEYS);
+        lock = true;
+        keyboardButton.textContent = DEACTIVATE_KEYBOARD_LOCK;
+        return;
+      }
+      navigator.keyboard.unlock();
+      keyboardButton.textContent = ACTIVATE_KEYBOARD_LOCK;
+      lock = false;
+    } catch (err) {
+      lock = false;
+      keyboardButton.textContent = ACTIVATE_KEYBOARD_LOCK;
+      alert(`${err.name}: ${err.message}`);
+    }
+  });
+  
+  document.addEventListener("fullscreenchange", () => {
+    keyboardButton.textContent = ACTIVATE_KEYBOARD_LOCK;
+    lock = false;
+    if (document.fullscreen) {
+      fullscreenButton.textContent = LEAVE_FULLSCREEN;
+      return (div.style.display = "block");
+    }
+    fullscreenButton.textContent = ENTER_FULLSCREEN;
+    div.style.display = "none";
+  });
+  
+  document.addEventListener("keydown", (e) => {
+    if (
+      lock &&
+      (e.code === "Escape" ||
+        ((e.code === "KeyN" || e.code === "KeyT") &&
+          (e.ctrlKey || e.metaKey)))
+    ) {
+      info.style.display = "block";
+      setTimeout(() => {
+        info.style.display = "none";
+      }, 3000);
+    }
+  });
+  
+  // Keyboard Visualizer Code
+  const pressedKeys = new Set();
+  const pressedKeysElement = document.getElementById("pressed-keys");
+  
+  // Function to update the keyboard visualizer
+  function updateKeyboardVisualizer() {
+    // Update the pressed keys display
+    if (pressedKeys.size === 0) {
+      pressedKeysElement.textContent = "None";
+    } else {
+      pressedKeysElement.textContent = Array.from(pressedKeys).join(", ");
+    }
+  }
+  
+  // Function to handle key down events
+  function handleKeyDown(event) {
+    // Prevent default behavior for the locked keys when lock is active
+    if (lock && LOCKED_KEYS.includes(event.code)) {
+      event.preventDefault();
+    }
+    
+    // Add the key to the set of pressed keys
+    pressedKeys.add(event.code);
+    
+    // Highlight the key in the visualizer
+    const keyElement = document.querySelector(`.key[data-key="${event.code}"]`);
+    if (keyElement) {
+      keyElement.classList.add("active");
+    }
+    
+    // Handle modifier keys
+    if (event.ctrlKey) {
+      const ctrlElements = document.querySelectorAll('.key[data-key="ControlLeft"], .key[data-key="ControlRight"]');
+      ctrlElements.forEach(el => el.classList.add("active"));
+    }
+    
+    if (event.altKey) {
+      const altElements = document.querySelectorAll('.key[data-key="AltLeft"], .key[data-key="AltRight"]');
+      altElements.forEach(el => el.classList.add("active"));
+    }
+    
+    if (event.shiftKey) {
+      const shiftElements = document.querySelectorAll('.key[data-key="ShiftLeft"], .key[data-key="ShiftRight"]');
+      shiftElements.forEach(el => el.classList.add("active"));
+    }
+    
+    if (event.metaKey) {
+      const metaElements = document.querySelectorAll('.key[data-key="MetaLeft"], .key[data-key="MetaRight"]');
+      metaElements.forEach(el => el.classList.add("active"));
+    }
+    
+    updateKeyboardVisualizer();
+  }
+  
+  // Function to handle key up events
+  function handleKeyUp(event) {
+    // Remove the key from the set of pressed keys
+    pressedKeys.delete(event.code);
+    
+    // Remove the highlight from the key in the visualizer
+    const keyElement = document.querySelector(`.key[data-key="${event.code}"]`);
+    if (keyElement) {
+      keyElement.classList.remove("active");
+    }
+    
+    // Handle modifier keys
+    if (!event.ctrlKey) {
+      const ctrlElements = document.querySelectorAll('.key[data-key="ControlLeft"], .key[data-key="ControlRight"]');
+      ctrlElements.forEach(el => el.classList.remove("active"));
+    }
+    
+    if (!event.altKey) {
+      const altElements = document.querySelectorAll('.key[data-key="AltLeft"], .key[data-key="AltRight"]');
+      altElements.forEach(el => el.classList.remove("active"));
+    }
+    
+    if (!event.shiftKey) {
+      const shiftElements = document.querySelectorAll('.key[data-key="ShiftLeft"], .key[data-key="ShiftRight"]');
+      shiftElements.forEach(el => el.classList.remove("active"));
+    }
+    
+    if (!event.metaKey) {
+      const metaElements = document.querySelectorAll('.key[data-key="MetaLeft"], .key[data-key="MetaRight"]');
+      metaElements.forEach(el => el.classList.remove("active"));
+    }
+    
+    updateKeyboardVisualizer();
+  }
+  
+  // Add event listeners for keyboard events
+  document.addEventListener("keydown", handleKeyDown);
+  document.addEventListener("keyup", handleKeyUp);
+  
+  // Initialize the keyboard visualizer
+  updateKeyboardVisualizer();
+  
+  // Piano Roll Visualizer Code
+  const pianoRoll = document.querySelector('.piano-roll');
+  const keyLabels = document.querySelector('.piano-roll-key-labels');
+  const scrollSpeedSlider = document.getElementById('scroll-speed');
+  const speedValueDisplay = document.getElementById('speed-value');
+  
+  // Define key order for the piano roll (from top to bottom)
+  const keyOrder = [
+    // Function keys
+    "Escape", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12",
+    // Number row
+    "Backquote", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "Minus", "Equal", "Backspace",
+    // QWERTY row
+    "Tab", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "BracketLeft", "BracketRight", "Backslash",
+    // ASDF row
+    "CapsLock", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "Semicolon", "Quote", "Enter",
+    // ZXCV row
+    "ShiftLeft", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Comma", "Period", "Slash", "ShiftRight",
+    // Bottom row
+    "ControlLeft", "MetaLeft", "AltLeft", "Space", "AltRight", "MetaRight", "ContextMenu", "ControlRight"
+  ];
+  
+  // Map of modifier keys
+  const modifierKeys = new Set([
+    "ShiftLeft", "ShiftRight", "ControlLeft", "ControlRight", 
+    "AltLeft", "AltRight", "MetaLeft", "MetaRight"
+  ]);
+  
+  // Map to store active notes
+  const activeNotes = new Map();
+  
+  // Scroll speed in pixels per second
+  let scrollSpeed = 100;
+  
+  // Initialize the piano roll
+  function initPianoRoll() {
+    // Clear existing content
+    pianoRoll.innerHTML = '';
+    keyLabels.innerHTML = '';
+    
+    // Create lanes for each key
+    keyOrder.forEach(keyCode => {
+      // Create key label
+      const keyLabel = document.createElement('div');
+      keyLabel.className = 'key-label';
+      keyLabel.textContent = getKeyDisplayName(keyCode);
+      keyLabels.appendChild(keyLabel);
+      
+      // Create lane
+      const lane = document.createElement('div');
+      lane.className = 'piano-roll-lane';
+      lane.dataset.keyCode = keyCode;
+      pianoRoll.appendChild(lane);
+    });
+    
+    // Set initial scroll speed
+    updateScrollSpeed(scrollSpeedSlider.value);
+  }
+  
+  // Helper function to get a display name for a key code
+  function getKeyDisplayName(keyCode) {
+    const keyElement = document.querySelector(`.key[data-key="${keyCode}"]`);
+    return keyElement ? keyElement.textContent : keyCode;
+  }
+  
+  // Update scroll speed based on slider value
+  function updateScrollSpeed(value) {
+    scrollSpeed = value * 20; // Scale from 1-10 to 20-200 pixels per second
+    speedValueDisplay.textContent = value;
+  }
+  
+  // Handle scroll speed slider change
+  scrollSpeedSlider.addEventListener('input', function() {
+    updateScrollSpeed(this.value);
+  });
+  
+  // Function to create a new note when a key is pressed
+  function createNote(keyCode) {
+    // Find the lane for this key
+    const lane = pianoRoll.querySelector(`.piano-roll-lane[data-key-code="${keyCode}"]`);
+    if (!lane) return null;
+    
+    // Create a new note element
+    const note = document.createElement('div');
+    note.className = 'note';
+    
+    // Set class based on whether it's a modifier key
+    if (modifierKeys.has(keyCode)) {
+      note.classList.add('modifier');
+    }
+    
+    // Position the note at the left edge of the piano roll
+    note.style.left = '0px';
+    note.style.width = '4px'; // Start with a small width
+    
+    // Add the note to the lane
+    lane.appendChild(note);
+    
+    return note;
+  }
+  
+  // Function to update notes (extend width and scroll)
+  function updateNotes() {
+    // Calculate how much to move based on scroll speed and time elapsed
+    const now = Date.now();
+    const elapsed = now - lastUpdateTime;
+    const moveAmount = (scrollSpeed * elapsed) / 1000; // pixels per millisecond
+    
+    // Update active notes
+    activeNotes.forEach((noteInfo, keyCode) => {
+      const { element, startTime } = noteInfo;
+      
+      // Extend the width of the note based on how long it's been pressed
+      const duration = now - startTime;
+      element.style.width = `${(duration / 1000) * scrollSpeed}px`;
+    });
+    
+    // Move all notes to the right (simulating scrolling to the left)
+    document.querySelectorAll('.note').forEach(note => {
+      const currentLeft = parseFloat(note.style.left) || 0;
+      note.style.left = `${currentLeft + moveAmount}px`;
+      
+      // Remove notes that have scrolled out of view
+      if (currentLeft > pianoRoll.offsetWidth) {
+        note.remove();
+      }
+    });
+    
+    lastUpdateTime = now;
+  }
+  
+  // Check for modifier keys and update note colors
+  function updateNoteColors() {
+    // Check if any modifier keys are pressed
+    const anyModifierPressed = Array.from(modifierKeys).some(key => pressedKeys.has(key));
+    
+    // Update colors of active notes
+    activeNotes.forEach((noteInfo, keyCode) => {
+      const { element } = noteInfo;
+      
+      // If this is not a modifier key and a modifier is pressed, change its color
+      if (!modifierKeys.has(keyCode) && anyModifierPressed) {
+        element.classList.add('with-modifier');
+      } else {
+        element.classList.remove('with-modifier');
+      }
+    });
+  }
+  
+  // Extend the handleKeyDown function to create notes
+  const originalHandleKeyDown = handleKeyDown;
+  handleKeyDown = function(event) {
+    // Call the original function
+    originalHandleKeyDown(event);
+    
+    // Create a note if this key isn't already being tracked
+    if (!activeNotes.has(event.code)) {
+      const noteElement = createNote(event.code);
+      if (noteElement) {
+        activeNotes.set(event.code, {
+          element: noteElement,
+          startTime: Date.now()
+        });
+      }
+    }
+    
+    // Update note colors based on modifier keys
+    updateNoteColors();
+  };
+  
+  // Extend the handleKeyUp function to stop tracking notes
+  const originalHandleKeyUp = handleKeyUp;
+  handleKeyUp = function(event) {
+    // Call the original function
+    originalHandleKeyUp(event);
+    
+    // Remove the note from active tracking (but leave it in the DOM to scroll)
+    activeNotes.delete(event.code);
+    
+    // Update note colors based on modifier keys
+    updateNoteColors();
+  };
+  
+  // Animation loop for the piano roll
+  let lastUpdateTime = Date.now();
+  function animatePianoRoll() {
+    updateNotes();
+    requestAnimationFrame(animatePianoRoll);
+  }
+  
+  // Initialize the piano roll
+  initPianoRoll();
+  
+  // Start the animation loop
+  animatePianoRoll();
+  
+  // Reset the keyboard visualizer when the page is unloaded
+  window.addEventListener("beforeunload", () => {
+    pressedKeys.clear();
+    document.querySelectorAll(".key").forEach(key => {
+      key.classList.remove("active");
+    });
+    updateKeyboardVisualizer();
+  });
+  
