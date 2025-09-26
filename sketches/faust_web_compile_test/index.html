@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="./index.js"></script>
+        <style>
+            #editor-container {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 20px;
+            }
+            #faust-code {
+                width: 100%;
+                height: 300px;
+                font-family: monospace;
+                margin-bottom: 10px;
+            }
+            .button-container {
+                display: flex;
+                gap: 10px;
+            }
+            #controls-container {
+                margin-top: 20px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f5f5f5;
+            }
+            .control-group {
+                margin-bottom: 15px;
+            }
+            .slider-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 8px;
+            }
+            .slider-label {
+                width: 120px;
+                font-family: monospace;
+            }
+            .slider-value {
+                width: 60px;
+                text-align: right;
+                margin-left: 10px;
+                font-family: monospace;
+            }
+            input[type="range"] {
+                flex-grow: 1;
+            }
+            button {
+                padding: 8px 16px;
+                cursor: pointer;
+            }
+            
+            /* Keyboard Visualizer Styles */
+            #keyboard-container {
+                margin-top: 20px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f5f5f5;
+            }
+            .keyboard {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            .keyboard-row {
+                display: flex;
+                gap: 5px;
+                width: 100%;
+                justify-content: center;
+            }
+            .key {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 30px;
+                height: 30px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 12px;
+                user-select: none;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .key.active {
+                background-color: #373fff;
+                color: white;
+                transform: translateY(2px);
+                box-shadow: 0 0 2px rgba(0,0,0,0.2);
+            }
+            .key.wide {
+                min-width: 80px;
+            }
+            .key.wider {
+                min-width: 60px;
+            }
+            .key.widest {
+                min-width: 100px;
+            }
+            .key-info {
+                margin-top: 10px;
+                text-align: center;
+            }
+            .keyboard-lock-info {
+                color: red;
+                text-align: center;
+                margin: 10px 0;
+                display: none;
+            }
+        </style>
+    </head>
+    <body style="position: absolute; width: 100%; height: 100%; margin: 0px; overflow-y: auto;">
+        <div class="button-container">
+            <button id="start">Start</button>
+            <button id="recompile">Recompile</button>
+            <button id="keyboard-lock">Lock Keyboard</button>
+        </div>
+        <div id="editor-container">
+            <textarea id="faust-code"></textarea>
+        </div>
+        <div id="controls-container">
+            <h3>Synthesis Controls</h3>
+            <div id="slider-controls"></div>
+            <div id="button-controls"></div>
+        </div>
+        <div id="keyboard-container">
+            <h3>Keyboard Visualizer</h3>
+            <div class="keyboard-lock-info">
+                The keyboard lock has captured this key or key combination.
+            </div>
+            <div class="keyboard">
+                <div class="keyboard-row">
+                    <div class="key" data-key="Escape">Esc</div>
+                    <div class="key" data-key="F1">F1</div>
+                    <div class="key" data-key="F2">F2</div>
+                    <div class="key" data-key="F3">F3</div>
+                    <div class="key" data-key="F4">F4</div>
+                    <div class="key" data-key="F5">F5</div>
+                    <div class="key" data-key="F6">F6</div>
+                    <div class="key" data-key="F7">F7</div>
+                    <div class="key" data-key="F8">F8</div>
+                    <div class="key" data-key="F9">F9</div>
+                    <div class="key" data-key="F10">F10</div>
+                    <div class="key" data-key="F11">F11</div>
+                    <div class="key" data-key="F12">F12</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key" data-key="Backquote">`</div>
+                    <div class="key" data-key="Digit1">1</div>
+                    <div class="key" data-key="Digit2">2</div>
+                    <div class="key" data-key="Digit3">3</div>
+                    <div class="key" data-key="Digit4">4</div>
+                    <div class="key" data-key="Digit5">5</div>
+                    <div class="key" data-key="Digit6">6</div>
+                    <div class="key" data-key="Digit7">7</div>
+                    <div class="key" data-key="Digit8">8</div>
+                    <div class="key" data-key="Digit9">9</div>
+                    <div class="key" data-key="Digit0">0</div>
+                    <div class="key" data-key="Minus">-</div>
+                    <div class="key" data-key="Equal">=</div>
+                    <div class="key wide" data-key="Backspace">Backspace</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key wider" data-key="Tab">Tab</div>
+                    <div class="key" data-key="KeyQ">Q</div>
+                    <div class="key" data-key="KeyW">W</div>
+                    <div class="key" data-key="KeyE">E</div>
+                    <div class="key" data-key="KeyR">R</div>
+                    <div class="key" data-key="KeyT">T</div>
+                    <div class="key" data-key="KeyY">Y</div>
+                    <div class="key" data-key="KeyU">U</div>
+                    <div class="key" data-key="KeyI">I</div>
+                    <div class="key" data-key="KeyO">O</div>
+                    <div class="key" data-key="KeyP">P</div>
+                    <div class="key" data-key="BracketLeft">[</div>
+                    <div class="key" data-key="BracketRight">]</div>
+                    <div class="key" data-key="Backslash">\</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key wider" data-key="CapsLock">Caps</div>
+                    <div class="key" data-key="KeyA">A</div>
+                    <div class="key" data-key="KeyS">S</div>
+                    <div class="key" data-key="KeyD">D</div>
+                    <div class="key" data-key="KeyF">F</div>
+                    <div class="key" data-key="KeyG">G</div>
+                    <div class="key" data-key="KeyH">H</div>
+                    <div class="key" data-key="KeyJ">J</div>
+                    <div class="key" data-key="KeyK">K</div>
+                    <div class="key" data-key="KeyL">L</div>
+                    <div class="key" data-key="Semicolon">;</div>
+                    <div class="key" data-key="Quote">'</div>
+                    <div class="key wider" data-key="Enter">Enter</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key widest" data-key="ShiftLeft">Shift</div>
+                    <div class="key" data-key="KeyZ">Z</div>
+                    <div class="key" data-key="KeyX">X</div>
+                    <div class="key" data-key="KeyC">C</div>
+                    <div class="key" data-key="KeyV">V</div>
+                    <div class="key" data-key="KeyB">B</div>
+                    <div class="key" data-key="KeyN">N</div>
+                    <div class="key" data-key="KeyM">M</div>
+                    <div class="key" data-key="Comma">,</div>
+                    <div class="key" data-key="Period">.</div>
+                    <div class="key" data-key="Slash">/</div>
+                    <div class="key widest" data-key="ShiftRight">Shift</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key" data-key="ControlLeft">Ctrl</div>
+                    <div class="key" data-key="MetaLeft">⌘</div>
+                    <div class="key" data-key="AltLeft">Alt</div>
+                    <div class="key widest" data-key="Space">Space</div>
+                    <div class="key" data-key="AltRight">Alt</div>
+                    <div class="key" data-key="MetaRight">⌘</div>
+                    <div class="key" data-key="ContextMenu">Menu</div>
+                    <div class="key" data-key="ControlRight">Ctrl</div>
+                </div>
+            </div>
+            <div class="key-info">
+                <p>Currently pressed: <span id="pressed-keys">None</span></p>
+            </div>
+        </div>
+    </body>
+    <script>
+
+        const faustKeyboardButtons = `key_A = button("key_A");`
+
+        // Default Faust code
+        const defaultCode = `
+import("stdfaust.lib");
+
+process = dm.oscrs_demo * key_A;`;
+
+        // Initialize the textarea with default code
+        document.getElementById("faust-code").value = defaultCode;
+        
+        let audioCtx, faustModule, libFaust, compiler, generator, node;
+        let polycode = defaultCode + faustKeyboardButtons;
+        // Keyboard Visualizer Variables
+        const pressedKeys = new Set();
+        const keyboardLockButton = document.getElementById("keyboard-lock");
+        const keyboardLockInfo = document.querySelector(".keyboard-lock-info");
+        const LOCKED_KEYS = ["MetaLeft", "MetaRight", "Tab", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM"];
+        let keyboardLocked = false;
+        
+        // Key state management to prevent key repeat issues
+        const keyStates = {
+            // Track the state of all keys (true = pressed, false = released)
+            keys: {},
+            // Track modifier keys
+            modifiers: {
+                shift: false,
+                ctrl: false,
+                alt: false,
+                meta: false
+            },
+            // Check if a key is already pressed
+            isPressed: function(keyCode) {
+                return this.keys[keyCode] === true;
+            },
+            // Mark a key as pressed
+            press: function(keyCode) {
+                // Only return true if this is a new press
+                const isNewPress = !this.isPressed(keyCode);
+                this.keys[keyCode] = true;
+                
+                // Update modifier states
+                if (keyCode === "ShiftLeft" || keyCode === "ShiftRight") this.modifiers.shift = true;
+                if (keyCode === "ControlLeft" || keyCode === "ControlRight") this.modifiers.ctrl = true;
+                if (keyCode === "AltLeft" || keyCode === "AltRight") this.modifiers.alt = true;
+                if (keyCode === "MetaLeft" || keyCode === "MetaRight") this.modifiers.meta = true;
+                
+                return isNewPress;
+            },
+            // Mark a key as released
+            release: function(keyCode) {
+                // Only return true if the key was previously pressed
+                const wasPressed = this.isPressed(keyCode);
+                this.keys[keyCode] = false;
+                
+                // Update modifier states
+                if (keyCode === "ShiftLeft" || keyCode === "ShiftRight") this.modifiers.shift = false;
+                if (keyCode === "ControlLeft" || keyCode === "ControlRight") this.modifiers.ctrl = false;
+                if (keyCode === "AltLeft" || keyCode === "AltRight") this.modifiers.alt = false;
+                if (keyCode === "MetaLeft" || keyCode === "MetaRight") this.modifiers.meta = false;
+                
+                return wasPressed;
+            },
+            // Get the current state of a key
+            getState: function(keyCode) {
+                return this.keys[keyCode] === true;
+            },
+            // Reset all key states
+            reset: function() {
+                this.keys = {};
+                this.modifiers.shift = false;
+                this.modifiers.ctrl = false;
+                this.modifiers.alt = false;
+                this.modifiers.meta = false;
+            }
+        };
+        
+        // Initialize keyboard visualizer
+        function initKeyboardVisualizer() {
+            // Add event listeners for keyboard events
+            document.addEventListener("keydown", handleKeyDown);
+            document.addEventListener("keyup", handleKeyUp);
+            
+            // Initialize keyboard lock button
+            keyboardLockButton.addEventListener("click", toggleKeyboardLock);
+            
+            // Reset key states when window loses focus
+            window.addEventListener("blur", () => {
+                keyStates.reset();
+                pressedKeys.clear();
+                updateKeyboardVisualizer();
+            });
+        }
+        
+        // Handle key down events
+        function handleKeyDown(event) {
+            // Check if the textarea is focused - don't intercept keyboard events if it is
+            if (document.activeElement === document.getElementById('faust-code')) {
+                return;
+            }
+            
+            // Check if this is a new key press or a repeat
+            const isNewPress = keyStates.press(event.code);
+            
+            // Add the key to the set of pressed keys for visualization
+            pressedKeys.add(event.code);
+            
+            // Update the keyboard visualizer
+            updateKeyboardVisualizer();
+            
+            // Only process new key presses to avoid repeat triggers
+            if (isNewPress && LOCKED_KEYS.includes(event.code)) {
+                // keyboardLockInfo.style.display = "block";
+
+                // If the key is a letter key, trigger the corresponding Faust parameter
+                if (event.code.startsWith("Key") && node && node.setParamValue) {
+                    const keyName = "key_" + event.code.slice(3);
+                    console.log(`${keyName} set to 1 (modifiers: ${JSON.stringify(keyStates.modifiers)})`);
+                    
+                    node.setParamValue("/dsp/" + keyName, 1);
+                }
+                
+                // Prevent default behavior for locked keys
+                event.preventDefault();
+                
+                // Hide the info message after 2 seconds
+                setTimeout(() => {
+                    keyboardLockInfo.style.display = "none";
+                }, 2000);
+
+            }
+        }
+        
+        // Handle key up events
+        function handleKeyUp(event) {
+            // Check if the textarea is focused - don't intercept keyboard events if it is
+            if (document.activeElement === document.getElementById('faust-code')) {
+                return;
+            }
+            
+            // Check if the key was previously pressed
+            const wasPressed = keyStates.release(event.code);
+            
+            // Remove the key from the set of pressed keys for visualization
+            pressedKeys.delete(event.code);
+            
+            // Update the keyboard visualizer
+            updateKeyboardVisualizer();
+            
+            // Only process if the key was previously pressed
+            if (wasPressed && event.code.startsWith("Key") && node && node.setParamValue) {
+                const keyName = "key_" + event.code.slice(3);
+                console.log(`${keyName} set to 0 (modifiers: ${JSON.stringify(keyStates.modifiers)})`);
+                
+                node.setParamValue("/dsp/" + keyName, 0);
+            }
+        }
+        
+        // Update the keyboard visualizer
+        function updateKeyboardVisualizer() {
+            // Update the pressed keys display
+            const pressedKeysElement = document.getElementById("pressed-keys");
+            if (pressedKeys.size === 0) {
+                pressedKeysElement.textContent = "None";
+            } else {
+                pressedKeysElement.textContent = Array.from(pressedKeys).join(", ");
+            }
+            
+            // Update the keyboard visualization
+            document.querySelectorAll(".key").forEach(key => {
+                const keyCode = key.getAttribute("data-key");
+                if (pressedKeys.has(keyCode)) {
+                    key.classList.add("active");
+                } else {
+                    key.classList.remove("active");
+                }
+            });
+        }
+        
+        // Toggle keyboard lock
+        async function toggleKeyboardLock() {
+            try {
+                if (!keyboardLocked) {
+                    // Check if the Keyboard Lock API is available
+                    if (!("keyboard" in navigator)) {
+                        alert("Your browser does not support the Keyboard Lock API.");
+                        return;
+                    }
+                    
+                    // Request fullscreen if not already in fullscreen
+                    if (!document.fullscreenElement) {
+                        await document.documentElement.requestFullscreen();
+                    }
+                    
+                    // Lock the keyboard
+                    await navigator.keyboard.lock(LOCKED_KEYS);
+                    keyboardLocked = true;
+                    keyboardLockButton.textContent = "Unlock Keyboard";
+                    
+                    // Reset key states when locking
+                    keyStates.reset();
+                    pressedKeys.clear();
+                    updateKeyboardVisualizer();
+                    
+                    // Blur the textarea if it's focused to ensure keyboard events are captured
+                    if (document.activeElement === document.getElementById('faust-code')) {
+                        document.getElementById('faust-code').blur();
+                    }
+                } else {
+                    // Unlock the keyboard
+                    navigator.keyboard.unlock();
+                    keyboardLocked = false;
+                    keyboardLockButton.textContent = "Lock Keyboard";
+                    
+                    // Reset key states when unlocking
+                    keyStates.reset();
+                    pressedKeys.clear();
+                    updateKeyboardVisualizer();
+                }
+            } catch (err) {
+                keyboardLocked = false;
+                keyboardLockButton.textContent = "Lock Keyboard";
+                alert(`${err.name}: ${err.message}`);
+            }
+        }
+        
+        // Handle fullscreen change
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.fullscreenElement) {
+                // If exiting fullscreen, also unlock the keyboard
+                navigator.keyboard.unlock();
+                keyboardLocked = false;
+                keyboardLockButton.textContent = "Lock Keyboard";
+                
+                // Reset key states when exiting fullscreen
+                keyStates.reset();
+                pressedKeys.clear();
+                updateKeyboardVisualizer();
+            }
+        });
+        
+        // const playNote = (node) => {
+        //     node.keyOn(0, 60, 100);
+        //     setTimeout(() => node.keyOn(0, 64, 40), 500);
+        //     setTimeout(() => node.keyOn(0, 67, 80), 1000);
+        //     setTimeout(() => node.keyOn(0, 68, 40), 500);
+        //     setTimeout(() => node.keyOn(0, 71, 80), 1000);
+        //     setTimeout(() => node.allNotesOff(), 5000);
+        // };
+        
+        let t0 = performance.now();
+        const time = (str) => {
+            const t = performance.now();
+            if (str) console.log(str, t - t0);
+            t0 = t;
+        }
+        
+        const { instantiateFaustModule, LibFaust, FaustCompiler, FaustMonoDspGenerator } = faustwasm;
+        
+        // Function to create sliders and buttons based on node.fJSON
+        function createControls(node) {
+            // Clear existing controls
+            const sliderContainer = document.getElementById("slider-controls");
+            const buttonContainer = document.getElementById("button-controls");
+            sliderContainer.innerHTML = "";
+            buttonContainer.innerHTML = "";
+            
+            try {
+                // Parse the JSON interface
+                const jsonInterface = JSON.parse(node.fJSON);
+                console.log("Faust JSON Interface:", jsonInterface);
+                
+                if (!jsonInterface.ui || !Array.isArray(jsonInterface.ui)) {
+                    console.error("Invalid UI description in fJSON");
+                    return;
+                }
+                
+                // Process UI elements recursively
+                function processUIGroup(group, parentElement) {
+                    if (!group.items || !Array.isArray(group.items)) return;
+                    
+                    // Create a container for this group if it has a label
+                    let groupElement = parentElement;
+                    if (group.type === "vgroup" || group.type === "hgroup" || group.type === "tgroup") {
+                        const groupDiv = document.createElement("div");
+                        groupDiv.className = "control-group";
+                        const groupLabel = document.createElement("h4");
+                        groupLabel.textContent = group.label || "Controls";
+                        groupDiv.appendChild(groupLabel);
+                        parentElement.appendChild(groupDiv);
+                        groupElement = groupDiv;
+                    }
+                    
+                    // Process each item in the group
+                    group.items.forEach(item => {
+                        if (item.type === "vslider" || item.type === "hslider") {
+                            // Create slider
+                            const sliderDiv = document.createElement("div");
+                            sliderDiv.className = "slider-container";
+                            
+                            const label = document.createElement("div");
+                            label.className = "slider-label";
+                            label.textContent = item.label;
+                            
+                            const slider = document.createElement("input");
+                            slider.type = "range";
+                            slider.min = item.min;
+                            slider.max = item.max;
+                            slider.step = item.step;
+                            slider.value = item.init;
+                            
+                            const valueDisplay = document.createElement("div");
+                            valueDisplay.className = "slider-value";
+                            valueDisplay.textContent = item.init;
+                            
+                            // Add event listener to update parameter and display
+                            slider.addEventListener("input", () => {
+                                valueDisplay.textContent = slider.value;
+                                if (node && node.setParamValue) {
+                                    node.setParamValue(item.address, parseFloat(slider.value));
+                                }
+                            });
+                            
+                            sliderDiv.appendChild(label);
+                            sliderDiv.appendChild(slider);
+                            sliderDiv.appendChild(valueDisplay);
+                            groupElement.appendChild(sliderDiv);
+                        } else if (item.type === "button") {
+                            // Create button
+                            const buttonDiv = document.createElement("div");
+                            buttonDiv.className = "slider-container";
+                            
+                            const label = document.createElement("div");
+                            label.className = "slider-label";
+                            label.textContent = item.label;
+                            
+                            const button = document.createElement("button");
+                            button.textContent = item.label;
+                            
+                            // Add event listeners for button
+                            button.addEventListener("mousedown", () => {
+                                if (node && node.setParamValue) {
+                                    node.setParamValue(item.address, 1);
+                                }
+                            });
+                            
+                            button.addEventListener("mouseup", () => {
+                                if (node && node.setParamValue) {
+                                    node.setParamValue(item.address, 0);
+                                }
+                            });
+                            
+                            buttonDiv.appendChild(label);
+                            buttonDiv.appendChild(button);
+                            buttonContainer.appendChild(buttonDiv);
+                        } else if (item.type === "vgroup" || item.type === "hgroup" || item.type === "tgroup") {
+                            // Process nested group
+                            processUIGroup(item, groupElement);
+                        }
+                    });
+                }
+                
+                // Start processing from the root UI
+                jsonInterface.ui.forEach(group => {
+                    processUIGroup(group, sliderContainer);
+                });
+                
+            } catch (error) {
+                console.error("Error creating controls:", error);
+            }
+        }
+        
+        // Function to compile Faust code
+        async function compileFaustCode(code) {
+            try {
+                // Get the code from the textarea
+                polycode = code;
+                
+                // Disconnect previous node if it exists
+                if (node) {
+                    node.disconnect();
+                }
+                
+                // Compile the new code
+                await generator.compile(compiler, "dsp", polycode, "");
+                time("Faust DSP compiled");
+                
+                // Create a new node
+                node = await generator.createNode(audioCtx, 4);
+                time("Faust AW Node generated");
+                
+                // Connect the node to the audio context
+                node.connect(audioCtx.destination);
+                
+                // Create controls based on the node's JSON interface
+                createControls(node);
+                
+                // Play a note to test
+                // playNote(node);
+                
+                return true;
+            } catch (error) {
+                console.error("Faust compilation error:", error);
+                return false;
+            }
+        }
+        
+        // Initialize Faust environment
+        async function initFaust() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            await audioCtx.resume();
+            time();
+            faustModule = await instantiateFaustModule();
+            time("Faust WASM Module ready");
+            libFaust = new LibFaust(faustModule);
+            compiler = new FaustCompiler(libFaust);
+            generator = new FaustMonoDspGenerator();
+            time("Faust DSP Generator ready");
+            
+            // Initialize keyboard visualizer
+            initKeyboardVisualizer();
+            
+            // Compile the initial code
+            return await compileFaustCode(polycode);
+        }
+        
+        // Start button event handler
+        document.getElementById("start").onclick = async () => {
+            await initFaust();
+            console.log(JSON.parse(node.fJSON).ui);
+            
+        };
+        
+        // Recompile button event handler
+        document.getElementById("recompile").onclick = async () => {
+            if (!compiler || !generator) {
+                console.error("Faust environment not initialized. Please click 'Start' first.");
+                return;
+            }
+            
+            const code = document.getElementById("faust-code").value + "\n" + faustKeyboardButtons;
+            await compileFaustCode(code);
+        };
+    </script>
+</html>
