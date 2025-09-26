@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="faust.js"></script>
+</head>
+
+<body style="position: absolute; width: 100%; height: 100%; margin: 0px; overflow-y: auto;">
+    <div class="button-container">
+        <button id="start">Start</button>
+        <button id="recompile">Recompile</button>
+        <button id="keyboard-lock">Lock Keyboard</button>
+    </div>
+
+    <div id="controls-container">
+        <h3>Synthesis Controls</h3>
+        <div id="slider-controls"></div>
+        <div id="button-controls"></div>
+    </div>
+</body>
+<style>
+    #editor-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    #faust-code {
+        width: 100%;
+        height: 300px;
+        font-family: monospace;
+        margin-bottom: 10px;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 10px;
+    }
+
+    #controls-container {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+    }
+
+    .control-group {
+        margin-bottom: 15px;
+    }
+
+    .slider-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .slider-label {
+        width: 120px;
+        font-family: monospace;
+    }
+
+    .slider-value {
+        width: 60px;
+        text-align: right;
+        margin-left: 10px;
+        font-family: monospace;
+    }
+
+    input[type="range"] {
+        flex-grow: 1;
+    }
+
+    button {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+</style>
+<script>
+
+    // Default Faust code
+    const defaultCode = `
+    declare name "filterOSC";
+declare version "0.0";
+declare author "JOS, revised by RM";
+declare description "Simple application demoing filter based oscillators.";
+
+import("stdfaust.lib");
+
+gate = button("gate");
+
+process = dm.oscrs_demo * en.adsr(0.2, 0.8,0.8,0.2,gate);
+
+    `;
+
+    const getAmbisonicCode = fetch('ambisonics_faust_code/azimuth_rotator.dsp');
+    
+
+    let audioCtx, faustModule, libFaust, compiler, generator, node;
+    let polycode = getAmbisonicCode;
+    console.log(polycode);
+
+    // const playNote = (node) => {
+    //     node.keyOn(0, 60, 100);
+    //     setTimeout(() => node.keyOn(0, 64, 40), 500);
+    //     setTimeout(() => node.keyOn(0, 67, 80), 1000);
+    //     setTimeout(() => node.keyOn(0, 68, 40), 500);
+    //     setTimeout(() => node.keyOn(0, 71, 80), 1000);
+    //     setTimeout(() => node.allNotesOff(), 5000);
+    // };
+
+    let t0 = performance.now();
+    const time = (str) => {
+        const t = performance.now();
+        if (str) console.log(str, t - t0);
+        t0 = t;
+    }
+
+    const { instantiateFaustModule, LibFaust, FaustCompiler, FaustMonoDspGenerator } = faustwasm;
+
+    // Function to create sliders and buttons based on node.fJSON
+    function createControls(node) {
+        // Clear existing controls
+        const sliderContainer = document.getElementById("slider-controls");
+        const buttonContainer = document.getElementById("button-controls");
+        sliderContainer.innerHTML = "";
+        buttonContainer.innerHTML = "";
+
+        try {
+            // Parse the JSON interface
+            const jsonInterface = JSON.parse(node.fJSON);
+            console.log("Faust JSON Interface:", jsonInterface);
+
+            if (!jsonInterface.ui || !Array.isArray(jsonInterface.ui)) {
+                console.error("Invalid UI description in fJSON");
+                return;
+            }
+
+            // Process UI elements recursively
+            function processUIGroup(group, parentElement) {
+                if (!group.items || !Array.isArray(group.items)) return;
+
+                // Create a container for this group if it has a label
+                let groupElement = parentElement;
+                if (group.type === "vgroup" || group.type === "hgroup" || group.type === "tgroup") {
+                    const groupDiv = document.createElement("div");
+                    groupDiv.className = "control-group";
+                    const groupLabel = document.createElement("h4");
+                    groupLabel.textContent = group.label || "Controls";
+                    groupDiv.appendChild(groupLabel);
+                    parentElement.appendChild(groupDiv);
+                    groupElement = groupDiv;
+                }
+
+                // Process each item in the group
+                group.items.forEach(item => {
+                    if (item.type === "vslider" || item.type === "hslider") {
+                        // Create slider
+                        const sliderDiv = document.createElement("div");
+                        sliderDiv.className = "slider-container";
+
+                        const label = document.createElement("div");
+                        label.className = "slider-label";
+                        label.textContent = item.label;
+
+                        const slider = document.createElement("input");
+                        slider.type = "range";
+                        slider.min = item.min;
+                        slider.max = item.max;
+                        slider.step = item.step;
+                        slider.value = item.init;
+
+                        const valueDisplay = document.createElement("div");
+                        valueDisplay.className = "slider-value";
+                        valueDisplay.textContent = item.init;
+
+                        // Add event listener to update parameter and display
+                        slider.addEventListener("input", () => {
+                            valueDisplay.textContent = slider.value;
+                            if (node && node.setParamValue) {
+                                node.setParamValue(item.address, parseFloat(slider.value));
+                            }
+                        });
+
+                        sliderDiv.appendChild(label);
+                        sliderDiv.appendChild(slider);
+                        sliderDiv.appendChild(valueDisplay);
+                        groupElement.appendChild(sliderDiv);
+                    } else if (item.type === "button") {
+                        // Create button
+                        const buttonDiv = document.createElement("div");
+                        buttonDiv.className = "slider-container";
+
+                        const label = document.createElement("div");
+                        label.className = "slider-label";
+                        label.textContent = item.label;
+
+                        const button = document.createElement("button");
+                        button.textContent = item.label;
+
+                        // Add event listeners for button
+                        button.addEventListener("mousedown", () => {
+                            if (node && node.setParamValue) {
+                                node.setParamValue(item.address, 1);
+                            }
+                        });
+
+                        button.addEventListener("mouseup", () => {
+                            if (node && node.setParamValue) {
+                                node.setParamValue(item.address, 0);
+                            }
+                        });
+
+                        buttonDiv.appendChild(label);
+                        buttonDiv.appendChild(button);
+                        buttonContainer.appendChild(buttonDiv);
+                    } else if (item.type === "vgroup" || item.type === "hgroup" || item.type === "tgroup") {
+                        // Process nested group
+                        processUIGroup(item, groupElement);
+                    }
+                });
+            }
+
+            // Start processing from the root UI
+            jsonInterface.ui.forEach(group => {
+                processUIGroup(group, sliderContainer);
+            });
+
+        } catch (error) {
+            console.error("Error creating controls:", error);
+        }
+    }
+
+    // Function to compile Faust code
+    async function compileFaustCode(code) {
+        try {
+            // Get the code from the textarea
+            polycode = code;
+
+            // Disconnect previous node if it exists
+            if (node) {
+                node.disconnect();
+            }
+
+            // Compile the new code
+            await generator.compile(compiler, "dsp", polycode, "");
+            time("Faust DSP compiled");
+
+            // Create a new node
+            node = await generator.createNode(audioCtx, 4);
+            time("Faust AW Node generated");
+
+            // Connect the node to the audio context
+            node.connect(audioCtx.destination);
+
+            // Create controls based on the node's JSON interface
+            createControls(node);
+
+            // Play a note to test
+            // playNote(node);
+
+            return true;
+        } catch (error) {
+            console.error("Faust compilation error:", error);
+            return false;
+        }
+    }
+
+    // Initialize Faust environment
+    async function initFaust() {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        await audioCtx.resume();
+        time();
+        faustModule = await instantiateFaustModule();
+        time("Faust WASM Module ready");
+        libFaust = new LibFaust(faustModule);
+        compiler = new FaustCompiler(libFaust);
+        generator = new FaustMonoDspGenerator();
+        time("Faust DSP Generator ready");
+
+        // Initialize keyboard visualizer
+        // Compile the initial code
+        return await compileFaustCode(polycode);
+    }
+
+    // Start button event handler
+    document.getElementById("start").onclick = async () => {
+        await initFaust();
+        console.log(JSON.parse(node.fJSON).ui);
+    };
+
+    // Recompile button event handler
+    document.getElementById("recompile").onclick = async () => {
+        if (!compiler || !generator) {
+            console.error("Faust environment not initialized. Please click 'Start' first.");
+            return;
+        }
+
+        const code = document.getElementById("faust-code").value + "\n" + faustKeyboardButtons;
+        await compileFaustCode(code);
+    };
+</script>
+
+</html>
