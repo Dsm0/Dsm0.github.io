@@ -1,6 +1,137 @@
 // Set to > 0 if the DSP is polyphonic
 const FAUST_DSP_VOICES = 24;
 
+// Musical scales for the automata
+const MUSICAL_SCALES = {
+    'pentatonic': {
+        name: 'Pentatonic',
+        intervals: [0, 3, 5, 7, 10], // Minor pentatonic
+        octaves: 4
+    },
+    'major': {
+        name: 'Major',
+        intervals: [0, 2, 4, 5, 7, 9, 11], // Major scale
+        octaves: 3
+    },
+    'minor': {
+        name: 'Natural Minor',
+        intervals: [0, 2, 3, 5, 7, 8, 10], // Natural minor scale
+        octaves: 3
+    },
+    'blues': {
+        name: 'Blues',
+        intervals: [0, 3, 5, 6, 7, 10], // Blues scale
+        octaves: 4
+    },
+    'chromatic': {
+        name: 'Chromatic',
+        intervals: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], // Chromatic scale
+        octaves: 2
+    },
+    'dorian': {
+        name: 'Dorian',
+        intervals: [0, 2, 3, 5, 7, 9, 10], // Dorian mode
+        octaves: 3
+    },
+    'mixolydian': {
+        name: 'Mixolydian',
+        intervals: [0, 2, 4, 5, 7, 9, 10], // Mixolydian mode
+        octaves: 3
+    },
+    'harmonic-minor': {
+        name: 'Harmonic Minor',
+        intervals: [0, 2, 3, 5, 7, 8, 11], // Harmonic minor scale
+        octaves: 3
+    },
+    'lydian': {
+        name: 'Lydian',
+        intervals: [0, 2, 4, 6, 7, 9, 11], // Lydian mode
+        octaves: 3
+    },
+    'phrygian': {
+        name: 'Phrygian',
+        intervals: [0, 1, 3, 5, 7, 8, 10], // Phrygian mode
+        octaves: 3
+    },
+    'locrian': {
+        name: 'Locrian',
+        intervals: [0, 1, 3, 5, 6, 8, 10], // Locrian mode
+        octaves: 3
+    },
+    'melodic-minor': {
+        name: 'Melodic Minor',
+        intervals: [0, 2, 3, 5, 7, 9, 11], // Jazz melodic minor (ascending)
+        octaves: 3
+    },
+    'whole-tone': {
+        name: 'Whole Tone',
+        intervals: [0, 2, 4, 6, 8, 10], // Whole tone scale
+        octaves: 3
+    },
+    'diminished': {
+        name: 'Diminished',
+        intervals: [0, 2, 3, 5, 6, 8, 9, 11], // Diminished (half-whole) scale
+        octaves: 3
+    },
+    'augmented': {
+        name: 'Augmented',
+        intervals: [0, 3, 4, 7, 8, 11], // Augmented scale
+        octaves: 3
+    },
+    'major-pentatonic': {
+        name: 'Major Pentatonic',
+        intervals: [0, 2, 4, 7, 9], // Major pentatonic scale
+        octaves: 4
+    },
+    'japanese': {
+        name: 'Japanese',
+        intervals: [0, 2, 5, 7, 9], // Japanese scale (In scale)
+        octaves: 4
+    },
+    'egyptian': {
+        name: 'Egyptian',
+        intervals: [0, 2, 5, 7, 10], // Egyptian pentatonic scale
+        octaves: 4
+    },
+    'hungarian': {
+        name: 'Hungarian',
+        intervals: [0, 2, 3, 6, 7, 8, 11], // Hungarian minor scale
+        octaves: 3
+    },
+    'gypsy': {
+        name: 'Gypsy',
+        intervals: [0, 2, 3, 6, 7, 8, 10], // Gypsy scale
+        octaves: 3
+    },
+    'arabic': {
+        name: 'Arabic',
+        intervals: [0, 1, 4, 5, 7, 8, 11], // Arabic scale
+        octaves: 3
+    },
+    'chinese': {
+        name: 'Chinese',
+        intervals: [0, 2, 4, 7, 9], // Chinese pentatonic scale
+        octaves: 4
+    }
+};
+
+// Currently selected scale
+let currentScale = 'pentatonic';
+
+// Helper function to generate scale notes
+function generateScaleNotes(scaleKey, rootNote = 48) {
+    const scale = MUSICAL_SCALES[scaleKey];
+    const notes = [];
+
+    for (let octave = 0; octave < scale.octaves; octave++) {
+        for (const interval of scale.intervals) {
+            notes.push(rootNote + (octave * 12) + interval);
+        }
+    }
+
+    return notes;
+}
+
 // Game of Life implementation
 const CELL_SIZE = 6;
 const GRID_WIDTH = 64;
@@ -276,10 +407,10 @@ const RULESETS = {
             return cell.alive;
         },
         soundMapping: {
-            // Map x to pitch (2 octaves, pentatonic scale)
+            // Map x to pitch using selected scale
             getPitch: function(x, y) {
-                const pitches = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69];
-                return pitches[Math.floor((x / GRID_WIDTH) * pitches.length)];
+                const scaleNotes = generateScaleNotes(currentScale);
+                return scaleNotes[Math.floor((x / GRID_WIDTH) * scaleNotes.length)];
             },
             // Map y to velocity (higher = louder)
             getVelocity: function(x, y) {
@@ -370,9 +501,9 @@ const RULESETS = {
         },
         soundMapping: {
             getPitch: function(x, y) {
-                // Use a different scale for water ripples
-                const pitches = [36, 38, 40, 43, 45, 48, 50, 52, 55, 57, 60]; // Blues scale
-                return pitches[Math.floor((x / GRID_WIDTH) * pitches.length)];
+                // Use selected scale for water ripples
+                const scaleNotes = generateScaleNotes(currentScale, 36); // Start lower for water ripples
+                return scaleNotes[Math.floor((x / GRID_WIDTH) * scaleNotes.length)];
             },
             getVelocity: function(x, y, value) {
                 // Use the ripple value to affect velocity
@@ -445,8 +576,9 @@ const RULESETS = {
         },
         soundMapping: {
             getPitch: function(x, y) {
-                const pitches = [60, 62, 64, 67, 69, 72, 74, 76]; // Major scale
-                return pitches[Math.floor((x / GRID_WIDTH) * pitches.length)];
+                // Use selected scale for elementary CA
+                const scaleNotes = generateScaleNotes(currentScale, 60); // Start at middle C
+                return scaleNotes[Math.floor((x / GRID_WIDTH) * scaleNotes.length)];
             },
             getVelocity: function(x, y) {
                 return Math.floor(((GRID_HEIGHT - y) / GRID_HEIGHT) * 127);
@@ -693,6 +825,20 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             ruleControl.style.display = 'none';
         }
+    });
+
+    // Add scale selector event listener for radio buttons
+    const scaleRadios = document.querySelectorAll('input[name="scale"]');
+    scaleRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                currentScale = e.target.value;
+
+                // Only update new notes - preserve currently playing voices
+                // The scale change will apply to new cell activations and existing
+                // cells will continue playing their current pitches until they change state
+            }
+        });
     });
     
     rulesetContainer.appendChild(rulesetLabel);

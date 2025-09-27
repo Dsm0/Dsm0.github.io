@@ -69,8 +69,8 @@
       }
 
       label {
-        min-width: 13ch;
-        width: 13ch;
+        /* min-width: 13ch; */
+        /* width: 13ch; */
         text-align: right;
         color: var(--color-2);
       }
@@ -116,6 +116,82 @@
         cursor: pointer;
         font-family: monospace;
         padding: 2px 5px;
+      }
+
+      select {
+        border: 1px solid var(--color-2);
+        background: var(--color-1);
+        color: var(--color-2);
+        cursor: pointer;
+        font-family: monospace;
+        padding: 2px 5px;
+        flex: 1;
+      }
+
+      select:hover {
+        background: var(--color-2);
+        color: var(--color-1);
+      }
+
+      .scale-selector {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 2px;
+        margin: 10px 0;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .scale-option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1px;
+        cursor: pointer;
+        user-select: none;
+        flex-shrink: 0;
+        position: relative;
+      }
+
+      .scale-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .scale-box {
+        width: 16px;
+        height: 16px;
+        border: 1px solid var(--color-2);
+        background: var(--color-1);
+        border-radius: 2px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .scale-option input[type="radio"]:checked + .scale-box {
+        background: var(--color-2);
+      }
+
+      .scale-option:hover .scale-box {
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      .scale-option input[type="radio"]:checked:hover + .scale-box {
+        background: var(--color-2);
+      }
+
+      .scale-option label {
+        font-size: 0.5rem;
+        text-align: center;
+        color: var(--color-2);
+        cursor: pointer;
+        white-space: nowrap;
+        line-height: 1;
+        font-weight: 500;
+        letter-spacing: -0.5px;
       }
 
       button:hover {
@@ -173,6 +249,19 @@
         .automata-section, .main-section { width: 100%; }
         .parameter-control { flex-direction: column; align-items: flex-start; }
         input[type=range] { max-width: 100%; }
+        select { max-width: 100%; }
+        .scale-selector {
+          gap: 1px;
+          margin: 8px 0;
+        }
+        .scale-box {
+          width: 14px;
+          height: 14px;
+        }
+        .scale-option label {
+          font-size: 0.45rem;
+          letter-spacing: -0.3px;
+        }
         #piano-canvas { width: 100%; height: auto; }
       }
     </style>
@@ -227,6 +316,120 @@
             </span>
             
             <canvas id="piano-canvas" width="800" height="120"></canvas>
+
+            <h3>Musical Scale</h3>
+            <div class="scale-selector">
+                <div class="scale-option">
+                    <input type="radio" id="scale-pentatonic" name="scale" value="pentatonic" checked>
+                    <div class="scale-box"></div>
+                    <label for="scale-pentatonic" title="Pentatonic">Penta</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-major" name="scale" value="major">
+                    <div class="scale-box"></div>
+                    <label for="scale-major" title="Major">Maj</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-minor" name="scale" value="minor">
+                    <div class="scale-box"></div>
+                    <label for="scale-minor" title="Natural Minor">Min</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-blues" name="scale" value="blues">
+                    <div class="scale-box"></div>
+                    <label for="scale-blues" title="Blues">Blues</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-chromatic" name="scale" value="chromatic">
+                    <div class="scale-box"></div>
+                    <label for="scale-chromatic" title="Chromatic">Chrom</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-dorian" name="scale" value="dorian">
+                    <div class="scale-box"></div>
+                    <label for="scale-dorian" title="Dorian">Dor</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-mixolydian" name="scale" value="mixolydian">
+                    <div class="scale-box"></div>
+                    <label for="scale-mixolydian" title="Mixolydian">Mix</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-harmonic-minor" name="scale" value="harmonic-minor">
+                    <div class="scale-box"></div>
+                    <label for="scale-harmonic-minor" title="Harmonic Minor">HMin</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-lydian" name="scale" value="lydian">
+                    <div class="scale-box"></div>
+                    <label for="scale-lydian" title="Lydian">Lyd</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-phrygian" name="scale" value="phrygian">
+                    <div class="scale-box"></div>
+                    <label for="scale-phrygian" title="Phrygian">Phry</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-locrian" name="scale" value="locrian">
+                    <div class="scale-box"></div>
+                    <label for="scale-locrian" title="Locrian">Loc</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-melodic-minor" name="scale" value="melodic-minor">
+                    <div class="scale-box"></div>
+                    <label for="scale-melodic-minor" title="Melodic Minor">MMin</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-whole-tone" name="scale" value="whole-tone">
+                    <div class="scale-box"></div>
+                    <label for="scale-whole-tone" title="Whole Tone">W-T</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-diminished" name="scale" value="diminished">
+                    <div class="scale-box"></div>
+                    <label for="scale-diminished" title="Diminished">Dim</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-augmented" name="scale" value="augmented">
+                    <div class="scale-box"></div>
+                    <label for="scale-augmented" title="Augmented">Aug</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-major-pentatonic" name="scale" value="major-pentatonic">
+                    <div class="scale-box"></div>
+                    <label for="scale-major-pentatonic" title="Major Pentatonic">MajP</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-japanese" name="scale" value="japanese">
+                    <div class="scale-box"></div>
+                    <label for="scale-japanese" title="Japanese">Jap</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-egyptian" name="scale" value="egyptian">
+                    <div class="scale-box"></div>
+                    <label for="scale-egyptian" title="Egyptian">Egy</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-hungarian" name="scale" value="hungarian">
+                    <div class="scale-box"></div>
+                    <label for="scale-hungarian" title="Hungarian">Hun</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-gypsy" name="scale" value="gypsy">
+                    <div class="scale-box"></div>
+                    <label for="scale-gypsy" title="Gypsy">Gyp</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-arabic" name="scale" value="arabic">
+                    <div class="scale-box"></div>
+                    <label for="scale-arabic" title="Arabic">Arab</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" id="scale-chinese" name="scale" value="chinese">
+                    <div class="scale-box"></div>
+                    <label for="scale-chinese" title="Chinese">Chi</label>
+                </div>
+            </div>
 
             <h3>Synth Parameters</h3>
             <div id="synth-params"></div>
