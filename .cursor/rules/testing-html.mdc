@@ -1,0 +1,6 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+To verify changes are made to an html file, use the chrome devtools mcp.

@@ -6,3 +6,10 @@ key.pem
 .cursorrules
 CLAUDE.md
 assets/.DS_Store
+
+resume/*.aux
+resume/*.log
+resume/*.out
+resume/*.synctex.gz
+
+.cursorrules

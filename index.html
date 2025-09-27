@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
 <meta content="utf-8" http-equiv="encoding" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <html>
   <head>
@@ -20,7 +21,9 @@
         padding: 0px;
         margin: 0px;
         border-width: 0px;
-        overflow-x: hidden;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
         font-size: 1.1rem;
 
         font-family: "monospace";
@@ -166,6 +169,100 @@
       #scrot_viewer_blurb {
         display: none;
       }
+
+      /* Mobile responsive styles */
+      @media screen and (max-width: 768px) {
+        html {
+          font-size: 1.4rem; /* Increase base font size for mobile */
+        }
+
+        ul {
+          position: static; /* Remove fixed positioning */
+          left: auto;
+          top: auto;
+          width: 100%;
+          margin: 20px;
+          padding: 20px;
+          border-right: none;
+          text-align: left;
+        }
+
+        /* Override text alignment for the entire ul on mobile */
+        ul {
+          text-align: right;
+        }
+        
+        /* But keep list items and their content left-aligned */
+        ul li {
+          text-align: left;
+        }
+        
+        ul li a {
+          text-align: left;
+        }
+        
+        /* Keep dividers left-aligned */
+        ul .divider {
+          text-align: left;
+        }
+
+        a {
+          border: 1px solid var(--color-2);
+          padding: 8px 12px;
+          display: inline-block;
+          margin: 4px 0;
+          border-radius: 0;
+        }
+
+        .blurb {
+          position: static; /* Remove fixed positioning */
+          width: 100%;
+          margin: 10px 20px;
+          padding: 15px;
+          display: block !important; /* Always show blurbs on mobile */
+          background-color: var(--color-3);
+          border: 1px solid var(--color-2);
+          border-radius: 5px;
+        }
+
+        pre {
+          font-size: 12px; /* Larger font for mobile */
+          overflow-x: auto;
+        }
+
+        .icon {
+          width: 24px;
+          height: 24px;
+          margin: 8px;
+        }
+
+        body {
+          height: auto;
+          min-height: 100vh;
+        }
+
+        /* Stack layout vertically on mobile */
+        div {
+          display: block;
+          width: 100%;
+        }
+      }
+
+      /* Tablet responsive styles */
+      @media screen and (min-width: 769px) and (max-width: 1024px) {
+        html {
+          font-size: 1.2rem;
+        }
+
+        ul {
+          left: 40%;
+          top: 20%;
+        }
+
+        .blurb {
+          width: 50%;
+        }
+      }
     </style>
 
     <title>will - site</title>
@@ -181,16 +278,16 @@
             target=""
             rel="noopener noreferrer"
             href="."
-            >this site</a
+            >minimal site for <br>Will Rinkoff</a
           >
         </li>
-        <br />
+        <!-- <br /> -->
         <!-- <div class="divider"> cv </div> -->
       ---
-      <!-- <li><a class="lnk pdf" id="resume" target="_blank" rel="noopener noreferrer" href="/Will_Rinkoff_resume.pdf">resume.pdf</a></li> -->
+      <li><a class="lnk pdf" id="resume" target="_blank" rel="noopener noreferrer" href="/resume/Will_Rinkoff_resume.pdf">resume.pdf</a></li>
       <!-- <li><a class="lnk" id="pure_json" target="_blank" rel="noopener noreferrer" href="/will_rinkoff_cv.json">cv in pure_json</a></li> -->
       <!-- <li><a class="lnk" id="pure_html" target="_blank" rel="noopener noreferrer" href="/src/pure_html/index.html">cv in pure_html</a></li> -->
-        <li>
+        <!-- <li>
           <a
             class="lnk"
             id="gallery"
@@ -201,24 +298,23 @@
             gallery</a
           >
         </li>
-        ---
-        <div class="divider">sketches</div>
+        --- -->
+        <br>
+        <div class="divider">sketches [desktop only]</div>
         ---
         <li>
           <a
             class="lnk"
-            id="keyboard_lock_test"
-            target="_blank"
+            id="cursor_toy"
             rel="noopener noreferrer"
-            href="/sketches/keyboard_lock_test/index.html"
-            >keyboard_lock_test</a
+            href="/sketches/automata/index.html"
+            >automata</a
           >
         </li>
         <li>
           <a
             class="lnk"
             id="ascii_toy"
-            target="_blank"
             rel="noopener noreferrer"
             href="/sketches/ascii_toy/ascii_toy.html"
             >ascii_toy</a
@@ -227,25 +323,32 @@
         <li>
           <a
             class="lnk"
+            id="keyboard_lock_test"
+            rel="noopener noreferrer"
+            href="/sketches/keyboard_lock_test/index.html"
+            >keyboard_lock_test<br>[desktop only]</a
+          >
+        </li>
+        <li>
+          <a
+            class="lnk"
             id="cursor_toy"
-            target="_blank"
             rel="noopener noreferrer"
             href="/sketches/cursor_toy/index.html"
-            >cursor_toy</a
+            >cursor_toy<br>[desktop only]</a
           >
         </li>
         <li>
           <a
             class="lnk"
             id="css_corruptors"
-            target="_blank"
             rel="noopener noreferrer"
             href="/sketches/cssCorrupt/cssCorruptTest.html"
             >css<br />corruptors</a
           >
         </li>
-        ---
-        <div class="divider">curations</div>
+        <!-- --- -->
+        <!-- <div class="divider">curations<br>[desktop only]</div>
         ---
         <li>
           <a
@@ -256,138 +359,20 @@
             href="/scrot_viewer/index.html"
             >scrots</a
           >
-        </li>
+        </li> -->
       </ul>
 
       <br />
     </div>
-    <div id="blurbs">
-      <div class="blurb" id="this_site_blurb">
-        this site
-        <br />
-        ---
-        <br />
-        i wrote it in pure html/js/css without libraries
-        <br />
-        (apart from some p5.js sketches in the gallery).
-        <br />
-        I wanted a small footprint
-      </div>
-      <!-- <div class="blurb" id="resume_blurb">my resume</div>
-      <div class="blurb" id="pure_json_blurb">
-        my cv in pure json form
-        <br />
-        ---
-        <br />
-        it also has my github, linkedin, and email
-      </div>
-      <div class="blurb" id="pure_html_blurb">
-        <div id="blurb_text">
-          my json cv turned into pure html with a recursive typescript function.
-          <br />
-          ---
-          <br />
-          At the time of programming, I wanted to code-golf my site, generating
-          html at runtime via recursive functions and datastructures.
-          <br />
-          I've moved away from that since, because as I added work/sketches it
-          morphed into a small framework.
-          <br />
-          I might revisit it someday, but it felt like overkill just for a small
-          personal site.
-        </div>
-        <pre>
-      <code class="html_code">
-function gen_html(html, obj: object) {
-  let _html = ""
-  Object.keys(obj).forEach((key: string, i: number) =&gt; {
-    const val = obj[key], disp_key = key2show(key, i) // dk = displayed key
-    switch (typeof val) {
-      case "string":
-        _html += `&lt;a class="item ${disp_key}" 
-                     ${disp_key === "link" ? `target="_blank" 
-                     rel="noopener noreferrer" href=${val}` : ""}&gt;
-                    ${disp_key} - ${val}
-                  &lt;/a&gt;`
-        break
-      case "object":
-        _html += `&lt;div class="container"&gt;
-                    &lt;p class="title ${disp_key}"&gt;
-                      ${disp_key}
-                    &lt;/p&gt;
-                    &lt;div class="${disp_key}"&gt;
-                      ${gen_html(_html, val)}
-                    &lt;/div&gt;
-                  &lt;/div&gt;`
-        break
-    }
-  })
-  return _html
-}
-      </code>
-      </pre>
-      </div> -->
-      <div class="blurb" id="gallery_blurb">
-        sample of my livecoding and visual work
-        <br />
-        ---
-        <br />
-        click videos to play/pause them
-      </div>
-      <div class="blurb" id="ascii_toy_blurb">
-        toy involving strange fonts and patterned text
-        <br />
-        ---
-        <br />
-        inspired by the idea of a templating language that
-        <i>always</i> compiles <br />
-        specific letters may or may not have specific effects
-      </div>
-      <div class="blurb" id="cursor_toy_blurb">
-        toy involving mice and mirrors
-        <br />
-        ---
-        <br />
-        inspired by those children's "make a snowflake" flash games from the
-        2000s <br />
-        try scrolling up/down/left/right <br />
-        holding shift <br />
-        pressing space <br />
-      </div>
-      <div class="blurb" id="css_corruptors_blurb">
-        bookmarklets that goof a page's css
-        <br />
-        ---
-        <br />
-        inspired by ui scaling issues and video game corruptors
-      </div>
-      <div class="blurb" id="scrot_viewer_blurb">
-        page for viewing screenshots I've taken.
-        <br />
-        they're grouped by their media of origin
-        <br />
-        ---
-        <br />
-        if an object or landscape strikes, I take a picture.
-        <br />
-        if what's on my laptop strikes me, I take a picture.
-        <br />
-        <br />
-        (photos <i>in</i> technology > photos <i>of</i> technology)
-      </div>
-    </div>
 
     <script>
       const lnks = [...document.getElementsByClassName("lnk")];
-      const blurbs = [...document.getElementsByClassName("blurb")];
-      lnks.forEach((element, i) => {
-        element.addEventListener("mouseover", (e) => {
-          blurbs[i].style.display = "block";
-        });
-        element.addEventListener("mouseleave", (e) => {
-          blurbs[i].style.display = "none";
-        });
-      });
+      
+      // Check if device is mobile/tablet
+      function isMobile() {
+        return window.innerWidth <= 768;
+      }
+      
     </script>
   </body>
 </html>
