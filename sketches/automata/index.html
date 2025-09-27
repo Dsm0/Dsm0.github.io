@@ -5,102 +5,155 @@
     <title>Faust DSP</title>
     <script src="/sketches/automata/cellauto.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .container {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        .automata-section {
-            flex: 0 0 384px;
-        }
-        .main-section {
-            flex: 1;
-        }
-        #automata-canvas {
-            border: 1px solid #ccc;
-            background: #000;
-        }
-        #piano-container {
-            margin-bottom: 20px;
-        }
-        #piano-canvas {
-            border: 1px solid #ccc;
-        }
-        .slider-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        .slider-group {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .slider-group h3 {
-            margin-top: 0;
-            color: #333;
-        }
-        .parameter-control {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-            gap: 10px;
-        }
-        .parameter-control label {
-            min-width: 120px;
-        }
-        .parameter-control input[type="range"] {
-            width: 200px;
-        }
-        .reset-btn {
-            padding: 5px 10px;
-            background: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        .reset-btn:hover {
-            background: #e0e0e0;
-        }
-        #master-reset {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-        .automata-controls {
-            margin-top: 10px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        .automata-controls button {
-            padding: 5px 10px;
-            background: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        .automata-controls button:hover {
-            background: #e0e0e0;
-        }
-        .window-controls {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .window-controls h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: #333;
-        }
+      * {
+        --color-1: #ffffee;
+        --color-2: black;
+      }
+
+      html {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: monospace;
+        font-size: 1.1rem;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--color-1);
+        display: flex;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        display: flex;
+        gap: 5px;
+        align-items: flex-start;
+      }
+
+      .automata-section {
+        width: 384px;
+      }
+
+      .main-section {
+        flex: 1;
+        max-width: 800px;
+      }
+
+      canvas {
+        background: #000;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      #piano-canvas {
+        margin: 5px 0;
+      }
+
+      h3 {
+        margin: 5px 0;
+        color: var(--color-2);
+      }
+
+      .parameter-control {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin: 2px 0;
+        flex-wrap: wrap;
+      }
+
+      label {
+        min-width: 80px;
+        color: var(--color-2);
+      }
+
+      input[type=range] {
+        flex: 1;
+        max-width: 150px;
+        height: 4px;
+        background: var(--color-2);
+        border: none;
+        -webkit-appearance: none;
+      }
+
+      input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        background: var(--color-1);
+        border: 1px solid var(--color-2);
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      input[type=range]::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+        background: var(--color-1);
+        border: 1px solid var(--color-2);
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      span {
+        min-width: 40px;
+        color: var(--color-2);
+        text-align: center;
+      }
+
+      button {
+        border: none;
+        background: none;
+        color: var(--color-2);
+        cursor: pointer;
+        font-family: monospace;
+        padding: 2px 5px;
+      }
+
+      button:hover {
+        background: var(--color-2);
+        color: var(--color-1);
+      }
+
+      .reset-btn {
+        padding: 2px 5px;
+      }
+
+      .automata-controls {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin: 5px 0;
+      }
+
+      #master-reset {
+        display: block;
+        margin: 10px auto;
+      }
+
+      small {
+        display: block;
+        color: var(--color-2);
+        font-size: 0.9rem;
+        margin: 2px 0;
+      }
+
+      /* Mobile */
+      @media (max-width: 768px) {
+        html { font-size: 1.4rem; }
+        body { flex-direction: column; height: auto; min-height: 100vh; }
+        .container { flex-direction: column; width: 100%; padding: 10px; gap: 10px; }
+        .automata-section, .main-section { width: 100%; }
+        .parameter-control { flex-direction: column; align-items: flex-start; }
+        input[type=range] { max-width: 100%; }
+        #piano-canvas { width: 100%; height: auto; }
+      }
     </style>
 </head>
 
@@ -118,60 +171,46 @@
                 <input type="range" id="automata-rate" min="0.5" max="20" step="0.5" value="10">
                 <span id="automata-rate-value">10</span>
             </div>
-            <div class="window-controls">
-                <h3>Window Controls</h3>
-                <p style="margin-bottom: 10px; color: #666; font-size: 14px">
-                    Right-click and drag to move the window. Use mouse wheel to adjust window width, hold Shift + mouse wheel to adjust height.
-                </p>
-                <div class="parameter-control">
-                    <label>Window X</label>
-                    <input type="range" id="window-x" min="0" max="63" step="1" value="0">
-                    <span id="window-x-value">0</span>
-                </div>
-                <div class="parameter-control">
-                    <label>Window Y</label>
-                    <input type="range" id="window-y" min="0" max="63" step="1" value="0">
-                    <span id="window-y-value">0</span>
-                </div>
-                <div class="parameter-control">
-                    <label>Window Width</label>
-                    <input type="range" id="window-width" min="1" max="64" step="1" value="64">
-                    <span id="window-width-value">64</span>
-                </div>
-                <div class="parameter-control">
-                    <label>Window Height</label>
-                    <input type="range" id="window-height" min="1" max="64" step="1" value="64">
-                    <span id="window-height-value">64</span>
-                </div>
+            <h3>Window Controls</h3>
+            <small>Right-click drag: move; wheel: width; Shift+wheel: height.</small>
+            <div class="parameter-control">
+                <label>Window X</label>
+                <input type="range" id="window-x" min="0" max="63" step="1" value="0">
+                <span id="window-x-value">0</span>
+                <button class="reset-btn">Reset</button>
             </div>
-            <div class="world-stats">
-                <h3>World Statistics</h3>
-                <div class="stat-item">
-                    <label>Cells Alive in Window:</label>
-                    <span id="alive-cells-count">0</span>
-                </div>
+            <div class="parameter-control">
+                <label>Window Y</label>
+                <input type="range" id="window-y" min="0" max="63" step="1" value="0">
+                <span id="window-y-value">0</span>
+                <button class="reset-btn">Reset</button>
             </div>
+            <div class="parameter-control">
+                <label>Window Width</label>
+                <input type="range" id="window-width" min="1" max="64" step="1" value="64">
+                <span id="window-width-value">64</span>
+                <button class="reset-btn">Reset</button>
+            </div>
+            <div class="parameter-control">
+                <label>Window Height</label>
+                <input type="range" id="window-height" min="1" max="64" step="1" value="64">
+                <span id="window-height-value">64</span>
+                <button class="reset-btn">Reset</button>
+            </div>
+            <h3>World Statistics</h3>
+            <div>Cells Alive: <span id="alive-cells-count">0</span></div>
         </div>
         <div class="main-section">
             <span id="dsp-switch">
                 <center><button id="button-dsp">Activate DSP</button></center>
             </span>
             
-            <div id="piano-container">
-                <canvas id="piano-canvas" width="800" height="120"></canvas>
-            </div>
+            <canvas id="piano-canvas" width="800" height="120"></canvas>
 
-            <div class="slider-container">
-                <div class="slider-group" id="synth-params">
-                    <h3>Synth Parameters</h3>
-                    <!-- Synth parameter sliders will be added here -->
-                </div>
-                
-                <div class="slider-group" id="effect-params">
-                    <h3>Effect Parameters</h3>
-                    <!-- Effect parameter sliders will be added here -->
-                </div>
-            </div>
+            <h3>Synth Parameters</h3>
+            <div id="synth-params"></div>
+            <h3>Effect Parameters</h3>
+            <div id="effect-params"></div>
 
             <button id="master-reset" class="reset-btn">Reset All Parameters</button>
         </div>

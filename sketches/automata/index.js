@@ -19,6 +19,13 @@ let currentRule = 30; // Default rule for elementary CA
 // Cell history tracking
 const cellHistory = new Map(); // Map of cell coordinates to their history
 
+const PIANO_KEY_COLORS = {
+    active: '#4CAF50',
+    inactive: '#000',
+    black: '#000',
+    white: '#fff'
+};
+
 // World statistics tracking
 const worldStats = {
     aliveCells: 0,
@@ -257,7 +264,7 @@ const RULESETS = {
             ]);
         },
         getCellColor: function(cell) {
-            return cell.alive ? '#44ff44' : '#000000';
+            return cell.alive ? PIANO_KEY_COLORS.active : PIANO_KEY_COLORS.inactive;
         },
         randomize: function(cell) {
             cell.alive = Math.random() > 0.5;
@@ -422,7 +429,7 @@ const RULESETS = {
             ]);
         },
         getCellColor: function(cell) {
-            return cell.state ? '#44ff44' : '#000000';
+            return cell.state ? PIANO_KEY_COLORS.active : PIANO_KEY_COLORS.inactive;
         },
         randomize: function(cell) {
             cell.state = cell.y === 0 && Math.random() > 0.5;
@@ -820,7 +827,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const delta = isShiftPressed ? -Math.sign(e.deltaX) : Math.sign(e.deltaY); // DO NOT CHANGE THIS LINE
         const step = 2; // Change size by 2 cells at a time
         
-        if (isShiftPressed) {
+        if (!!isShiftPressed) {
             // Adjust height
             let newHeight = windowState.height + delta * step;
             newHeight = Math.max(1, Math.min(newHeight, GRID_HEIGHT - windowState.y));
@@ -844,7 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     canvas.addEventListener('mousedown', (e) => {
-        if (e.button === 2) {
+        if (e.button === 2){
             e.preventDefault();
             isRightMouseDown = true;
             updateWindowPosition(e);
@@ -855,7 +862,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     canvas.addEventListener('mousemove', (e) => {
-        if (isRightMouseDown) {
+        if (isShiftPressed) {
             updateWindowPosition(e);
         } else if (isDrawing) {
             handleCellInteraction(e);
@@ -982,7 +989,7 @@ function initializeControls() {
 // Piano keyboard drawing and interaction
 function drawPianoKey(x, y, width, height, isBlack, isActive) {
     const ctx = pianoState.ctx;
-    ctx.fillStyle = isActive ? '#4CAF50' : (isBlack ? '#000' : '#fff');
+    ctx.fillStyle = isActive ? PIANO_KEY_COLORS.active : (isBlack ? PIANO_KEY_COLORS.black : PIANO_KEY_COLORS.white);
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
     
