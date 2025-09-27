@@ -3,4 +3,4 @@ description:
 globs:
 alwaysApply: true
 ---
-To verify changes are made to an html file, use the chrome devtools mcp.
+To verify changes are made to an html file, use the chrome devtools mcp. Do not open the html file. Instead, use 'https://127.0.0.1:8080/' as the base url and navigate to the desired file.

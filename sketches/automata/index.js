@@ -1,5 +1,5 @@
 // Set to > 0 if the DSP is polyphonic
-const FAUST_DSP_VOICES = 64;
+const FAUST_DSP_VOICES = 24;
 
 // Game of Life implementation
 const CELL_SIZE = 6;
@@ -25,6 +25,8 @@ const PIANO_KEY_COLORS = {
     black: '#000',
     white: '#fff'
 };
+
+const activeKeyColors = new Map();
 
 // World statistics tracking
 const worldStats = {
@@ -471,7 +473,10 @@ function turnOffNotesOutsideWindow() {
         if (!isCellInWindow(x, y)) {
             const ruleset = RULESETS[currentRuleset];
             const pitch = ruleset.soundMapping.getPitch(x, y);
-            faustNode.keyOff(0, pitch);
+            const voiceIndex = deallocateVoice(pitch);
+            if (voiceIndex >= 0) {
+                faustNode.keyOff(voiceIndex, pitch);
+            }
             pianoState.activeKeys.delete(pitch);
             cellsToRemove.push(cellKey);
         }
@@ -484,6 +489,7 @@ function turnOffNotesOutsideWindow() {
     
     if (cellsToRemove.length > 0) {
         drawPianoKeyboard();
+        updateVoiceVisualizer();
     }
 }
 
@@ -494,13 +500,23 @@ function cellStateChange(x, y, isOn) {
     if (!isCellInWindow(x, y)) {
         return;
     }
-    
+
     const ruleset = RULESETS[currentRuleset];
     const pitch = ruleset.soundMapping.getPitch(x, y);
     const cell = gameOfLifeWorld.grid[y][x];
     const velocity = ruleset.soundMapping.getVelocity(x, y, cell.value);
     const cellKey = getCellKey(x, y);
-    
+
+    // Prevent state churn - don't process if state isn't actually changing
+    const isCurrentlyActive = windowState.activeCells.has(cellKey);
+    if (isOn === isCurrentlyActive) {
+        return;
+    }
+
+    if (isOn) {
+      activeKeyColors.set(pitch, ruleset.getCellColor(cell));
+    }
+
     // Calculate and apply effect parameters
     const effectParams = calculateEffectParams(x, y);
     if (effectParams && isOn) {
@@ -508,17 +524,24 @@ function cellStateChange(x, y, isOn) {
             updateFaustParams(param, value);
         });
     }
-    
+
     if (isOn) {
-        faustNode.keyOn(0, pitch, velocity);
-        pianoState.activeKeys.add(pitch);
-        windowState.activeCells.add(cellKey);
+        const voiceIndex = allocateVoice(pitch);
+        if (voiceIndex >= 0) {
+            faustNode.keyOn(voiceIndex, pitch, velocity);
+            pianoState.activeKeys.add(pitch);
+            windowState.activeCells.add(cellKey);
+        }
     } else {
-        faustNode.keyOff(0, pitch);
+        const voiceIndex = deallocateVoice(pitch);
+        if (voiceIndex >= 0) {
+            faustNode.keyOff(voiceIndex, pitch);
+        }
         pianoState.activeKeys.delete(pitch);
         windowState.activeCells.delete(cellKey);
     }
     drawPianoKeyboard();
+    updateVoiceVisualizer();
 }
 
 function initWorld() {
@@ -592,7 +615,7 @@ function startGameOfLife() {
         isRunning = false;
         document.getElementById('automata-start').textContent = 'Start';
         if (faustNode) {
-            faustNode.allNotesOff();
+            turnOffAllNotes();
         }
         clearInterval(animationInterval);
     }
@@ -603,6 +626,9 @@ function resetGameOfLife() {
         startGameOfLife(); // Stop the animation
     }
     cellHistory.clear(); // Clear history when resetting
+    if (faustNode) {
+        turnOffAllNotes();
+    }
     initWorld();
     drawWorld();
 }
@@ -612,6 +638,9 @@ function randomizeGameOfLife() {
         startGameOfLife(); // Stop the animation
     }
     cellHistory.clear(); // Clear history when randomizing
+    if (faustNode) {
+        turnOffAllNotes();
+    }
     const ruleset = RULESETS[currentRuleset];
     for (let y = 0; y < GRID_HEIGHT; y++) {
         for (let x = 0; x < GRID_WIDTH; x++) {
@@ -648,9 +677,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isRunning) {
             startGameOfLife(); // Stop the current animation
         }
+
+        // Clean up all active voices when changing rulesets
+        if (faustNode) {
+            turnOffAllNotes();
+        }
+
         initWorld();
         drawWorld();
-        
+
         // Show/hide rule number control based on selected ruleset
         const ruleControl = document.getElementById('rule-control');
         if (currentRuleset === 'elementary-ca') {
@@ -717,7 +752,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     rateSlider.addEventListener('input', (e) => {
         const rate = parseFloat(e.target.value);
-        rateValue.textContent = rate;
+        rateValue.textContent = rate.toFixed(2);
         setUpdateRate(rate);
     });
 
@@ -761,7 +796,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let isRightMouseDown = false; // Track right mouse button state
 
     function handleCellInteraction(e) {
-        if (e.button === 2) return; // Ignore right-click for cell toggling
         
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
@@ -862,7 +896,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     canvas.addEventListener('mousemove', (e) => {
-        if (isShiftPressed) {
+        if (e.shiftKey) {
             updateWindowPosition(e);
         } else if (isDrawing) {
             handleCellInteraction(e);
@@ -927,7 +961,7 @@ function createParameterControl(param, container) {
     };
     
     slider.oninput = () => {
-        value.textContent = slider.value;
+        value.textContent = parseFloat(slider.value).toFixed(2);
         if (faustNode) {
             updateFaustParams(param.name, parseFloat(slider.value));
         }
@@ -944,7 +978,7 @@ function createParameterControl(param, container) {
         reset: resetBtn.onclick,
         setValue: (val) => {
             slider.value = val;
-            value.textContent = val;
+            value.textContent = parseFloat(val).toFixed(2);
             if (faustNode) {
                 updateFaustParams(param.name, val);
             }
@@ -987,17 +1021,6 @@ function initializeControls() {
 }
 
 // Piano keyboard drawing and interaction
-function drawPianoKey(x, y, width, height, isBlack, isActive) {
-    const ctx = pianoState.ctx;
-    ctx.fillStyle = isActive ? PIANO_KEY_COLORS.active : (isBlack ? PIANO_KEY_COLORS.black : PIANO_KEY_COLORS.white);
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 1;
-    
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.fill();
-    ctx.stroke();
-}
 
 function drawPianoKeyboard() {
     const ctx = pianoState.ctx;
@@ -1015,8 +1038,18 @@ function drawPianoKeyboard() {
     for (let i = 0; i < totalKeys; i++) {
         if (keyPattern[i % 12] === 0) {
             const x = whiteKeyCount * whiteKeyWidth;
-            const isActive = pianoState.activeKeys.has(PIANO_CONFIG.startNote + i);
-            drawPianoKey(x, 0, whiteKeyWidth, PIANO_CONFIG.whiteKeyHeight, false, isActive);
+            const note = PIANO_CONFIG.startNote + i;
+            const isActive = pianoState.activeKeys.has(note);
+            let fillColor = isActive ? (activeKeyColors.get(note) || PIANO_KEY_COLORS.active) : PIANO_KEY_COLORS.white;
+
+            const ctx = pianoState.ctx;
+            ctx.fillStyle = fillColor;
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.rect(x, 0, whiteKeyWidth, PIANO_CONFIG.whiteKeyHeight);
+            ctx.fill();
+            ctx.stroke();
             whiteKeyCount++;
         }
     }
@@ -1026,8 +1059,18 @@ function drawPianoKeyboard() {
     for (let i = 0; i < totalKeys; i++) {
         if (keyPattern[i % 12] === 1) {
             const x = (whiteKeyCount - 0.5) * whiteKeyWidth;
-            const isActive = pianoState.activeKeys.has(PIANO_CONFIG.startNote + i);
-            drawPianoKey(x - blackKeyWidth/2, 0, blackKeyWidth, PIANO_CONFIG.blackKeyHeight, true, isActive);
+            const note = PIANO_CONFIG.startNote + i;
+            const isActive = pianoState.activeKeys.has(note);
+            let fillColor = isActive ? (activeKeyColors.get(note) || PIANO_KEY_COLORS.active) : PIANO_KEY_COLORS.black;
+
+            const ctx = pianoState.ctx;
+            ctx.fillStyle = fillColor;
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.rect(x - blackKeyWidth/2, 0, blackKeyWidth, PIANO_CONFIG.blackKeyHeight);
+            ctx.fill();
+            ctx.stroke();
         } else {
             whiteKeyCount++;
         }
@@ -1085,15 +1128,20 @@ pianoState.canvas.addEventListener('mousedown', (e) => {
     const rect = pianoState.canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     pianoState.mouseIsDown = true;
     const note = getNoteFromMousePosition(x, y);
     const velocity = getVelocityFromMousePosition(y);
-    
+
     if (faustNode && note >= 0) {
-        pianoState.activeKeys.add(note);
-        faustNode.keyOn(0, note, velocity);
-        drawPianoKeyboard();
+        const voiceIndex = allocateVoice(note);
+        if (voiceIndex >= 0) {
+            pianoState.activeKeys.add(note);
+            faustNode.keyOn(voiceIndex, note, velocity);
+            activeKeyColors.set(note, PIANO_KEY_COLORS.active);
+            drawPianoKeyboard();
+            updateVoiceVisualizer();
+        }
     }
 });
 
@@ -1108,13 +1156,24 @@ pianoState.canvas.addEventListener('mousemove', (e) => {
     const velocity = getVelocityFromMousePosition(y);
     
     if (faustNode && note >= 0 && !pianoState.activeKeys.has(note)) {
+        // Clear all voices
         pianoState.activeKeys.forEach(n => {
-            faustNode.keyOff(0, n);
+            const voiceIndex = deallocateVoice(n);
+            if (voiceIndex >= 0) {
+                faustNode.keyOff(voiceIndex, n);
+            }
         });
         pianoState.activeKeys.clear();
-        pianoState.activeKeys.add(note);
-        faustNode.keyOn(0, note, velocity);
-        drawPianoKeyboard();
+
+        // Allocate new voice
+        const voiceIndex = allocateVoice(note);
+        if (voiceIndex >= 0) {
+            pianoState.activeKeys.add(note);
+            faustNode.keyOn(voiceIndex, note, velocity);
+            activeKeyColors.set(note, PIANO_KEY_COLORS.active);
+            drawPianoKeyboard();
+            updateVoiceVisualizer();
+        }
     }
 });
 
@@ -1122,10 +1181,14 @@ pianoState.canvas.addEventListener('mouseup', () => {
     pianoState.mouseIsDown = false;
     if (faustNode) {
         pianoState.activeKeys.forEach(note => {
-            faustNode.keyOff(0, note);
+            const voiceIndex = deallocateVoice(note);
+            if (voiceIndex >= 0) {
+                faustNode.keyOff(voiceIndex, note);
+            }
         });
         pianoState.activeKeys.clear();
         drawPianoKeyboard();
+        updateVoiceVisualizer();
     }
 });
 
@@ -1134,10 +1197,14 @@ pianoState.canvas.addEventListener('mouseleave', () => {
         pianoState.mouseIsDown = false;
         if (faustNode) {
             pianoState.activeKeys.forEach(note => {
-                faustNode.keyOff(0, note);
+                const voiceIndex = deallocateVoice(note);
+                if (voiceIndex >= 0) {
+                    faustNode.keyOff(voiceIndex, note);
+                }
             });
             pianoState.activeKeys.clear();
             drawPianoKeyboard();
+            updateVoiceVisualizer();
         }
     }
 });
@@ -1191,9 +1258,10 @@ $buttonDsp.onclick = changeAudioContext;
         await connectToAudioInput(audioContext, null, faustNode, null);
     }
 
-    // Initialize piano keyboard and controls
+    // Initialize piano keyboard, controls, and voice visualizer
     drawPianoKeyboard();
     initializeControls();
+    createVoiceVisualizer();
 
     // Create Faust node activation button
     $buttonDsp.disabled = false;
@@ -1218,7 +1286,7 @@ function checkAndTriggerWindowCells() {
                     const ruleset = RULESETS[currentRuleset];
                     const pitch = ruleset.soundMapping.getPitch(x, y);
                     const velocity = ruleset.soundMapping.getVelocity(x, y, cell.value);
-                    
+
                     // Calculate and apply effect parameters
                     const effectParams = calculateEffectParams(x, y);
                     if (effectParams) {
@@ -1226,15 +1294,19 @@ function checkAndTriggerWindowCells() {
                             updateFaustParams(param, value);
                         });
                     }
-                    
-                    faustNode.keyOn(0, pitch, velocity);
-                    pianoState.activeKeys.add(pitch);
-                    windowState.activeCells.add(cellKey);
+
+                    const voiceIndex = allocateVoice(pitch);
+                    if (voiceIndex >= 0) {
+                        faustNode.keyOn(voiceIndex, pitch, velocity);
+                        pianoState.activeKeys.add(pitch);
+                        windowState.activeCells.add(cellKey);
+                    }
                 }
             }
         }
     }
     drawPianoKeyboard();
+    updateVoiceVisualizer();
 }
 
 // Helper function to check if any cells are alive in the window
@@ -1254,11 +1326,17 @@ function hasAliveCellsInWindow() {
 // Helper function to turn off all notes
 function turnOffAllNotes() {
     if (!faustNode) return;
-    
+
+    // Clear voice allocation and tracking
+    voiceAllocation.fill(null);
+    pitchToVoiceMap.clear();
+    voiceStartTime.fill(0);
     faustNode.allNotesOff();
     windowState.activeCells.clear();
     pianoState.activeKeys.clear();
+    activeKeyColors.clear();
     drawPianoKeyboard();
+    updateVoiceVisualizer();
 }
 
 // Helper function to check window state and update notes
@@ -1334,10 +1412,10 @@ function handleWheel(e) {
 // Helper function to update Faust parameters and corresponding UI elements
 function updateFaustParams(param, value) {
     if (!faustNode) return;
-    
+
     const paramPath = param.startsWith('/') ? param : `/${faustNodeJSON.name}/${param}`;
     faustNode.setParamValue(paramPath, value);
-    
+
     // Find and update the corresponding slider if it exists
     const paramName = paramPath.split('/').pop();
     const allControls = [...document.querySelectorAll('.parameter-control')];
@@ -1345,13 +1423,97 @@ function updateFaustParams(param, value) {
         const label = div.querySelector('label');
         return label && label.textContent === paramName;
     });
-    
+
     if (control) {
         const slider = control.querySelector('input[type="range"]');
         const valueDisplay = control.querySelector('span');
         if (slider && valueDisplay) {
             slider.value = value;
-            valueDisplay.textContent = value;
+            valueDisplay.textContent = parseFloat(value).toFixed(2);
         }
     }
+}
+
+// Voice allocation tracking
+const voiceAllocation = new Array(FAUST_DSP_VOICES).fill(null);
+const pitchToVoiceMap = new Map(); // Track which voice index is playing each pitch
+const voiceStartTime = new Array(FAUST_DSP_VOICES).fill(0); // Track when each voice was allocated for voice stealing
+
+// Voice allocation visualizer
+function createVoiceVisualizer() {
+    const container = document.getElementById('voice-visualizer');
+    container.innerHTML = '';
+
+    for (let i = 0; i < FAUST_DSP_VOICES; i++) {
+        const square = document.createElement('div');
+        square.className = 'voice-square';
+        square.dataset.voiceIndex = i;
+        container.appendChild(square);
+    }
+}
+
+function updateVoiceVisualizer() {
+    if (!faustNode) return;
+
+    const squares = document.querySelectorAll('.voice-square');
+
+    squares.forEach((square, index) => {
+        if (voiceAllocation[index] !== null) {
+            square.classList.add('active');
+        } else {
+            square.classList.remove('active');
+        }
+    });
+}
+
+function allocateVoice(pitch) {
+    // First, check if this pitch is already playing (avoid duplicate allocations)
+    if (pitchToVoiceMap.has(pitch)) {
+        return pitchToVoiceMap.get(pitch);
+    }
+
+    // Find first available voice
+    for (let i = 0; i < FAUST_DSP_VOICES; i++) {
+        if (voiceAllocation[i] === null) {
+            voiceAllocation[i] = pitch;
+            pitchToVoiceMap.set(pitch, i);
+            voiceStartTime[i] = Date.now();
+            return i;
+        }
+    }
+
+    // If no voices available, implement voice stealing (free oldest voice)
+    let oldestVoiceIndex = 0;
+    let oldestTime = voiceStartTime[0];
+    for (let i = 1; i < FAUST_DSP_VOICES; i++) {
+        if (voiceStartTime[i] < oldestTime) {
+            oldestTime = voiceStartTime[i];
+            oldestVoiceIndex = i;
+        }
+    }
+
+    // Free the oldest voice and allocate the new one
+    const stolenPitch = voiceAllocation[oldestVoiceIndex];
+    if (stolenPitch !== null && faustNode) {
+        faustNode.keyOff(oldestVoiceIndex, stolenPitch);
+        pitchToVoiceMap.delete(stolenPitch);
+        pianoState.activeKeys.delete(stolenPitch);
+    }
+
+    voiceAllocation[oldestVoiceIndex] = pitch;
+    pitchToVoiceMap.set(pitch, oldestVoiceIndex);
+    voiceStartTime[oldestVoiceIndex] = Date.now();
+
+    return oldestVoiceIndex;
+}
+
+function deallocateVoice(pitch) {
+    const voiceIndex = pitchToVoiceMap.get(pitch);
+    if (voiceIndex !== undefined && voiceIndex >= 0) {
+        voiceAllocation[voiceIndex] = null;
+        pitchToVoiceMap.delete(pitch);
+        voiceStartTime[voiceIndex] = 0;
+        return voiceIndex;
+    }
+    return -1;
 }

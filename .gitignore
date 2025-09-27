@@ -13,3 +13,4 @@ resume/*.out
 resume/*.synctex.gz
 
 .cursorrules
+.env
