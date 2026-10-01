@@ -92,7 +92,8 @@
 
   <section id="start">
     <h2>1. Start safely</h2>
-    <p>Serve the application from <code>https://</code> or localhost with cross-origin isolation. The supplied Vite development and preview servers set the required <code>Cross-Origin-Opener-Policy: same-origin</code> and <code>Cross-Origin-Embedder-Policy: require-corp</code> headers. A <code>file://</code> launch or an ordinary static host without those headers cannot provide the SharedArrayBuffer, AudioWorklet, WebAssembly, and OPFS facilities used here.</p>
+    <p>Serve the application from <code>https://</code> or localhost with cross-origin isolation. The supplied Vite development/preview servers and local HTTPS host set the required <code>Cross-Origin-Opener-Policy: same-origin</code> and <code>Cross-Origin-Embedder-Policy: require-corp</code> headers. On GitHub Pages and similar static hosts, the bundled service worker supplies these headers. A <code>file://</code> launch or insecure non-local HTTP page still cannot provide the required browser facilities.</p>
+    <p><strong>First public visit:</strong> “Preparing secure audio access…” may appear briefly, followed by one automatic reload. Controls remain inactive until setup finishes, before you can edit a patch. Later visits use the installed worker; worker updates do not reload a running synth. The worker only controls the application directory, does not cache an offline copy, and needs service workers and site data to be allowed. The local HTTPS version normally needs no worker or setup reload.</p>
     <ol>
       <li>Set your system and browser volume low. There is no automatic normalization, limiter, or undo.</li>
       <li>Choose the output channel count (1–32) and click <strong>Enable audio</strong> in the host strip. This must be a user gesture. The channel count is fixed while an engine is active.</li>
@@ -422,6 +423,7 @@
     <h2>13. Troubleshooting, compatibility, and non-features</h2>
     <table><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
       <tr><td>No sound after pressing [n]</td><td>Enable audio, load both waveform and envelope, and check amplitude, probability, mask, and group activation. The initial audio buffers can be silent even when CV arrays display data.</td></tr>
+      <tr><td>Audio setup fails before controls become available</td><td>Use HTTPS or localhost, allow service workers and site data, and reload. Static deployments must include <code>isolation-worker.js</code> beside the app's index file. Startup stops rather than entering a reload loop if isolation is still unavailable. The supplied local HTTPS host is an alternative when a browser policy blocks service workers.</td></tr>
       <tr><td>Loop appears stuck at an endpoint</td><td>Read the footer. For a 2048-value sequence this is the preserved index-2048 failure: factors remain at their last valid values, audio continues, loop stays flagged, and reverse fails immediately. Do not wrap or pad it as a “repair.”</td></tr>
       <tr><td>Only one group changes</td><td>Each group has independent ACTIVATE state and four independent table windows. ACTIVATE is not mute; use the group's amplitude or main control to silence it.</td></tr>
       <tr><td>Preset looks different after loading</td><td>Check zero-based slot number, selected train, selected interpolation keys, and the bank's diagnostic notice. Adapted nuPG26 banks use 2024 defaults where controls were missing.</td></tr>
@@ -437,7 +439,7 @@
       <li><strong>Retained:</strong> all three trains' parameters and editable tables, the actual loaded waveform/envelope audio buffers (even when they differ from the displayed tables), group activation, sieve enablement, modulation mode, preset banks, clipboard, selected train, and window layout.</li>
       <li><strong>Reset:</strong> playback, loop/one-shot tasks, scanner activity, direction, positions, and synthesis history. Recorded scanner gestures are lost. Restart leaves every train stopped; press <kbd>[n]</kbd> and re-enable looping/scanning as needed.</li>
       <li><strong>Recording:</strong> an unfinished take is discarded and its worker and temporary file are cleaned up. Stop and save a healthy recording before restarting if you want to keep it. Completed downloads are unaffected, and you can start a new recording after recovery.</li>
-      <li><strong>Failed restart:</strong> the footer reports initialization errors and the controls unlock for another attempt. This does not fix missing cross-origin isolation or browser facilities. The public GitHub Pages copy does not supply the required isolation headers; use the supplied local HTTPS host for audio.</li>
+      <li><strong>Failed restart:</strong> the footer reports initialization errors and the controls unlock for another attempt. Restart does not fix missing browser facilities. GitHub Pages obtains cross-origin isolation through the bundled service worker during page startup; allow service workers/site data or use the local HTTPS host if that setup is blocked.</li>
     </ul>
     <p>This recovers the audio engine while the application page remains alive; it cannot restore unsaved in-memory work after the entire browser tab crashes or reloads. Continue saving preset banks and important tables.</p>
     <h3>Compatibility limits</h3>
