@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>?</title>
+  <script>
+    // Edit these settings and reload. Grid size is cells per axis, not pixels.
+    // Reference: https://grid-noise-animator.vercel.app/en.html
+    // Screenshot defaults enable only warp; uniform white areas stay white.
+    // Effect strengths are percentages. No controls or external libraries load.
+    const noiseSettings = {
+      gridSize: 64,
+      enhancedMode: false,
+      detailMode: false,
+      noiseType: "white",           // "white" or "blue"
+      hueVariance: 0,              // degrees, 0–90
+      lightnessVariance: 0,        // percent, 0–100
+      saturationVariance: 0,       // percent, 0–100
+      syncCycle: 1,                // frames per cycle; 1 = independent noise
+      blur: { enabled: false, pixels: 1 },
+      warp: { enabled: true, pixels: 2 },
+      iridescentWave: { enabled: false, strength: 61 },
+      sparkle: { enabled: false, strength: 30 },
+      cellRainbow: { enabled: false, strength: 30 },
+      mlProtection: false,        // fixed high-frequency pattern, not an ML guarantee
+      embedText: { enabled: false, text: "", darkness: 20, dark: false },
+      fps: 60,
+      // Parameters exposed by the reference when advanced modes are enabled.
+      morphFrames: 10,
+      detailBlurPixels: 25,
+      detailBrightness: 10
+    };
+  </script>
+  <script src="./grid-noise.js" defer></script>
+  <style>
+    body { margin: 0; background: white; }
+    #page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      font-size: 6rem;
+      background: white;
+    }
+    #noise-effect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <main id="page">?</main>
+  <canvas id="noise-effect" aria-hidden="true" hidden></canvas>
+</body>
+</html>

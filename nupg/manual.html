@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nuPG 2024 browser manual</title>
+  <style>
+    :root { color-scheme: light; --ink:#202322; --muted:#59615d; --paper:#fafbf8; --wash:#eef2ec; --line:#c9d0c9; --accent:#2d5d4a; --warn:#fff3cf; --code:#eef0ed; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:18px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { max-width:1160px; margin:0 auto; padding:2.5rem 2.25rem 5rem; }
+    h1,h2,h3 { color:#173c2f; line-height:1.2; margin:2rem 0 .7rem; }
+    h1 { font-size:2.35rem; margin-top:0; }
+    h2 { font-size:1.65rem; border-bottom:1px solid var(--line); padding-bottom:.35rem; }
+    h3 { font-size:1.15rem; }
+    p { max-width:80ch; }
+    a { color:#145e8a; }
+    nav { background:var(--wash); border:1px solid var(--line); border-radius:8px; padding:1rem 1.25rem; }
+    nav ol { columns:2; margin:.4rem 0 0 1.2rem; padding:0; }
+    nav li { break-inside:avoid; margin:.18rem 0; }
+    .lede { font-size:1.08rem; color:#39423e; }
+    .note,.warning { border-left:4px solid var(--accent); background:var(--wash); padding:.7rem 1rem; margin:1rem 0; }
+    .warning { border-color:#a46b00; background:var(--warn); }
+    .small { color:var(--muted); font-size:.9em; }
+    code,kbd { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.92em; }
+    code { background:var(--code); padding:.08rem .25rem; border-radius:3px; }
+    kbd { border:1px solid #aeb7b0; border-bottom-width:2px; border-radius:3px; padding:.05rem .3rem; background:#fff; }
+    table { border-collapse:collapse; width:100%; margin:1rem 0 1.4rem; font-size:.93rem; }
+    th,td { border:1px solid var(--line); padding:.48rem .58rem; vertical-align:top; text-align:left; }
+    th { background:var(--wash); color:#173c2f; }
+    tr:nth-child(even) td { background:#fcfdfb; }
+    ul,ol { max-width:86ch; }
+    .columns { columns:2 360px; column-gap:2rem; }
+    .columns > * { break-inside:avoid; }
+    .toc-back { font-size:.84rem; }
+    .toc-return { position:fixed; right:1rem; bottom:1rem; z-index:10; padding:.45rem .8rem; background:var(--paper); border:1px solid var(--line); border-radius:5px; box-shadow:0 2px 6px #0002; }
+    footer { border-top:1px solid var(--line); margin-top:3rem; padding-top:1rem; color:var(--muted); }
+    .signal-flow { margin:1.5rem 0; padding:1rem; border:1px solid var(--line); border-radius:8px; background:var(--wash); text-align:center; }
+    .signal-flow figcaption { margin-bottom:.8rem; font-weight:600; }
+    .flow-stage { padding:.6rem .8rem; border:1px solid var(--line); border-radius:4px; background:var(--paper); }
+    .flow-branches { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.6rem; }
+    .flow-arrow { margin:.3rem auto; color:var(--accent); }
+    @media (max-width:700px) {
+      main { padding:1.2rem 1rem 3rem; }
+      h1 { font-size:1.85rem; }
+      nav ol { columns:1; }
+      .flow-branches { grid-template-columns:1fr; }
+      table { display:block; overflow-x:auto; white-space:normal; }
+      th,td { min-width:9rem; }
+    }
+    @media print {
+      body { background:#fff; font-size:10.5pt; }
+      main { max-width:none; padding:.5in; }
+      nav { break-after:page; }
+      .toc-return { display:none; }
+      a { color:inherit; text-decoration:none; }
+      a[href^="#"]::after { content:""; }
+      h2 { break-before:page; }
+      h2:first-of-type { break-before:auto; }
+      .warning,.note { break-inside:avoid; }
+      .signal-flow { break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+<a class="toc-return" href="#contents">Contents</a>
+<main id="top">
+  <header>
+    <h1>nuPG 2024 browser manual</h1>
+    <p class="lede">A practical guide to the WebAssembly and AudioWorklet browser implementation of the nuPG 2024 tool. This document describes what the browser application actually does. It is not a manual for the separate nuPG 2026 engine.</p>
+    <p class="small">Use the browser's native Find command (Ctrl/Cmd+F) to search this page. For manual-only printing or unscaled reading, open <a href="./manual.html" target="_blank" rel="noopener">the full-page manual in a new tab</a>, then use the browser's Print command. The contents links below are ordinary links and work when this page is shown in the application's manual window.</p>
+  </header>
+
+  <nav aria-label="Contents" id="contents">
+    <strong>Contents</strong>
+    <ol>
+      <li><a href="#start">Start safely</a></li>
+      <li><a href="#signal-flow">How sound is made: signal flow</a></li>
+      <li><a href="#desktop">Desktop, trains, and windows</a></li>
+      <li><a href="#transport">Transport and gestures</a></li>
+      <li><a href="#tables">Tables and editors</a></li>
+      <li><a href="#parameters">Parameters and ranges</a></li>
+      <li><a href="#random">Randomization</a></li>
+      <li><a href="#modulation">Modulation and matrix</a></li>
+      <li><a href="#fourier-sieve">Fourier and sieves</a></li>
+      <li><a href="#presets">Preset banks and interpolation</a></li>
+      <li><a href="#recording">Recording</a></li>
+      <li><a href="#workflows">Sound-design workflows</a></li>
+      <li><a href="#troubleshooting">Troubleshooting and limits</a></li>
+    </ol>
+  </nav>
+
+  <section id="start">
+    <h2>1. Start safely</h2>
+    <p>Serve the application from <code>https://</code> or localhost with cross-origin isolation. The supplied Vite development and preview servers set the required <code>Cross-Origin-Opener-Policy: same-origin</code> and <code>Cross-Origin-Embedder-Policy: require-corp</code> headers. A <code>file://</code> launch or an ordinary static host without those headers cannot provide the SharedArrayBuffer, AudioWorklet, WebAssembly, and OPFS facilities used here.</p>
+    <ol>
+      <li>Set your system and browser volume low. There is no automatic normalization, limiter, or undo.</li>
+      <li>Choose the output channel count (1–32) and click <strong>Enable audio</strong> in the host strip. This must be a user gesture. The channel count is fixed until reload.</li>
+      <li>Select train 1 in <code>nuPG 2022</code>. The application starts with three independent trains and normally two output channels.</li>
+      <li>In <code>_pulsaret waveform</code>, choose a library waveform. In <code>_envelope</code>, choose a library envelope such as <code>Hann48.wav</code>. The compact <kbd>L</kbd> action can instead load a local WAV or AIFF file.</li>
+      <li>Press <kbd>[n]</kbd> in <code>_train control</code>. A loaded waveform and envelope give the first audible grain. Untouched startup audio buffers can be silent even though their editable CV arrays display ramps; drawing or loading a waveform/envelope before enabling audio is remembered and uploaded when audio starts.</li>
+    </ol>
+    <div class="warning"><strong>First preset warning.</strong> The adapted <code>nuPG26_01_2024-adapted</code> bank has a 1 Hz fundamental in slots 0–5. It produces separated pulses rather than a continuous tone. Try bank 02 or slot 6 for a quicker continuous-sounding start.</div>
+    <p>There are three practical first-sound routes: load a bundled waveform and envelope as above; load a preset bank and recall a slot (bank 02 or adapted bank 01 slot 6 is a quick starting point); or, at low volume, press <strong>Rand</strong> in each waveform/envelope panel and then press <kbd>[n]</kbd>. Rand is intentionally not level-safe, so reduce amplitude before randomizing and save a preset first if needed.</p>
+    <p>The three <strong>ACTIVATE</strong> buttons in <code>_groups control</code> activate table-driven group factors. They are not group mute buttons. A group can be active while its amplitude is zero, or inactive while its direct main controls still produce sound. Use the main amplitude controls or the mask controls when you need level or density changes.</p>
+  </section>
+
+  <section id="signal-flow">
+    <h2>2. How sound is made: signal flow</h2>
+    <p><strong>Think of nuPG as a machine that fires tiny shaped sound packets.</strong> Each packet, or <em>grain</em>, reads the pulsaret waveform through an envelope. Slow repetition gives separate clicks or pulses; faster repetition can merge into a pitched buzz or a continuous texture. The sound depends both on <em>when packets begin</em> and on <em>what happens inside each packet</em>. These are related, but they are not the same control.</p>
+    <p>A <strong>train</strong> is one complete pulse generator. Each train feeds <strong>three parallel groups</strong> from a shared pulse clock, waveform, and envelope. The groups have separate formant ratios, dilation, amplitude, pan, and trigger offsets. The application mixes three independent trains: selecting another train changes which train you edit, not which trains can be heard.</p>
+
+    <figure class="signal-flow">
+      <figcaption>One train, from timing decisions to audible samples</figcaption>
+      <div class="flow-stage"><strong>Pulse clock</strong><br>Main fundamental, fundamental table, pulse-rate modulation and flux</div>
+      <p class="flow-arrow" aria-hidden="true">↓</p>
+      <div class="flow-stage"><strong>Trigger selection</strong><br>Probability → burst/rest → sieve<br>Decides which pulse opportunities reach all three groups</div>
+      <p class="flow-arrow" aria-hidden="true">↓ three parallel branches ↓</p>
+      <div class="flow-branches">
+        <div class="flow-stage"><strong>Group 1</strong><br>Trigger offset<br>Waveform × envelope<br>Formant + dilation<br>Amplitude + pan</div>
+        <div class="flow-stage"><strong>Group 2</strong><br>Trigger offset<br>Waveform × envelope<br>Formant + dilation<br>Amplitude + pan</div>
+        <div class="flow-stage"><strong>Group 3</strong><br>Trigger offset<br>Waveform × envelope<br>Formant + dilation<br>Amplitude + pan</div>
+      </div>
+      <p class="flow-arrow" aria-hidden="true">↓</p>
+      <div class="flow-stage"><strong>Group outputs summed → DC blocker → train output</strong><br>Channel masking also contributes to the placement of new grains</div>
+      <p class="flow-arrow" aria-hidden="true">↓</p>
+      <div class="flow-stage"><strong>All train outputs summed → output buses</strong><br>Browser monitoring and recording receive this mix; there is no output limiter</div>
+    </figure>
+    <p>The boxes describe different jobs, not a chain of three oscillators feeding one another. Groups run <em>in parallel</em>. The DC blocker removes persistent offset from the signal; it is not an adjustable tone filter or a limiter. Tables and modulators steer the timing, grain, and level controls rather than acting as extra audio channels in this diagram.</p>
+
+    <h3>Inside one grain: waveform × envelope</h3>
+    <p>The <strong>pulsaret waveform</strong> supplies the rapid variation inside the packet: a smooth waveform, a complex harmonic shape, or a noise-like texture. At every new grain, reading starts at the beginning of this table. The waveform can wrap within the grain, so a longer grain can contain several traversals. Loading a file supplies table samples; it does not play the whole file at its original duration.</p>
+    <p>The <strong>envelope</strong> is a second table multiplied into that waveform over the grain's lifetime. A tapered envelope softens the beginning and end; an abrupt envelope can add sharper transients and a broader spectrum. It is a window over each grain, not a keyboard note's ADSR. An all-zero waveform <em>or</em> envelope silences the grain. This is why both startup audio buffers must be populated.</p>
+    <p><strong>Formant ratio</strong> controls how quickly the waveform is read and also contributes to the grain's nominal duration. <strong>Envelope dilation</strong> changes how quickly the envelope is traversed without directly changing the waveform's read speed. Increasing dilation makes the packet <em>shorter</em>; decreasing it makes it longer. The formant control is not a filter cutoff or an independent oscillator frequency in Hz.</p>
+
+    <h3 id="timing-relationships">Three useful quantities: pulse spacing, waveform rate, grain length</h3>
+    <p>For a simple starting case, use positive dilation, neutral table factors, no matrix or rate/flux modulation, and no skipped pulses. Let <strong>F</strong> be the main fundamental in Hz, <strong>R</strong> one group's formant ratio, and <strong>D</strong> its dilation:</p>
+    <ul>
+      <li><strong>Time between pulses:</strong> approximately <code>1 / F</code> seconds.</li>
+      <li><strong>Waveform-table traversals per second:</strong> approximately <code>F × R</code>.</li>
+      <li><strong>Length of each grain:</strong> approximately <code>1 / (F × R × D)</code> seconds.</li>
+    </ul>
+    <p>With a single-cycle waveform, the table-traversal rate is its nominal within-grain frequency. A table containing several cycles or noise does not have that simple pitch interpretation. The perceived pitch and spectral emphasis of the whole pulse train also depend on repetition, envelope shape, and masking; “400 table traversals per second” does not guarantee a perceived 400 Hz note.</p>
+    <table>
+      <thead><tr><th>Setting</th><th>Pulse spacing</th><th>Waveform traversals/s</th><th>Grain length</th></tr></thead>
+      <tbody>
+        <tr><td>F = 100, R = 4, D = 1</td><td>10 ms</td><td>400</td><td>2.5 ms</td></tr>
+        <tr><td>Raise R to 8</td><td>10 ms</td><td>800</td><td>1.25 ms</td></tr>
+        <tr><td>Instead lower D to 0.5, keeping R = 4</td><td>10 ms</td><td>400</td><td>5 ms</td></tr>
+        <tr><td>Instead raise F to 200, keeping R = 4, D = 1</td><td>5 ms</td><td>800</td><td>1.25 ms</td></tr>
+      </tbody>
+    </table>
+    <p>This explains a useful distinction: raising the <em>main</em> fundamental speeds up both repetition and waveform reading, whereas raising a group's formant ratio changes that group's packet without speeding up the shared clock. Lowering dilation lengthens the packet without slowing its waveform. In this simple case, a grain spans approximately <code>1 / D</code> waveform-table traversals.</p>
+    <p><strong>Overlap is a consequence of those timings.</strong> At F = 100, R = 4, D = 0.1, a grain lasts about 25 ms while another begins every 10 ms: several grains in the same group coexist. Longer windows and overlapping groups can make a texture denser and louder. At D = 1 the 2.5 ms grain leaves a gap before the next pulse. This comparison is about window duration; the actual audible region depends on the envelope shape. Keep level low, and use positive dilation for these experiments. Sample rounding and the engine's four-sample minimum affect very short grains.</p>
+
+    <h3>Rhythm, density, level, and space are different controls</h3>
+    <ul>
+      <li><strong>Probability, burst/rest, and sieve</strong> skip trigger opportunities. They change the pattern or density of new grains, not the waveform's shape. A rejected trigger does not cut off grains already ringing. Probability 0.5 averages about half the opportunities before the other masks; it is not a half-volume setting.</li>
+      <li><strong>Amplitude</strong> scales the group's sound, including overlapping grains. Use amplitude zero to silence a group, not its ACTIVATE button. More groups or trains add energy; their sum can clip even when each amplitude control is below one.</li>
+      <li><strong>Pan</strong> places new grains across the output channels. Channel masking contributes an additional repeating placement pattern; it is not another waveform or a level control. Existing grains keep the pan assigned at their birth, so long grains can outlast a pan change.</li>
+      <li><strong>Group offset</strong> delays that group's trigger by up to one second. It staggers the three layers without changing their formant ratios or shifting their control-table drawings.</li>
+    </ul>
+
+    <h3>Two kinds of tables, and two kinds of time</h3>
+    <p><strong>Waveform and envelope tables describe one grain.</strong> Their horizontal axes mean position within a waveform cycle/table or within a grain's envelope. <strong>The other visible tables describe control changes across a train traversal.</strong> Their horizontal axes are positions in the automation sequence. A drawn curve is not another audible oscillator: its values are mapped through its min/max pair and applied as control factors while loop, one-shot, or scanner tasks read it.</p>
+    <p><strong>_dur</strong> sets the automation traversal time in seconds. It does not set an individual grain's length; formant and dilation do that. The scanner moves through this control trajectory, not through a recording of the output. The waveform's internal wrapping is also separate from the <a href="#endpoint-warning">preserved control-table endpoint failure</a>.</p>
+    <p>For an activated group, its formant, dilation, and amplitude table factors multiply their main controls; its pan table adds an offset to main pan. For example, main formant ratio 4 with mapped formant-table factor 0.5 gives a ratio contribution of 2. A raw drawn height is not yet that factor: the range pair performs the mapping, and a descending pair reverses the curve's effect. <strong>ACTIVATE enables these four group factors; it does not start or mute a voice.</strong></p>
+    <div class="note"><strong>An important asymmetry:</strong> the <em>main</em> fundamental F is shared by pulse and formant calculations, but the <em>fundamental table</em> changes the pulse-clock branch, not the F used in each group's base formant calculation. A fundamental-table sweep can therefore change spacing and overlap without the same change in waveform rate that moving the main fundamental causes. Fundamental matrix modulation is likewise on the pulse-clock branch. Group formant tables and formant matrix routes act on the grain branch.</div>
+    <p>Fundamental, probability, rate-modulation, and flux tables are train-wide and do not wait for a group's ACTIVATE button. Also, switching loop off does not necessarily restore every neutral factor because some source reset omissions are retained; see <a href="#transport">transport behavior</a> before assuming a previously sequenced patch matches the simple equations above.</p>
+
+    <h3>Where modulation fits</h3>
+    <p>The <strong>four modulator editors and matrix</strong> provide moving control signals. Frequency sets how quickly a modulator evolves; depth sets its influence; the matrix chooses destinations. Fundamental routes perturb the clock, formant routes perturb group rate and duration, amplitude routes affect level, and pan routes affect placement. A modulator is not heard as a separate fourth voice. The stored envelope routes are inactive in this source implementation.</p>
+    <p><strong>Rate modulation amount, ratio, and mode</strong> act on the grain's waveform read-rate path, including a saw-derived value held from triggers. They can change how much waveform fits inside a packet without a matching change to its envelope duration. They are separate from the four-source matrix, not ordinary sine-FM oscillator controls. <strong>Multiparameter modulation (flux)</strong> adds stochastic variation to pulse timing and group waveform rates; it is a way to loosen regularity, not a master amount for every matrix route. Once these paths are active, the simple timing equations are a starting model rather than a complete prediction.</p>
+
+    <h3>Hear the relationships one at a time</h3>
+    <ol>
+      <li>Save your current patch. On a fresh, otherwise unmodified train, load a simple waveform and a tapered envelope, set group 1 amplitude low and groups 2/3 amplitudes to zero. Keep group activation off, modulation amounts at zero, and masks at their unskipped defaults.</li>
+      <li>Set main fundamental to 100, group 1 formant to 4, and dilation to 1, then press <strong>[n]</strong>. Change only formant between 2, 4, and 8: the packet's internal rate and length change while the pulse clock stays fixed.</li>
+      <li>Return formant to 4 and compare dilation 0.5, 1, and 2. Listen for changes in packet width and spectrum, not a new pulse rate. Then compare main fundamental 50, 100, and 200 to hear the coupled change in repetition and packet rate.</li>
+      <li>Reduce probability in <code>_masking</code>. Compare missing packets with simply reducing group amplitude. Finally bring in a second group quietly, with a different formant and pan, to hear parallel layers sharing the same pulse pattern.</li>
+    </ol>
+    <p>For exact ranges, use <a href="#parameters">Parameters and ranges</a>; for evolving patches, continue to <a href="#workflows">Practical sound-design workflows</a>.</p>
+  </section>
+
+  <section id="desktop">
+    <h2>3. Desktop, trains, and windows</h2>
+    <p>The page reproduces the source desktop as a set of floating in-page windows. The browser exposes the 56 source windows through <strong>Windows…</strong>; the top-bar <strong>Manual</strong> button, or the <strong>nuPG — User manual</strong> entry in <strong>Windows…</strong>, opens this additional help window. The manual window is draggable and hideable like the other windows and preserves its reading position when hidden and reopened. Window title bars can be dragged; clicking a window brings it to the front. The close button hides a window without destroying its state. <strong>Fit</strong> scales the 1660 × 1040 source desktop to the viewport. Fixed zoom choices preserve source geometry and may require scrolling. On a narrow page, zoom out or use the full-page link above for reading and printing; printing the application page itself is not the manual-only print surface.</p>
+    <p><strong>Resize the manual</strong> by dragging its bottom-right corner beside the Resize label. Both width and height change, and the document reflows inside the window. Hiding and reopening keeps the chosen size and reading position for this page session. The original instrument panels keep their source-sized layout.</p>
+    <table>
+      <thead><tr><th>Window or control</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>nuPG 2022</code></td><td>Select <code>train_1</code>, <code>train_2</code>, or <code>train_3</code>; show all four table windows for a group.</td></tr>
+        <tr><td><code>_main</code></td><td>Direct fundamental, formant, dilation, pan, and amplitude controls. It is visible at startup.</td></tr>
+        <tr><td><code>_train control</code></td><td>Play, loop, one-shot, duration, progress, direction, and scanner access.</td></tr>
+        <tr><td><code>_groups control</code></td><td>Three independent ACTIVATE buttons for table-driven group factors.</td></tr>
+        <tr><td><code>_extensions</code></td><td>Launch MODULATORS, FOURIER, MASKING, SIEVES, GROUPS OFFSET, and MATRIX MODULATION.</td></tr>
+        <tr><td><code>_presets</code></td><td>Load, edit, store, interpolate, and save banks.</td></tr>
+        <tr><td><code>_record</code></td><td>Choose AIFF/WAV/CAF, directory, name, and record/stop.</td></tr>
+        <tr><td><code>_scanner</code></td><td>Move the scrub position or record/replay a gesture.</td></tr>
+      </tbody>
+    </table>
+    <p>The host strip reports sample rate, channel count, live grains, and frame number. Output buses are discrete: the browser does not fold extra channels into stereo. Hardware with fewer available destination channels can limit what is practical; multichannel hardware has not been broadly verified.</p>
+  </section>
+
+  <section id="transport">
+    <h2>4. Transport, looping, and gestures</h2>
+    <table>
+      <thead><tr><th>Control</th><th>Operation</th></tr></thead>
+      <tbody>
+        <tr><td><strong>[n]</strong></td><td>Start/stop the selected train's audible monitor gain. This is separate from table sequencing.</td></tr>
+        <tr><td><strong>loop</strong></td><td>Enable or disable the train's table-sequencing loop task. Loop is independent per train. <strong>S</strong> sets every train to the opposite of the selected train's current loop state.</td></tr>
+        <tr><td><strong>oneShot</strong></td><td>Start one forward traversal and turn the monitor on. It is a trigger, not a permanent mode; the status highlight clears when the one-shot ends.</td></tr>
+        <tr><td><strong>_dur</strong></td><td>Loop-task duration, 0.3–120 seconds, default 6 seconds. It controls table-task timing, not the length of an individual grain.</td></tr>
+        <tr><td>progress</td><td>Display of train progress. It is updated from status and is not an input control or the audio clock; use <strong>SC</strong> and the scanner to seek.</td></tr>
+        <tr><td><strong>&gt;</strong></td><td>Toggle forward/reverse traversal. Reverse is shown as <code>&lt;</code>. Changing direction stops/resets loop sequencing and starts a loop immediately.</td></tr>
+        <tr><td><strong>SC</strong></td><td>Toggle scrub mode and open the scanner. The scanner position is the original physical range 0–2047.</td></tr>
+      </tbody>
+    </table>
+    <p>In scrub mode, loop sequencing stops and the task samples group factors from the scanner position about every 50 ms. Drag the scanner slider or enter a value in its numeric field. A value is clamped to 0–2047 and sent to the selected train. The disabled scanner <strong>S</strong> button is intentionally inactive: source scanner synchronization/FUN callbacks were not ported.</p>
+    <p>The scanner's <strong>R</strong> button cycles gesture states: idle, record, replay, idle. While recording, the position is captured at 10 ms intervals, up to about 1,000 seconds of history. Releasing the scanner slider while recording automatically changes to replay; the recorded drag then plays. Replay cycles until stopped. If storage fills, or replay is requested with no recorded gesture, the footer reports the error.</p>
+    <div id="endpoint-warning" class="warning"><strong>Preserved 2048 endpoint behavior.</strong> A 2048-value loop sequence still attempts index 2048. The footer reports the endpoint error, audio continues with the last valid factors, and the loop indicator remains enabled. Reverse traversal starts at that invalid endpoint and fails immediately. The browser does not wrap, pad, or repair this case. A valid 2049-value sequence retains its extra endpoint. Do not treat a still-lit loop indicator as proof that the endpoint was repaired.</div>
+    <p>ACTIVATE gates only a group's table-driven formant, dilation, amplitude, and pan factors; it is not a mute. Direct main controls remain effective while a group is inactive. Fundamental, probability, rate-modulation, and flux loop factors are train-wide and are not gated by group activation. Stopping a loop intentionally leaves group 2's formant factor and the FM/flux loop factors untouched, matching the source omission.</p>
+    <p>The transport, activation flags, scanner state, gesture history, sieve-enabled flag, modulation mode, and recording state are runtime state; they are not the same thing as the editable train values saved in a preset.</p>
+  </section>
+
+  <section id="tables">
+    <h2>5. Tables and editors</h2>
+    <p>Every visible table has a compact window and an enlarged editor. The compact canvas is 2048 samples conceptually and draws directly from the selected train's CV table. Drag on a canvas to paint; the value maps vertically to the physical CV domain. The enlarged editor is opened with <strong>E</strong>. Its larger canvas is useful for gestures and inspection, not a different data model.</p>
+    <h3 id="table-list">The 19 visible tables</h3>
+    <table>
+      <thead><tr><th>Table</th><th>Role</th><th>Group</th><th>Audio buffer</th></tr></thead>
+      <tbody>
+        <tr><td><code>pulsaret</code> (<code>_pulsaret waveform</code>)</td><td>Waveform read by each grain</td><td>train</td><td>yes</td></tr>
+        <tr><td><code>envelope</code> (<code>_envelope</code>)</td><td>External grain envelope</td><td>train</td><td>yes</td></tr>
+        <tr><td><code>fundamentalFrequency</code></td><td>Fundamental loop factor</td><td>train</td><td>no</td></tr>
+        <tr><td><code>probabilityMask</code> (<code>_pulseProbabilityMask</code>)</td><td>Per-pulse probability factor</td><td>train</td><td>no</td></tr>
+        <tr><td><code>formantFrequencyOne/Two/Three</code></td><td>Formant loop factors</td><td>groups 1/2/3</td><td>no</td></tr>
+        <tr><td><code>panOne/Two/Three</code></td><td>Pan loop factors</td><td>groups 1/2/3</td><td>no</td></tr>
+        <tr><td><code>ampOne/Two/Three</code></td><td>Amplitude loop factors</td><td>groups 1/2/3</td><td>no</td></tr>
+        <tr><td><code>envelopeMulOne/Two/Three</code></td><td>Envelope-dilation loop factors</td><td>groups 1/2/3</td><td>no</td></tr>
+        <tr><td><code>frequencyModAmountTable</code></td><td>Rate-modulation amount factor</td><td>train</td><td>no</td></tr>
+        <tr><td><code>frequencyModRatioTable</code></td><td>Rate-modulation ratio factor</td><td>train</td><td>no</td></tr>
+        <tr><td><code>multiParameterModTable</code></td><td>Flux/multiparameter factor</td><td>train</td><td>no</td></tr>
+      </tbody>
+    </table>
+    <p>The three names on the formant row, three pan rows, three amplitude rows, and three dilation rows account for 12 tables; together with waveform, envelope, fundamental, probability, and the three modulation tables they total 19. The <code>frequency</code> table is a separate internal audio buffer initialized to ones; it has no visible table window.</p>
+    <h3>Actions</h3>
+    <table>
+      <thead><tr><th>Action</th><th>Compact window</th><th>Enlarged editor</th></tr></thead>
+      <tbody>
+        <tr><td><strong>E</strong></td><td>Open/close the enlarged editor</td><td>—</td></tr>
+        <tr><td><strong>S</strong></td><td>Export the actual waveform/envelope audio buffer, or save a user table in browser storage</td><td>Displayed but inactive, as in the source editor</td></tr>
+        <tr><td><strong>L</strong></td><td>Load a local WAV/AIFF; compact path reads 2048 scalar samples</td><td>Load a local WAV/AIFF; editor path reads 4096 scalar samples</td></tr>
+        <tr><td><strong>RS</strong></td><td>Rescale the observed data range to −1…+1</td><td>Same</td></tr>
+        <tr><td><strong>R</strong>, <strong>I</strong></td><td>—</td><td>Reverse; invert around the observed table range (<code>min + max − x</code>), not the range-control values.</td></tr>
+        <tr><td><strong>NM</strong>, <strong>RM</strong></td><td>—</td><td>NM maps each sample's fractional part into −1…+1; RM multiplies by a Welch window and wraps the result into 0…1.</td></tr>
+        <tr><td><strong>←</strong>, <strong>→</strong></td><td>—</td><td>Rotate horizontally by the source's 15-sample step.</td></tr>
+        <tr><td><strong>↑</strong>, <strong>↓</strong></td><td>—</td><td>Shift vertically by ±0.1 with wrap in the −1…+1 domain.</td></tr>
+        <tr><td><strong>C</strong>, <strong>P</strong>, <strong>M</strong></td><td colspan="2"><strong>C</strong> copies to the internal clipboard, <strong>P</strong> pastes it, and <strong>M</strong> multiplies pointwise by it. Ctrl/Cmd+C and Ctrl/Cmd+V are also accepted. A shorter clipboard operand wraps during multiplication.</td></tr>
+        <tr><td><strong>library…</strong></td><td colspan="2">Loads a bundled or user table. Library/editor loading reads 4096 scalar samples and resamples to 2048.</td></tr>
+        <tr><td><strong>Rand file</strong></td><td colspan="2">Randomly choose and immediately load a <code>.wav</code> entry from the adjacent library selector, using the same library-loading behavior. Available in all 19 compact tables and their enlarged editors.</td></tr>
+        <tr><td><strong>Rand</strong></td><td colspan="2">Randomizes this table panel only; see <a href="#random">Randomization</a>.</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Rand file</strong> works without first opening the selector and displays the chosen filename there. Filenames must end in <code>.wav</code> (case-insensitive); named user tables with that suffix are included, while AIFF files and other names are excluded. Each click chooses from the full eligible list, so repeats are possible. Only this table on the train selected when clicked changes, even if you switch trains while loading; waveform/envelope loads also update their audio buffers. An empty WAV list or loading error is reported in the footer. Unlike the title-bar <strong>Rand</strong>, this button loads an existing file rather than generating new table data. Save work before replacing a table and keep playback volume low.</p>
+    <p>Keyboard actions require the compact or enlarged table canvas to have focus. On either canvas, <kbd>C</kbd> copies, <kbd>P</kbd> pastes, <kbd>M</kbd> multiplies by the internal clipboard, <kbd>R</kbd> reverses, and <kbd>I</kbd> inverts; Ctrl/Cmd+C and Ctrl/Cmd+V are also supported. The compact window exposes <strong>E</strong>, <strong>S</strong>, <strong>L</strong>, and <strong>RS</strong> buttons; the enlarged editor exposes the transform buttons, while its <strong>S</strong> button is intentionally inactive.</p>
+    <p>Table CV data is always represented in the −1…+1 domain, but its min/max controls define how that data is interpreted by a consumer. For waveform and envelope tables, changing a min/max field rescales the uploaded audio buffer immediately without rewriting the visible CV table. File loading reads the requested scalar region, zero-pads a short read, and resamples a full 2048-sample result; it does not preserve an old tail. Separately, a short CV upload or paste can leave the remembered audio-buffer tail untouched. Compact loading and library/editor loading intentionally use different sample counts; no browser sample-rate conversion substitutes for these operations.</p>
+    <p><strong>S</strong> on a waveform or envelope saves the actual 2048-sample audio buffer as WAV or AIFF. Other tables are padded/truncated to 2048 for saving. The save dialog also offers <strong>save user</strong>, which stores a named table in IndexedDB. Download important work: browser-origin storage is profile-specific, can be cleared or quota-limited, and does not survive every private browsing or profile lifecycle.</p>
+  </section>
+
+  <section id="parameters">
+    <h2>6. Parameters and ranges</h2>
+    <p>Sliders are displayed in normalized slider space but the adjacent number field accepts physical values. Values are constrained to the ranges below, with exponential mapping for frequency controls marked “exp.” Steps are the source control steps. All ordinary values are train-scoped unless a group is named. Fundamental is the shared train pulse rate; each group's formant is a ratio of that fundamental, not an independent Hz oscillator. Nominal grain duration is approximately <code>1 / (fundamental × formant ratio × dilation)</code> (with engine minimum-duration and rate-modulation details), so increasing dilation shortens the envelope traversal and decreasing it lengthens it.</p>
+    <h3>Main controls in <code>_main</code></h3>
+    <table><thead><tr><th>Control</th><th>Range and step</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>fundamental frequency</td><td>1–3000 Hz, exp, .001</td><td>Base pulse rate. It is multiplied by a group's formant ratio for grain rate.</td></tr>
+      <tr><td>formant frequency one/two/three</td><td>0.05–16 ratio, exp, .001</td><td>Group 1, 2, or 3 formant ratio.</td></tr>
+      <tr><td>envelope dilation one/two</td><td>0–2, linear, .001</td><td>Group 1/2 grain time multiplier; larger values make the envelope traversal shorter.</td></tr>
+      <tr><td>envelope dilation three</td><td>0.01–2, linear, .001</td><td>Group 3 dilation; its lower bound is 0.01, not 0. Larger values shorten traversal.</td></tr>
+      <tr><td>pan one/two/three</td><td>−1–1, linear, .001</td><td>Group pan; extra output channels use discrete multichannel placement.</td></tr>
+      <tr><td>amplitude one/two/three</td><td>0–1, linear, .001</td><td>Group amplitude. Engine amplitude is clipped to 0–1 after modulation.</td></tr>
+    </tbody></table>
+    <h3>Table range pairs</h3>
+    <p>Each visible table has <code>_min</code> and <code>_max</code> fields. These are physical interpretation ranges, not table lengths. The source defaults often deliberately run from 1 down to 0, so a descending pair is normal.</p>
+    <table><thead><tr><th>Table range pair</th><th>Allowed range / step</th><th>Default min, max</th></tr></thead><tbody>
+      <tr><td>pulsaretMin / pulsaretMax</td><td>−1–1 / .01</td><td>1, −1</td></tr>
+      <tr><td>envelopeMin / envelopeMax</td><td>−1–1 / .01</td><td>1, −1</td></tr>
+      <tr><td>frequencyMin / frequencyMax</td><td>0–1 / 1</td><td>1, 0</td></tr>
+      <tr><td>fundamentalFrequencyMin / Max</td><td>0–20 / .001</td><td>10, 0</td></tr>
+      <tr><td>formantFrequencyOne/Two/ThreeMin / Max</td><td>0–10 / .01</td><td>10, .01</td></tr>
+      <tr><td>panOne/Two/ThreeMin / Max</td><td>−1–1 / .01</td><td>1, −1</td></tr>
+      <tr><td>ampOne/Two/ThreeMin / Max</td><td>0–1 / .01</td><td>1, 0</td></tr>
+      <tr><td>probabilityMin / probabilityMax</td><td>0–1 / .01</td><td>1, 0</td></tr>
+      <tr><td>envelopeMulOne/Two/ThreeMin / Max</td><td>0–1 / .01</td><td>1, 0</td></tr>
+      <tr><td>frequencyModRatioMin / Max</td><td>0–10 / .01</td><td>1, 1</td></tr>
+      <tr><td>frequencyModAmountMin / Max</td><td>0–10 / .01</td><td>1, 1</td></tr>
+      <tr><td>frequencymultiParameterModMin / multiParameterModMax</td><td>0–10 / .01</td><td>1, 1</td></tr>
+    </tbody></table>
+    <p>The rows cover all table range controls, including the hidden frequency-buffer pair. The frequency range pair uses integer step 1 and is an internal buffer range; it is not a visible editor.</p>
+    <h3>Masking, timing, and offsets</h3>
+    <table><thead><tr><th>Control</th><th>Range / type</th><th>Use</th></tr></thead><tbody>
+      <tr><td>rate modulation amount, ratio</td><td>0–16, linear, .001</td><td>Train-level rate/FM controls; their loop factors shape the rate/latch path. The hidden frequency buffer starts at ones and has no visible browser editor.</td></tr>
+      <tr><td>multiparameter modulation</td><td>0–2, linear, .001</td><td>Shared stochastic flux amount, perturbing pulse and group formant rates; it is not generic all-parameter modulation.</td></tr>
+      <tr><td>burst</td><td>1–2999 integer</td><td>Number of accepted trigger opportunities in a burst run.</td></tr>
+      <tr><td>rest</td><td>0–2998 integer</td><td>Number of trigger opportunities held out between bursts.</td></tr>
+      <tr><td>channel</td><td>0–1500 integer</td><td>Repeat count for the −1/+1 channel-pan pattern.</td></tr>
+      <tr><td>channelCenter</td><td>0–1 integer</td><td>Repeat count for the center part of that pattern; this model value is not exposed in the visible masking panel.</td></tr>
+      <tr><td>sieveSize</td><td>1–100 integer</td><td>Model sieve length; the active source graph consumes the first 16 controls.</td></tr>
+      <tr><td>probability</td><td>0–1, .01</td><td>CoinGate probability before burst/rest and sieve processing.</td></tr>
+      <tr><td>trainDuration</td><td>0.3–120 seconds</td><td>Loop task duration.</td></tr>
+      <tr><td>scrubber</td><td>0–2047 integer</td><td>Scanner/scrub position.</td></tr>
+      <tr><td>group 1/2/3 offset</td><td>0–1, .001</td><td>Delay each group's trigger after the train trigger; see <a href="#workflows">workflows</a>.</td></tr>
+    </tbody></table>
+    <p>Masking is a trigger pipeline: probability chooses pulse edges, burst/rest repeats or rests them, a one-sample delay feeds the numbered sieve, and channel/channelCenter cycles negative, positive, and centered pan placement. These controls gate grain triggers; they do not erase or rewrite tables.</p>
+    <p>The CV key <code>progressSlider</code> (1–2048) is a display value rather than the audio clock. <code>tableShift</code> (1–2048, default 150) is declared and range-configured but not consumed. Do not build a workflow around either value.</p>
+  </section>
+
+  <section id="random">
+    <h2>7. Randomization</h2>
+    <h3>One panel: Rand</h3>
+    <p><strong>Rand</strong> is available on all 49 sound panels: the 19 compact table panels, their 19 enlarged editors, <code>_main</code>, <code>_modulators</code>, the four individual modulator editors, <code>_masking</code>, <code>_groupsOffset</code>, FOURIER, SIEVES, and the modulation MATRIX. It affects only the current panel and selected train.</p>
+    <ul>
+      <li>Scalar controls use their existing physical ranges, frequency mapping, and steps.</li>
+      <li>Tables retain their length and min/max settings. Control tables become smooth random curves; pulsaret tables become normalized random harmonics; envelopes are nonnegative curves that taper to zero at both ends. An empty table is filled at its standard length.</li>
+      <li>Waveform and envelope edits update their audio buffers immediately when audio is running, or on Enable audio when audio is not yet running.</li>
+      <li>FOURIER randomizes its harmonic bars and generated waveform. SIEVES creates a union of four random periodic sieves and applies the mask without changing whether sieve mode is enabled.</li>
+    </ul>
+    <p>Other panels, other trains, table ranges, the internal clipboard, saved presets, transport, group activation, modulation mode, scanner state, recording, window layout, and train selection are untouched. Utility/navigation panels do not have Rand. Randomization is destructive to the selected panel; store a preset first if you may want the old values. Start quietly: random amplitude, waveforms, and modulation can produce a large level change.</p>
+    <h3>Whole selected train: Rand All and Rand All File</h3>
+    <p>The top bar places <strong>Rand All</strong> and <strong>Rand All File</strong> immediately to the right of <strong>Manual</strong>. Both target the train selected when clicked, even if you switch to another train before loading finishes.</p>
+    <ul>
+      <li><strong>Rand All</strong> applies every sound-panel randomizer described above, including hidden panels, all 19 tables, main parameters, modulation, the matrix, masking, offsets, Fourier, and sieves. Each compact/editor pair shares one table randomization. Existing table lengths and min/max ranges are preserved.</li>
+      <li><strong>Rand All File</strong> makes an independent random WAV selection for each of the 19 tables and loads it through the normal library path. Both selectors in each compact/editor pair show the same selected file. Only table data and waveform/envelope audio buffers change; scalar parameters, Fourier, and sieves remain unchanged. WAV filename rules match <strong>Rand file</strong>, and different tables may receive the same file.</li>
+    </ul>
+    <p>Neither button changes other trains, transport, group activation, modulation mode, scanner state, recording, clipboard, saved presets, or window layout. Both global buttons stay disabled until the active batch finishes. A failed file load is reported in the footer while the other table loads are still attempted. These actions replace the current working patch, not the stored presets: save a preset first and keep listening volume low.</p>
+  </section>
+
+  <section id="modulation">
+    <h2>8. Modulation and the matrix</h2>
+    <h3>Rate and multiparameter modulation</h3>
+    <p>The <code>_modulators</code> panel exposes <code>_rate modulation amount</code> (0–16), <code>_rate modulation ratio</code> (0–16), and <code>_multiparameter modulation</code> (0–2), plus buttons for the three corresponding control tables. Rate modulation uses the hidden frequency buffer (initially ones) and changes the rate/latch path; it is not conventional sine FM with a visible frequency editor. Multiparameter modulation is shared stochastic flux that perturbs pulse and group formant rates, not generic all-parameter modulation. Source loop factors shape these paths and are not all applied uniformly once.</p>
+    <p>The mode button alternates <code>mode -&gt; samp+hold rm</code> and <code>mode -&gt; rm</code>. The mode controls how the latched saw-derived modulation is selected at control-block boundaries. It is runtime state and is not a group activation or mute.</p>
+    <h3>Four modulator editors</h3>
+    <p><code>_m1</code> through <code>_m4</code> each have a type, frequency, and depth. Frequency is 0.001–150 Hz, depth is 0–10 in integer steps (the source label is misleading; this is depth), and type is 0–4:</p>
+    <table><thead><tr><th>Type menu</th><th>Source oscillator</th></tr></thead><tbody>
+      <tr><td>0 SinOsc</td><td>Sine oscillator</td></tr>
+      <tr><td>1 LFSaw</td><td>Low-frequency saw</td></tr>
+      <tr><td>2 Lato</td><td>Latoocarfian chaotic source</td></tr>
+      <tr><td>3 Gendy</td><td>Gendy3 stochastic source with fixed engine parameters</td></tr>
+      <tr><td>4 HennonC</td><td>HenonC chaotic source (menu spelling retained)</td></tr>
+    </tbody></table>
+    <h3>Matrix destinations and inert routes</h3>
+    <p>The 13 destination rows are <code>_fundamental</code>, <code>_formant_01</code>, <code>_formant_02</code>, <code>_formant_03</code>, <code>_env_01</code>, <code>_env_02</code>, <code>_env_03</code>, <code>_pan_01</code>, <code>_pan_02</code>, <code>_pan_03</code>, <code>_amp_01</code>, <code>_amp_02</code>, and <code>_amp_03</code>. Each row has four toggle cells for the four modulators. Fundamental, formant, pan, and amplitude destinations are wired. The three envelope destinations are source-declared but inactive: their cells can retain and display a stored value, but enabling them does not create new envelope DSP.</p>
+    <p>Cell source names such as <code>mXY</code> are not a reliable visual destination coordinate. The source's <code>clump(13)</code> binding scrambles nominal order: the effective modulator is <code>floor(flatIndex / 13)</code>, and the effective destination is <code>flatIndex % 13</code>. The UI displays effective rows and gives inactive cells an explanatory title. Use the visible row and modulator headers rather than guessing from a key name.</p>
+    <p>Matrix toggles are per-train preset values. Modulator type/frequency/depth and active matrix flags are train-scoped. They do not automatically alter other trains.</p>
+  </section>
+
+  <section id="fourier-sieve">
+    <h2>9. Fourier generation and sieves</h2>
+    <h3>FOURIER</h3>
+    <p>The FOURIER editor has 16 harmonic bars. Drag a bar from zero to one; the generated 2048-sample waveform is normalized by the source sine-fill operation and stored as the hidden <code>fourier</code> sequence. Focus its canvas and press <kbd>C</kbd> to put the generated waveform on the internal clipboard; <kbd>P</kbd> or Ctrl/Cmd+V pastes clipboard data back through the Fourier path. Use a table's paste to move the resulting waveform into <code>pulsaret</code> when desired. Fourier is a UI generator, not a separate engine control. Its Rand button randomizes all 16 bars and regenerates the waveform.</p>
+    <h3>SIEVES</h3>
+    <p>The SIEVES window has definition text, logical-operator text, an output mask, <strong>segmentedBinaryMask</strong>, <strong>sequentialBinaryMask</strong>, and <strong>sieveAsTable</strong>. Put the cursor on the operator line to evaluate. Press Enter to evaluate that line; Shift+Enter inserts a new line. The selected mode converts the point intervals to a binary sequence, writes <code>sieveSize</code> and up to 100 model values (the active engine consumes the first 16), and enables the sieve. Clicking the already-active mode disables it. <strong>sieveAsTable</strong> copies a 2048-sample visualization of interval lengths to the internal clipboard; it does not enable the sieve by itself.</p>
+    <p>The parser accepts whitespace and <code>//</code> or <code>/*…*/</code> comments; variable assignments such as <code>~size = 16;</code>; numbers, negative integers, parentheses, backtick references, and the operators <code>|</code> union, <code>&amp;</code> intersection, <code>-</code> difference, <code>--</code> symmetric difference, numeric <code>+</code>, <code>*</code>, <code>/</code>, <code>%</code>, and sieve shifts <code>&gt;&gt;</code>/<code>&gt;&gt;!</code>. Binary operators have equal precedence and associate left to right. Supported constructors are <code>Sieve(...)</code>, <code>Sieve.new</code>, <code>Sieve.union</code>, <code>Sieve.sect</code>, <code>Sieve.symdif</code>, and <code>Sieve.dif</code>, with the source suffix forms <code>_o</code>, <code>_i</code>, and <code>_oi</code> for offset/limit variants. Constructor limits default to 65536 and parser-generated point/mask results are bounded at 1,000,000 points/samples.</p>
+    <p>Constructor bases and offsets must be safe integers; bases are positive. An expression must produce a sieve, not merely a number. Errors include a character offset and are reported instead of executing text. The model can hold up to 100 sieve values, but the active source graph consumes the first 16. A compact starting example is:</p>
+    <pre><code>~size = 16;
+~a = Sieve(3, `~size);
+~b = Sieve(5, `~size);
+~a|~b</code></pre>
+    <p>Enter the final <code>~a|~b</code> line with the cursor on it, then choose segmented or sequential mode to apply it.</p>
+  </section>
+
+  <section id="presets">
+    <h2>10. Preset banks and interpolation</h2>
+    <p>The preset system reads legacy SuperCollider literal banks as data, not executable code. It preserves physical keys, normalized preset arrays, keyed historical rows, and diagnostics. Malformed or unsupported rows are reported; they are not silently repaired or executed.</p>
+    <h3>Library and bank workflow</h3>
+    <ol>
+      <li>Choose a bundled entry in the <code>Preset library</code> menu, or choose <strong>open bank file…</strong> for a local <code>.scd</code>/<code>.txt</code> bank. The selected bank belongs to the current train.</li>
+      <li>Loading parses the bank and applies its saved physical bank state. The displayed index is set to slot <strong>0</strong>, but that does not generally mean preset 0 has been recalled; explicitly select <code>Current preset</code> 0 or the <code>preset 0</code> menu entry to recall it. The two adapted banks intentionally align their initial state with slot 0.</li>
+      <li>Use <strong>+</strong> to append the current state and <strong>−</strong> to remove the selected slot. To replace a slot, choose the menu action <strong>store current preset</strong>. Slot numbering is zero-based.</li>
+      <li>Choose the menu action <strong>load user bank…</strong> to reload a named user bank. Set a bank name and choose <strong>SAVE</strong> to save it to the browser's user-bank IndexedDB library and download its SuperCollider literal text. Keep a downloaded copy for portability.</li>
+      <li>Use the two preset fields around the interpolation slider to choose from/to slots. The slider runs 0–1 and interpolates normalized CV values. Exponential frequency controls are interpolated in their normalized specification, so their physical result follows the exponential mapping.</li>
+      <li>Open <strong>selected interpolation keys…</strong> and enter comma-separated source keys to restrict interpolation. Blank means all keys. This is useful for morphing timbre while holding transport-related workflow decisions outside the bank.</li>
+    </ol>
+    <p>Presets contain the 158 preset keys in source order, including array values, but runtime playing/monitor state, activation flags, loop state, one-shot activity, playback direction, scrub mode and gesture history, sieve-enabled flag, modulation mode, recording, and window layout are runtime concerns. A preset load updates train values and the waveform/envelope buffers; it does not infer missing nuPG 2026 controls.</p>
+    <h3>Bundled banks</h3>
+    <p>The browser includes 34 bundled banks: 32 original 2024 banks (124 usable prior-corpus slots) plus two adapted banks containing nine additions, for <strong>133 usable preset slots</strong> in total. The additions are:</p>
+    <table><thead><tr><th>Library entry</th><th>Slots</th><th>Source file</th></tr></thead><tbody>
+      <tr><td><code>nuPG26_01_2024-adapted</code></td><td>0–6 (seven)</td><td><code>preset_01_20251211_195932</code></td></tr>
+      <tr><td><code>nuPG26_02_2024-adapted</code></td><td>0–1 (two)</td><td><code>preset_02_20251211_202114</code></td></tr>
+    </tbody></table>
+    <p>These are 2024-engine adaptations, not a nuPG 26 engine port. Physical controls were converted to the existing normalized Conductor-bank format; source waveforms and control-table lengths retain their order. Overlap tables map to envelope-dilation tables, the 13 main controls retain positional mapping, and range-pair order and effective matrix destinations are retained. Missing controls use 2024 defaults. The source fractional default sieve sequence is quantized to the 2024 binary sieve specification, while its explicit binary pattern is retained. Separate 2026 spatial controls, synthesis mode, transport flags, and activation flags are not applied or inferred. No OscOS support or exact nuPG 26 audio parity is claimed.</p>
+  </section>
+
+  <section id="recording">
+    <h2>11. Recording</h2>
+    <p>Enable audio first, then open <code>_record</code>. Choose <code>aiff</code>, <code>wav</code>, or <code>caf</code>, enter a base filename, and press <strong>RECORD</strong>; press <strong>STOP</strong> to finish. The recorder captures the configured discrete output bus count at the engine sample rate and encodes 24-bit PCM: AIFF and CAF use big-endian integer PCM, WAV uses little-endian integer PCM.</p>
+    <p><strong>_DIR</strong> uses the browser directory picker when available and writes the completed file there. If directory access is unavailable, the browser downloads the result when recording stops. Recording itself requires OPFS; a missing OPFS implementation is an error, not a download fallback. Temporary OPFS storage is used by the recorder worker while recording; the completed download is detached before temporary storage is removed. A browser may deny OPFS, picker, download, or quota access.</p>
+    <div class="warning">Recording does not normalize or limit playback. The summed float engine output can exceed nominal −1…+1; finite out-of-range samples saturate only at the 24-bit container endpoints, while non-finite samples are rejected. Leave headroom and watch the footer for recording errors. The recorder is not a mastering stage.</div>
+    <p>Each group can hold up to 2047 active grains under the preserved engine admission rule; denser settings reject additional grain spawns. The host status exposes live-grain activity, and recording errors are reported in the footer.</p>
+    <p>The audio engine supports 1–32 configured output channels, but the physical browser destination and hardware may expose fewer channels. There is no automatic surround-to-stereo fold-down. A recording retains the requested bus count and may therefore be multichannel even when your monitoring device is not.</p>
+  </section>
+
+  <section id="workflows">
+    <h2>12. Practical sound-design workflows</h2>
+    <h3>Build a stable first patch</h3>
+    <p>Load a clean waveform and a tapered envelope, press <kbd>[n]</kbd>, then set fundamental frequency around 80–200 Hz, one formant ratio between 2 and 8, dilation near 1, and one amplitude below .5. Keep groups 2 and 3 at low amplitudes while establishing a level. Activate group 1 only after you understand the table factors. Save a preset before exploratory edits.</p>
+    <h3>Make a moving formant texture</h3>
+    <p>Open group 1 from <code>nuPG 2022</code>, draw a slow curve in <code>formantFrequencyOne</code>, set its min/max to the desired factor range (the result multiplies the direct formant ratio), press <strong>loop</strong>, and activate group 1. Draw a complementary pan curve and a narrower amplitude curve. Use group offset 2 or 3 to stagger another group's trigger, not to shift a table or pan. If a 2048-sample sequence reaches its endpoint, see the <a href="#endpoint-warning">endpoint warning</a>. The loop duration controls how quickly these curves are traversed.</p>
+    <h3>Shape density without changing pitch</h3>
+    <p>Use <code>_masking</code>: probability controls coin acceptance, burst/rest creates runs and gaps, channel/channelCenter distribute accepted events, and the sieve selects or rejects positions in the delayed counter. Change one mask stage at a time. A probability of 0 can make a healthy patch appear silent; a sieve enabled with a sparse sequence can do the same.</p>
+    <h3>Use modulation deliberately</h3>
+    <p>Choose one modulator, keep depth low, route it first to a formant or pan row, and listen. Then add the rate amount or multiparameter amount. Use the corresponding amount/ratio/flux table for a slow macro-shape. If a matrix cell appears to do nothing, check that it is not one of the three inactive envelope rows and that the destination's base amplitude or amount is nonzero.</p>
+    <h3>Compare trains</h3>
+    <p>Use one train for a dry reference, another for a randomized variation, and the third for a preset interpolation. Select trains from <code>nuPG 2022</code>; do not assume a table edit or preset load propagates. Record each result with an explicit filename and channel format.</p>
+    <h3>Preserve experiments</h3>
+    <p>Store a preset before Rand, download banks and important tables, and keep a browser-profile backup. There is no undo. Reloading the page reconstructs default train state and can lose unsaved window, table, and user-library work.</p>
+  </section>
+
+  <section id="troubleshooting">
+    <h2>13. Troubleshooting, compatibility, and non-features</h2>
+    <table><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+      <tr><td>No sound after pressing [n]</td><td>Enable audio, load both waveform and envelope, and check amplitude, probability, mask, and group activation. The initial audio buffers can be silent even when CV arrays display data.</td></tr>
+      <tr><td>Loop appears stuck at an endpoint</td><td>Read the footer. For a 2048-value sequence this is the preserved index-2048 failure: factors remain at their last valid values, audio continues, loop stays flagged, and reverse fails immediately. Do not wrap or pad it as a “repair.”</td></tr>
+      <tr><td>Only one group changes</td><td>Each group has independent ACTIVATE state and four independent table windows. ACTIVATE is not mute; use the group's amplitude or main control to silence it.</td></tr>
+      <tr><td>Preset looks different after loading</td><td>Check zero-based slot number, selected train, selected interpolation keys, and the bank's diagnostic notice. Adapted nuPG26 banks use 2024 defaults where controls were missing.</td></tr>
+      <tr><td>File load sounds wrong</td><td>WAV/AIFF are decoded as supported PCM formats, then the action's scalar sample count is resampled to 2048. Compact loads 2048; menu/editor loads 4096. Multichannel input is read as its interleaved scalar stream for the table action.</td></tr>
+      <tr><td>Recording cannot start</td><td>Enable audio first and verify OPFS support and storage quota. If only directory-picker access is unavailable, recordings download on stop; there is no OPFS fallback. Check browser permission and the footer's recording errors.</td></tr>
+      <tr><td>Audio starts but browser suspends</td><td>Resume from a user gesture, keep the tab active, and use localhost/HTTPS with the required isolation headers. Device latency and deadline scheduling remain browser constraints.</td></tr>
+      <tr><td>Modulation has no audible result</td><td>Confirm modulator depth and amount are nonzero, the intended matrix cell is active, and the destination is not an inactive envelope route.</td></tr>
+    </tbody></table>
+    <h3>Compatibility limits</h3>
+    <ul>
+      <li>Desktop Chromium is the exercised target. Safari, Firefox, mobile browsers, and multichannel hardware are not verified.</li>
+      <li>AudioWorklet, WebAssembly, SharedArrayBuffer, cross-origin isolation, and OPFS recording are required facilities.</li>
+      <li>The browser port has no MIDI, OSC, OscOS, neural synthesis, or automatic nuPG 2026 spatial/synthesis controls. It does not claim exact nuPG 26 parity.</li>
+      <li>There is no automatic normalization, limiter, undo, or persistent cloud library. Origin/profile storage may be cleared or quota-limited.</li>
+      <li>Source window geometry is reproduced in HTML; native macOS window chrome and OS file dialogs are not reproduced pixel-for-pixel.</li>
+      <li>Declared but inert source fields include <code>ampLocalOne</code>, <code>ampLocalTwo</code>, <code>ampLocalThree</code>, and <code>frequencyModIndex</code>; they are preset keys but have no active spec/consumer wiring. <code>tableShift</code> is range-configured but not consumed. <code>progressSlider</code> is UI-only. The enlarged-editor <strong>S</strong> and scanner synchronization <strong>S</strong> are visibly present but intentionally inactive.</li>
+    </ul>
+    <p>When in doubt, trust the selected train color, the footer error notice, and the status strip rather than a stale window position or a highlighted control. Save and download work before clearing browser data or changing profiles.</p>
+    <p class="toc-back"><a href="#contents">Back to contents</a></p>
+  </section>
+
+  <footer>
+    <p>nuPG 2024 browser manual. This page is self-contained and uses no external fonts, scripts, images, or network resources.</p>
+  </footer>
+</main>
+</body>
+</html>

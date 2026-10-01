@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#cdfacd">
+  <title>nuPG — pulsar generator</title>
+  <script type="module" crossorigin src="./assets/index-BGS4JKNy.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BcdiDWNV.css">
+</head>
+<body>
+  <header id="host-bar">
+    <strong>nuPG</strong>
+    <button id="enable-audio" type="button">Enable audio</button>
+    <label>outputs <input id="output-channels" type="number" min="1" max="32" step="1" value="2" aria-label="Output channels"></label>
+    <label>view <select id="view-scale" aria-label="Desktop zoom"><option value="fit">Fit</option><option value="1">100%</option><option value="0.85">85%</option><option value="0.7">70%</option></select></label>
+    <select id="window-menu" aria-label="Show window"><option value="">Windows…</option></select>
+    <button id="open-manual" type="button" aria-controls="manual-window" aria-expanded="false">Manual</button>
+    <button id="rand-all" type="button" title="Randomize all sound panels on the selected train; keep transport and table ranges">Rand All</button>
+    <button id="rand-all-file" type="button" title="Load a random WAV file into every table on the selected train">Rand All File</button>
+    <span id="engine-status">Audio off · original startup buffers are silent</span>
+  </header>
+  <main id="viewport" aria-label="nuPG desktop"><div id="desktop-size"><div id="desktop"></div></div></main>
+  <footer><span id="notice" role="alert">Load a pulsaret waveform and envelope, then press play. All original source defaults and endpoint behavior are preserved.</span><button id="dismiss-notice" type="button" aria-label="Dismiss message">×</button></footer>
+</body>
+</html>
